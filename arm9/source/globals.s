@@ -43,6 +43,7 @@
 	.global spriteObj
 	.global spriteHFlip
 	.global spriteBloom
+	.global spriteAnimDelay
 	
 gameMode:
 	.word 0
@@ -66,6 +67,8 @@ spriteObj:
 spriteHFlip:
 	.space 512
 spriteBloom:
+	.space 512
+spriteAnimDelay:
 	.space 512
 	
 	@ Game values

@@ -84,6 +84,10 @@ main:
 	
 	bl dummySetting
 	bl drawSprite
+	
+	ldr r0, =gameMode							@ set to play time for now!!
+	mov r1, #GAMEMODE_RUNNING
+	str r1,[r0]
 
 	@ ------------------------------------
 	
@@ -105,8 +109,27 @@ gameLoop:
 	@ This is our main game loop
 	
 	bl drawSprite
+	
+	ldr r0,=spriteX
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#384
+	movpl r1,#0
+	str r1,[r0]
 
-
+	ldr r0,=spriteAnimDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#8
+	moveq r1,#0
+	str r1,[r0]
+	bne mainLoopDone
+	ldr r0,=spriteObj
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#2
+	movpl r1,#0
+	str r1,[r0]
 	
 mainLoopDone:
 
