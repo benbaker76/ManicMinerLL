@@ -46,20 +46,39 @@ drawSprite:
 	
 	mov r8,#127 			@ our counter for 128 sprites, do not think we need them all though	
 	SLoop:
+
+	ldr r0,=spriteActive				@ r2 is pointer to the sprite active setting
+	ldr r1,[r0,r8, lsl #2]				@ add sprite number * 4
+	cmp r1,#0							@ Is sprite active? (anything other than 0)
+	bne sprites_Drawn					@ if so, draw it!
+
+		@ If not - kill it
+			
+		mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
+		ldr r0,=BUF_ATTRIBUTE0
+		add r0,r8, lsl #3
+		strh r1,[r0]
+		ldr r0,=BUF_ATTRIBUTE0_SUB
+		add r0,r8, lsl #3
+		strh r1,[r0]
+
+		b sprites_Done
+	
+	sprites_Drawn:
 	
 	ldr r0,=spriteY						@ Load Y coord
 	ldr r1,[r0,r8,lsl #2]				@ add ,rX for offsets
 	cmp r1,#SCREEN_MAIN_WHITESPACE		@ if is is > than screen base, do NOT draw it
 	bpl sprites_Done
 
-	ldr r3,=SCREEN_SUB_WHITESPACE-32	@ if it offscreen?
+	ldr r3,=SCREEN_SUB_WHITESPACE-16	@ if it offscreen?
 	cmp r1,r3							@ if it is less than - then it is in whitespace
 	bmi sprites_Done					@ so, no need to draw it!
-	ldr r3,=SCREEN_MAIN_TOP @+32			@ now is it on the main screen
+	ldr r3,=SCREEN_MAIN_TOP @+32		@ now is it on the main screen
 	@ make above -32 for DS mode
 	cmp r1,r3							@ check
 	bpl spriteY_Main_Done				@ if so, we need only draw to main
-	ldr r3,=SCREEN_MAIN_TOP-32			@ is it totally on the sub
+	ldr r3,=SCREEN_MAIN_TOP-16			@ is it totally on the sub
 	cmp r1,r3							@ Totally ON SUB
 	bmi spriteY_Sub_Only
 
@@ -67,7 +86,7 @@ drawSprite:
 		@ Draw Y to MAIN screen (lower)
 		ldr r0,=BUF_ATTRIBUTE0			@ get the sprite attribute0 base
 		add r0,r8, lsl #3				@ add spritenumber *8
-		ldr r2, =(ATTR0_COLOR_16 | ATTR0_SQUARE)
+		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 		ldr r3,=SCREEN_MAIN_TOP@+32			@ make r3 the value of top screen -sprite height (was -32)
 		@ make above +32 for DS mode
 		sub r1,r3						@ subtract our sprites y coord
@@ -84,7 +103,7 @@ drawSprite:
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1			@ get our ref to attribute1
 		add r0,r8, lsl #3				@ add our sprite number * 8
-		ldr r2, =(ATTR1_SIZE_32)		@ set to 32x32 (we may need to change this later)
+		ldr r2, =(ATTR1_SIZE_16)		@ set to 32x32 (we may need to change this later)
 		and r1,r3						@ and sprite y with 0x1ff (keep in region)
 		orr r2,r1						@ orr result with the attribute
 		ldr r3,=spriteHFlip
@@ -112,7 +131,7 @@ drawSprite:
 
 		ldr r0,=BUF_ATTRIBUTE0_SUB		@ this all works in the same way as other sections
 		add r0,r8, lsl #3
-		ldr r2, =(ATTR0_COLOR_16 | ATTR0_SQUARE)
+		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 		ldr r3,=SCREEN_SUB_TOP
 		cmp r1,r3
 		addmi r1,#256
@@ -130,7 +149,7 @@ drawSprite:
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1_SUB		@
 		add r0,r8, lsl #3
-		ldr r2, =(ATTR1_SIZE_32)
+		ldr r2, =(ATTR1_SIZE_16)
 		and r1,r3
 		orr r2,r1
 		ldr r3,=spriteHFlip
@@ -149,24 +168,21 @@ drawSprite:
 		orr r1,r2, lsl #12
 		orr r1,r3, lsl #4				@ or r1 with sprite pointer *16 (for sprite data block)
 		strh r1, [r0]					@ store it all back
-
-		@ Need to kill same sprite on MAIN screen - or do we???
-		@ Seeing that for this to occur, the sprite is offscreen on MAIN!
 	
 		b sprites_Done
 		
-	@ DRAW the Sprite on top screen and KILL the sprite on SUB!!!
+	@ DRAW the Sprite on top screen and KILL the sprite on bottom!!!
 	spriteY_Sub_Only:
 		@ Draw sprite to SUB screen ONLY (r1 holds Y)
 		
-		mov r3, #ATTR0_DISABLED			@ Kill the SAME number sprite on Main Screen
+		mov r3, #ATTR0_DISABLED			@ Kill the SAME number sprite on bottom Screen
 		ldr r0,=BUF_ATTRIBUTE0
 		add r0,r8, lsl #3
 		strh r3,[r0]
 
 		ldr r0,=BUF_ATTRIBUTE0_SUB		@ this all works in the same way as other sections
 		add r0,r8, lsl #3
-		ldr r2, =(ATTR0_COLOR_16 | ATTR0_SQUARE)
+		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 		ldr r3,=SCREEN_SUB_TOP
 		cmp r1,r3
 		addmi r1,#256
@@ -184,7 +200,7 @@ drawSprite:
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1_SUB		@
 		add r0,r8, lsl #3
-		ldr r2, =(ATTR1_SIZE_32)
+		ldr r2, =(ATTR1_SIZE_16)
 		and r1,r3
 		orr r2,r1
 		ldr r3,=spriteHFlip
@@ -216,7 +232,7 @@ drawSprite:
 		@ Draw sprite to MAIN
 		ldr r0,=BUF_ATTRIBUTE0
 		add r0,r8, lsl #3
-		ldr r2, =(ATTR0_COLOR_16 | ATTR0_SQUARE)	@ These will not change in our game!
+		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)	@ These will not change in our game!
 		ldr r3,=SCREEN_MAIN_TOP-32	@ Calculate offsets
 		sub r1,r3					@ R1 is STILL out Y coorrd
 		cmp r1,#32					@ Acound for partial display
@@ -237,7 +253,7 @@ drawSprite:
 		ldr r3,=0x1ff				@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1
 		add r0,r8, lsl #3			@ Add offset (attribs in blocks of 8)
-		ldr r2, =(ATTR1_SIZE_32)	@ Need a way to modify! 16384,32768,49152 = 16,32,64
+		ldr r2, =(ATTR1_SIZE_16)	@ Need a way to modify! 16384,32768,49152 = 16,32,64
 		and r1,r3					@ kick out extranious on the Coord
 		orr r2,r1					@ Stick the Coord and Data together
 		ldr r3,=spriteHFlip

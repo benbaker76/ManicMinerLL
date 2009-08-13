@@ -25,19 +25,19 @@
 
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
-@ BG0 - Text / Score / Energy
-@ BG1 - Level Map
-@ BG2 - StarFront
-@ BG3 - StarBack
+@ BG0 - Text / Score / Energy		16
+@ BG1 - Level Foreground			256
+@ BG2 - Level Layout				256
+@ BG3 - Background					256
 
 #define BG0_MAP_BASE				27
 #define BG0_MAP_BASE_SUB			27
 
-#define BG1_MAP_BASE				30
-#define BG1_MAP_BASE_SUB			30
+#define BG1_MAP_BASE				29
+#define BG1_MAP_BASE_SUB			29
 
-#define BG2_MAP_BASE				29
-#define BG2_MAP_BASE_SUB			29
+#define BG2_MAP_BASE				30
+#define BG2_MAP_BASE_SUB			30
 
 #define BG3_MAP_BASE				28
 #define BG3_MAP_BASE_SUB			28
@@ -45,11 +45,11 @@
 #define BG0_TILE_BASE				3
 #define BG0_TILE_BASE_SUB			3
 
-#define BG1_TILE_BASE				0
-#define BG1_TILE_BASE_SUB			0
+#define BG1_TILE_BASE				5
+#define BG1_TILE_BASE_SUB			5
 
-#define BG2_TILE_BASE				5
-#define BG2_TILE_BASE_SUB			5
+#define BG2_TILE_BASE				0
+#define BG2_TILE_BASE_SUB			0
 
 #define BG3_TILE_BASE				5
 #define BG3_TILE_BASE_SUB			5

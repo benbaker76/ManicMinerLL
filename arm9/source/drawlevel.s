@@ -19,9 +19,45 @@
 @ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-drawLevel:
-@ levelNum holds the number of the level needed
-stmfd sp!, {r0-r10, lr}
+#include "mmll.h"
+#include "system.h"
+#include "video.h"
+#include "background.h"
+#include "dma.h"
+#include "interrupts.h"
+#include "sprite.h"
+#include "ipc.h"
 
-ldmfd sp!, {r0-r10, pc}
+
+	.global drawLevel
+
+drawLevel:
+	@ levelNum holds the number of the level needed
+
+	stmfd sp!, {r0-r10, lr}
+
+	@ for now we will just use level 1 without using levelNum
+	
+	@ Write the palette
+
+	ldr r0, =Level01Pal
+	ldr r1, =BG_PALETTE_SUB
+	ldr r2, =Level01PalLen
+	bl dmaCopy
+	
+	@ Write the tile data
+	
+	ldr r0 ,=Level01Tiles
+	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
+	ldr r2, =Level01TilesLen
+	bl dmaCopy
+	
+	@ Write map
+	
+	ldr r0, =Level01Map
+	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	@ destination
+	ldr r2, =Level01MapLen
+	bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}
 

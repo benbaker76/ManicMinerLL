@@ -75,8 +75,15 @@ initSystem:
 
 main:
 	bl initVideo
+	bl initSprites
 	
 	bl initInterruptHandler						@ initialize the interrupt handler
+	
+	bl initGame
+	bl drawLevel
+	
+	bl dummySetting
+	bl drawSprite
 
 	@ ------------------------------------
 	
@@ -94,10 +101,39 @@ mainLoop:
 	b mainLoop
 
 gameLoop:
+
+	@ This is our main game loop
+	
+	bl drawSprite
+
+
 	
 mainLoopDone:
 
 	b mainLoop									@ our main loop
+
+
+
+
+
+dummySetting:
+
+	stmfd sp!, {r0-r2, lr}
+
+	mov r0,#1
+	ldr r1,=spriteActive
+	str r0,[r1]
+	mov r0,#80
+	ldr r1,=spriteX
+	str r0,[r1]
+	mov r0,#512+40
+	ldr r1,=spriteY
+	str r0,[r1]
+	mov r0,#0
+	ldr r1,=spriteObj
+	str r0,[r1]
+	
+	ldmfd sp!, {r0-r2, pc}
 
 	.pool
 	.end
