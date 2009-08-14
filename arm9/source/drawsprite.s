@@ -40,6 +40,7 @@
 	.align
 	.text
 	.global drawSprite
+	.global minerFrame
 
 drawSprite:
 	stmfd sp!, {lr}
@@ -47,38 +48,28 @@ drawSprite:
 	mov r8,#127 			@ our counter for 128 sprites, do not think we need them all though	
 	SLoop:
 
-	ldr r0,=spriteActive				@ r2 is pointer to the sprite active setting
-	ldr r1,[r0,r8, lsl #2]				@ add sprite number * 4
-	cmp r1,#0							@ Is sprite active? (anything other than 0)
-	bne sprites_Draw					@ if so, draw it!
+		ldr r0,=spriteActive				@ r2 is pointer to the sprite active setting
+		ldr r1,[r0,r8, lsl #2]				@ add sprite number * 4
+		cmp r1,#0							@ Is sprite active? (anything other than 0)
+		bne sprites_Draw					@ if so, draw it!
 
-		@ If not - kill it
+			@ If not - kill it
 			
-		mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
-		ldr r0,=BUF_ATTRIBUTE0
-		add r0,r8, lsl #3
-		strh r1,[r0]
-		ldr r0,=BUF_ATTRIBUTE0_SUB
-		add r0,r8, lsl #3
-		strh r1,[r0]
+			mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
+			ldr r0,=BUF_ATTRIBUTE0_SUB
+			add r0,r8, lsl #3
+			strh r1,[r0]
 
 		b sprites_Done
 	
 	sprites_Draw:
 	
-	ldr r0,=spriteY						@ Load Y coord
-	ldr r1,[r0,r8,lsl #2]				@ add ,rX for offsets
-	cmp r1,#SCREEN_MAIN_WHITESPACE		@ if is is > than screen base, do NOT draw it
-	bpl sprites_Done
+		ldr r0,=spriteY					@ Load Y coord
+		ldr r1,[r0,r8,lsl #2]			@ add ,rX for offsets
 
 		@ Draw sprite to SUB screen ONLY (r1 holds Y)
 		
-		mov r3, #ATTR0_DISABLED			@ Kill the SAME number sprite on bottom Screen
-		ldr r0,=BUF_ATTRIBUTE0
-		add r0,r8, lsl #3
-		strh r3,[r0]
-
-		ldr r0,=BUF_ATTRIBUTE0_SUB		@ this all works in the same way as other sections
+		ldr r0,=BUF_ATTRIBUTE0_SUB	
 		add r0,r8, lsl #3
 		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 		ldr r3,=SCREEN_SUB_TOP
@@ -115,7 +106,7 @@ drawSprite:
 		ldr r2,=spriteBloom
 		ldr r2,[r2,r8, lsl #2]
 		orr r1,r2, lsl #12
-		orr r1,r3, lsl #4				@ or r1 with sprite pointer *16 (for sprite data block)
+		orr r1,r3, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
 		strh r1, [r0]					@ store it all back
 
 	sprites_Done:
@@ -124,6 +115,31 @@ drawSprite:
 	bpl SLoop
 
 	ldmfd sp!, {pc}
+	
+minerFrame:
+	@ all this does is add a single frame to miner willy man
+	
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r2,=spriteAnimDelay
+	ldr r3,[r2]
+	add r3,#1
+	cmp r3,#4
+	moveq r3,#0
+	str r3,[r2]
+	bne minerFrameSame
+	
+	ldr r0,=spriteObj
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#4
+	moveq r1,#0
+	str r1,[r0]
+	
+	minerFrameSame:
+	
+	
+	ldmfd sp!, {r0-r10, pc}
 
 	.pool
 	.end

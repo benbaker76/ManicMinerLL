@@ -53,9 +53,15 @@ initLevel:
 	mov r0,#0
 	ldr r1,=spriteObj
 	str r0,[r1]
+	
+	ldr r1,=spriteAnimDelay
+	str r0,[r1]
+	
 	mov r0,#1								@ 0=left 1=right
 	ldr r1,=spriteHFlip
 	str r0,[r1]
+	
+	
 	
 	ldmfd sp!, {r0-r10, pc}
 
