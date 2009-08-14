@@ -21,6 +21,8 @@
 
 #include "../build/Level01.h"
 
+#include "../build/Background01.h"
+
 #include "../build/Sprites.h"
 
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
