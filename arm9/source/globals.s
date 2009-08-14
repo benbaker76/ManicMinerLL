@@ -44,6 +44,7 @@
 	.global spriteHFlip
 	.global spriteBloom
 	.global spriteAnimDelay
+	.global minerDelay
 	
 gameMode:
 	.word 0
@@ -53,6 +54,9 @@ fxMode:
 
 digits:
 	.space 32
+
+minerDelay:
+	.word 0
 	
 	@ Sprite values
 	
@@ -70,6 +74,7 @@ spriteBloom:
 	.space 512
 spriteAnimDelay:
 	.space 512
+
 	
 	@ Game values
 

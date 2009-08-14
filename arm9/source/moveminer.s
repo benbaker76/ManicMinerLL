@@ -37,6 +37,7 @@
 moveMiner:
 
 	stmfd sp!, {r0-r10, lr}
+	
 
 	@ First phase is to read direction.
 	@ If left and select right, only turn, etc.
@@ -65,16 +66,24 @@ moveRight:
 	cmp r1,#0
 	moveq r1,#1
 	str r1,[r0]
-@	bleq minerFrame			@ animate
 	beq rightFlipDone
 	
 		@ Move right
 		
-		ldr r0,=spriteX
-		ldr r1,[r0]
-		add r1,#1
-		str r1,[r0]
-		bl minerFrame
+@		bl minerPause
+@		cmp r9,#0
+@		beq rightFlipDone
+		
+		ldr r2,=spriteX
+		ldr r0,[r2]
+		add r0,#1
+		
+		bl checkRight		@ pass r0 as correct coord
+		cmp r10,#1			@ solid wall
+		beq rightFlipDone
+
+		str r0,[r2]
+
 	
 	
 	
@@ -94,22 +103,44 @@ moveLeft:
 	cmp r1,#1
 	moveq r1,#0
 	str r1,[r0]
-@	bleq minerFrame 		@ animate
 	beq leftFlipDone
 
 		@ Move left
-		
-		ldr r0,=spriteX
-		ldr r1,[r0]
-		sub r1,#1
-		str r1,[r0]
-		bl minerFrame
+
+@		bl minerPause
+@		cmp r9,#0
+@		beq leftFlipDone
+
+		ldr r2,=spriteX
+		ldr r0,[r2]
+		sub r0,#1
+
+		bl checkLeft		@ pass r0 as x coord to check
+		cmp r10,#1			@ solid wall
+		beq leftFlipDone
+
+		str r0,[r2]
 		
 	
 	
 	leftFlipDone:
 	ldmfd sp!, {r0-r10, pc}	
 	
+minerPause:
+	
+	stmfd sp!, {r0-r8,r10, lr}
+	
+	mov r9,#0
+	ldr r0,=minerDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#2
+	moveq r1,#0
+	moveq r9,#1
+	str r1,[r0]
+	
+	
+	ldmfd sp!, {r0-r8,r10, pc}
 	
 minerXOld:
 	.word 0

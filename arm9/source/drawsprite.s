@@ -117,29 +117,31 @@ drawSprite:
 	ldmfd sp!, {pc}
 	
 minerFrame:
-	@ all this does is add a single frame to miner willy man
+	@ all this does is calculate the frame based on X coord
+	@ This is still not correct!!! more of a sodding cludge
 	
 	stmfd sp!, {r0-r10, lr}
 	
-	ldr r2,=spriteAnimDelay
-	ldr r3,[r2]
-	add r3,#1
-	cmp r3,#4
-	moveq r3,#0
-	str r3,[r2]
-	bne minerFrameSame
+	ldr r0,=spriteX
+	ldr r0,[r0]
 	
-	ldr r0,=spriteObj
-	ldr r1,[r0]
-	add r1,#1
-	cmp r1,#4
-	moveq r1,#0
-	str r1,[r0]
+	ldr r2,=spriteHFlip
+	ldr r2,[r2]
+	cmp r2,#0
+	addeq r0,#4
 	
-	minerFrameSame:
+	and r0,#15
+	lsr r0,#2
 	
+	add r0,#1
+	cmp r0,#4
+	moveq r0,#0
+	
+	ldr r1,=spriteObj
+	str r0,[r1]
 	
 	ldmfd sp!, {r0-r10, pc}
+
 
 	.pool
 	.end

@@ -110,7 +110,9 @@ gameLoop:
 	
 	
 	bl moveMiner
+	bl minerFrame
 	bl drawSprite
+	
 	
 @	ldr r0,=spriteX
 @	ldr r1,[r0]

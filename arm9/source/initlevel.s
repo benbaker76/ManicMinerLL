@@ -44,16 +44,17 @@ initLevel:
 	mov r0,#1
 	ldr r1,=spriteActive
 	str r0,[r1]
-	mov r0,#80
+	mov r0,#64+(4*8)
 	ldr r1,=spriteX
 	str r0,[r1]
 	mov r0,#512+40
 	ldr r1,=spriteY
 	str r0,[r1]
-	mov r0,#0
+	mov r0,#1
 	ldr r1,=spriteObj
 	str r0,[r1]
 	
+	mov r0,#0
 	ldr r1,=spriteAnimDelay
 	str r0,[r1]
 	
