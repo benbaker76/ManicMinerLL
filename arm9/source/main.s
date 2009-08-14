@@ -80,10 +80,10 @@ main:
 	bl initInterruptHandler						@ initialize the interrupt handler
 	
 	bl initGame
-	bl drawLevel
 	
-	bl dummySetting
-	bl drawSprite
+	bl initLevel
+	bl drawLevel
+@	bl drawSprite
 	
 	ldr r0, =gameMode							@ set to play time for now!!
 	mov r1, #GAMEMODE_RUNNING
@@ -136,27 +136,6 @@ mainLoopDone:
 	b mainLoop									@ our main loop
 
 
-
-
-
-dummySetting:
-
-	stmfd sp!, {r0-r2, lr}
-
-	mov r0,#1
-	ldr r1,=spriteActive
-	str r0,[r1]
-	mov r0,#80
-	ldr r1,=spriteX
-	str r0,[r1]
-	mov r0,#512+40
-	ldr r1,=spriteY
-	str r0,[r1]
-	mov r0,#0
-	ldr r1,=spriteObj
-	str r0,[r1]
-	
-	ldmfd sp!, {r0-r2, pc}
 
 	.pool
 	.end
