@@ -25,6 +25,8 @@
 
 #include "../build/Sprites.h"
 
+#include "../build/Font.h"
+
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
 @ BG0 - Text / Score / Energy		16
@@ -32,29 +34,29 @@
 @ BG2 - Level Layout				256
 @ BG3 - Background					256
 
-#define BG0_MAP_BASE				27
-#define BG0_MAP_BASE_SUB			27
+#define BG0_MAP_BASE				2
+#define BG0_MAP_BASE_SUB			2
 
-#define BG1_MAP_BASE				29
-#define BG1_MAP_BASE_SUB			29
+#define BG1_MAP_BASE				31
+#define BG1_MAP_BASE_SUB			31
 
 #define BG2_MAP_BASE				30
 #define BG2_MAP_BASE_SUB			30
 
-#define BG3_MAP_BASE				28
-#define BG3_MAP_BASE_SUB			28
+#define BG3_MAP_BASE				29
+#define BG3_MAP_BASE_SUB			29
 
-#define BG0_TILE_BASE				3
-#define BG0_TILE_BASE_SUB			3
+#define BG0_TILE_BASE				7
+#define BG0_TILE_BASE_SUB			7
 
-#define BG1_TILE_BASE				5
-#define BG1_TILE_BASE_SUB			5
+#define BG1_TILE_BASE				6
+#define BG1_TILE_BASE_SUB			6
 
-#define BG2_TILE_BASE				0
-#define BG2_TILE_BASE_SUB			0
+#define BG2_TILE_BASE				4
+#define BG2_TILE_BASE_SUB			4
 
-#define BG3_TILE_BASE				5
-#define BG3_TILE_BASE_SUB			5
+#define BG3_TILE_BASE				0
+#define BG3_TILE_BASE_SUB			0
 
 @ Our background priorities
 
@@ -155,3 +157,21 @@
 #define SCREEN_MAIN_BOTTOM			767
 #define SCREEN_MAIN_WHITESPACE		768
 #define SPRITE_KILL					788+32
+
+@ Movement Values
+
+#define MINER_STILL					0
+#define MINER_NORMAL				0
+#define MINER_LEFT					1
+#define MINER_RIGHT					2
+#define MINER_JUMP					3
+#define MINER_FALL					4
+#define MINER_MID_JUMP				15
+#define MINER_JUMPLEN				32
+
+#define LEFT_OFFSET					3
+#define RIGHT_OFFSET				13
+#define FEET_NIP					2
+#define FEET_DROP					0		@ This does not work :(
+
+

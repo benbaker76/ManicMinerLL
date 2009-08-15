@@ -57,6 +57,10 @@ initLevel:
 	mov r0,#0
 	ldr r1,=spriteAnimDelay
 	str r0,[r1]
+	ldr r1,=minerDirection
+	str r0,[r1]
+	ldr r1,=minerAction
+	str r0,[r1]
 	
 	mov r0,#1								@ 0=left 1=right
 	ldr r1,=spriteHFlip

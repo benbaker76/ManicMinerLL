@@ -151,9 +151,8 @@ drawDigits:
 
 digitsLoop:
 	ldrb r3,[r1],#1					@ Read r1 [text] and add 1 to [text] offset
-	@add r3,#136					@ offset for 0. We only have chars as a tile in sub screen (+136 for our c64 digits)
-	add r3,#58						@ offset for 0. We only have chars as a tile in sub screen
-	orr r3, #(15 << 12)				@ Orr in the palette number (n << 12)
+	add r3,#16						@ offset for 0. We only have chars as a tile in sub screen
+	orr r3, #(6 << 12)				@ Orr in the palette number (n << 12)
 	strh r3, [r0], #2				@ Write the tile number to our 32x32 map and move along
 	subs r2, #1						@ Move along one
 	bne digitsLoop					@ And loop back until done

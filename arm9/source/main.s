@@ -112,28 +112,32 @@ gameLoop:
 	bl moveMiner
 	bl minerFrame
 	bl drawSprite
-	
-	
-@	ldr r0,=spriteX
-@	ldr r1,[r0]
-@	add r1,#1
-@	cmp r1,#384
-@	movpl r1,#0
-@	str r1,[r0]
 
-@	ldr r0,=spriteAnimDelay
-@	ldr r1,[r0]
-@	add r1,#1
-@	cmp r1,#8
-@	moveq r1,#0
-@	str r1,[r0]
-@	bne mainLoopDone
-@	ldr r0,=spriteObj
-@	ldr r1,[r0]
-@	add r1,#1
-@	cmp r1,#2
-@	movpl r1,#0
-@	str r1,[r0]
+	bl minerJump
+	bl minerFall
+
+	ldr r10,=spriteX
+	ldr r10,[r10]
+	sub r10,#64
+	mov r11,#2
+	mov r8,#1
+	mov r9,#5
+	bl drawDigits
+	
+	ldr r10,=spriteY
+	ldr r10,[r10]
+	sub r10,#384
+	mov r11,#2
+	mov r8,#3
+	mov r9,#5
+	bl drawDigits	
+	
+	ldr r10,=minerDirection
+	ldr r10,[r10]
+	mov r11,#2
+	mov r8,#5
+	mov r9,#1
+	bl drawDigits	
 	
 mainLoopDone:
 

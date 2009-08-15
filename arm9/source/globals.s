@@ -45,6 +45,11 @@
 	.global spriteBloom
 	.global spriteAnimDelay
 	.global minerDelay
+	.global minerDirection
+	.global minerAction
+	.global jumpCount
+	.global fallCount
+	.global willyJumpData
 	
 gameMode:
 	.word 0
@@ -56,6 +61,14 @@ digits:
 	.space 32
 
 minerDelay:
+	.word 0
+minerDirection:
+	.word 0
+minerAction:
+	.word 0
+jumpCount:
+	.word 0
+fallCount:
 	.word 0
 	
 	@ Sprite values
@@ -74,6 +87,12 @@ spriteBloom:
 	.space 512
 spriteAnimDelay:
 	.space 512
+
+	.align
+
+willyJumpData:
+	.byte -3,-3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0
+	.byte 0,0,0,0,1,1,1,1,1,2,2,2,2,3,3,3
 
 	
 	@ Game values
