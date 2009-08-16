@@ -35,13 +35,16 @@
 @ 32-bit
 #define IPC_SOUND_RATE(n)	(IPC + (n << 4) + 8)
 @ 8-bit
-#define IPC_SOUND_VOL(n)	(IPC + (n << 4) + 9)
-#define IPC_SOUND_PAN(n)	(IPC + (n << 4) + 10)
-@ 16-bit
-#define IPC_SOUND_FORMAT(n)	(IPC + (n << 4) + 11)
+#define IPC_SOUND_VOL(n)	(IPC + (n << 4) + 12)
+#define IPC_SOUND_PAN(n)	(IPC + (n << 4) + 13)
+#define IPC_SOUND_CHAN(n)	(IPC + (n << 4) + 14)
+#define IPC_SOUND_FORMAT(n)	(IPC + (n << 4) + 15)
 
 @ 16-bit
 #define REG_IPC_SYNC		0x04000180
+
+#define IPC_SOUND_LOOP		BIT(0)
+#define IPC_SOUND_16BIT		BIT(1)
 
 #define IPC_SYNC_IRQ_ENABLE			BIT(14)
 #define IPC_SYNC_IRQ_REQUEST		BIT(13)

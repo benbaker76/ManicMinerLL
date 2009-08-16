@@ -177,7 +177,7 @@ moveJump:
 	ldr r0,=jumpCount
 	mov r1,#0
 	str r1,[r0]					@ set jump count to 0 (start of phase)
-
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------- Animate and move Willy through a jump
@@ -188,13 +188,15 @@ moveJump:
 minerJump:
 
 	stmfd sp!, {r0-r10, lr}
-
+	
 	@ here we need to complete a jump (if one is already active)
 	
 	ldr r0,=minerAction
 	ldr r1,[r0]
 	cmp r1,#MINER_JUMP				@ If we are not jumping, leave this place
 	bne minerJumpFail
+	
+	bl playJump
 
 	ldr r3,=jumpCount
 	ldr r2,[r3]						@ r2 = the phase of the jump ("keep" r2 and r3 for later)

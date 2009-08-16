@@ -27,6 +27,7 @@
 #include "interrupts.h"
 #include "sprite.h"
 #include "ipc.h"
+#include "audio.h"
 
 	.arm
 	.align

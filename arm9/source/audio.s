@@ -26,13 +26,16 @@
 #include "ipc.h"
 
 	#define STOP_SOUND		-1
+	#define FIND_FREE_CHANNEL	0x80
 
 	.arm
 	.align
 	.text
 	
 	.global stopSound
-	.global playMySound
+	.global playDead
+	.global playJump
+	.global playTone
 
 stopSound:
 
@@ -50,23 +53,138 @@ stopSound:
 	
 	@ ---------------------------------------------
 
-playMySound:
+playDead:
 
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
 	ldr r1, =0x10
 	bl DC_FlushRange
-
-	@ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
-	@ldr r1, =mysound_raw_end							@ Get the sample end
-	@ldr r2, =mysound_raw								@ Get the same start
-	@sub r1, r2											@ Sample end - start = size
-	@str r1, [r0]										@ Write the sample size
 	
-	@ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
-	@ldr r1, =mysound_raw								@ Get the sample address
-	@str r1, [r0]										@ Write the value
+	ldr r0, =IPC_SOUND_RATE(1)							@ Frequency
+	ldr r1, =44100
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
+	ldrb r1, =127
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
+	ldrb r1, =FIND_FREE_CHANNEL
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
+	ldrb r1, =IPC_SOUND_16BIT
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
+	ldr r1, =dead_raw_end								@ Get the sample end
+	ldr r2, =dead_raw									@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
+	ldr r1, =dead_raw									@ Get the sample address
+	str r1, [r0]										@ Write the value
+	
+	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
+	
+	@ ---------------------------------------------
+	
+playJump:
+
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0, =IPC_SOUND_DATA(1)
+	ldr r1, =0x10
+	bl DC_FlushRange
+	
+	ldr r0, =jumpCount									@ 22050 + 1500 * (9 - Sqr((jumpCount - 9) ^ 2))
+	ldr r0, [r0]
+	@sub r0, #9
+	mov r1, #1
+	lsl r1, #2
+	bl sqrt32
+	mov r1, #9
+	sub r1, r0
+	ldr r2, =1500
+	ldr r3, =22050
+	mul r1, r2
+	add r1, r3
+	ldr r0, =IPC_SOUND_RATE(1)							@ Frequency
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
+	ldrb r1, =127
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
+	ldrb r1, =0
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
+	ldrb r1, =IPC_SOUND_16BIT
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
+	ldr r1, =jump_raw_end								@ Get the sample end
+	ldr r2, =jump_raw									@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
+	ldr r1, =jump_raw									@ Get the sample address
+	str r1, [r0]										@ Write the value
+	
+	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
+	
+	@ ---------------------------------------------
+	
+playTone:
+
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0, =IPC_SOUND_DATA(1)
+	ldr r1, =0x10
+	bl DC_FlushRange
+	
+	ldr r0, =IPC_SOUND_RATE(1)							@ Frequency
+	ldr r1, =44100
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
+	ldrb r1, =127
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
+	ldrb r1, =FIND_FREE_CHANNEL
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
+	ldrb r1, =IPC_SOUND_16BIT
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
+	ldr r1, =tone_raw_end								@ Get the sample end
+	ldr r2, =tone_raw									@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
+	ldr r1, =tone_raw									@ Get the sample address
+	str r1, [r0]										@ Write the value
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
