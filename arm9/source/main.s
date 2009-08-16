@@ -80,6 +80,8 @@ main:
 	
 	bl initInterruptHandler						@ initialize the interrupt handler
 	
+	bl initMusic
+	
 	bl initGame
 	
 	bl initLevel

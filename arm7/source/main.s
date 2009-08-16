@@ -63,6 +63,8 @@ interruptHandlerVBlank:
 	strgt r8, [r7]								@ Clear the data
 	blgt playSound								@ If so lets play the sound
 	
+	bl SndVblIrq
+	
 	ldmfd sp!, {r0-r8, pc} 					@ restore registers and return
 
 	@ ------------------------------------
@@ -74,7 +76,11 @@ main:
 	ldr r1, =interruptHandlerVBlank				@ Function Address
 	bl irqSet									@ Set the interrupt
 	
-	ldr r0, =IRQ_VBLANK							@ Interrupts
+	ldr r0, =IRQ_TIMER0
+	ldr r1, =SndTimerIrq
+	bl irqSet
+	
+	ldr r0, =(IRQ_VBLANK | IRQ_TIMER0)			@ Interrupts
 	bl irqEnable								@ Enable
 	
 	ldr r0, =REG_POWERCNT
@@ -84,6 +90,8 @@ main:
 	ldr r0, =SOUND_CR							@ This just turns on global sound and sets volume
 	ldr r1, =(SOUND_ENABLE | SOUND_VOL(127))	@ Turn on sound
 	strh r1, [r0]
+	
+	bl SndInit7
 	
 mainLoop:
 

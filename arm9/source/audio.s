@@ -62,7 +62,7 @@ playDead:
 	bl DC_FlushRange
 	
 	ldr r0, =IPC_SOUND_RATE(1)							@ Frequency
-	ldr r1, =44100
+	ldr r1, =22050
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
@@ -78,7 +78,7 @@ playDead:
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
-	ldrb r1, =IPC_SOUND_16BIT
+	ldrb r1, =0
 	strb r1, [r0]
 
 	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
@@ -127,11 +127,11 @@ playJump:
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
-	ldrb r1, =0
+	ldrb r1, =15
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
-	ldrb r1, =IPC_SOUND_16BIT
+	ldrb r1, =0
 	strb r1, [r0]
 
 	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address

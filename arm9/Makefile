@@ -73,6 +73,7 @@ BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 RAWFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.raw)))
 WAVFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.wav)))
+MODFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.mod)))
  
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -92,6 +93,7 @@ export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
 					$(PNGFILES:.png=.o) \
 					$(RAWFILES:.raw=.o) \
 					$(WAVFILES:.wav=.o) \
+					$(MODFILES:.mod=.o) \
 					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
  
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
@@ -110,7 +112,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) *.elf *.nds* *.bin *.raw *.wav
+	@rm -fr $(BUILD) *.elf *.nds* *.bin *.raw *.wav *.mod
  
  
 #---------------------------------------------------------------------------------
@@ -147,6 +149,14 @@ $(ARM9ELF)	:	$(OFILES)
 # you need a rule like this for each extension you use as binary data 
 #---------------------------------------------------------------------------------
 %.o : %.wav
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+	
+#---------------------------------------------------------------------------------
+# you need a rule like this for each extension you use as binary data 
+#---------------------------------------------------------------------------------
+%.o : %.mod
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)
