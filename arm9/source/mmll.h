@@ -19,12 +19,10 @@
 @ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#include "../build/BottomScreen.h"
 #include "../build/Level01.h"
-
 #include "../build/Background01.h"
-
 #include "../build/Sprites.h"
-
 #include "../build/Font.h"
 
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management

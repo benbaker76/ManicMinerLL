@@ -73,6 +73,29 @@ drawLevel:
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
 	ldr r2, =Background01MapLen
 	bl dmaCopy
+	
+	
+	
+	@ Write the palette
+
+	ldr r0, =BottomScreenPal
+	ldr r1, =BG_PALETTE
+	ldr r2, =BottomScreenPalLen
+	bl dmaCopy
+	
+	@ Write the tile data
+	
+	ldr r0 ,=BottomScreenTiles
+	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
+	ldr r2, =BottomScreenTilesLen
+	bl dmaCopy
+	
+	@ Write map
+	
+	ldr r0, =BottomScreenMap
+	ldr r1, =BG_MAP_RAM(BG2_MAP_BASE)	@ destination
+	ldr r2, =BottomScreenMapLen
+	bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
 
