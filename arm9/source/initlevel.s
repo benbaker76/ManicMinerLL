@@ -35,7 +35,8 @@
 	.global initLevel
 
 initLevel:
-		@ This will be used to set level specifics, ie. colmap, initial x/y, facing etc...
+	
+	@ This will be used to set level specifics, ie. colmap, initial x/y, facing etc...
 
 	stmfd sp!, {r0-r10, lr}
 
@@ -64,11 +65,12 @@ initLevel:
 	
 	mov r0,#1								@ 0=left 1=right
 	ldr r1,=spriteHFlip
-	str r0,[r1]
+	str r0,[r1]	
 	
-	
+	bl clearOAM
 	
 	ldmfd sp!, {r0-r10, pc}
+
 
 	.pool
 	.end

@@ -58,7 +58,7 @@ drawTextLoop:
 	beq drawTextDone				@ Yes so were done
 	sub r5, #32						@ ASCII character - 32 to get tile offset
 	add r5, #42						@ Skip 42 tiles (score digits)
-	orr r5, #(15 << 12)				@ Orr in the palette number (n << 12)
+	orr r5, #(0 << 12)				@ Orr in the palette number (n << 12)
 	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
 	b drawTextLoop
 
@@ -93,7 +93,7 @@ drawTextCountLoop:
 	beq drawTextCountDone			@ Yes so were done
 	sub r6, #32						@ ASCII character - 32 to get tile offset
 	add r6, #42						@ Skip 42 tiles (score digits)
-	orr r6, #(15 << 12)				@ Orr in the palette number (n << 12)
+	orr r6, #(0 << 12)				@ Orr in the palette number (n << 12)
 	strh r6, [r5], #2				@ Write the tile number to our 32x32 map and move along
 	subs r4, #1
 	bpl drawTextCountLoop
@@ -152,7 +152,7 @@ drawDigits:
 digitsLoop:
 	ldrb r3,[r1],#1					@ Read r1 [text] and add 1 to [text] offset
 	add r3,#16						@ offset for 0. We only have chars as a tile in sub screen
-	orr r3, #(6 << 12)				@ Orr in the palette number (n << 12)
+	orr r3, #(0 << 12)				@ Orr in the palette number (n << 12)
 	strh r3, [r0], #2				@ Write the tile number to our 32x32 map and move along
 	subs r2, #1						@ Move along one
 	bne digitsLoop					@ And loop back until done

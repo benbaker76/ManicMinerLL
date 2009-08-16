@@ -34,8 +34,8 @@
 @ BG2 - Level Layout				256
 @ BG3 - Background					256
 
-#define BG0_MAP_BASE				2
-#define BG0_MAP_BASE_SUB			2
+#define BG0_MAP_BASE				28
+#define BG0_MAP_BASE_SUB			28
 
 #define BG1_MAP_BASE				31
 #define BG1_MAP_BASE_SUB			31
