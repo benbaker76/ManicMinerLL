@@ -43,8 +43,7 @@ initMusic:
 	ldr r1, =SND_MEM_POOL_SIZE
 	bl SndSetMemPool
 	
-	ldr r0, =manic_miner_samba_mod
-	@ldr r0, =manic_minergal_ver_mod
+	ldr r0, =mountain_king_mod
 	bl SndPlayMOD
 
 	ldmfd sp!, {r0-r1, pc}
