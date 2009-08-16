@@ -144,6 +144,14 @@ gameLoop:
 	mov r9,#1							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
 	bl drawDigits
+
+	ldr r10,=jumpCount
+	ldr r10,[r10]						@ Number
+	mov r11,#2							@ X Pos
+	mov r8,#7							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
 	
 	ldr r0, =hiscoreText				@ Pointer to text
 	ldr r1, =0							@ X Pos

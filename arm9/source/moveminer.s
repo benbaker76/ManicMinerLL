@@ -95,6 +95,9 @@ moveRight:
 	add r0,#1
 		
 	bl checkRight					@ pass r0 as correct coord
+
+	@ if r9 or r10 contain #1, we must stop moving
+
 	cmp r9,#1						@ solid wall
 	beq moveRightWall
 	cmp r10,#1
@@ -115,6 +118,7 @@ moveRight:
 	
 	sub r0, #1
 	str r0,[r2]
+	mov r0, #2
 	b moveRightDone
 	
 @------------------------------- LEFT MOVEMENT
@@ -139,7 +143,7 @@ moveLeft:
 	
 	@ if r9 or r10 contain #1, we must stop moving
 	
-	cmp r10,#1						@ solid wall
+	cmp r9,#1						@ solid wall
 	beq moveLeftWall
 	cmp r10,#1
 	beq moveLeftWall
@@ -159,6 +163,7 @@ moveLeft:
 	
 	add r0, #1
 	str r0,[r2]
+	mov r0, #1
 	b moveLeftDone
 	
 @------------------------------- LEFT MOVEMENT
@@ -171,12 +176,30 @@ moveJump:
 	@ all we need to do is set miners mode to jump and initialise the counter
 	@ if cannot be active as the init is skipped if willy is not in mormal phase
 	
+	@ we need to check above head first to see if a jump is possible
+	
+	ldr r1,=spriteY
+	ldr r2,[r1]
+	sub r2,#8				@ go one char above head
+	str r2,[r1]
+	
+	bl checkHead
+	
+	add r2,#8				@ restore coord
+	str r2,[r1]
+	cmp r9,#1
+	beq moveJumpFail
+	cmp r10,#1
+	beq moveJumpFail
+	
 	ldr r0,=minerAction
 	mov r1,#MINER_JUMP
 	str r1,[r0]					@ make willy in the jump zone
 	ldr r0,=jumpCount
 	mov r1,#0
 	str r1,[r0]					@ set jump count to 0 (start of phase)
+	
+	moveJumpFail:
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -204,18 +227,19 @@ minerJump:
 	ldr r1,=willyJumpData
 	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump
 
-	ldr r5,=spriteY					@ get y coord
-	ldr r6,[r5]
-	mov r8,r6						@ Save the Y value for a 'headbut' for later
-	adds r6,r4
-	str r6,[r5]						@ shove it back
-	
 	ldr r7,=minerDirection			@ move l/r if needed (this also does checks for collision)
 	ldr r7,[r7]
 	cmp r7,#MINER_LEFT
 		bleq moveLeft
 	cmp r7,#MINER_RIGHT
 		bleq moveRight
+
+	ldr r5,=spriteY					@ get y coord
+	ldr r6,[r5]
+	mov r8,r6						@ Save the Y value for a 'headbut' for later
+	adds r6,r4
+	str r6,[r5]						@ shove it back
+
 
 	add r2,#1						@ add to the jump phase
 	cmp r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
@@ -230,7 +254,9 @@ minerJump:
 	str r2,[r3]						@ store new jump position
 	
 	cmp r2,#MINER_MID_JUMP			@ if we are past the jump midpoint, check feet
-	ble minerJumpUp					@ if not, we need to add a head collision check later
+	ble minerJumpUp					@ if not, jump to the head detection
+	
+	@ Coming down so check feet
 	
 		bl checkFeet			
 		
@@ -242,6 +268,14 @@ minerJump:
 		b minerJumpFail
 		
 		minerLanded:
+		
+		@ check if the floor detected is not part through us already?
+		
+		ldr r7,=spriteY				@ this is perhaps not the best way???
+		ldr r6,[r7]
+		and r6,#7
+		cmp r6,#5
+		bge minerJumpFail
 		
 		mov r7,#MINER_NORMAL		@ set us back to normal movement
 		ldr r6,=minerAction
@@ -279,7 +313,7 @@ ldmfd sp!, {r0-r10, pc}
 		
 		mov r7,#MINER_NORMAL
 		ldr r6,=minerAction
-		str r7,[r6]					@ we have hit our head, so, stop jumping
+		str r7,[r6]					@ we have hit our head, so, stop jumping, and fall
 		
 		ldr r7,=spriteY				@ restore the coord before the jump
 		str r8,[r7]
@@ -321,10 +355,12 @@ minerFall:
 	minerIsFalling:
 
 		@ this is simple code to make willy fall
+		
+		bl playFall
 
 		ldr r1,=spriteY
 		ldr r2,[r1]
-		add r2,#2					@ add 1 to y coord
+		add r2,#2					@ add 2 to y coord (should we accelerate?)
 		str r2,[r1]
 
 		bl checkFeet				@ lets have a look below us

@@ -40,7 +40,6 @@
 	.align
 	.text
 	.global drawSprite
-	.global minerFrame
 
 drawSprite:
 	stmfd sp!, {lr}
@@ -115,33 +114,6 @@ drawSprite:
 	bpl SLoop
 
 	ldmfd sp!, {pc}
-	
-minerFrame:
-	@ all this does is calculate the frame based on X coord
-	@ This is still not correct!!! more of a sodding cludge
-	
-	stmfd sp!, {r0-r10, lr}
-	
-	ldr r0,=spriteX
-	ldr r0,[r0]
-	
-	ldr r2,=spriteHFlip
-	ldr r2,[r2]
-	cmp r2,#0
-	addeq r0,#4
-	
-	and r0,#15
-	lsr r0,#2
-	
-	add r0,#1
-	cmp r0,#4
-	moveq r0,#0
-	
-	ldr r1,=spriteObj
-	str r0,[r1]
-	
-	ldmfd sp!, {r0-r10, pc}
-
 
 	.pool
 	.end

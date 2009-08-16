@@ -164,12 +164,12 @@
 #define MINER_RIGHT					2
 #define MINER_JUMP					3
 #define MINER_FALL					4
-#define MINER_MID_JUMP				15
-#define MINER_JUMPLEN				32
+#define MINER_MID_JUMP				14
+#define MINER_JUMPLEN				30
 
 #define LEFT_OFFSET					3
 #define RIGHT_OFFSET				13
-#define FEET_NIP					2
+#define FEET_NIP					1		@ one or 2???
 #define FEET_DROP					0		@ This does not work :(
 
 
