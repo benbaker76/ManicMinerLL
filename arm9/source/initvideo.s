@@ -70,9 +70,9 @@ initVideo:
 	bl initVideoMain
 	
 	ldr r0, =FontTiles
-@	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
+	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
 	ldr r2, =FontTilesLen
-@	bl dmaCopy
+	bl dmaCopy
 	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 	bl dmaCopy
 	

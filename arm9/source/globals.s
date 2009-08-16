@@ -49,6 +49,10 @@
 	.global minerAction
 	.global jumpCount
 	.global fallCount
+	.global hiscoreText
+	.global scoreText
+	.global spriteDataStart
+	.global spriteDataEnd
 	.global willyJumpData
 	
 gameMode:
@@ -71,7 +75,20 @@ jumpCount:
 fallCount:
 	.word 0
 	
+	@ Text values
+	
+	.align
+hiscoreText:
+	.asciz "High Score"
+	
+	.align
+scoreText:
+	.asciz "Score"
+	
 	@ Sprite values
+	
+	.align
+spriteDataStart:
 	
 spriteActive:
 	.space 512
@@ -87,6 +104,8 @@ spriteBloom:
 	.space 512
 spriteAnimDelay:
 	.space 512
+	
+spriteDataEnd:
 
 	.align
 

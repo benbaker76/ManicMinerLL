@@ -74,8 +74,6 @@ drawLevel:
 	ldr r2, =Background01MapLen
 	bl dmaCopy
 	
-	
-	
 	@ Write the palette
 
 	ldr r0, =BottomScreenPal

@@ -39,6 +39,9 @@ initLevel:
 	@ This will be used to set level specifics, ie. colmap, initial x/y, facing etc...
 
 	stmfd sp!, {r0-r10, lr}
+	
+	bl clearOAM
+	bl clearSpriteData
 
 	@ Dummy settings for now!
 	
@@ -67,10 +70,30 @@ initLevel:
 	ldr r1,=spriteHFlip
 	str r0,[r1]	
 	
-	bl clearOAM
-	
 	ldmfd sp!, {r0-r10, pc}
 
+	@ ------------------------------------
+
+clearSpriteData:
+
+	stmfd sp!, {r0-r3, lr}
+	
+	ldr r0, =spriteDataStart
+	ldr r1, =spriteDataEnd								@ Get the sprite data end
+	ldr r2, =spriteDataStart							@ Get the sprite data start
+	sub r1, r2											@ sprite end - start = size
+	bl DC_FlushRange
+	
+	mov r0, #0
+	ldr r1, =spriteDataStart
+	ldr r2, =spriteDataEnd								@ Get the sprite data end
+	ldr r3, =spriteDataStart							@ Get the sprite data start
+	sub r2, r3											@ sprite end - start = size
+	bl dmaFillWords	
+
+	ldmfd sp!, {r0-r3, pc}
+	
+	@ ------------------------------------
 
 	.pool
 	.end

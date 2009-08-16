@@ -57,7 +57,7 @@ drawTextLoop:
 	cmp r5, #0						@ Null character?
 	beq drawTextDone				@ Yes so were done
 	sub r5, #32						@ ASCII character - 32 to get tile offset
-	add r5, #42						@ Skip 42 tiles (score digits)
+	@add r5, #42						@ Skip 42 tiles (score digits)
 	orr r5, #(0 << 12)				@ Orr in the palette number (n << 12)
 	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
 	b drawTextLoop
@@ -108,6 +108,7 @@ drawDigits:
 
 	@ Ok, to use this we need to pass it a few things!!!
 	@ r10 = number to display
+	@ r7 = 0 = Main, 1 = Sub
 	@ r8 = height to display to
 	@ r9 = number of Digits to display
 	@ r11 = X coord
@@ -138,6 +139,9 @@ drawDigits:
 	bne convertLoop	
 
 	ldr r0, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)	@ make r0 a pointer to screen memory bg bitmap sub address
+	ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+	cmp r7, #0
+	moveq r0, r1
 	mov r1,#0
 	add r1, r8, lsl #6
 	add r0, r1
