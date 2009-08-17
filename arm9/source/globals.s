@@ -76,7 +76,9 @@ jumpCount:						@ how far we have fallen
 fallCount:
 	.word 0
 conveyerFrame:					@ 4 frames of animation to be used
-	.word 0					
+	.word 0	
+keyCounter:
+	.word 0						@ number of keys collected
 	
 	@ Text values
 	
@@ -113,8 +115,8 @@ spriteDataEnd:
 	.align
 
 willyJumpData:
-	.byte -3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,0,0,0,0
-	.byte 0,0,0,0,1,1,1,1,1,2,2,2,2,3,3
+	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,,-1,-1,0,0,0,0
+	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2
 
 	
 	@ Game values

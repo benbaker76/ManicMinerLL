@@ -111,6 +111,7 @@ gameLoop:
 
 	@ This is our main game loop
 	
+	bl levelAnimate
 	
 	bl moveMiner
 	bl minerFrame
@@ -118,6 +119,8 @@ gameLoop:
 
 	bl minerJump
 	bl minerFall
+	
+	
 
 	ldr r10,=spriteX
 	ldr r10,[r10]						@ Number

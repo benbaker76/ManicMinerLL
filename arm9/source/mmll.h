@@ -168,8 +168,8 @@
 #define MINER_RIGHT					2
 #define MINER_JUMP					3
 #define MINER_FALL					4
-#define MINER_MID_JUMP				14
-#define MINER_JUMPLEN				30
+#define MINER_MID_JUMP				16
+#define MINER_JUMPLEN				34
 
 #define LEFT_OFFSET					3
 #define RIGHT_OFFSET				13

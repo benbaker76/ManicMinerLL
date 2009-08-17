@@ -40,6 +40,7 @@
 	
 	.global crumbler
 	.global minerFrame
+	.global levelAnimate
 	
 crumbler:
 	@
@@ -78,15 +79,6 @@ crumbler:
 	moveq r1,#0
 	strb r1,[r0,r8]					@ update colmapstore with new value
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	crumblerFail:
 	
 	ldmfd sp!, {r0-r10, lr}
@@ -120,5 +112,73 @@ minerFrame:
 	ldmfd sp!, {r0-r10, pc}
 	
 	
-crumbleTimer:
+@----------------------- ANIMATE OBJECTS ON LEVEL BACKGROUND ONLY
+
+levelAnimate:
+	stmfd sp!, {r0-r10, lr}
+	@
+	@ we will start at the begining of colmapstore and quicky cycle through looking for objects.
+	@ we will scan all of colmapstore (768 chars) as we have AMPLE time to do all this.
+	@
+	ldr r1,=levelAnimDelay
+	ldr r0,[r1]
+	add r0,#1
+	cmp r0,#4
+	moveq r0,#0
+	str r0,[r1]
+	bne levelAnimateDone
+	
+	
+	mov r0,#0						@ our counter
+	ldr r1,=colMapStore				@ our data to check
+	
+	levelAnimateLoop:
+		ldrb r2,[r1,r0]				@ r2=what we have found
+		@ first check for keys (24-31)
+		cmp r2,#24
+		blt animNotKey
+		cmp r2,#31
+		bgt animNotKey
+		
+		b levelAnimateKey 
+		
+		animNotKey:
+		
+	levelAnimateReturn:
+	
+	add r0,#1
+	cmp r0,#768
+	bne levelAnimateLoop
+	
+	levelAnimateDone:
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+levelAnimateKey:
+
+	@ a little bit to animate keys... Well, it works!!
+	@ ok, r0 = offset, r1=colmap, r2=frame
+	add r2,#1
+	cmp r2,#32
+	moveq r2,#24
+	strb r2,[r1,r0]
+	@ now to update the screen with the frame, we need to grab the graphic first though
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, #1536					@ first tile of offscreen tiles
+	add r4, #40						@ add 20 chars (20th along for first frame)
+	sub r2, #24						@ make fram 0-7
+	add r4, r2, lsl #1				@ add this to the offset
+	ldrh r5,[r4]					@ r5 now=the graphic we need to display
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, r0, lsl #1
+	strh r5,[r4]
+	
+	b levelAnimateReturn
+	
+@---------------------------------------
+
+levelAnimDelay:
 	.word 0
+	
+	.pool
+	.end
