@@ -259,6 +259,8 @@ checkFeet:
 	@ so, check r9 first, if this is in this range, set r8 as the x offset and call crumbler
 	@ then check r10, set r8 to x offset and call crumbler
 	
+	push {r3,r8}
+	
 	ldr r1,=crumbleWait			@ this is our little delay for crumble platforms
 	ldr r2,[r1]
 	add r2,#1
@@ -282,6 +284,12 @@ checkFeet:
 		mov r8,r3
 		bl crumbler
 	notCrumblerR:
+	
+	pop {r3,r8}
+	
+	@ Now we need to check for conveyer and act on it
+	@ Conveyors (at the moment use 13,14,15 left, and 16,17,18 right)
+	@ So, what to do!!! ;)
 
 	push {r8-r10}				@ this is just so we can see what is under us
 	mov r6,r10

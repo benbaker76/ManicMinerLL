@@ -355,6 +355,19 @@ minerFall:
 	minerIsFalling:
 
 		@ this is simple code to make willy fall
+		@ though, we also need to update the direction he is facing (without flipping)
+		
+		ldr r2, =REG_KEYINPUT						@ Read key input register
+		ldr r10, [r2]								@ r10= key pressed
+		
+		mov r0,#MINER_STILL							@ this is needed for if we fall on a conveyor
+		tst r10,#BUTTON_RIGHT						@ during jump, direction needs to stay the same
+		moveq r0,#MINER_RIGHT						@ as the start of the jump
+		tst r10,#BUTTON_LEFT
+		moveq r0,#MINER_LEFT
+		
+		ldr r1,=minerDirection
+		str r0,[r1]									@ store new direction
 		
 		bl playFall
 

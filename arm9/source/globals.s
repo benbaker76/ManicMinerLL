@@ -54,6 +54,7 @@
 	.global spriteDataStart
 	.global spriteDataEnd
 	.global willyJumpData
+	.global conveyerFrame
 	
 gameMode:
 	.word 0
@@ -66,14 +67,16 @@ digits:
 
 minerDelay:
 	.word 0
-minerDirection:
+minerDirection:					@ 0=no move, 1=left, 2=right
 	.word 0
-minerAction:
+minerAction:					@ are we jumping, dieing, what?
 	.word 0
-jumpCount:
+jumpCount:						@ how far we have fallen
 	.word 0
 fallCount:
 	.word 0
+conveyerFrame:					@ 4 frames of animation to be used
+	.word 0					
 	
 	@ Text values
 	
