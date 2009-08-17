@@ -47,31 +47,31 @@ drawLevel:
 	
 	@ Write the tile data
 	
-	ldr r0 ,=Level01Tiles
+	ldr r0 ,=Level02Tiles
 	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
-	ldr r2, =Level01TilesLen
+	ldr r2, =Level02TilesLen
 	bl dmaCopy
 	
 	@ Write map
 	
-	ldr r0, =Level01Map
+	ldr r0, =Level02Map
 	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	@ destination
-	ldr r2, =Level01MapLen
+	ldr r2, =Level02MapLen
 	bl dmaCopy
 	
 	@ Draw the background on bg3
 	@ Write the tile data
 	
-	ldr r0 ,=Background01Tiles
+	ldr r0 ,=Background03Tiles
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
-	ldr r2, =Background01TilesLen
+	ldr r2, =Background03TilesLen
 	bl dmaCopy
 	
 	@ Write map
 	
-	ldr r0, =Background01Map
+	ldr r0, =Background03Map
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
-	ldr r2, =Background01MapLen
+	ldr r2, =Background03MapLen
 	bl dmaCopy
 	
 	@ Write the palette

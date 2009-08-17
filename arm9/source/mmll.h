@@ -21,7 +21,11 @@
 
 #include "../build/BottomScreen.h"
 #include "../build/Level01.h"
+#include "../build/Level02.h"
 #include "../build/Background01.h"
+#include "../build/Background02.h"
+#include "../build/Background03.h"
+
 #include "../build/Sprites.h"
 #include "../build/Font.h"
 
