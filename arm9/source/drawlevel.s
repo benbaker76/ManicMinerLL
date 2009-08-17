@@ -58,6 +58,20 @@ drawLevel:
 	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	@ destination
 	ldr r2, =Level02MapLen
 	bl dmaCopy
+
+	@ draw the level foreground
+
+	ldr r0 ,=LevelFront02Tiles
+	ldr r1, =BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r2, =LevelFront02TilesLen
+	bl dmaCopy
+	
+	@ Write map
+	
+	ldr r0, =LevelFront02Map
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)	@ destination
+	ldr r2, =LevelFront02MapLen
+	bl dmaCopy
 	
 	@ Draw the background on bg3
 	@ Write the tile data

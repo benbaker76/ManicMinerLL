@@ -22,6 +22,7 @@
 #include "../build/BottomScreen.h"
 #include "../build/Level01.h"
 #include "../build/Level02.h"
+#include "../build/LevelFront02.h"
 #include "../build/Background01.h"
 #include "../build/Background02.h"
 #include "../build/Background03.h"
@@ -67,9 +68,9 @@
 #define BG2_PRIORITY				2
 #define BG3_PRIORITY				3
 
-@ Sprite priority is 1 so it appears below BG0
+@ Sprite priority is 1 so it appears below BG1
 
-#define SPRITE_PRIORITY				1
+#define SPRITE_PRIORITY				2
 
 @ Game modes
 

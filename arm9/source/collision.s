@@ -261,6 +261,8 @@ checkFeet:
 	
 	push {r3,r8}
 	
+	@ I think we are going to need another way to put a delay on EACH crumble tile..??
+	
 	ldr r1,=crumbleWait			@ this is our little delay for crumble platforms
 	ldr r2,[r1]
 	add r2,#1
