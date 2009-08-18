@@ -164,6 +164,14 @@ gameLoop:
 	mov r7, #1							@ 0 = Main, 1 = Sub
 	bl drawDigits
 	
+	ldr r10,=jumpDirection
+	ldr r10,[r10]						@ Number
+	mov r11,#22							@ X Pos
+	mov r8,#3							@ Y Pos
+	mov r9,#1							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	
 	ldr r10,=minerDirection
 	ldr r10,[r10]						@ Number
 	mov r11,#2							@ X Pos

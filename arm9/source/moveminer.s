@@ -62,9 +62,9 @@ moveMiner:
 
 	moveMinerFine:
 	
-	ldr r0,=fallDirection
-	mov r1,#0
-	str r1,[r0]
+@	ldr r0,=fallDirection
+@	mov r1,#0
+@	str r1,[r0]
 
 	ldr r0,=minerAction							@ check current action of miner
 	ldr r1,[r0]
@@ -76,9 +76,21 @@ moveMiner:
 	mov r0, #0									@ make the direction 0 first
 	
 	tst r10,#BUTTON_RIGHT
-	bleq moveRight								@ right is pressed
+	bne notRight
+		bl moveRight							@ right is pressed
+		b movementDone
+	notRight:
 	tst r10,#BUTTON_LEFT
-	bleq moveLeft								@ left is pressed
+	bne notLeft
+		bl moveLeft								@ left is pressed
+		b movementDone
+	notLeft:
+
+	ldr r5,=fallDirection
+	mov r1,#0
+	str r1,[r5]
+
+
 												@ No movement made, miner is stationary
 	movementDone:
 	
@@ -232,21 +244,12 @@ moveJump:
 	ldr r0,=jumpCount
 	mov r1,#0
 	str r1,[r0]					@ set jump count to 0 (start of phase)
-	
-	@ if falldirection is right
-	
+
 	ldr r0,=minerDirection
 	ldr r3,[r0]
 	
-	ldr r0,=conveyorDirection
-	ldr r1,[r0]
-	cmp r1,#0
-	beq nonConveyorJump
-		cmp r1,r3				@ is the conveyor direction opposite to yours?
-	@	movne r3,#0				@ if so, make the jump vertical
+	@ if fall dir=2 and minerdir=2 and conveyor=1 - jump up
 	
-	
-	nonConveyorJump:
 	ldr r0,=jumpDirection
 	str r3,[r0]
 	
@@ -336,17 +339,18 @@ minerJump:
 		mov r7,#MINER_NORMAL		@ set us back to normal movement
 		ldr r6,=minerAction
 		str r7,[r6]
-		
+
 		ldr r7,=spriteY				@ make us land correctly on the floor
 		ldr r6,[r7]
 		lsr r6,#3
 		lsl r6,#3
 		str r6,[r7]
+
 		
-@		ldr r7,=minerDirection
-@		ldr r6,[r7]
-@		ldr r7,=fallDirection
-@		str r6,[r7]
+		ldr r7,=jumpDirection
+		ldr r6,[r7]
+		ldr r7,=fallDirection
+		str r6,[r7]
 		
 		@ we need to see if we have landed on a conveyer and set conveyorDirection
 		
@@ -499,10 +503,6 @@ moveOnConveyor:
 
 	stmfd sp!, {r0-r10, lr}
 	
-@	ldr r7,=minerAction
-@	ldr r7,[r7]
-@	cmp r7,#MINER_CONVEYOR
-@	bne moveOnConveyorFail
 	ldr r7,=conveyorDirection
 	ldr r7,[r7]
 	cmp r7,#MINER_LEFT					@ conveyor left
