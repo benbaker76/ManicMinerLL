@@ -290,8 +290,37 @@ checkFeet:
 	pop {r3,r8}
 	
 	@ Now we need to check for conveyer and act on it
-	@ Conveyors (at the moment use 13,14,15 left, and 16,17,18 right)
+	@ Conveyors (at the moment use 12,13,14 left, and 15,16,17 right)
 	@ So, what to do!!! ;)
+	
+	cmp r9,#12
+	blt feetNotLConveyor
+	cmp r9,#17
+	bgt feetNotLConveyor
+	
+	b feetOnConveyor
+	
+	feetNotLConveyor:
+	
+	cmp r10,#12
+	blt feetNotRConveyor
+	cmp r10,#17
+	bgt feetNotRConveyor
+	
+	b feetOnConveyor	
+	
+	feetNotRConveyor:
+	
+@		ldr r1,=minerAction
+@		ldr r2,[r1]
+@		cmp r2,#MINER_CONVEYOR
+@		moveq r2,#MINER_NORMAL
+@		streq r2,[r1]
+		ldr r1,=conveyorDirection
+		mov r2,#0
+		str r2,[r1]
+	
+	checkFeetFinish:
 
 	push {r8-r10}				@ this is just so we can see what is under us
 	mov r6,r10
@@ -310,6 +339,24 @@ checkFeet:
 	pop {r8-r10}
 	
 	ldmfd sp!, {r0-r8, pc}
+	
+feetOnConveyor:
+
+	ldr r0,=spriteY						@ make sure we are on the platform nice and firmly
+	ldr r0,[r0]
+	and r0,#7
+	cmp r0,#0
+	bne checkFeetFinish
+
+	cmp r9,#14
+	movle r3,#MINER_LEFT
+	movgt r3,#MINER_RIGHT				@ set conveyor direction
+	ldr r1,=conveyorDirection
+	str r3,[r1]
+
+	
+	
+	b checkFeetFinish
 	
 @----------------------------- CHECK HEAD
 

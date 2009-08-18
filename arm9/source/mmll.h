@@ -167,8 +167,9 @@
 #define MINER_NORMAL				0
 #define MINER_LEFT					1
 #define MINER_RIGHT					2
-#define MINER_JUMP					3
-#define MINER_FALL					4
+#define MINER_JUMP					4
+#define MINER_FALL					8
+
 #define MINER_MID_JUMP				16
 #define MINER_JUMPLEN				34
 

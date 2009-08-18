@@ -45,17 +45,31 @@
 moveMiner:
 
 	stmfd sp!, {r0-r10, lr}
-	
-	ldr r0,=minerAction							@ check current action of miner
-	ldr r1,[r0]
-	cmp r1,#MINER_NORMAL	
-	bne moveFail								@ if not in normal play, skip
 
 	@ First phase is to read direction.
 	
 	ldr r2, =REG_KEYINPUT						@ Read key input register
 	ldr r10, [r2]								@ r10= key pressed
 	mov r9,r10									
+
+	ldr r0,=conveyorDirection
+	ldr r1,[r0]
+	cmp r1,#0
+	beq moveMinerFine
+
+		bl moveOnConveyor
+		b moveMinerJump
+
+	moveMinerFine:
+	
+	ldr r0,=fallDirection
+	mov r1,#0
+	str r1,[r0]
+
+	ldr r0,=minerAction							@ check current action of miner
+	ldr r1,[r0]
+	cmp r1,#MINER_NORMAL	
+	bne moveFail							@ if not in normal play, skip
 	
 	@ move l/r return r0 as the new minerDirection
 	
@@ -68,14 +82,16 @@ moveMiner:
 												@ No movement made, miner is stationary
 	movementDone:
 	
-	ldr r1,=minerDirection
-	str r0,[r1]									@ store new direction
+	ldr r4,=minerDirection
+	str r0,[r4]									@ store new direction
+	
+	moveMinerJump:
 	
 	tst r10,#BUTTON_A
 	bleq moveJump
 	
 	moveFail:
-
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------- RIGHT MOVEMENT
@@ -84,12 +100,18 @@ moveRight:
 
 	stmfd sp!, {r1-r10, lr}
 	
+	ldr r7,=conveyorDirection
+	ldr r7,[r7]						@ r7 is used to let us know if we are on a conveyor	
+	
 	ldr r2,=spriteHFlip
 	ldr r3,[r2]
 	cmp r3,#0
 	moveq r0,#0						@ set dir to 0 if you were facing Left and flip sprite
 	beq moveRightDone
 	
+	cmp r7,#MINER_RIGHT
+@	beq moveRightDone
+
 	ldr r2,=spriteX
 	ldr r0,[r2]
 	add r0,#1
@@ -109,8 +131,8 @@ moveRight:
 	moveRightDone:
 
 	ldr r2,=spriteHFlip
-	mov r1,#1						@ flip sprite
-	str r1,[r2]
+	mov r5,#1						@ flip sprite
+	str r5,[r2]
 
 	ldmfd sp!, {r1-r10, pc}
 	
@@ -123,9 +145,12 @@ moveRight:
 	
 @------------------------------- LEFT MOVEMENT
 	
-moveLeft:
+moveLeft:	
 
 	stmfd sp!, {r1-r10, lr}
+
+	ldr r7,=conveyorDirection
+	ldr r7,[r7]						@ r7 is used to let us know if we are on a conveyor	
 	
 	ldr r2,=spriteHFlip
 	ldr r3,[r2]
@@ -134,6 +159,9 @@ moveLeft:
 	beq moveLeftDone
 
 	@ move Left
+	
+	cmp r7,#MINER_LEFT
+@	beq moveLeftDone
 	
 	ldr r2,=spriteX
 	ldr r0,[r2]
@@ -154,8 +182,8 @@ moveLeft:
 	moveLeftDone:
 
 	ldr r2,=spriteHFlip
-	mov r1,#0						@ flip sprite
-	str r1,[r2]
+	mov r5,#0						@ flip sprite
+	str r5,[r2]
 
 	ldmfd sp!, {r1-r10, pc}
 
@@ -178,6 +206,12 @@ moveJump:
 	
 	@ we need to check above head first to see if a jump is possible
 	
+	ldr r1,=minerAction
+	ldr r2,[r1]
+	cmp r2,#MINER_JUMP
+	beq moveJumpFail
+	
+	
 	ldr r1,=spriteY
 	ldr r2,[r1]
 	sub r2,#8				@ go one char above head
@@ -199,6 +233,24 @@ moveJump:
 	mov r1,#0
 	str r1,[r0]					@ set jump count to 0 (start of phase)
 	
+	@ if falldirection is right
+	
+	ldr r0,=minerDirection
+	ldr r3,[r0]
+	
+	ldr r0,=conveyorDirection
+	ldr r1,[r0]
+	cmp r1,#0
+	beq nonConveyorJump
+		cmp r1,r3				@ is the conveyor direction opposite to yours?
+	@	movne r3,#0				@ if so, make the jump vertical
+	
+	
+	nonConveyorJump:
+	ldr r0,=jumpDirection
+	str r3,[r0]
+	
+	
 	moveJumpFail:
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -218,6 +270,10 @@ minerJump:
 	ldr r1,[r0]
 	cmp r1,#MINER_JUMP				@ If we are not jumping, leave this place
 	bne minerJumpFail
+
+	ldr r1,=conveyorDirection
+	mov r2,#0
+	str r2,[r1]
 	
 	bl playJump
 
@@ -227,7 +283,7 @@ minerJump:
 	ldr r1,=willyJumpData
 	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump
 
-	ldr r7,=minerDirection			@ move l/r if needed (this also does checks for collision)
+	ldr r7,=jumpDirection			@ move l/r if needed (this also does checks for collision)
 	ldr r7,[r7]
 	cmp r7,#MINER_LEFT
 		bleq moveLeft
@@ -287,6 +343,13 @@ minerJump:
 		lsl r6,#3
 		str r6,[r7]
 		
+@		ldr r7,=minerDirection
+@		ldr r6,[r7]
+@		ldr r7,=fallDirection
+@		str r6,[r7]
+		
+		@ we need to see if we have landed on a conveyer and set conveyorDirection
+		
 		b minerJumpFail
 
 	minerJumpFail:
@@ -330,7 +393,7 @@ minerFall:
 	cmp r1,#MINER_JUMP				@ If we are jumping, leave this place
 	beq minerFallFail
 	
-	@ ok, if we are not alread falling, check both feet and if empty, FALL
+	@ ok, if we are not already falling, check both feet and if empty, FALL
 	
 	cmp r1,#MINER_FALL
 	beq minerIsFalling
@@ -356,6 +419,10 @@ minerFall:
 
 		@ this is simple code to make willy fall
 		@ though, we also need to update the direction he is facing (without flipping)
+
+		ldr r1,=conveyorDirection
+		mov r2,#0
+		str r2,[r1]
 		
 		ldr r2, =REG_KEYINPUT						@ Read key input register
 		ldr r10, [r2]								@ r10= key pressed
@@ -411,13 +478,83 @@ minerFall:
 		lsr r6,#3
 		lsl r6,#3
 		str r6,[r7]
+		
+		@ if we fall and land on a conveyor, if we were pushing right and the conveyor
+		@ if moving left, we should just stand still.. So.. How!!!
+		@ store direction in fallDirection
+		@ in conveyor test, if fallDirection is the same as the move direction, donot move
+		@ but, what if we land on a conveyor from a jump or crumbler???? AAAArrrrggghhh!!!
+		
+		ldr r0,=minerDirection
+		ldr r1,[r0]
+		ldr r0,=fallDirection
+		str r1,[r0]
 	
 	
 	b minerFallFail
+
+@------------------------------- Move with a conveyor
+
+moveOnConveyor:
+
+	stmfd sp!, {r0-r10, lr}
+	
+@	ldr r7,=minerAction
+@	ldr r7,[r7]
+@	cmp r7,#MINER_CONVEYOR
+@	bne moveOnConveyorFail
+	ldr r7,=conveyorDirection
+	ldr r7,[r7]
+	cmp r7,#MINER_LEFT					@ conveyor left
+	@ if we were moving right, continue to do so until otherwise!
+	@ if we are moving left or not moving, move player left (but not twice), and set direction to left
+	@ BUT!!! If you fall on conveyor and it is a left, and you press right
+	@ you remain stationary and can only jump up! (How do I add that?)
+
+	bne moveOnConveyerRight
+	
+		ldr r1,=minerDirection
+		ldr r0,[r1]
+		cmp r0,#MINER_RIGHT
+		bne leftConveyorLeft
+			@ if flip is right and button pressed is right,
+			@ donot move!
+			ldr r3,=spriteHFlip
+			ldr r3,[r3]
+			cmp r3,#1					@ facing Right
+			bne leftConveyorNot
+				ldr r3,=fallDirection
+				ldr r3,[r3]
+				cmp r3,#MINER_RIGHT
+				bne leftConveyorNot
+				tst r10,#BUTTON_RIGHT
+				beq moveOnConveyorFail
+			leftConveyorNot:
+		
+			bl moveRight
+			tst r10,#BUTTON_RIGHT
+			movne r1,#MINER_LEFT
+			ldrne r2,=minerDirection
+			strne r1,[r2]
+			b moveOnConveyorFail
+		leftConveyorLeft:
+			mov r0,#MINER_LEFT
+			str r0,[r1]
+			ldr r0,=spriteHFlip
+			mov r1,#0
+			str r1,[r0]
+			bl moveLeft
+		b moveOnConveyorFail
+	
+	moveOnConveyerRight:				@ conveyor Right
+	
+	moveOnConveyorFail:
+
+	ldmfd sp!, {r0-r10, pc}	
 	
 @-------------------------------
 
-minerPause:
+minerPause:	@ NOT USED!
 	
 	stmfd sp!, {r0-r8,r10, lr}
 	

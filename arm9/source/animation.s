@@ -128,6 +128,15 @@ levelAnimate:
 	str r0,[r1]
 	bne levelAnimateDone
 	
+	@ update conveyorFrame
+	
+	ldr r0,=conveyorFrame
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#4
+	moveq r1,#0
+	str r1,[r0]
+	
 	
 	mov r0,#0						@ our counter
 	ldr r1,=colMapStore				@ our data to check
@@ -144,6 +153,24 @@ levelAnimate:
 		
 		animNotKey:
 		
+		cmp r2,#12
+		blt animNotLeftConveyor
+		cmp r2,#14
+		bgt animNotLeftConveyor
+		
+		b levelAnimateLeftConveyor
+		
+		animNotLeftConveyor:
+
+		cmp r2,#15
+		blt animNotRightConveyor
+		cmp r2,#17
+		bgt animNotRightConveyor
+		
+		b levelAnimateRightConveyor
+		
+		animNotRightConveyor:
+		
 	levelAnimateReturn:
 	
 	add r0,#1
@@ -151,7 +178,7 @@ levelAnimate:
 	bne levelAnimateLoop
 	
 	levelAnimateDone:
-	
+
 	ldmfd sp!, {r0-r10, pc}
 	
 levelAnimateKey:
@@ -164,9 +191,9 @@ levelAnimateKey:
 	strb r2,[r1,r0]
 	@ now to update the screen with the frame, we need to grab the graphic first though
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
-	add r4, #1536					@ first tile of offscreen tiles
-	add r4, #40						@ add 20 chars (20th along for first frame)
-	sub r2, #24						@ make fram 0-7
+	add r4,#1536					@ first tile of offscreen tiles
+	add r4,#40						@ add 20 chars (20th along for first frame)
+	sub r2,#24						@ make fram 0-7
 	add r4, r2, lsl #1				@ add this to the offset
 	ldrh r5,[r4]					@ r5 now=the graphic we need to display
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
@@ -174,6 +201,51 @@ levelAnimateKey:
 	strh r5,[r4]
 	
 	b levelAnimateReturn
+
+levelAnimateLeftConveyor:
+	@ r0=offset, r1=colmap, r2=colmap graphic found
+	@ we need to use conveyorFrame to update with the new frame
+	
+	ldr r6,=conveyorFrame
+	ldr r6,[r6]						@ r6=frame of conveyor (0-3)
+	@ now, find the graphic needed to draw.
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
+	add r4,#1536					@ first tile of offscreen tiles
+	add r4,#16						@ add 8 chars (8th along for first frame/left edge)
+	sub r2,#12						@ make image 0-2 (l/mid/r)
+	lsl r2,#2						@ times by 4 to find position for frame
+	add r2,r6						@ add conveyorFrame to it
+	lsl r2,#1						@ times by 2 (for screen data)
+	add r4,r2						@ add to our anim bank
+	ldrh r5,[r4]					@ r5=tile to draw
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, r0, lsl #1
+	strh r5,[r4]					@ draw tile
+
+	b levelAnimateReturn
+	
+levelAnimateRightConveyor:
+	@ r0=offset, r1=colmap, r2=colmap graphic found
+	@ we need to use conveyorFrame to update with the new frame
+	
+	ldr r6,=conveyorFrame
+	ldr r6,[r6]						@ r6=frame of conveyor (0-3)
+	@ now, find the graphic needed to draw.
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
+	add r4,#1536					@ first tile of offscreen tiles
+	add r4,#38						@ add 19 chars (19th along for first frame/right edge)
+	sub r2,#15						@ make image 0-2 (l/mid/r)
+	lsl r2,#2						@ times by 4 to find position for frame
+	add r2,r6						@ add conveyorFrame to it
+	lsl r2,#1						@ times by 2 (for screen data)
+	sub r4,r2						@ sub from our anim bank
+	ldrh r5,[r4]					@ r5=tile to draw
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, r0, lsl #1
+	strh r5,[r4]					@ draw tile
+
+	b levelAnimateReturn
+	
 	
 @---------------------------------------
 

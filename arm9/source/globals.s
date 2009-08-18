@@ -54,7 +54,10 @@
 	.global spriteDataStart
 	.global spriteDataEnd
 	.global willyJumpData
-	.global conveyerFrame
+	.global conveyorFrame
+	.global conveyorDirection
+	.global fallDirection
+	.global jumpDirection
 	
 gameMode:
 	.word 0
@@ -75,8 +78,14 @@ jumpCount:						@ how far we have fallen
 	.word 0
 fallCount:
 	.word 0
-conveyerFrame:					@ 4 frames of animation to be used
+conveyorFrame:					@ 4 frames of animation to be used
 	.word 0	
+conveyorDirection:				@ 1-left 2-right
+	.word 0
+fallDirection:
+	.word 0
+jumpDirection:
+	.word 0
 keyCounter:
 	.word 0						@ number of keys collected
 	
