@@ -111,16 +111,57 @@ gameLoop:
 
 	@ This is our main game loop
 	
-	bl levelAnimate
 	
-	bl moveMiner
-	bl minerFrame
+	bl minerControl
 	bl drawSprite
 
+	bl moveMiner
 	bl minerJump
 	bl minerFall
 	
+
 	
+	bl minerFrame
+	bl levelAnimate
+
+
+	ldr r10,=minerAction
+	ldr r10,[r10]						@ Number
+	mov r11,#20							@ X Pos
+	mov r8,#1							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	ldr r10,=minerDirection
+	ldr r10,[r10]						@ Number
+	mov r11,#23							@ X Pos
+	mov r8,#1							@ Y Pos
+	mov r9,#1							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	ldr r10,=lastMiner
+	ldr r10,[r10]						@ Number
+	mov r11,#20							@ X Pos
+	mov r8,#3							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	ldr r10,=faller
+	ldr r10,[r10]						@ Number
+	mov r11,#20							@ X Pos
+	mov r8,#5							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+
+
+
+
+
+
+
+
+
 
 	ldr r10,=spriteX
 	ldr r10,[r10]						@ Number
@@ -139,38 +180,6 @@ gameLoop:
 	mov r9,#5							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
 	bl drawDigits	
-
-	ldr r10,=minerAction
-	ldr r10,[r10]						@ Number
-	mov r11,#16							@ X Pos
-	mov r8,#1							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
-	ldr r10,=conveyorDirection
-	ldr r10,[r10]						@ Number
-	mov r11,#19							@ X Pos
-	mov r8,#1							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-
-	ldr r10,=fallDirection
-	ldr r10,[r10]						@ Number
-	mov r11,#22							@ X Pos
-	mov r8,#1							@ Y Pos
-	mov r9,#1							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
-	ldr r10,=jumpDirection
-	ldr r10,[r10]						@ Number
-	mov r11,#22							@ X Pos
-	mov r8,#3							@ Y Pos
-	mov r9,#1							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
 	
 	ldr r10,=minerDirection
 	ldr r10,[r10]						@ Number

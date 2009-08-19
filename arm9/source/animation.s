@@ -176,9 +176,12 @@ levelAnimate:
 	add r0,#1
 	cmp r0,#768
 	bne levelAnimateLoop
+
 	
 	levelAnimateDone:
+	
 
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 levelAnimateKey:
@@ -191,9 +194,9 @@ levelAnimateKey:
 	strb r2,[r1,r0]
 	@ now to update the screen with the frame, we need to grab the graphic first though
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
-	add r4,#1536					@ first tile of offscreen tiles
-	add r4,#40						@ add 20 chars (20th along for first frame)
-	sub r2,#24						@ make fram 0-7
+	add r4, #1536					@ first tile of offscreen tiles
+	add r4, #40						@ add 20 chars (20th along for first frame)
+	sub r2, #24						@ make fram 0-7
 	add r4, r2, lsl #1				@ add this to the offset
 	ldrh r5,[r4]					@ r5 now=the graphic we need to display
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
@@ -210,13 +213,13 @@ levelAnimateLeftConveyor:
 	ldr r6,[r6]						@ r6=frame of conveyor (0-3)
 	@ now, find the graphic needed to draw.
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
-	add r4,#1536					@ first tile of offscreen tiles
-	add r4,#16						@ add 8 chars (8th along for first frame/left edge)
+	add r4, #1536					@ first tile of offscreen tiles
+	add r4, #16						@ add 8 chars (8th along for first frame/left edge)
 	sub r2,#12						@ make image 0-2 (l/mid/r)
 	lsl r2,#2						@ times by 4 to find position for frame
 	add r2,r6						@ add conveyorFrame to it
 	lsl r2,#1						@ times by 2 (for screen data)
-	add r4,r2						@ add to our anim bank
+	add r4,r2
 	ldrh r5,[r4]					@ r5=tile to draw
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, r0, lsl #1
@@ -233,12 +236,12 @@ levelAnimateRightConveyor:
 	@ now, find the graphic needed to draw.
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
 	add r4,#1536					@ first tile of offscreen tiles
-	add r4,#38						@ add 19 chars (19th along for first frame/right edge)
+	add r4,#38						@ add 11 chars (11th along for first frame/left edge)
 	sub r2,#15						@ make image 0-2 (l/mid/r)
 	lsl r2,#2						@ times by 4 to find position for frame
 	add r2,r6						@ add conveyorFrame to it
 	lsl r2,#1						@ times by 2 (for screen data)
-	sub r4,r2						@ sub from our anim bank
+	sub r4,r2
 	ldrh r5,[r4]					@ r5=tile to draw
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, r0, lsl #1

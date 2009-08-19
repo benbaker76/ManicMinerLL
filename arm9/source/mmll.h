@@ -164,13 +164,17 @@
 @ Movement Values
 
 #define MINER_STILL					0
-#define MINER_NORMAL				0
 #define MINER_LEFT					1
 #define MINER_RIGHT					2
-#define MINER_JUMP					4
-#define MINER_FALL					99
 
-#define MINER_MID_JUMP				17
+@ Miner Status Values
+
+#define MINER_NORMAL				0
+#define MINER_JUMP					1
+#define MINER_FALL					2
+#define MINER_CONVEYOR				4
+
+#define MINER_MID_JUMP				22
 #define MINER_JUMPLEN				34
 
 #define LEFT_OFFSET					3

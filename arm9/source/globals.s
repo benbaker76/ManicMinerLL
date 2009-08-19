@@ -56,8 +56,8 @@
 	.global willyJumpData
 	.global conveyorFrame
 	.global conveyorDirection
-	.global fallDirection
-	.global jumpDirection
+	.global lastMiner
+	.global faller
 	
 gameMode:
 	.word 0
@@ -67,6 +67,9 @@ fxMode:
 
 digits:
 	.space 32
+
+faller:
+	.word 0
 
 minerDelay:
 	.word 0
@@ -80,11 +83,9 @@ fallCount:
 	.word 0
 conveyorFrame:					@ 4 frames of animation to be used
 	.word 0	
-conveyorDirection:				@ 1-left 2-right
+conveyorDirection:
 	.word 0
-fallDirection:
-	.word 0
-jumpDirection:
+lastMiner:
 	.word 0
 keyCounter:
 	.word 0						@ number of keys collected
@@ -125,8 +126,9 @@ spriteDataEnd:
 
 willyJumpData:
 	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
-	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2
+	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2
 
+@	.byte 2,2,2,2,2
 	
 	@ Game values
 

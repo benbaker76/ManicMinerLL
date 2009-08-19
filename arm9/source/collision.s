@@ -58,52 +58,39 @@ checkLeft:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
 	bmi checkLeftTNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
-	
 	@ ok, r0,r1= actual screen pixels now.
-	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
-	
 	ldr r4,=colMapStore
 	ldrb r5,[r4,r3]				@ r5=value
-
 	mov r9,r5					@ store value for return
 	
-	checkLeftTNot:
-	
-	@ now bottom section
-	
+	checkLeftTNot:				@ now bottom section	
 	@ make r0=x and r1=y
 	ldr r0,=spriteX
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
-	lsr r0, #3					@ divide by 8	
-	
+	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY
 	ldr r1,[r1]
-	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
 	add r1,#4
 	bmi checkLeftBNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	add r1,#1					@ add 1 char down	
 	@ ok, r0,r1= actual screen pixels now.
-	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
-	
 	ldr r4,=colMapStore
 	ldrb r5,[r4,r3]				@ r5=value
-
 	mov r10,r5					@ store value for return
 	
 	checkLeftBNot:
@@ -127,28 +114,20 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
 	bmi checkRightTNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
-	
 	@ ok, r0,r1= actual screen pixels now.
-	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
-	
 	ldr r4,=colMapStore
 	ldrb r5,[r4,r3]				@ r5=value
-
 	mov r9,r5					@ store value for return
 	
-	checkRightTNot:
-	
-	@ now bottom section
-	
+	checkRightTNot:				@ now bottom section
 	@ make r0=x and r1=y
 	ldr r0,=spriteX
 	ldr r0,[r0]
@@ -156,25 +135,20 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	
 	ldr r1,=spriteY
 	ldr r1,[r1]
-	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
 	add r1,#4
 	bmi checkRightBNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	add r1,#1					@ add 1 char down
-	@ ok, r0,r1= actual screen pixels now.
-	
+	@ ok, r0,r1= actual screen pixels now.	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
-	
 	ldr r4,=colMapStore
 	ldrb r5,[r4,r3]				@ r5=value
-
 	mov r10,r5					@ store value for return
-	
+
 	checkRightBNot:
 	
 	ldmfd sp!, {r0-r8, pc}
@@ -290,6 +264,10 @@ checkFeet:
 	pop {r3,r8}
 	
 	@ Now we need to check for conveyer and act on it
+	@ Conveyors (at the moment use 13,14,15 left, and 16,17,18 right)
+	@ So, what to do!!! ;)
+
+	@ Now we need to check for conveyer and act on it
 	@ Conveyors (at the moment use 12,13,14 left, and 15,16,17 right)
 	@ So, what to do!!! ;)
 	
@@ -311,14 +289,30 @@ checkFeet:
 	
 	feetNotRConveyor:
 	
-@		ldr r1,=minerAction
-@		ldr r2,[r1]
-@		cmp r2,#MINER_CONVEYOR
-@		moveq r2,#MINER_NORMAL
-@		streq r2,[r1]
-		ldr r1,=conveyorDirection
-		mov r2,#0
-		str r2,[r1]
+	@ if feet are on something other than a conveyor, clear 'faller'
+	@ if either feet are on a conveyor, dont clear 'faller'
+		cmp r9,#12
+		bge faller2
+		cmp r9,#17
+		ble faller2
+		cmp r10,#12
+		bge faller2
+		cmp r10,#17
+		ble faller2
+		
+		@ if both are 0, dont clear
+		
+		faller3:
+		ldr r0,=faller
+		mov r1,#0
+		str r1,[r0]
+		b checkFeetFinish
+
+	faller2:
+		cmp r9,#0
+		bne faller3
+		cmp r10,#0
+		bne faller3
 	
 	checkFeetFinish:
 
@@ -348,14 +342,19 @@ feetOnConveyor:
 	cmp r0,#0
 	bne checkFeetFinish
 
+bl lastAction
+
+	ldr r0,=minerAction
+	mov r1,#MINER_CONVEYOR
+	str r1,[r0]
+
 	cmp r9,#14
 	movle r3,#MINER_LEFT
 	movgt r3,#MINER_RIGHT				@ set conveyor direction
+
 	ldr r1,=conveyorDirection
 	str r3,[r1]
 
-	
-	
 	b checkFeetFinish
 	
 @----------------------------- CHECK HEAD
