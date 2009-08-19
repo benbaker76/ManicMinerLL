@@ -102,9 +102,9 @@ minerFrame:
 	and r0,#15
 	lsr r0,#2
 	
-	add r0,#1
-	cmp r0,#4
-	moveq r0,#0
+@	add r0,#1
+@	cmp r0,#4
+@	moveq r0,#0
 	
 	ldr r1,=spriteObj
 	str r0,[r1]
