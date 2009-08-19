@@ -124,7 +124,6 @@ gameLoop:
 	bl minerFrame
 	bl levelAnimate
 
-
 	ldr r10,=minerAction
 	ldr r10,[r10]						@ Number
 	mov r11,#20							@ X Pos
@@ -224,6 +223,15 @@ gameLoop:
 	bl drawDigits
 	
 mainLoopDone:
+
+
+ldr r0,=400000
+slow:
+subs r0,#1
+bpl slow
+
+
+
 
 	b mainLoop									@ our main loop
 

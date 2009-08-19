@@ -220,7 +220,7 @@ moveMiner:
 		str r1,[r2]
 		
 		bl checkLeft
-		
+	
 		cmp r9,#1
 		beq moveMinerLeftFail
 		cmp r10,#1
@@ -358,7 +358,7 @@ bl lastAction
 		ldr r1,[r0]
 		lsr r1,#3
 		lsl r1,#3
-	@	str r1,[r0]
+		str r1,[r0]
 		
 		bl checkFeet
 
