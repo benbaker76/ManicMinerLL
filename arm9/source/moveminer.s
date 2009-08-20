@@ -81,7 +81,7 @@ minerControl:
 	
 	moveControlConveyor:
 	cmp r1,#MINER_CONVEYOR
-	bne moveFail
+	bne conveyorDone
 	
 	ldr r2, =REG_KEYINPUT						@ Read key input register
 	ldr r10, [r2]								@ r10= key pressed				
@@ -93,63 +93,38 @@ minerControl:
 		@
 		@ Conveyor Left
 		@
-		ldr r3,=minerDirection
-		ldr r0,[r3]
-		cmp r0,#MINER_RIGHT
-		beq keepGoingRight
-		cmp r0,#MINER_STILL
-		beq keepGoingRight
+		tst r10,#BUTTON_RIGHT
+		beq convLeftDone
+			ldr r3,=minerDirection
 			mov r0,#MINER_LEFT
 			str r0,[r3]
-			
-			tst r10,#BUTTON_A
-			bleq moveJump		
-		
-		
-		
-		
-			b moveFail
-		
-		keepGoingRight:						@ we are facing right, if from fall, no move right
-			ldr r5,=faller				@ just stay stationary is pushing right
-			ldr r5,[r5]
-			cmp r5,#1
+			ldr r1,=spriteHFlip
+			mov r2,#0
+			str r2,[r1]
 
-			movne r6,#MINER_RIGHT
-			moveq r6,#MINER_STILL
-
-			mov r0,#MINER_LEFT
-			
-			tst r10,#BUTTON_RIGHT
-			moveq r0,r6								@ right is pressed
-			ldrne r1,=spriteHFlip
-			movne r2,#0
-			strne r2,[r1]
-			
-			ldr r1,=minerDirection
-			str r0,[r1]
-	
-			tst r10,#BUTTON_A
-			bleq moveJump
-	
-	
-	
-	
-	
-	
-	
+		convLeftDone:	
+		
+		b conveyorDone
+		
 	moveControlConveyorRight:
+		@
+		@ Conveyor Right
+		@
+		tst r10,#BUTTON_LEFT
+		beq conveyorDone
+			ldr r3,=minerDirection
+			mov r0,#MINER_RIGHT
+			str r0,[r3]
+			ldr r1,=spriteHFlip
+			mov r2,#1
+			str r2,[r1]
 	
-	
-	
-	
-	moveFail:
+	conveyorDone:
+
+	tst r10,#BUTTON_A
+	bleq moveJump	
 
 	ldmfd sp!, {r0-r10, pc}
-	
-	
-	
-	
 
 @------------------------------- RIGHT MOVEMENT
 	
@@ -235,10 +210,7 @@ moveMiner:
 		add r1,#1
 		str r1,[r2]		
 		
-
-
 		b moveMinerFail
-
 
 	moveMinerRight:
 		ldr r2,=spriteX
@@ -262,8 +234,6 @@ moveMiner:
 		sub r1,#1
 		str r1,[r2]		
 		
-
-
 		b moveMinerFail
 
 	moveMinerFail:
@@ -310,6 +280,9 @@ bl lastAction
 	ldr r0,=jumpCount
 	mov r1,#0
 	str r1,[r0]					@ set jump count to 0 (start of phase)
+	ldr r0,=fallCount			@ zero fall count
+	str r1,[r0]
+	
 	
 	moveJumpFail:
 	
@@ -331,7 +304,7 @@ minerJump:
 	cmp r1,#MINER_JUMP				@ If we are not jumping, leave this place
 	bne minerJumpFail
 	
-	bl playJump
+	bl playJump						@ play jump sound effect
 
 	ldr r3,=jumpCount
 	ldr r2,[r3]						@ r2 = the phase of the jump ("keep" r2 and r3 for later)
@@ -374,7 +347,8 @@ bl lastAction
 	ble minerJumpUp					@ if not, jump to the head detection
 	
 	@ Coming down so check feet
-	
+
+
 		bl checkFeet			
 		
 		cmp r9,#0					@ we are only worrying about any collision for now
@@ -417,7 +391,7 @@ ldmfd sp!, {r0-r10, pc}
 	minerJumpUp:
 	
 	@ we are going up, so check head
-	
+
 		bl checkHead			
 		
 		cmp r9,#1					@ we are only worrying about any wall collision for now
@@ -428,6 +402,7 @@ ldmfd sp!, {r0-r10, pc}
 		b minerJumpFail
 		
 		minerHeadHit:
+
 		
 		@ we will need to add a check in here for feet also so that if you jump in a 16 pixel
 		@ gap, you wont jump but carry on walking!
@@ -447,8 +422,6 @@ bl lastAction
 
 minerFall:
 	stmfd sp!, {r0-r10, lr}
-
-
 
 	ldr r0,=minerAction
 	ldr r1,[r0]
@@ -471,6 +444,8 @@ minerFall:
 	
 bl lastAction
 	
+		@ Start A fall
+	
 		mov r1,#MINER_FALL
 		str r1,[r0]					@ set to falling
 		mov r1,#0
@@ -478,11 +453,7 @@ bl lastAction
 		str r1,[r0]		
 		mov r1,#0
 		ldr r0,=minerDirection
-	@	str r1,[r0]
-	
-ldr r0,=faller
-mov r1,#1
-str r1,[r0]
+		str r1,[r0]
 	
 		b minerFallFail
 
@@ -490,19 +461,7 @@ str r1,[r0]
 
 		@ this is simple code to make willy fall
 		@ though, we also need to update the direction he is facing (without flipping)
-		
-		ldr r2, =REG_KEYINPUT						@ Read key input register
-		ldr r10, [r2]								@ r10= key pressed
-		
-		mov r0,#MINER_STILL							@ this is needed for if we fall on a conveyor
-		tst r10,#BUTTON_RIGHT						@ during jump, direction needs to stay the same
-		moveq r0,#MINER_RIGHT						@ as the start of the jump
-		tst r10,#BUTTON_LEFT
-		moveq r0,#MINER_LEFT
-		
-@		ldr r1,=minerDirection
-@		str r0,[r1]									@ store new direction
-		
+				
 		bl playFall
 
 		ldr r1,=spriteY
@@ -539,8 +498,10 @@ str r1,[r0]
 bl lastAction
 	
 		Ldr r0,=minerAction
-		mov r1,#MINER_NORMAL
-		str r1,[r0]
+		ldr r1,[r0]
+		cmp r1,#MINER_CONVEYOR
+		movne r1,#MINER_NORMAL
+		strne r1,[r0]
 		
 		ldr r7,=spriteY				@ make sure we are back on level ground and feet are in correct place.
 		ldr r6,[r7]

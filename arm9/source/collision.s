@@ -36,6 +36,8 @@
 	.global checkRight
 	.global checkFeet
 	.global checkHead
+	.global checkCollectDie
+	.global checkHeadDie
 	
 @----------------------- We are moving LEFT, we need to check what we collide into in colMapStore	
 @ detection functions should return a value in r9 and r10 to signal a result
@@ -56,13 +58,14 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
-	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
+@	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
-	bmi checkLeftTNot			@ incase we are jumping off the top of screen (may need work here)
+	add r1,#4
+@	bmi checkLeftTNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	@ ok, r0,r1= actual screen pixels now.
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
@@ -71,19 +74,25 @@ checkLeft:
 	ldrb r5,[r4,r3]				@ r5=value
 	mov r9,r5					@ store value for return
 	
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
+	
 	checkLeftTNot:				@ now bottom section	
 	@ make r0=x and r1=y
 	ldr r0,=spriteX
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
-	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
+@	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 	add r1,#4
-	bmi checkLeftBNot			@ incase we are jumping off the top of screen (may need work here)
+@	bmi checkLeftBNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	add r1,#1					@ add 1 char down	
 	@ ok, r0,r1= actual screen pixels now.
@@ -92,8 +101,31 @@ checkLeft:
 	ldr r4,=colMapStore
 	ldrb r5,[r4,r3]				@ r5=value
 	mov r10,r5					@ store value for return
+
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
 	
 	checkLeftBNot:
+	
+	push {r9,r10}
+	mov r2,r9
+	mov r11,#26							@ X Pos
+	mov r8,#5							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	mov r10,r2
+	mov r11,#26							@ X Pos
+	mov r8,#3							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits	
+	pop {r9,r10}
+	
+	
 	ldmfd sp!, {r0-r8, pc}
 
 @--------------------- Check moving right
@@ -118,14 +150,21 @@ checkRight:
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
+	add r1,#4 
 	bmi checkRightTNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
-	@ ok, r0,r1= actual screen pixels now.
+@	sub r1,#1
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
 	ldr r4,=colMapStore
 	ldrb r5,[r4,r3]				@ r5=value
 	mov r9,r5					@ store value for return
+
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
 	
 	checkRightTNot:				@ now bottom section
 	@ make r0=x and r1=y
@@ -149,7 +188,29 @@ checkRight:
 	ldrb r5,[r4,r3]				@ r5=value
 	mov r10,r5					@ store value for return
 
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
+
 	checkRightBNot:
+
+	push {r9,r10}
+	mov r2,r9
+	mov r11,#29							@ X Pos
+	mov r8,#5							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	mov r10,r2
+	mov r11,#29							@ X Pos
+	mov r8,#3							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits	
+	pop {r9,r10}
+
 	
 	ldmfd sp!, {r0-r8, pc}
 	
@@ -165,6 +226,12 @@ checkFeet:
 	
 	mov r9,#0					@ left Var
 	mov r10,#0					@ right var
+
+	ldr r0,=minerAction
+	ldr r1,[r0]
+	cmp r1,#MINER_CONVEYOR
+	moveq r1,#0
+	streq r1,[r0]
 
 	@ left side first
 	
@@ -183,7 +250,7 @@ checkFeet:
 	subs r1,#384				@ our offset
 	bmi checkFeetLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
-	add r1,#2	
+	add r1,#2					@ add 2 charaters (16 pixels)	
 	@ ok, r0,r1= actual screen pixels now.	
 	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
@@ -194,6 +261,13 @@ checkFeet:
 	mov r8,r3					@ store r3 in r8 (this is our offset needed for crumblers)
 
 	mov r9,r5	
+	
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
+
 	
 	checkFeetLNot:
 
@@ -224,7 +298,12 @@ checkFeet:
 	ldrb r5,[r4,r3]				@ r5=value ('remember' r3 is the offset)
 
 	mov r10,r5
-
+	
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
 	checkFeetRNot:
 	
 	@ ok, r9 and r10 relate to what is under our feet!
@@ -240,7 +319,7 @@ checkFeet:
 	ldr r1,=crumbleWait			@ this is our little delay for crumble platforms
 	ldr r2,[r1]
 	add r2,#1
-	cmp r2,#4					@ we are using 4 as a delay, but, I think we should have
+	cmp r2,#2					@ we are using 4 as a delay, but, I think we should have
 	moveq r2,#0					@ less frames of anim for the crumbles and have them crumble
 	str r2,[r1]					@ slower? The last frame is too fine imho, what do you think?
 	bne notCrumblerR
@@ -288,31 +367,6 @@ checkFeet:
 	b feetOnConveyor	
 	
 	feetNotRConveyor:
-	
-	@ if feet are on something other than a conveyor, clear 'faller'
-	@ if either feet are on a conveyor, dont clear 'faller'
-		cmp r9,#12
-		bge faller2
-		cmp r9,#17
-		ble faller2
-		cmp r10,#12
-		bge faller2
-		cmp r10,#17
-		ble faller2
-		
-		@ if both are 0, dont clear
-		
-		faller3:
-		ldr r0,=faller
-		mov r1,#0
-		str r1,[r0]
-		b checkFeetFinish
-
-	faller2:
-		cmp r9,#0
-		bne faller3
-		cmp r10,#0
-		bne faller3
 	
 	checkFeetFinish:
 
@@ -381,7 +435,6 @@ checkHead:
 	
 	ldr r1,=spriteY
 	ldr r1,[r1]
-@	sub r1,#8					@ check above head
 	subs r1,#384				@ our offset
 	bmi checkHeadLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
@@ -395,7 +448,7 @@ checkHead:
 	ldrb r5,[r4,r3]				@ r5=value
 
 	mov r9,r5	
-	
+
 	checkHeadLNot:
 	
 	mov r10,#0
@@ -413,7 +466,6 @@ checkHead:
 	
 	ldr r1,=spriteY
 	ldr r1,[r1]
-@	sub r1,#8					@ check above head
 	subs r1,#384				@ our offset
 	bmi checkHeadRNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
@@ -430,7 +482,195 @@ checkHead:
 
 	checkHeadRNot:
 	
+@	bl checkHeadDie
+	
 	ldmfd sp!, {r0-r8, pc}
+
+@-----------------------------------------------
+
+checkHeadDie:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r9,#0
+	mov r10,#0
+
+	@ left side first
+	
+	@ make r0=x and r1=y
+	ldr r0,=spriteX
+	ldr r0,[r0]
+	add r0,#LEFT_OFFSET
+	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
+	subs r0,#64					@ our offset (8 chars to left)
+	bmi checkHeadDieLNot			@ if offscreen - dont check (will help later I hope)
+	lsr r0, #3					@ divide by 8	
+	
+	ldr r1,=spriteY
+	ldr r1,[r1]
+	subs r1,#384				@ our offset
+@add r1,#4
+	bmi checkHeadDieLNot			@ incase we are jumping off the top of screen (may need work here)
+	lsr r1, #3
+	
+	@ ok, r0,r1= actual screen pixels now.	
+	
+	lsl r3,r1, #5				@ multiply y by 32 and store in r3
+	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
+	
+	ldr r4,=colMapStore
+	ldrb r5,[r4,r3]				@ r5=value
+
+	mov r9,r5	
+
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
+
+	checkHeadDieLNot:
+	
+	mov r10,#0
+	
+	@ now right side
+	
+	@ make r0=x and r1=y
+	ldr r0,=spriteX
+	ldr r0,[r0]
+	add r0,#RIGHT_OFFSET
+	sub r0,#FEET_NIP			@ use this for head detection also
+
+	subs r0,#64					@ our offset (8 chars to left)
+	bmi checkHeadDieRNot			@ if offscreen - dont check (will help later I hope)
+	lsr r0, #3					@ divide by 8	
+	
+	ldr r1,=spriteY
+	ldr r1,[r1]
+	subs r1,#384				@ our offset
+@add r1,#4
+	bmi checkHeadDieRNot			@ incase we are jumping off the top of screen (may need work here)
+	lsr r1, #3
+	
+	@ ok, r0,r1= actual screen pixels now.	
+	
+	lsl r3,r1, #5				@ multiply y by 32 and store in r3
+	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
+	
+	ldr r4,=colMapStore
+	ldrb r5,[r4,r3]				@ r5=value
+
+	mov r10,r5
+
+	@ check for other stuff
+	mov r0,r5
+	mov r1,r3
+	bl checkCollectDie
+	@
+	checkHeadDieRNot:
+	
+	push {r9,r10}
+	mov r2,r9
+	mov r11,#29							@ X Pos
+	mov r8,#9							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	mov r10,r2
+	mov r11,#25							@ X Pos
+	mov r8,#9							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits	
+	pop {r9,r10}
+	
+	ldmfd sp!, {r0-r10, pc}
+
+
+@--------------------------------------------
+	
+checkCollectDie:
+	@ we need to pass this 2 things for now - the r9,r10 from detect code and also
+	@ the offset value for colmapstore
+	@ r0 = collide value
+	@ r1 = offset
+	
+	stmfd sp!, {r0-r10, lr}
+	
+	cmp r0,#64							@ check for DEATH first!
+	blt notDieThing
+	
+	bl initDeath
+	b checkCollectDieDone
+		ldr r5,=minerAction
+		ldr r5,[r5]
+		cmp r5,#MINER_JUMP
+		bne dieNotJumping
+	@		ldr r5,=jumpCount
+	@		ldr r5,[r5]
+	@		cmp r5,#MINER_MID_JUMP
+	@		bge dieNotJumping
+
+			ldr r3,=spriteY
+			ldr r3,[r3]
+			and r3,#7
+			cmp r3,#4
+		@	xxxx:
+		@	blt xxxx
+			bllt initDeath
+			b checkCollectDieDone
+			
+		dieNotJumping:
+		ldr r3,=spriteX
+		ldr r3,[r3]
+		and r3,#7
+		ldr r2,=minerDirection
+		ldr r2,[r2]
+		cmp r2,#MINER_LEFT
+		bne dieCheckRight
+			and r3,#7
+			cmp r3,#2					@ give a couple of pixels grace
+			bllt initDeath
+			b checkCollectDieDone
+		dieCheckRight:
+		cmp r2,#MINER_RIGHT
+		bne dieCheckStill
+			cmp r3,#6					@ give a couple of pixels grace
+			blgt initDeath
+			b checkCollectDieDone	
+		dieCheckStill:
+			bl initDeath
+			b checkCollectDieDone
+	notDieThing:
+
+	@ if between 24 and 31, this is a key (collectable)
+
+	cmp r0,#24
+	blt notKeyThing
+	cmp r0,#31
+	bgt notKeyThing
+		
+		@ We have a key, so collect it!
+		
+		bl collectKey
+		b checkCollectDieDone
+
+	notKeyThing:
+
+	checkCollectDieDone:
+	ldmfd sp!, {r0-r10, pc}
+
+@--------------------------------------------
+
+initDeath:
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r1,=minerDied
+	mov r0,#1
+	str r0,[r1]
+
+	ldmfd sp!, {r0-r10, pc}	
+	
 	
 	crumbleWait:
 		.word 0

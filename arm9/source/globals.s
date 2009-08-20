@@ -58,6 +58,7 @@
 	.global conveyorDirection
 	.global lastMiner
 	.global faller
+	.global minerDied
 	
 gameMode:
 	.word 0
@@ -70,7 +71,8 @@ digits:
 
 faller:
 	.word 0
-
+minerDied:
+	.word 0
 minerDelay:
 	.word 0
 minerDirection:					@ 0=no move, 1=left, 2=right

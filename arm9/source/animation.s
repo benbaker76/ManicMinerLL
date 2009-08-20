@@ -41,6 +41,7 @@
 	.global crumbler
 	.global minerFrame
 	.global levelAnimate
+	.global collectKey
 	
 crumbler:
 	@
@@ -249,9 +250,28 @@ levelAnimateRightConveyor:
 
 	b levelAnimateReturn
 	
-	
 @---------------------------------------
 
+collectKey:
+	@ a little bit to animate keys... Well, it works!!
+	@ ok, r0 = offset, r1=colmap, r2=frame
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r4,=colMapStore
+	mov r2,#0
+	strb r2,[r4,r1]					@ remove from ColMapStore
+	
+	@ now to erase from the screen
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, #1536					@ first tile of offscreen tiles
+	add r4, #14						@ add 7 chars (7th along is our blank)
+	ldrh r5,[r4]					@ r5 now=the graphic we need to display
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, r1, lsl #1
+	strh r5,[r4]
+	
+	ldmfd sp!, {r0-r10, pc}
+	
 levelAnimDelay:
 	.word 0
 	

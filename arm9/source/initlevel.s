@@ -49,11 +49,11 @@ initLevel:
 	ldr r1,=spriteActive
 	str r0,[r1]
 	mov r0,#64+(4*8)
-mov r0,#140+64
+mov r0,#163+64
 	ldr r1,=spriteX
 	str r0,[r1]
 	mov r0,#512+40
-mov r0,#112+384
+mov r0,#144+384
 	ldr r1,=spriteY
 	str r0,[r1]
 	mov r0,#1

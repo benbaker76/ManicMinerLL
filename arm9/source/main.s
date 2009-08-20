@@ -118,6 +118,7 @@ gameLoop:
 	bl moveMiner
 	bl minerJump
 	bl minerFall
+	bl checkHeadDie
 	
 
 	
@@ -153,7 +154,13 @@ gameLoop:
 	mov r7, #1							@ 0 = Main, 1 = Sub
 	bl drawDigits
 
-
+	ldr r10,=fallCount
+	ldr r10,[r10]						@ Number
+	mov r11,#16							@ X Pos
+	mov r8,#5							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
 
 
 
@@ -225,12 +232,22 @@ gameLoop:
 mainLoopDone:
 
 
-ldr r0,=400000
+ldr r0,=300000
 slow:
 subs r0,#1
 bpl slow
 
+	halt:
+	ldr r2, =REG_KEYINPUT						@ Read key input register
+	ldr r10, [r2]								@ r10= key pressed				
+	tst r10,#BUTTON_B
+	beq halt
 
+ldr r1,=minerDied
+ldr r1,[r1]
+asdf:
+cmp r1,#1
+beq asdf
 
 
 	b mainLoop									@ our main loop
