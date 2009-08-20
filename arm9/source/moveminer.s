@@ -36,7 +36,6 @@
 	.global minerJump
 	.global minerFall
 	.global moveMiner
-	.global lastAction
 	
 @------------------------------
 @
@@ -272,8 +271,6 @@ moveJump:
 	cmp r1,#MINER_FALL
 	beq moveJumpFail
 	
-
-bl lastAction
 	ldr r0,=minerAction
 	mov r1,#MINER_JUMP
 	str r1,[r0]					@ make willy in the jump zone
@@ -282,7 +279,6 @@ bl lastAction
 	str r1,[r0]					@ set jump count to 0 (start of phase)
 	ldr r0,=fallCount			@ zero fall count
 	str r1,[r0]
-	
 	
 	moveJumpFail:
 	
@@ -322,7 +318,6 @@ minerJump:
 	cmp r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
 	blt minerJumpContinues
 		
-bl lastAction
 		mov r7,#MINER_NORMAL		@ if jump is over, return control (this will check a fall first though)
 		ldr r6,=minerAction
 		str r7,[r6]
@@ -348,7 +343,6 @@ bl lastAction
 	
 	@ Coming down so check feet
 
-
 		bl checkFeet			
 		
 		cmp r9,#0					@ we are only worrying about any collision for now
@@ -368,8 +362,6 @@ bl lastAction
 		cmp r6,#5
 		bge minerJumpFail
 
-bl lastAction
-	
 		mov r7,#MINER_NORMAL		@ set us back to normal movement
 		ldr r6,=minerAction
 		str r7,[r6]
@@ -379,8 +371,6 @@ bl lastAction
 		lsr r6,#3
 		lsl r6,#3
 		str r6,[r7]
-
-
 	
 		b minerJumpFail
 
@@ -403,12 +393,9 @@ ldmfd sp!, {r0-r10, pc}
 		
 		minerHeadHit:
 
-		
 		@ we will need to add a check in here for feet also so that if you jump in a 16 pixel
 		@ gap, you wont jump but carry on walking!
-	
-bl lastAction
-	
+
 		mov r7,#MINER_FALL
 		ldr r6,=minerAction
 		str r7,[r6]					@ we have hit our head, so, stop jumping, and fall
@@ -440,10 +427,6 @@ minerFall:
 		cmp r10,#0
 		bne minerFallFail
 
-		@ we are falling now!!
-	
-bl lastAction
-	
 		@ Start A fall
 	
 		mov r1,#MINER_FALL
@@ -494,9 +477,7 @@ bl lastAction
 	minerFallOver:
 	
 		@ later, check minerFall and see if it was too far, and kill us!
-	
-bl lastAction
-	
+
 		Ldr r0,=minerAction
 		ldr r1,[r0]
 		cmp r1,#MINER_CONVEYOR
@@ -530,21 +511,5 @@ minerPause:
 	
 	ldmfd sp!, {r0-r8,r10, pc}
 
-lastAction:	
-	
-	stmfd sp!, {r0-r2, lr}
-	
-	ldr r1,=minerAction
-	ldr r2,[r1]
-	ldr r1,=lastMiner
-	str r2,[r1]
-	
-	
-	ldmfd sp!, {r0-r2, pc}
-	
-minerXOld:
-	.word 0
-minerYOld:
-	.word 0
 	.pool
 	.end

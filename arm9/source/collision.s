@@ -58,14 +58,14 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
-@	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
+	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
 	add r1,#4
-@	bmi checkLeftTNot			@ incase we are jumping off the top of screen (may need work here)
+	bmi checkLeftTNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	@ ok, r0,r1= actual screen pixels now.
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
@@ -86,13 +86,13 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
-@	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
+	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 	add r1,#4
-@	bmi checkLeftBNot			@ incase we are jumping off the top of screen (may need work here)
+	bmi checkLeftBNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	add r1,#1					@ add 1 char down	
 	@ ok, r0,r1= actual screen pixels now.
@@ -116,13 +116,13 @@ checkLeft:
 	mov r8,#5							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	mov r10,r2
 	mov r11,#26							@ X Pos
 	mov r8,#3							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits	
+@	bl drawDigits	
 	pop {r9,r10}
 	
 	
@@ -153,7 +153,6 @@ checkRight:
 	add r1,#4 
 	bmi checkRightTNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
-@	sub r1,#1
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
 	ldr r4,=colMapStore
@@ -202,13 +201,13 @@ checkRight:
 	mov r8,#5							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	mov r10,r2
 	mov r11,#29							@ X Pos
 	mov r8,#3							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits	
+@	bl drawDigits	
 	pop {r9,r10}
 
 	
@@ -343,13 +342,8 @@ checkFeet:
 	pop {r3,r8}
 	
 	@ Now we need to check for conveyer and act on it
-	@ Conveyors (at the moment use 13,14,15 left, and 16,17,18 right)
-	@ So, what to do!!! ;)
+	@ if on one, set minerAction and also the conveyorDirection
 
-	@ Now we need to check for conveyer and act on it
-	@ Conveyors (at the moment use 12,13,14 left, and 15,16,17 right)
-	@ So, what to do!!! ;)
-	
 	cmp r9,#12
 	blt feetNotLConveyor
 	cmp r9,#17
@@ -377,13 +371,13 @@ checkFeet:
 	mov r8,#9							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	mov r10,r6
 	mov r11,#5							@ X Pos
 	mov r8,#9							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	pop {r8-r10}
 	
 	ldmfd sp!, {r0-r8, pc}
@@ -395,8 +389,6 @@ feetOnConveyor:
 	and r0,#7
 	cmp r0,#0
 	bne checkFeetFinish
-
-bl lastAction
 
 	ldr r0,=minerAction
 	mov r1,#MINER_CONVEYOR
@@ -481,9 +473,7 @@ checkHead:
 	mov r10,r5
 
 	checkHeadRNot:
-	
-@	bl checkHeadDie
-	
+
 	ldmfd sp!, {r0-r8, pc}
 
 @-----------------------------------------------
@@ -509,7 +499,6 @@ checkHeadDie:
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
-@add r1,#4
 	bmi checkHeadDieLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
@@ -527,7 +516,6 @@ checkHeadDie:
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDie
-	@
 
 	checkHeadDieLNot:
 	
@@ -548,7 +536,6 @@ checkHeadDie:
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
-@add r1,#4
 	bmi checkHeadDieRNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
@@ -566,7 +553,7 @@ checkHeadDie:
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDie
-	@
+
 	checkHeadDieRNot:
 	
 	push {r9,r10}
@@ -575,13 +562,13 @@ checkHeadDie:
 	mov r8,#9							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	mov r10,r2
 	mov r11,#25							@ X Pos
 	mov r8,#9							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits	
+@	bl drawDigits	
 	pop {r9,r10}
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -599,28 +586,7 @@ checkCollectDie:
 	
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
-	
-	bl initDeath
-	b checkCollectDieDone
-		ldr r5,=minerAction
-		ldr r5,[r5]
-		cmp r5,#MINER_JUMP
-		bne dieNotJumping
-	@		ldr r5,=jumpCount
-	@		ldr r5,[r5]
-	@		cmp r5,#MINER_MID_JUMP
-	@		bge dieNotJumping
 
-			ldr r3,=spriteY
-			ldr r3,[r3]
-			and r3,#7
-			cmp r3,#4
-		@	xxxx:
-		@	blt xxxx
-			bllt initDeath
-			b checkCollectDieDone
-			
-		dieNotJumping:
 		ldr r3,=spriteX
 		ldr r3,[r3]
 		and r3,#7
@@ -629,13 +595,13 @@ checkCollectDie:
 		cmp r2,#MINER_LEFT
 		bne dieCheckRight
 			and r3,#7
-			cmp r3,#2					@ give a couple of pixels grace
+			cmp r3,#3					@ give a couple of pixels grace
 			bllt initDeath
 			b checkCollectDieDone
 		dieCheckRight:
 		cmp r2,#MINER_RIGHT
 		bne dieCheckStill
-			cmp r3,#6					@ give a couple of pixels grace
+			cmp r3,#5					@ give a couple of pixels grace
 			blgt initDeath
 			b checkCollectDieDone	
 		dieCheckStill:

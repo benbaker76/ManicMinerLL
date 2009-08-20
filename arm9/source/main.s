@@ -120,119 +120,14 @@ gameLoop:
 	bl minerFall
 	bl checkHeadDie
 	
-
-	
 	bl minerFrame
 	bl levelAnimate
 
-	ldr r10,=minerAction
-	ldr r10,[r10]						@ Number
-	mov r11,#20							@ X Pos
-	mov r8,#1							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	ldr r10,=minerDirection
-	ldr r10,[r10]						@ Number
-	mov r11,#23							@ X Pos
-	mov r8,#1							@ Y Pos
-	mov r9,#1							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	ldr r10,=lastMiner
-	ldr r10,[r10]						@ Number
-	mov r11,#20							@ X Pos
-	mov r8,#3							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	ldr r10,=faller
-	ldr r10,[r10]						@ Number
-	mov r11,#20							@ X Pos
-	mov r8,#5							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-
-	ldr r10,=fallCount
-	ldr r10,[r10]						@ Number
-	mov r11,#16							@ X Pos
-	mov r8,#5							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-
-
-
-
-
-
-
-
-	ldr r10,=spriteX
-	ldr r10,[r10]						@ Number
-	sub r10,#64
-	mov r11,#2							@ X Pos
-	mov r8,#1							@ Y Pos
-	mov r9,#5							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
-	ldr r10,=spriteY
-	ldr r10,[r10]						@ Number
-	sub r10,#384
-	mov r11,#2							@ X Pos
-	mov r8,#3							@ Y Pos
-	mov r9,#5							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits	
-	
-	ldr r10,=minerDirection
-	ldr r10,[r10]						@ Number
-	mov r11,#2							@ X Pos
-	mov r8,#5							@ Y Pos
-	mov r9,#1							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-
-	ldr r10,=jumpCount
-	ldr r10,[r10]						@ Number
-	mov r11,#2							@ X Pos
-	mov r8,#7							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
-	ldr r0, =hiscoreText				@ Pointer to text
-	ldr r1, =0							@ X Pos
-	ldr r2, =19							@ Y Pos
-	ldr r3, =0							@ 0 = Main, 1 = Sub
-	bl drawText
-		
-	ldr r10, =0							@ Number
-	mov r11, #11						@ X Pos
-	mov r8, #19							@ Y Pos
-	mov r9, #6							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
-	ldr r0, =scoreText					@ Pointer to text
-	ldr r1, =20							@ X Pos
-	ldr r2, =19							@ Y Pos
-	ldr r3, =0							@ 0 = Main, 1 = Sub
-	bl drawText
-	
-	ldr r10, =0							@ Number
-	mov r11, #26						@ X Pos
-	mov r8, #19							@ Y Pos
-	mov r9, #6							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl debugText
 	
 mainLoopDone:
 
-
-ldr r0,=300000
+ldr r0,=200000			@ slow it down for now!!
 slow:
 subs r0,#1
 bpl slow
