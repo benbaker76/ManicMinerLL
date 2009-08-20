@@ -318,7 +318,7 @@ minerJump:
 	cmp r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
 	blt minerJumpContinues
 		
-		mov r7,#MINER_NORMAL		@ if jump is over, return control (this will check a fall first though)
+		mov r7,#MINER_FALL			@ if jump is over, return control (this will check a fall first though)
 		ldr r6,=minerAction
 		str r7,[r6]
 		
@@ -341,7 +341,13 @@ minerJump:
 	cmp r2,#MINER_MID_JUMP			@ if we are past the jump midpoint, check feet
 	ble minerJumpUp					@ if not, jump to the head detection
 	
-	@ Coming down so check feet
+	@-------------- JUMP GOIUNG DOWN
+	
+		ldr r3,=fallCount				@ if we are coming down, this is counted as a fall!
+		ldr r5,[r3]
+		add r5,r4
+		str r5,[r3]
+	
 
 		bl checkFeet			
 		
@@ -428,12 +434,17 @@ minerFall:
 		bne minerFallFail
 
 		@ Start A fall
-	
+		
+		ldr r1,=minerAction			@ if falling and you hit ground an fallcount >32 DIE!!!
+		ldr r2,[r1]
+		cmp r2,#MINER_FALL			@ jump sets to FALL when jump completes
+		ldr r4,=fallCount			@ set fall count to 0, we need this so we know if we are DEAD
+		movne r1,#0
+		strne r1,[r4]				@ only if not coming from a jump!
+
 		mov r1,#MINER_FALL
 		str r1,[r0]					@ set to falling
-		mov r1,#0
-		ldr r0,=fallCount			@ set fall count to 1, we need this so we know if we are DEAD
-		str r1,[r0]		
+	
 		mov r1,#0
 		ldr r0,=minerDirection
 		str r1,[r0]
@@ -463,7 +474,7 @@ minerFall:
 		
 		ldr r1,=fallCount
 		ldr r2,[r1]
-		add r2,#1
+		add r2,#2					@ 2 pixels at a time!
 		str r2,[r1]
 
 	minerFallFail:
@@ -489,6 +500,16 @@ minerFall:
 		lsr r6,#3
 		lsl r6,#3
 		str r6,[r7]
+		
+		ldr r1,=fallCount
+		ldr r2,[r1]
+		cmp r2,#32
+		ble fallNotDeadly
+		
+			bl initDeath
+		
+		
+		fallNotDeadly:
 	
 	
 	b minerFallFail

@@ -38,6 +38,7 @@
 	.global checkHead
 	.global checkCollectDie
 	.global checkHeadDie
+	.global initDeath
 	
 @----------------------- We are moving LEFT, we need to check what we collide into in colMapStore	
 @ detection functions should return a value in r9 and r10 to signal a result
