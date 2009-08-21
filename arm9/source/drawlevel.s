@@ -90,23 +90,23 @@ drawLevel:
 	
 	@ Write the palette
 
-	ldr r0, =BottomScreenPal
+	ldr r0, =TopMenuPal
 	ldr r1, =BG_PALETTE
-	ldr r2, =BottomScreenPalLen
+	ldr r2, =TopMenuPalLen
 	bl dmaCopy
 	
 	@ Write the tile data
 	
-	ldr r0 ,=BottomScreenTiles
-	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
-	ldr r2, =BottomScreenTilesLen
+	ldr r0 ,=TopMenuTiles
+	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)
+	ldr r2, =TopMenuTilesLen
 	bl dmaCopy
 	
 	@ Write map
 	
-	ldr r0, =BottomScreenMap
-	ldr r1, =BG_MAP_RAM(BG2_MAP_BASE)	@ destination
-	ldr r2, =BottomScreenMapLen
+	ldr r0, =TopMenuMap
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ destination
+	ldr r2, =TopMenuMapLen
 	bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}

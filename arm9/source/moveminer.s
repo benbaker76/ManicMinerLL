@@ -330,8 +330,6 @@ minerJump:
 		
 		bl checkFeet
 
-@b minerLanded
-
 		b minerJumpFail
 	
 	minerJumpContinues:
@@ -510,6 +508,13 @@ minerFall:
 		
 		
 		fallNotDeadly:
+		
+		cmp r2, #16					@ if we have fallen a little bit, create dust
+		ble fallShardNot
+
+			bl shardDust
+
+		fallShardNot:
 	
 	
 	b minerFallFail

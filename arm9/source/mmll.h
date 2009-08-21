@@ -27,6 +27,8 @@
 #include "../build/Background02.h"
 #include "../build/Background03.h"
 
+#include "../build/TopMenu.h"
+
 #include "../build/Sprites.h"
 #include "../build/Font.h"
 
@@ -179,7 +181,18 @@
 
 #define LEFT_OFFSET					3
 #define RIGHT_OFFSET				13
-#define FEET_NIP					1		@ one or 2???
+#define FEET_NIP					1		@ one or 2??? (1 works best)
 #define FEET_DROP					0		@ This does not work :(
 
+@ Effect defines
+
+#define DUST_ACTIVE					2
+#define KEY_ACTIVE					3
+
+#define DUST_FRAME					60
+#define DUST_FRAME_END				63
+#define DUST_ANIM					4
+#define KEY_FRAME					52
+#define KEY_FRAME_END				59
+#define KEY_ANIM					4
 

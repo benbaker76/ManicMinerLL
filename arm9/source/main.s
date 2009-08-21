@@ -127,10 +127,11 @@ gameLoop:
 	
 mainLoopDone:
 
-ldr r0,=200000			@ slow it down for now!!
-slow:
-subs r0,#1
-bpl slow
+@ldr r0,=40000000			@ need a timer here to stop execution?
+@ldr r1,=delayMe
+@bl startTimer
+
+delayMe:
 
 	halt:
 	ldr r2, =REG_KEYINPUT						@ Read key input register

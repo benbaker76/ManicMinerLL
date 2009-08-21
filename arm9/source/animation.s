@@ -42,6 +42,7 @@
 	.global minerFrame
 	.global levelAnimate
 	.global collectKey
+	.global shardDust
 	
 crumbler:
 	@
@@ -98,15 +99,15 @@ minerFrame:
 	ldr r2,=spriteHFlip
 	ldr r2,[r2]
 	cmp r2,#0
-	addeq r0,#4
+	addeq r0,#5
 	
-	and r0,#15
+	and r0,#7
 	lsr r0,#2
 	
 @	add r0,#1
 @	cmp r0,#4
 @	moveq r0,#0
-	
+
 	ldr r1,=spriteObj
 	str r0,[r1]
 	
@@ -270,7 +271,95 @@ collectKey:
 	add r4, r1, lsl #1
 	strh r5,[r4]
 	
+	@ now we need to convert the offset to a screen pixel area!! (ulp!)
+	mov r3,r1
+	lsr r3,#5			@ divide by 32, this is now the y area (0-23)
+	mov r4,r1
+	and r4,#31			@ r4 is now the x area (0-31)
+	lsl r4,#3			@ r4=x
+	sub r4,#4			@ centralise on X
+	lsl r3,#3			@ r3=y
+	add r4,#64
+	add r3,#384
+	
+	bl keyDust
+	
 	ldmfd sp!, {r0-r10, pc}
+
+	
+@---------------------------------------
+
+shardDust:
+	stmfd sp!, {r0-r10, lr}
+
+	@ first we need to find a spare sprite
+	@ call spareSprite
+	@ this will return r10 with the sprite index, or 0 if failed
+
+	bl spareSprite
+	
+	cmp r10,#0
+	beq shardDustFail
+
+	mov r1,#DUST_ACTIVE
+	ldr r2,=spriteActive
+	str r1,[r2,r10,lsl #2]
+	mov r1,#DUST_FRAME
+	ldr r2,=spriteObj
+	str r1,[r2,r10,lsl #2]
+	mov r1,#DUST_ANIM
+	ldr r2,=spriteAnimDelay
+	str r1,[r2,r10,lsl #2]
+	ldr r2,=spriteX
+	ldr r3,[r2]
+	str r3,[r2,r10,lsl #2]
+	ldr r2,=spriteY
+	ldr r3,[r2]
+	str r3,[r2,r10,lsl #2]	
+	ldr r2,=spriteHFlip
+	ldr r3,[r2]
+	str r3,[r2,r10,lsl #2]
+
+	shardDustFail:
+	ldmfd sp!, {r0-r10, pc}
+
+@---------------------------------------
+
+keyDust:
+	@ r4=x, r3=y
+	stmfd sp!, {r0-r10, lr}
+
+	@ first we need to find a spare sprite
+	@ call spareSprite
+	@ this will return r10 with the sprite index, or 0 if failed
+
+	bl spareSprite
+	
+	cmp r10,#0
+	beq shardKeyFail
+
+	mov r1,#KEY_ACTIVE
+	ldr r2,=spriteActive
+	str r1,[r2,r10,lsl #2]
+	mov r1,#KEY_FRAME
+	ldr r2,=spriteObj
+	str r1,[r2,r10,lsl #2]
+	mov r1,#KEY_ANIM
+	ldr r2,=spriteAnimDelay
+	str r1,[r2,r10,lsl #2]
+	ldr r2,=spriteX
+	str r4,[r2,r10,lsl #2]
+	ldr r2,=spriteY
+	str r3,[r2,r10,lsl #2]	
+	
+	bl getRandom
+	and r8,#1
+	ldr r2,=spriteHFlip
+	str r8,[r2,r10,lsl #2]
+
+	shardKeyFail:
+	ldmfd sp!, {r0-r10, pc}
+	
 	
 levelAnimDelay:
 	.word 0

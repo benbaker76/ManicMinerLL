@@ -40,6 +40,7 @@
 	.align
 	.text
 	.global drawSprite
+	.global spareSprite
 
 drawSprite:
 	stmfd sp!, {lr}
@@ -110,10 +111,78 @@ drawSprite:
 
 	sprites_Done:
 	
+		@----
+		@ now we need to animate any shards
+		@----
+		ldr r9,=spriteActive
+		ldr r0,[r9, r8, lsl #2]
+		cmp r0,#DUST_ACTIVE						@ first, our little dust thing when you land
+		bne drawnNotDust
+						
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r8,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#DUST_ANIM
+			str r2,[r1,r8,lsl #2]
+			bne drawnNotDust
+				ldr r1,=spriteObj
+				ldr r2,[r1,r8,lsl #2]
+				add r2,#1
+				cmp r2,#DUST_FRAME_END+1
+				str r2,[r1,r8,lsl #2]
+				bne drawnNotDust
+					ldr r1,=spriteActive
+					mov r2,#0
+					str r2,[r1,r8,lsl #2]
+		drawnNotDust:
+		cmp r0,#KEY_ACTIVE						@ now, our little key glisten
+		bne drawnNotKey
+						
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r8,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#KEY_ANIM
+			str r2,[r1,r8,lsl #2]
+			bne drawnNotKey
+				ldr r1,=spriteObj
+				ldr r2,[r1,r8,lsl #2]
+				add r2,#1
+				cmp r2,#KEY_FRAME_END+1
+				str r2,[r1,r8,lsl #2]
+				bne drawnNotKey
+					ldr r1,=spriteActive
+					mov r2,#0
+					str r2,[r1,r8,lsl #2]	
+		drawnNotKey:
 	subs r8,#1
 	bpl SLoop
 
 	ldmfd sp!, {pc}
+	
+@--------------------------------------------
 
+spareSprite:
+	stmfd sp!, {r0-r9, lr}
+
+	mov r0,#64
+	ldr r1,=spriteActive
+	spareSpriteFind:
+	
+		ldr r2,[r1, r0, lsl #2]
+		cmp r2,#0
+		beq spareSpriteFound
+		add r0,#1
+		cmp r0,#64
+		bne spareSpriteFind
+	mov r10,#0
+	ldmfd sp!, {r0-r9, pc}
+	
+	spareSpriteFound:
+	
+	mov r10,r0
+
+	ldmfd sp!, {r0-r9, pc}
 	.pool
 	.end
