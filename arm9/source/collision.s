@@ -39,6 +39,7 @@
 	.global checkCollectDie
 	.global checkHeadDie
 	.global initDeath
+	.global checkFall
 	
 @----------------------- We are moving LEFT, we need to check what we collide into in colMapStore	
 @ detection functions should return a value in r9 and r10 to signal a result
@@ -588,6 +589,9 @@ checkCollectDie:
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
 
+		bl initDeath
+		b checkCollectDieDone
+
 		ldr r3,=spriteX
 		ldr r3,[r3]
 		and r3,#7
@@ -637,7 +641,42 @@ initDeath:
 	str r0,[r1]
 
 	ldmfd sp!, {r0-r10, pc}	
+
+@--------------------------------------------
+
+checkFall:
+	stmfd sp!, {r0-r7,r9,r10, lr}	
 	
+	@ call this with r9 and r10 set from a collision check
+	@ and it will return r8 with 0 if fall continues and 1 if fall is over
+
+	@ if both r9,r10 >=24 or 0 fall is ok
+	
+	mov r8,#0
+	
+	cmp r9,#0
+	beq checkFall2
+	cmp r9,#24
+	bge checkFall2
+
+	mov r8,#1
+
+	ldmfd sp!, {r0-r7,r9,r10, pc}		
+	
+	checkFall2:
+	cmp r10,#0
+	beq checkFall3
+	cmp r10,#24
+	bge checkFall3
+	
+	mov r8,#1
+
+	ldmfd sp!, {r0-r7,r9,r10, pc}	
+	
+	checkFall3:
+
+	ldmfd sp!, {r0-r7,r9,r10, pc}	
+
 	
 	crumbleWait:
 		.word 0

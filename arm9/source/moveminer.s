@@ -348,11 +348,15 @@ minerJump:
 	
 
 		bl checkFeet			
+		bl checkFall
 		
-		cmp r9,#0					@ we are only worrying about any collision for now
-		bne minerLanded
-		cmp r10,#0
-		bne minerLanded 			@ check both sides
+		cmp r8,#1
+		beq minerLanded
+		
+		@cmp r9,#0					@ we are only worrying about any collision for now
+		@bne minerLanded
+		@cmp r10,#0
+		@bne minerLanded 			@ check both sides
 		
 		b minerJumpFail
 		
@@ -425,11 +429,16 @@ minerFall:
 	beq minerIsFalling
 	
 		bl checkFeet
+		
+		bl checkFall
+		
+		cmp r8,#0
+		bne minerFallFail
 	
-		cmp r9,#0					@ again, we are not doing a strict check, anything will do...
-		bne minerFallFail
-		cmp r10,#0
-		bne minerFallFail
+	@	cmp r9,#0					@ again, we are not doing a strict check, anything will do...
+	@	bne minerFallFail
+	@	cmp r10,#0
+	@	bne minerFallFail
 
 		@ Start A fall
 		
@@ -463,10 +472,15 @@ minerFall:
 
 		bl checkFeet				@ lets have a look below us
 		
-		cmp r9,#0
+		bl checkFall
+		
+		cmp r8,#0
 		bne minerFallOver
-		cmp r10,#0
-		bne minerFallOver			@ if we have found anything, lets stop falling
+		
+	@	cmp r9,#0
+	@	bne minerFallOver
+	@	cmp r10,#0
+	@	bne minerFallOver			@ if we have found anything, lets stop falling
 		
 		@ we are still falling, so add to fall count
 		

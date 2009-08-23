@@ -73,6 +73,8 @@ initLevel:
 	ldr r1,=spriteHFlip
 	str r0,[r1]	
 	
+	bl generateColMap
+	
 	ldmfd sp!, {r0-r10, pc}
 
 	@ ------------------------------------
@@ -97,6 +99,31 @@ clearSpriteData:
 	ldmfd sp!, {r0-r3, pc}
 	
 	@ ------------------------------------
+
+generateColMap:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	@ generate the colmapstore based on the levelNum
+	
+	ldr r0,=levelNum
+	ldr r5,[r0]
+	@ colmap is 768*level -1
+	sub r5,#1
+	mov r2,#768
+	mul r5,r2
+	ldr r0,=colMapLevels
+	add r0,r5
+	ldr r1,=colMapStore
+	mov r2,#768
+	@ r0,=src, r1=dst, r2=len
+	bl dmaCopy
+	
+	
+	
+	
+	
+	ldmfd sp!, {r0-r10, pc}
 
 	.pool
 	.end

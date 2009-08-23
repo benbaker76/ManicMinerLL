@@ -86,7 +86,7 @@ main:
 	
 	bl initLevel
 	bl drawLevel
-@	bl drawSprite
+	bl drawSprite
 	
 	ldr r0, =gameMode							@ set to play time for now!!
 	mov r1, #GAMEMODE_RUNNING
@@ -136,14 +136,14 @@ delayMe:
 	halt:
 	ldr r2, =REG_KEYINPUT						@ Read key input register
 	ldr r10, [r2]								@ r10= key pressed				
-	tst r10,#BUTTON_B
-	beq halt
+	tst r10,#BUTTON_START
+	beq main
 
 ldr r1,=minerDied
 ldr r1,[r1]
 asdf:
 cmp r1,#1
-beq asdf
+beq main
 
 
 	b mainLoop									@ our main loop
