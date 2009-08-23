@@ -589,8 +589,8 @@ checkCollectDie:
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
 
-		bl initDeath
-		b checkCollectDieDone
+	@	bl initDeath
+	@	b checkCollectDieDone
 
 		ldr r3,=spriteX
 		ldr r3,[r3]
@@ -599,15 +599,14 @@ checkCollectDie:
 		ldr r2,[r2]
 		cmp r2,#MINER_LEFT
 		bne dieCheckRight
-			and r3,#7
-			cmp r3,#3					@ give a couple of pixels grace
+			cmp r3,#2					@ give a couple of pixels grace
 			bllt initDeath
 			b checkCollectDieDone
 		dieCheckRight:
 		cmp r2,#MINER_RIGHT
 		bne dieCheckStill
-			cmp r3,#5					@ give a couple of pixels grace
-			blgt initDeath
+			cmp r3,#2					@ give a couple of pixels grace
+			bllt initDeath
 			b checkCollectDieDone	
 		dieCheckStill:
 			bl initDeath
@@ -639,6 +638,8 @@ initDeath:
 	ldr r1,=minerDied
 	mov r0,#1
 	str r0,[r1]
+	
+	bl playDead
 
 	ldmfd sp!, {r0-r10, pc}	
 
@@ -677,6 +678,7 @@ checkFall:
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}	
 
+@--------------------------------------------
 	
 	crumbleWait:
 		.word 0

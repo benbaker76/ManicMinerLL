@@ -37,13 +37,21 @@
 	.global gameMode
 	.global fxMode
 	.global digits
+	
 	.global spriteActive
 	.global spriteX
 	.global spriteY
 	.global spriteObj
+	.global spriteObjBase
 	.global spriteHFlip
 	.global spriteBloom
 	.global spriteAnimDelay
+	.global spriteMin
+	.global spriteMax
+	.global spriteSpeed
+	.global spriteMonster
+	.global spriteMonsterMove
+
 	.global minerDelay
 	.global minerDirection
 	.global minerAction
@@ -115,11 +123,24 @@ spriteY:
 	.space 512
 spriteObj:
 	.space 512
+spriteObjBase:
+	.space 512
 spriteHFlip:
 	.space 512
 spriteBloom:
 	.space 512
 spriteAnimDelay:
+	.space 512
+	
+spriteMin:
+	.space 512
+spriteMax:
+	.space 512
+spriteSpeed:
+	.space 512
+spriteMonster:
+	.space 512
+spriteMonsterMove:
 	.space 512
 	
 spriteDataEnd:

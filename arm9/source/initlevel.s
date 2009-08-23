@@ -75,6 +75,8 @@ initLevel:
 	
 	bl generateColMap
 	
+	bl generateMonsters
+	
 	ldmfd sp!, {r0-r10, pc}
 
 	@ ------------------------------------
@@ -123,6 +125,49 @@ generateColMap:
 	
 	
 	
+	ldmfd sp!, {r0-r10, pc}
+
+	@ ------------------------------------
+
+generateMonsters:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	@ just set up a dummy monster for now!
+	
+	mov r0,#1			@ monster 1
+	
+	ldr r1,=spriteActive
+	mov r2,#1
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteX
+	mov r2,#(8*8)+60
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteY
+	mov r2,#(15*8)+384
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteObj
+	mov r2,#8
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteObjBase
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteHFlip
+	mov r2,#1
+	str r2,[r1,r0,lsl#2]	
+	ldr r1,=spriteMin
+	mov r2,#(8*8)+60
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteMax
+	mov r2,#(7*8)+130
+	str r2,[r1,r0,lsl#2]
+	ldr r1,=spriteSpeed
+	mov r2,#1
+	str r2,[r1,r0,lsl#2]
+
+	ldr r1,=spriteMonsterMove
+	mov r2,#1
+	str r2,[r1,r0,lsl#2]
+
 	ldmfd sp!, {r0-r10, pc}
 
 	.pool

@@ -115,6 +115,8 @@ gameLoop:
 	bl minerControl
 	bl drawSprite
 
+	bl monsterMove
+
 	bl moveMiner
 	bl minerJump
 	bl minerFall
