@@ -12,7 +12,7 @@ levelData:
 @ 4,5 willies start position
 @ 5 willies initial direction (0=l 1=r)
 @ 6 =Sprite bank to use (block of 32 sprites for a level) (0-?)
-@ 7 =
+@ 7 =background number (0-?)
 @ 8 =
 
 @ alien data (if initial X and y is 0 = blank alien)
@@ -42,14 +42,14 @@ levelData:
 	.byte 0
 	
 	.byte 60,120,17,1,1,0,60,122
-	.byte 60,100,17,1,2,1,60,122
+	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@
+	@ 2
 
 	.byte 232,160
 	.byte 4
@@ -66,7 +66,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 
-	@
+	@ 3
 
 
 

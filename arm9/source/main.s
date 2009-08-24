@@ -85,7 +85,6 @@ main:
 	bl initGame
 	
 	bl initLevel
-	bl drawLevel
 	bl drawSprite
 	
 	ldr r0, =gameMode							@ set to play time for now!!

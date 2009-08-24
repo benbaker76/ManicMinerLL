@@ -102,6 +102,8 @@ initLevel:
 	
 	bl generateMonsters				@ r1 is the pointer to the first monsters data
 	
+	bl drawLevel
+	
 	
 	ldmfd sp!, {r0-r10, pc}
 

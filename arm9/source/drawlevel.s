@@ -46,17 +46,24 @@ drawLevel:
 	bl dmaCopy
 	
 	@ Write the tile data
+
+	ldr r3,=levelNum
+	ldr r3,[r3]
 	
-	ldr r0 ,=Level02Tiles
+	cmp r3,#1
+	ldreq r4,=Level02Tiles
+	ldreq r5,=Level02TilesLen
+	ldreq r6,=Level02Map
+	ldreq r7,=Level02MapLen
+
+	@ Draw main game map!
+	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
-	ldr r2, =Level02TilesLen
+	mov r2,r5
 	bl dmaCopy
-	
-	@ Write map
-	
-	ldr r0, =Level02Map
+	mov r0,r6
 	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	@ destination
-	ldr r2, =Level02MapLen
+	mov r2,r7
 	bl dmaCopy
 
 	@ draw the level foreground
