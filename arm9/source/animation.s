@@ -77,7 +77,7 @@ crumbler:
 	add r4, r8, lsl #1
 	strh r7,[r4]					@ draw the tile back to screen location
 	
-	cmp r1,#12
+	cmp r1,#13
 	moveq r1,#0
 	strb r1,[r0,r8]					@ update colmapstore with new value
 	
@@ -155,18 +155,18 @@ levelAnimate:
 		
 		animNotKey:
 		
-		cmp r2,#12
+		cmp r2,#13
 		blt animNotLeftConveyor
-		cmp r2,#14
+		cmp r2,#15
 		bgt animNotLeftConveyor
 		
 		b levelAnimateLeftConveyor
 		
 		animNotLeftConveyor:
 
-		cmp r2,#15
+		cmp r2,#16
 		blt animNotRightConveyor
-		cmp r2,#17
+		cmp r2,#18
 		bgt animNotRightConveyor
 		
 		b levelAnimateRightConveyor
@@ -178,12 +178,9 @@ levelAnimate:
 	add r0,#1
 	cmp r0,#768
 	bne levelAnimateLoop
-
 	
 	levelAnimateDone:
-	
 
-	
 	ldmfd sp!, {r0-r10, pc}
 	
 levelAnimateKey:
@@ -197,7 +194,7 @@ levelAnimateKey:
 	@ now to update the screen with the frame, we need to grab the graphic first though
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, #1536					@ first tile of offscreen tiles
-	add r4, #40						@ add 20 chars (20th along for first frame)
+	add r4, #42						@ add 21 chars (20th along for first frame)
 	sub r2, #24						@ make fram 0-7
 	add r4, r2, lsl #1				@ add this to the offset
 	ldrh r5,[r4]					@ r5 now=the graphic we need to display
@@ -216,8 +213,8 @@ levelAnimateLeftConveyor:
 	@ now, find the graphic needed to draw.
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
 	add r4, #1536					@ first tile of offscreen tiles
-	add r4, #16						@ add 8 chars (8th along for first frame/left edge)
-	sub r2,#12						@ make image 0-2 (l/mid/r)
+	add r4, #18						@ add 9 chars (9th along for first frame/left edge)
+	sub r2,#13						@ make image 0-2 (l/mid/r)
 	lsl r2,#2						@ times by 4 to find position for frame
 	add r2,r6						@ add conveyorFrame to it
 	lsl r2,#1						@ times by 2 (for screen data)
@@ -238,8 +235,8 @@ levelAnimateRightConveyor:
 	@ now, find the graphic needed to draw.
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
 	add r4,#1536					@ first tile of offscreen tiles
-	add r4,#38						@ add 11 chars (11th along for first frame/left edge)
-	sub r2,#15						@ make image 0-2 (l/mid/r)
+	add r4,#40						@ add 20 chars (20th along for first frame/left edge)
+	sub r2,#16						@ make image 0-2 (l/mid/r)
 	lsl r2,#2						@ times by 4 to find position for frame
 	add r2,r6						@ add conveyorFrame to it
 	lsl r2,#1						@ times by 2 (for screen data)
@@ -265,7 +262,7 @@ collectKey:
 	@ now to erase from the screen
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, #1536					@ first tile of offscreen tiles
-	add r4, #14						@ add 7 chars (7th along is our blank)
+	add r4, #16						@ add 8 chars (8th along is our blank)
 	ldrh r5,[r4]					@ r5 now=the graphic we need to display
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, r1, lsl #1
@@ -361,6 +358,8 @@ keyDust:
 	ldmfd sp!, {r0-r10, pc}
 	
 	
+	
+	.align
 levelAnimDelay:
 	.word 0
 	

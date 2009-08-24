@@ -32,6 +32,8 @@
 #include "../build/Sprites.h"
 #include "../build/Font.h"
 
+#include "../build/SpriteBank1.h"
+
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
 @ BG0 - Text / Score / Energy		16

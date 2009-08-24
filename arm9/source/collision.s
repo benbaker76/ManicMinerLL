@@ -327,14 +327,14 @@ checkFeet:
 	
 	cmp r9,#5
 	blt notCrumblerL
-	cmp r9,#11
+	cmp r9,#12
 	bgt notCrumblerL
 		@ r8 already contains the offset
 		bl crumbler
 	notCrumblerL:
 	cmp r10,#5
 	blt notCrumblerR
-	cmp r10,#11
+	cmp r10,#12
 	bgt notCrumblerR
 		@ r3 contains the offset
 		mov r8,r3
@@ -346,18 +346,18 @@ checkFeet:
 	@ Now we need to check for conveyer and act on it
 	@ if on one, set minerAction and also the conveyorDirection
 
-	cmp r9,#12
+	cmp r9,#13
 	blt feetNotLConveyor
-	cmp r9,#17
+	cmp r9,#18
 	bgt feetNotLConveyor
 	
 	b feetOnConveyor
 	
 	feetNotLConveyor:
 	
-	cmp r10,#12
+	cmp r10,#13
 	blt feetNotRConveyor
-	cmp r10,#17
+	cmp r10,#18
 	bgt feetNotRConveyor
 	
 	b feetOnConveyor	

@@ -46,6 +46,7 @@
 	.global spriteHFlip
 	.global spriteBloom
 	.global spriteAnimDelay
+	.global spriteDir
 	.global spriteMin
 	.global spriteMax
 	.global spriteSpeed
@@ -67,6 +68,9 @@
 	.global lastMiner
 	.global faller
 	.global minerDied
+	.global keyCounter
+	.global exitX
+	.global exitY
 	
 gameMode:
 	.word 0
@@ -99,7 +103,11 @@ lastMiner:
 	.word 0
 keyCounter:
 	.word 0						@ number of keys collected
-	
+exitX:
+	.word 0
+exitY:
+	.word 0
+
 	@ Text values
 	
 	.align
@@ -131,7 +139,8 @@ spriteBloom:
 	.space 512
 spriteAnimDelay:
 	.space 512
-	
+spriteDir:
+	.space 512
 spriteMin:
 	.space 512
 spriteMax:

@@ -129,24 +129,24 @@ gameLoop:
 	
 mainLoopDone:
 
-@ldr r0,=40000000			@ need a timer here to stop execution?
-@ldr r1,=delayMe
+@mov r0,#5			@ need a timer here to stop execution?
+@ldr r1,=delayMe		@ but this does not work CRASHES
 @bl startTimer
+@timeWait:
+@b timeWait
+@delayMe:
 
-delayMe:
-
-	halt:
-	ldr r2, =REG_KEYINPUT						@ Read key input register
-	ldr r10, [r2]								@ r10= key pressed				
-	tst r10,#BUTTON_START
-	beq main
+@	halt:
+@	ldr r2, =REG_KEYINPUT						@ Read key input register
+@	ldr r10, [r2]								@ r10= key pressed				
+@	tst r10,#BUTTON_START
+@	beq main
 
 ldr r1,=minerDied
 ldr r1,[r1]
 asdf:
 cmp r1,#1
 beq main
-
 
 	b mainLoop									@ our main loop
 

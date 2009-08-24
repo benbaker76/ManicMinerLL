@@ -159,6 +159,22 @@ debugText:
 	mov r9,#2							@ Digits
 	mov r7, #1							@ 0 = Main, 1 = Sub
 	bl drawDigits
+
+	ldr r10,=exitX
+	ldr r10,[r10]						@ Number
+	mov r11,#1							@ X Pos
+	mov r8,#21							@ Y Pos
+	mov r9,#3							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
+
+	ldr r10,=exitY
+	ldr r10,[r10]						@ Number
+	mov r11,#6							@ X Pos
+	mov r8,#21							@ Y Pos
+	mov r9,#3							@ Digits
+	mov r7, #1							@ 0 = Main, 1 = Sub
+	bl drawDigits
 	
 	ldr r0, =hiscoreText				@ Pointer to text
 	ldr r1, =0							@ X Pos

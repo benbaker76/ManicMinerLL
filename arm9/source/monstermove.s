@@ -32,10 +32,14 @@ monsterMove:
 		
 		ldr r2,=spriteMonsterMove
 		ldr r3,[r2, r1,lsl #2]
+		cmp r3,#0
+		bleq monsterMoveUD
 		cmp r3,#1
 		bleq monsterMoveLR
-		
-		
+		cmp r3,#2
+		bleq monsterMoveTRBL
+		cmp r3,#3
+		bleq monsterMoveTLBR		
 		
 		
 		
@@ -87,6 +91,8 @@ monsterMoveLR:
 			ldr r3,=spriteHFlip
 			mov r4,#1
 			str r4,[r3,r1,lsl#2]
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
 		b monsterLRDone
 		@ move Right (r4=speed)
 	monsterLRRight:
@@ -101,6 +107,8 @@ monsterMoveLR:
 			ldr r3,=spriteHFlip
 			mov r4,#0
 			str r4,[r3,r1,lsl#2]
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
 	monsterLRDone:
 	@ r10= x coord, use this to set the anim frame (0-7)
 	
@@ -112,6 +120,192 @@ monsterMoveLR:
 	ldr r3,=spriteObj
 	str r2,[r3,r1,lsl#2]
 	
+	ldmfd sp!, {r0-r10, pc}
 	
+@-------------------------------------	
+	
+monsterMoveUD:
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r2,=spriteSpeed
+	ldr r4,[r2,r1,lsl#2]
+	
+	ldr r2,=spriteDir
+	ldr r3,[r2,r1,lsl#2]
+	cmp r3,#0
+	bne monsterUDDown
+	
+		@ move up (r4=speed)
+		
+		ldr r2,=spriteY
+		ldr r10,[r2,r1,lsl#2]
+		sub r10,r4
+		str r10,[r2,r1,lsl#2]
+		ldr r2,=spriteMin
+		ldr r3,[r2,r1,lsl#2]
+		cmp r10,r3
+		bgt monsterUDDone
+			mov r4,#1
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
+		b monsterUDDone
+		@ move down (r4=speed)
+	monsterUDDown:
+		ldr r2,=spriteY
+		ldr r10,[r2,r1,lsl#2]
+		add r10,r4
+		str r10,[r2,r1,lsl#2]
+		ldr r2,=spriteMax
+		ldr r3,[r2,r1,lsl#2]
+		cmp r10,r3
+		ble monsterUDDone
+			mov r4,#0
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
+	monsterUDDone:
+	@ r10= y coord, use this to set the anim frame (0-7)
+	
+	and r10,#15
+	lsr r10,#1
+	ldr r2,=spriteObjBase
+	ldr r2,[r2,r1,lsl#2]
+	add r2,r10
+	ldr r3,=spriteObj
+	str r2,[r3,r1,lsl#2]
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+@-------------------------------------	
+	
+monsterMoveTRBL:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ move diagonal from top right to bottom left
+	
+	ldr r2,=spriteSpeed
+	ldr r4,[r2,r1,lsl#2]
+	
+	ldr r2,=spriteHFlip
+	ldr r3,[r2,r1,lsl#2]
+	cmp r3,#0
+	bne monsterTRBLRight
+	
+		@ move down/left (r4=speed) 
+
+		ldr r2,=spriteY
+		ldr r9,[r2,r1,lsl#2]
+		add r9,r4
+		str r9,[r2,r1,lsl#2]		
+		ldr r2,=spriteX
+		ldr r10,[r2,r1,lsl#2]
+		sub r10,r4
+		str r10,[r2,r1,lsl#2]
+		ldr r2,=spriteMin
+		ldr r3,[r2,r1,lsl#2]
+		cmp r10,r3
+		bgt monsterTRBLDone
+			ldr r3,=spriteHFlip
+			mov r4,#1
+			str r4,[r3,r1,lsl#2]
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
+		b monsterTRBLDone
+		@ move Right (r4=speed)
+	monsterTRBLRight:
+		ldr r2,=spriteY
+		ldr r9,[r2,r1,lsl#2]
+		sub r9,r4
+		str r9,[r2,r1,lsl#2]
+		ldr r2,=spriteX
+		ldr r10,[r2,r1,lsl#2]
+		add r10,r4
+		str r10,[r2,r1,lsl#2]
+		ldr r2,=spriteMax
+		ldr r3,[r2,r1,lsl#2]
+		cmp r10,r3
+		ble monsterTRBLDone
+			ldr r3,=spriteHFlip
+			mov r4,#0
+			str r4,[r3,r1,lsl#2]
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
+	monsterTRBLDone:
+	@ r10= x coord, use this to set the anim frame (0-7)
+	
+	and r10,#15
+	lsr r10,#1
+	ldr r2,=spriteObjBase
+	ldr r2,[r2,r1,lsl#2]
+	add r2,r10
+	ldr r3,=spriteObj
+	str r2,[r3,r1,lsl#2]
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+	
+@-------------------------------------	
+	
+monsterMoveTLBR:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ move diagonal from top left to bottom right
+	
+	ldr r2,=spriteSpeed
+	ldr r4,[r2,r1,lsl#2]
+	
+	ldr r2,=spriteHFlip
+	ldr r3,[r2,r1,lsl#2]
+	cmp r3,#0
+	bne monsterTLBRRight
+	
+		@ move down/right (r4=speed) 
+
+		ldr r2,=spriteY
+		ldr r9,[r2,r1,lsl#2]
+		sub r9,r4
+		str r9,[r2,r1,lsl#2]		
+		ldr r2,=spriteX
+		ldr r10,[r2,r1,lsl#2]
+		sub r10,r4
+		str r10,[r2,r1,lsl#2]
+		ldr r2,=spriteMin
+		ldr r3,[r2,r1,lsl#2]
+		cmp r10,r3
+		bgt monsterTLBRDone
+			ldr r3,=spriteHFlip
+			mov r4,#1
+			str r4,[r3,r1,lsl#2]
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
+		b monsterTLBRDone
+		@ move Right (r4=speed)
+	monsterTLBRRight:
+		ldr r2,=spriteY
+		ldr r9,[r2,r1,lsl#2]
+		add r9,r4
+		str r9,[r2,r1,lsl#2]
+		ldr r2,=spriteX
+		ldr r10,[r2,r1,lsl#2]
+		add r10,r4
+		str r10,[r2,r1,lsl#2]
+		ldr r2,=spriteMax
+		ldr r3,[r2,r1,lsl#2]
+		cmp r10,r3
+		ble monsterTLBRDone
+			ldr r3,=spriteHFlip
+			mov r4,#0
+			str r4,[r3,r1,lsl#2]
+			ldr r3,=spriteDir
+			str r4,[r3,r1,lsl#2]
+	monsterTLBRDone:
+	@ r10= x coord, use this to set the anim frame (0-7)
+	
+	and r10,#15
+	lsr r10,#1
+	ldr r2,=spriteObjBase
+	ldr r2,[r2,r1,lsl#2]
+	add r2,r10
+	ldr r3,=spriteObj
+	str r2,[r3,r1,lsl#2]
 	
 	ldmfd sp!, {r0-r10, pc}
