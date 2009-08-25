@@ -36,7 +36,7 @@ CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions -fno-rtti
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm7.specs -g $(ARCH) -Wl,-Map,$(notdir $*).map
 
-LIBS	:=	
+LIBS	:=	-lxm77
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

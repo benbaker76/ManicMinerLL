@@ -25,26 +25,43 @@
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
+#include "ipc.h"
 
 	.arm
 	.align
 	.text
 	.global initMusic
-	
-	#define SND_MEM_POOL_SIZE       256*1024
+	.global stopMusic
+
+	#define XM7_MODULEMANAGER_TYPE_SIZE			0xCE8
+	#define XM7_MODULE_IPC						IPC+0x20
+	#define XM7_STOP							-1
 	
 initMusic:
 
 	stmfd sp!, {r0-r1, lr}
 	
-	bl SndInit9
+	ldr r0, =Module
+	ldr r1, =Miner_xm
+	bl XM7_LoadXM
 	
-	ldr r0, =0x2200000
-	ldr r1, =SND_MEM_POOL_SIZE
-	bl SndSetMemPool
+	bl DC_FlushAll
 	
-	ldr r0, =mountain_king_mod
-	bl SndPlayMOD
+	ldr r0, =XM7_MODULE_IPC
+	ldr r1, =Module
+	str r1, [r0]
+
+	ldmfd sp!, {r0-r1, pc}
+	
+	@ ---------------------------------------
+	
+stopMusic:
+
+	stmfd sp!, {r0-r1, lr}
+	
+	ldr r0, =XM7_MODULE_IPC
+	ldr r1, =XM7_STOP
+	str r1, [r0]
 
 	ldmfd sp!, {r0-r1, pc}
 	
@@ -52,3 +69,9 @@ initMusic:
 
 	.data
 	.align
+	
+Module:
+	.space XM7_MODULEMANAGER_TYPE_SIZE
+	
+	.pool
+	.end

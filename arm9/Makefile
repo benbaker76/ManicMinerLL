@@ -42,7 +42,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	
+LIBS	:=	-lxm79
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -73,7 +73,7 @@ BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
 RAWFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.raw)))
 WAVFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.wav)))
-MODFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.mod)))
+XMFILES	:=	$(foreach dir,$(AUDIO),$(notdir $(wildcard $(dir)/*.xm)))
  
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -93,7 +93,7 @@ export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
 					$(PNGFILES:.png=.o) \
 					$(RAWFILES:.raw=.o) \
 					$(WAVFILES:.wav=.o) \
-					$(MODFILES:.mod=.o) \
+					$(XMFILES:.xm=.o) \
 					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
  
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
@@ -112,7 +112,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) *.elf *.nds* *.bin *.raw *.wav *.mod
+	@rm -fr $(BUILD) *.elf *.nds* *.bin *.raw *.wav *.xm
  
  
 #---------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ $(ARM9ELF)	:	$(OFILES)
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data 
 #---------------------------------------------------------------------------------
-%.o : %.mod
+%.o : %.xm
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)

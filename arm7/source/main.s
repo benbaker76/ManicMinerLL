@@ -24,6 +24,9 @@
 #include "audio.h"
 #include "ipc.h"
 
+	#define XM7_MODULE_IPC						IPC+0x20
+	#define XM7_STOP							-1
+
 	#define MUSIC_CHANNEL		0
 	#define SOUND_CHANNEL		1
 	#define FORCE_SOUND_CHANNEL	2
@@ -40,6 +43,28 @@
 interruptHandlerVBlank:
 
 	stmfd sp!, {r0-r8, lr}
+	
+	ldr r1, =XM7_MODULE_IPC
+	ldr r0, [r1]
+	cmp r0, #0
+	blgt XM7_PlayModule
+	
+	@ldr r0, =XM7_MODULE_IPC
+	@ldr r8, [r0]
+	@cmp r8, #0
+	@ldr r0, =debugString
+	@blgt drawDebugString
+	
+	ldr r0, =XM7_MODULE_IPC
+	ldr r1, [r0]
+	mov r2, #0
+	cmp r1, #0
+	strgt r2, [r0]
+	
+	ldr r0, =XM7_MODULE_IPC
+	ldr r1, [r0]
+	cmp r1, #XM7_STOP
+	bleq XM7_StopModule
 	
 	ldr r7, =IPC_SOUND_DATA(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
 	ldr r8, =IPC_SOUND_LEN(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
@@ -63,8 +88,6 @@ interruptHandlerVBlank:
 	strgt r8, [r7]								@ Clear the data
 	blgt playSound								@ If so lets play the sound
 	
-	bl SndVblIrq
-	
 	ldmfd sp!, {r0-r8, pc} 					@ restore registers and return
 
 	@ ------------------------------------
@@ -76,11 +99,7 @@ main:
 	ldr r1, =interruptHandlerVBlank				@ Function Address
 	bl irqSet									@ Set the interrupt
 	
-	ldr r0, =IRQ_TIMER0
-	ldr r1, =SndTimerIrq
-	bl irqSet
-	
-	ldr r0, =(IRQ_VBLANK | IRQ_TIMER0)			@ Interrupts
+	ldr r0, =IRQ_VBLANK							@ Interrupts
 	bl irqEnable								@ Enable
 	
 	ldr r0, =REG_POWERCNT
@@ -91,7 +110,7 @@ main:
 	ldr r1, =(SOUND_ENABLE | SOUND_VOL(127))	@ Turn on sound
 	strh r1, [r0]
 	
-	bl SndInit7
+	bl XM7_Initialize
 	
 mainLoop:
 
