@@ -43,6 +43,7 @@
 	.global levelAnimate
 	.global collectKey
 	.global shardDust
+	.global monsterAnimate
 	
 crumbler:
 	@
@@ -357,7 +358,44 @@ keyDust:
 	shardKeyFail:
 	ldmfd sp!, {r0-r10, pc}
 	
+@---------------------------------------
+
+monsterAnimate:
+	@ r1=monster 1-7
+	@ r10=frame 0-7
+	@ spriteObjBase tells us which sprite is used (0-1-2-3-4) from spriteBank
+	stmfd sp!, {r0-r10, lr}
+
+		mov r5,r1
+		sub r5,#1
 	
+		ldr r2,=spriteObjBase
+		ldr r2,[r2,r1,lsl #2]
+		lsl r2,#3					@ the sprites are in areas of 8
+		lsl r2,#8					@ and 256 bytes per sprite
+						@ r2 is the base of the sprite we need in spritebank (sprite 0)
+						@ now we need to add the frame
+		lsl r10,#8		@ times frame by 256
+		add r2,r10
+		ldr r0,=SpriteBank1Tiles
+		add r0,r2		@ r3= memory address of our sprite image
+		
+		@ r0 = FROM
+		
+		ldr r1,=SPRITE_GFX_SUB
+		add r5,#8		@ add 8 to the monster number for the sprite used
+		lsl r5,#8		@ each sprite is 256 bytes
+		add r1,r5
+		
+		@ r1 = TO
+		
+		mov r2,#256
+		
+		@ r2 = how many bytes
+		
+		bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}
 	
 	.align
 levelAnimDelay:

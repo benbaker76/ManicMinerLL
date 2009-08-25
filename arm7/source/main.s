@@ -282,7 +282,7 @@ getFreeChannel:
 
 	stmfd sp!, {r1-r2, lr}
 
-	mov r0, #15									@ Reset the counter
+	mov r0, #7									@ Reset the counter
 	ldr r1, =SCHANNEL_CR(0)						@ This is the base address of the sound channel
 	
 getFreeChannelLoop:

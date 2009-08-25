@@ -113,12 +113,9 @@ monsterMoveLR:
 	@ r10= x coord, use this to set the anim frame (0-7)
 	
 	and r10,#15
-	lsr r10,#1
-	ldr r2,=spriteObjBase
-	ldr r2,[r2,r1,lsl#2]
-	add r2,r10
-	ldr r3,=spriteObj
-	str r2,[r3,r1,lsl#2]
+	lsr r10,#1						@ R10=Frame 0-7 (locate image from spritebank)
+
+	bl monsterAnimate
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -166,12 +163,10 @@ monsterMoveUD:
 	@ r10= y coord, use this to set the anim frame (0-7)
 	
 	and r10,#15
-	lsr r10,#1
-	ldr r2,=spriteObjBase
-	ldr r2,[r2,r1,lsl#2]
-	add r2,r10
-	ldr r3,=spriteObj
-	str r2,[r3,r1,lsl#2]
+	lsr r10,#1						@ R10=Frame 0-7 (locate image from spritebank)
+
+	bl monsterAnimate
+
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -233,12 +228,10 @@ monsterMoveTRBL:
 	@ r10= x coord, use this to set the anim frame (0-7)
 	
 	and r10,#15
-	lsr r10,#1
-	ldr r2,=spriteObjBase
-	ldr r2,[r2,r1,lsl#2]
-	add r2,r10
-	ldr r3,=spriteObj
-	str r2,[r3,r1,lsl#2]
+	lsr r10,#1						@ R10=Frame 0-7 (locate image from spritebank)
+
+	bl monsterAnimate
+
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -301,11 +294,9 @@ monsterMoveTLBR:
 	@ r10= x coord, use this to set the anim frame (0-7)
 	
 	and r10,#15
-	lsr r10,#1
-	ldr r2,=spriteObjBase
-	ldr r2,[r2,r1,lsl#2]
-	add r2,r10
-	ldr r3,=spriteObj
-	str r2,[r3,r1,lsl#2]
+	lsr r10,#1						@ R10=Frame 0-7 (locate image from spritebank)
+
+	bl monsterAnimate
+
 	
 	ldmfd sp!, {r0-r10, pc}

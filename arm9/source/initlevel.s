@@ -96,7 +96,7 @@ initLevel:
 	
 	ldrb r0,[r1],#1
 	@ r0=spriteBank to uses
-	bl getSprites
+@	bl getSprites
 	@ the next 2 bytes are not used, so skip them for now
 	add r1,#1
 	
@@ -211,13 +211,16 @@ generateMonsters:
 		ldrb r0,[r1],#1			@ r0=speed
 		ldr r2,=spriteSpeed
 		str r0,[r2,r9,lsl#2]
-		ldrb r0,[r1],#1			@ r0=sprite to use (0-4)
-		add r0,#1
-		lsl r0,#3
+
+		ldrb r0,[r1],#1			@ r0=monster to use from spriteBank (0-?)
+		ldr r2,=spriteObjBase	@ objbase tells us what sprite to dma (+anim stage)	
+		str r0,[r2,r9,lsl#2]
+
 		ldr r2,=spriteObj
-		str r0,[r2,r9,lsl#2]
-		ldr r2,=spriteObjBase
-		str r0,[r2,r9,lsl#2]
+		mov r3,r9				@ r3=number of the alien 1-8
+		add r3,#7
+		str r3,[r2,r9,lsl#2]	@ store monster number for the sprite Object (8+)
+
 		cmp r5,#0
 		movne r5,#64			@ offset for l/r movement
 		moveq r5,#384			@ offset for u/d movement
