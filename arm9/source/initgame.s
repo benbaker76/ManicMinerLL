@@ -25,23 +25,23 @@ stmfd sp!, {r0-r10, lr}
 
 	@ Write the palette
 
-	ldr r0, =TopMenuPal
+	ldr r0, =GameBottomPal
 	ldr r1, =BG_PALETTE
-	ldr r2, =TopMenuPalLen
+	ldr r2, =GameBottomPalLen
 	bl dmaCopy
 	
 	@ Write the tile data
 	
-	ldr r0 ,=TopMenuTiles
+	ldr r0 ,=GameBottomTiles
 	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)
-	ldr r2, =TopMenuTilesLen
+	ldr r2, =GameBottomTilesLen
 	bl dmaCopy
 	
 	@ Write map
 	
-	ldr r0, =TopMenuMap
+	ldr r0, =GameBottomMap
 	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ destination
-	ldr r2, =TopMenuMapLen
+	ldr r2, =GameBottomMapLen
 	bl dmaCopy
 	
 	

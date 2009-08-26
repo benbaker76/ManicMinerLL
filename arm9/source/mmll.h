@@ -33,6 +33,8 @@
 
 #include "../build/TopMenu.h"
 
+#include "../build/GameBottom.h"
+
 #include "../build/Sprites.h"
 #include "../build/Font.h"
 
