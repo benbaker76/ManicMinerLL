@@ -26,6 +26,7 @@
 #include "../build/Background01.h"
 #include "../build/Background02.h"
 #include "../build/Background03.h"
+#include "../build/Background04.h"
 
 #include "../build/TopMenu.h"
 

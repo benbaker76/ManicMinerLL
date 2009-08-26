@@ -86,6 +86,8 @@ main:
 	
 	bl initLevel
 	bl drawSprite
+
+	bl monsterMove
 	
 	ldr r0, =gameMode							@ set to play time for now!!
 	mov r1, #GAMEMODE_RUNNING
@@ -123,12 +125,14 @@ gameLoop:
 	
 	bl minerFrame
 	bl levelAnimate
+	
+	bl collisionMonster
 
 @	bl debugText
 	
 mainLoopDone:
 
-@mov r0,#5			@ need a timer here to stop execution?
+@mov r0,#5				@ need a timer here to stop execution?
 @ldr r1,=delayMe		@ but this does not work CRASHES
 @bl startTimer
 @timeWait:

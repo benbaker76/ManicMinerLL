@@ -589,8 +589,8 @@ checkCollectDie:
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
 
-	@	bl initDeath
-	@	b checkCollectDieDone
+		bl initDeath
+		b checkCollectDieDone
 
 		ldr r3,=spriteX
 		ldr r3,[r3]
