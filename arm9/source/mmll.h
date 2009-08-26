@@ -22,11 +22,14 @@
 #include "../build/BottomScreen.h"
 #include "../build/Level01.h"
 #include "../build/Level02.h"
-#include "../build/LevelFront02.h"
 #include "../build/Background01.h"
 #include "../build/Background02.h"
 #include "../build/Background03.h"
 #include "../build/Background04.h"
+#include "../build/Background05.h"
+#include "../build/Background06.h"
+
+#include "../build/Exit01.h"
 
 #include "../build/TopMenu.h"
 
@@ -198,4 +201,9 @@
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59
 #define KEY_ANIM					4
+
+@ level defines
+
+#define EXIT_CLOSED					64
+#define EXIT_OPEN					65
 

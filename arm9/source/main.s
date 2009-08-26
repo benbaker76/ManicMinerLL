@@ -139,6 +139,11 @@ mainLoopDone:
 @b timeWait
 @delayMe:
 
+ldr r0,=265000
+pp:
+subs r0,#1
+bne pp
+
 @	halt:
 @	ldr r2, =REG_KEYINPUT						@ Read key input register
 @	ldr r10, [r2]								@ r10= key pressed				

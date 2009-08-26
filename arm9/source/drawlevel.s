@@ -38,7 +38,7 @@ drawLevel:
 
 	@ for now we will just use level 1 without using levelNum
 	
-	@ Write the palette
+	@ Write the palette (our accepted pallet is in bg05)
 
 	ldr r0, =Background01Pal
 	ldr r1, =BG_PALETTE_SUB
@@ -51,11 +51,16 @@ drawLevel:
 	ldr r3,[r3]
 	
 	cmp r3,#1
+	ldreq r4,=Level01Tiles
+	ldreq r5,=Level01TilesLen
+	ldreq r6,=Level01Map
+	ldreq r7,=Level01MapLen
+	cmp r3,#2
 	ldreq r4,=Level02Tiles
 	ldreq r5,=Level02TilesLen
 	ldreq r6,=Level02Map
 	ldreq r7,=Level02MapLen
-
+	
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
@@ -66,55 +71,6 @@ drawLevel:
 	mov r2,r7
 	bl dmaCopy
 
-	@ draw the level foreground
-
-	ldr r0 ,=LevelFront02Tiles
-	ldr r1, =BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
-	ldr r2, =LevelFront02TilesLen
-	bl dmaCopy
-	
-	@ Write map
-	
-	ldr r0, =LevelFront02Map
-	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)	@ destination
-	ldr r2, =LevelFront02MapLen
-	bl dmaCopy
-	
-	@ Draw the background on bg3
-	@ Write the tile data
-	
-	ldr r0 ,=Background04Tiles
-	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
-	ldr r2, =Background04TilesLen
-	bl dmaCopy
-	
-	@ Write map
-	
-	ldr r0, =Background04Map
-	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
-	ldr r2, =Background04MapLen
-	bl dmaCopy
-	
-	@ Write the palette
-
-	ldr r0, =TopMenuPal
-	ldr r1, =BG_PALETTE
-	ldr r2, =TopMenuPalLen
-	bl dmaCopy
-	
-	@ Write the tile data
-	
-	ldr r0 ,=TopMenuTiles
-	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)
-	ldr r2, =TopMenuTilesLen
-	bl dmaCopy
-	
-	@ Write map
-	
-	ldr r0, =TopMenuMap
-	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ destination
-	ldr r2, =TopMenuMapLen
-	bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
 

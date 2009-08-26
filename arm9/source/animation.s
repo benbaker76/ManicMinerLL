@@ -102,7 +102,7 @@ minerFrame:
 	cmp r2,#0
 	addeq r0,#5
 	
-	and r0,#7
+	and r0,#15
 	lsr r0,#2
 	
 @	add r0,#1

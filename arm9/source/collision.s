@@ -348,18 +348,20 @@ checkFeet:
 
 	cmp r9,#13
 	blt feetNotLConveyor
-	cmp r9,#18
+	cmp r9,#20
 	bgt feetNotLConveyor
 	
+	mov r4,r9
 	b feetOnConveyor
 	
 	feetNotLConveyor:
 	
 	cmp r10,#13
 	blt feetNotRConveyor
-	cmp r10,#18
+	cmp r10,#20
 	bgt feetNotRConveyor
 	
+	mov r4,r10
 	b feetOnConveyor	
 	
 	feetNotRConveyor:
@@ -396,9 +398,13 @@ feetOnConveyor:
 	mov r1,#MINER_CONVEYOR
 	str r1,[r0]
 
-	cmp r9,#14
+	cmp r4,#14
 	movle r3,#MINER_LEFT
 	movgt r3,#MINER_RIGHT				@ set conveyor direction
+	cmp r4,#19
+	moveq r3,#MINER_LEFT
+	cmp r4,#20
+	moveq r3,#MINER_RIGHT
 
 	ldr r1,=conveyorDirection
 	str r3,[r1]
@@ -430,6 +436,7 @@ checkHead:
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
+add r1,#1
 	bmi checkHeadLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
@@ -461,6 +468,7 @@ checkHead:
 	ldr r1,=spriteY
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
+add r1,#1
 	bmi checkHeadRNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	

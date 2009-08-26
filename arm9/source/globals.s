@@ -52,6 +52,7 @@
 	.global spriteSpeed
 	.global spriteMonster
 	.global spriteMonsterMove
+	.global spriteMonsterFlips
 
 	.global minerDelay
 	.global minerDirection
@@ -71,6 +72,7 @@
 	.global keyCounter
 	.global exitX
 	.global exitY
+	.global monsterDelay
 	
 gameMode:
 	.word 0
@@ -106,6 +108,8 @@ keyCounter:
 exitX:
 	.word 0
 exitY:
+	.word 0
+monsterDelay:
 	.word 0
 
 	@ Text values
@@ -150,6 +154,8 @@ spriteSpeed:
 spriteMonster:
 	.space 512
 spriteMonsterMove:
+	.space 512
+spriteMonsterFlips:
 	.space 512
 	
 spriteDataEnd:

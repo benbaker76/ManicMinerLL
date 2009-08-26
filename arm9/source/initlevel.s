@@ -94,11 +94,14 @@ initLevel:
 	ldr r2,=minerDirection
 	str r0,[r2]	
 	
-	ldrb r0,[r1],#1
-	@ r0=spriteBank to uses
-@	bl getSprites
-	@ the next 2 bytes are not used, so skip them for now
-	add r1,#1
+	ldrb r0,[r1],#1			@ Background number
+	bl getLevelBackground
+
+	ldrb r0,[r1],#1			@ Door number
+	bl getDoorSprite
+
+	@ the next byte is not used, so dont read it for now
+	@ldrb r0,[r1]
 	
 	bl generateMonsters				@ r1 is the pointer to the first monsters data
 	
@@ -172,6 +175,91 @@ getSprites:
 
 	@ ------------------------------------
 
+getDoorSprite:
+
+	stmfd sp!, {r0-r10, lr}
+	cmp r0,#0
+	ldreq r0, =Exit01Tiles
+	ldreq r2, =Exit01TilesLen
+
+	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
+	ldr r1, =SPRITE_GFX
+	add r1, #(16*256)
+	bl dmaCopy
+	ldr r1, =SPRITE_GFX_SUB
+	add r1, #(16*256)
+	bl dmaCopy
+
+	@ now we need to add it to the screen
+	ldr r1,=spriteActive
+	mov r0,#9
+	mov r2,#EXIT_CLOSED
+	str r2,[r1,r0,lsl#2]
+	ldr r3,=exitX
+	ldr r3,[r3]
+	ldr r1,=spriteX
+	str r3,[r1,r0,lsl#2]
+	ldr r3,=exitY
+	ldr r3,[r3]
+	ldr r1,=spriteY
+	str r3,[r1,r0,lsl#2]
+	mov r3,#16
+	ldr r1,=spriteObj
+	str r3,[r1,r0,lsl#2]
+	mov r3,#0
+	ldr r1,=spriteHFlip
+	str r3,[r1,r0,lsl#2]
+	
+	ldmfd sp!, {r0-r10, pc}
+
+	@ ------------------------------------
+
+getLevelBackground:
+
+	stmfd sp!, {r0-r10, lr}
+	cmp r0,#0
+	ldreq r4,=Background01Tiles
+	ldreq r5,=Background01TilesLen
+	ldreq r6,=Background01Map
+	ldreq r7,=Background01MapLen
+	cmp r0,#1
+	ldreq r4,=Background02Tiles
+	ldreq r5,=Background02TilesLen
+	ldreq r6,=Background02Map
+	ldreq r7,=Background02MapLen
+	cmp r0,#2
+	ldreq r4,=Background03Tiles
+	ldreq r5,=Background03TilesLen
+	ldreq r6,=Background03Map
+	ldreq r7,=Background03MapLen
+	cmp r0,#3
+	ldreq r4,=Background04Tiles
+	ldreq r5,=Background04TilesLen
+	ldreq r6,=Background04Map
+	ldreq r7,=Background04MapLen
+	cmp r0,#4
+	ldreq r4,=Background05Tiles
+	ldreq r5,=Background05TilesLen
+	ldreq r6,=Background05Map
+	ldreq r7,=Background05MapLen
+	cmp r0,#5
+	ldreq r4,=Background06Tiles
+	ldreq r5,=Background06TilesLen
+	ldreq r6,=Background06Map
+	ldreq r7,=Background06MapLen
+	@ Draw main game map!
+	mov r0,r4
+	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
+	mov r2,r5
+	bl dmaCopy
+	mov r0,r6
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
+	mov r2,r7
+	bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}
+
+	@ ------------------------------------
 generateMonsters:
 
 	stmfd sp!, {r0-r10, lr}
@@ -205,9 +293,16 @@ generateMonsters:
 		lsr r0,#4				@ r0=init dir (highest 4 bits)
 		ldr r2,=spriteDir
 		str r0,[r2,r9,lsl#2]
-		ldrb r5,[r1],#1			@ r0=monster movement direction
+
+		ldrb r5,[r1],#1			@ r0=monster movement direction (lowest 4 bits)
+		mov r3,r5				@ use r5 later for min/max
+		and r5,#7
 		ldr r2,=spriteMonsterMove
-		str r5,[r2,r9,lsl#2]	@ use r5 later for min/max
+		str r5,[r2,r9,lsl#2]
+		lsr r3,#4
+		ldr r2,=spriteMonsterFlips
+		str r3,[r2,r9,lsl#2]
+		
 		ldrb r0,[r1],#1			@ r0=speed
 		ldr r2,=spriteSpeed
 		str r0,[r2,r9,lsl#2]
@@ -243,40 +338,3 @@ generateMonsters:
 
 	.pool
 	.end
-
-	mov r0,#1			@ monster 1
-	
-	ldr r1,=spriteActive
-	mov r2,#1
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteX
-	mov r2,#(8*8)+60
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteY
-	mov r2,#(15*8)+384
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteObj
-	mov r2,#8
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteObjBase
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteHFlip
-	mov r2,#1
-	str r2,[r1,r0,lsl#2]	
-	ldr r1,=spriteDir
-	mov r2,#1
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteMin
-	mov r2,#(8*8)+60
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteMax
-	mov r2,#(7*8)+130
-	str r2,[r1,r0,lsl#2]
-	ldr r1,=spriteSpeed
-	mov r2,#1
-	str r2,[r1,r0,lsl#2]
-
-	ldr r1,=spriteMonsterMove
-	mov r2,#1
-	str r2,[r1,r0,lsl#2]
-

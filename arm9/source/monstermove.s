@@ -22,11 +22,32 @@ monsterMove:
 	mov r1,#1				@ counter
 	
 	monsterMoveLoop:
-	
+
 		ldr r2,=spriteActive
 		ldr r3,[r2, r1,lsl #2]
 		cmp r3,#0
 		beq moveMonsterFail
+
+		ldr r2,=spriteSpeed
+		ldr r4,[r2,r1,lsl#2]
+	
+		cmp r4,#255						@ is this fractional?
+		bne monsterMoveNormalSpeed
+			ldr r5,=monsterDelay
+			ldr r6,[r5]
+			add r6,#1
+			cmp r6,#2
+			moveq r6,#0
+			str r6,[r5]
+			moveq r4,#1
+			movne r4,#0
+		monsterMoveNormalSpeed:
+		
+		ldr r7,=spriteMonsterFlips
+		ldr r7,[r7, r1,lsl#2]
+		cmp r7,#0
+		moveq r7,#1
+		movne r7,#0
 		
 		@ now find out the movement pattern
 		
@@ -42,26 +63,19 @@ monsterMove:
 		bleq monsterMoveTLBR		
 		
 		
-		
-		
-		
-		
-		
-		
-		
 		moveMonsterFail:
 	add r1,#1
 	cmp r1,#8
 	bne monsterMoveLoop
 	
-	
-	
-	
-	
-	
 	ldmfd sp!, {r0-r10, pc}
 	
 @-------------------------------------	
+
+@ the move code is passed 2 things, 
+@ r4 = speed to move
+@ r7 = flip direction (if a sprite should not flip, this must be 0)
+
 	
 monsterMoveLR:
 	stmfd sp!, {r0-r10, lr}
@@ -69,11 +83,9 @@ monsterMoveLR:
 	@ ok, just a straight left right movement
 	@ r1 is still our offset
 	@ check direction (hflip) and move
-	
-	ldr r2,=spriteSpeed
-	ldr r4,[r2,r1,lsl#2]
-	
+
 	ldr r2,=spriteHFlip
+ldr r2,=spriteDir
 	ldr r3,[r2,r1,lsl#2]
 	cmp r3,#0
 	bne monsterLRRight
@@ -89,9 +101,10 @@ monsterMoveLR:
 		cmp r10,r3
 		bgt monsterLRDone
 			ldr r3,=spriteHFlip
-			mov r4,#1
+			mov r4,r7
 			str r4,[r3,r1,lsl#2]
 			ldr r3,=spriteDir
+			mov r4,#1
 			str r4,[r3,r1,lsl#2]
 		b monsterLRDone
 		@ move Right (r4=speed)
@@ -123,10 +136,7 @@ monsterMoveLR:
 	
 monsterMoveUD:
 	stmfd sp!, {r0-r10, lr}
-	
-	ldr r2,=spriteSpeed
-	ldr r4,[r2,r1,lsl#2]
-	
+
 	ldr r2,=spriteDir
 	ldr r3,[r2,r1,lsl#2]
 	cmp r3,#0
@@ -176,10 +186,7 @@ monsterMoveTRBL:
 	stmfd sp!, {r0-r10, lr}
 	
 	@ move diagonal from top right to bottom left
-	
-	ldr r2,=spriteSpeed
-	ldr r4,[r2,r1,lsl#2]
-	
+
 	ldr r2,=spriteHFlip
 	ldr r3,[r2,r1,lsl#2]
 	cmp r3,#0
@@ -242,10 +249,7 @@ monsterMoveTLBR:
 	stmfd sp!, {r0-r10, lr}
 	
 	@ move diagonal from top left to bottom right
-	
-	ldr r2,=spriteSpeed
-	ldr r4,[r2,r1,lsl#2]
-	
+
 	ldr r2,=spriteHFlip
 	ldr r3,[r2,r1,lsl#2]
 	cmp r3,#0
@@ -298,5 +302,4 @@ monsterMoveTLBR:
 
 	bl monsterAnimate
 
-	
 	ldmfd sp!, {r0-r10, pc}

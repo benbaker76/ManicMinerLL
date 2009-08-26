@@ -110,6 +110,6 @@ pixelDetect:
 	
 	
 	
-	bl initDeath
+@	bl initDeath
 	
 	ldmfd sp!, {r0-r10, pc}
