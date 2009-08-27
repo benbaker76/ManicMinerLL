@@ -45,7 +45,7 @@ drawLevel:
 	ldr r2, =Background01PalLen
 	bl dmaCopy
 	mov r3, #0
-	str r3, [r1]
+	strh r3, [r1]
 	
 	@ Write the tile data
 

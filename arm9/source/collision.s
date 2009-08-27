@@ -40,6 +40,7 @@
 	.global checkHeadDie
 	.global initDeath
 	.global checkFall
+	.global checkExit
 	
 @----------------------- We are moving LEFT, we need to check what we collide into in colMapStore	
 @ detection functions should return a value in r9 and r10 to signal a result
@@ -684,7 +685,53 @@ checkFall:
 	
 	checkFall3:
 
-	ldmfd sp!, {r0-r7,r9,r10, pc}	
+	ldmfd sp!, {r0-r7,r9,r10, pc}
+
+@--------------------------------------------
+
+checkExit:
+	stmfd sp!, {r0-r10, lr}	
+	
+	ldr r0,=keyCounter
+	ldr r0,[r0]
+	cmp r0,#0
+	bne checkExitFail
+
+			ldr r0,=spriteX
+			ldr r0,[r0]
+			ldr r1,=spriteY
+			ldr r1,[r1]
+			ldr r2,=exitX
+			ldr r2,[r2]
+			ldr r3,=exitY
+			ldr r3,[r3]
+	
+			add r0,#3
+			cmp r0,r2
+			sub r0,#3
+			blt checkExitFail
+			add r2,#12
+			cmp r0,r2
+			sub r2,#12
+			bgt checkExitFail
+			@ next, if py+15<my or py>my+15, no possible collision
+			add r1,#3
+			cmp r1,r3
+			sub r1,#3
+			blt checkExitFail
+			add r3,#12
+			cmp r1,r3
+			sub r3,#12
+			bgt checkExitFail			
+
+				ldr r0,=gameMode
+				mov r1,#GAMEMODE_LEVEL_CLEAR
+				str r1,[r0]
+
+	checkExitFail:
+
+	ldmfd sp!, {r0-r10, pc}	
+
 
 @--------------------------------------------
 	

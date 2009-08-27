@@ -192,7 +192,7 @@ getDoorSprite:
 
 	@ now we need to add it to the screen
 	ldr r1,=spriteActive
-	mov r0,#9
+	mov r0,#9				@ use the 9th sprite
 	mov r2,#EXIT_CLOSED
 	str r2,[r1,r0,lsl#2]
 	ldr r3,=exitX
@@ -203,12 +203,16 @@ getDoorSprite:
 	ldr r3,[r3]
 	ldr r1,=spriteY
 	str r3,[r1,r0,lsl#2]
-	mov r3,#16
+	mov r3,#DOOR_FRAME
 	ldr r1,=spriteObj
 	str r3,[r1,r0,lsl#2]
 	mov r3,#0
 	ldr r1,=spriteHFlip
 	str r3,[r1,r0,lsl#2]
+	mov r3,#4
+	ldr r1,=spriteAnimDelay
+	str r3,[r1,r0,lsl#2]
+	
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -242,11 +246,12 @@ getLevelBackground:
 	ldreq r5,=Background05TilesLen
 	ldreq r6,=Background05Map
 	ldreq r7,=Background05MapLen
-	@cmp r0,#5
-	@ldreq r4,=Background06Tiles
-	@ldreq r5,=Background06TilesLen
-	@ldreq r6,=Background06Map
-	@ldreq r7,=Background06MapLen
+	cmp r0,#5
+	bgt noLevelBackground
+	ldreq r4,=Background06Tiles
+	ldreq r5,=Background06TilesLen
+	ldreq r6,=Background06Map
+	ldreq r7,=Background06MapLen
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
@@ -256,6 +261,8 @@ getLevelBackground:
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
 	mov r2,r7
 	bl dmaCopy
+	
+	noLevelBackground:
 
 	ldmfd sp!, {r0-r10, pc}
 

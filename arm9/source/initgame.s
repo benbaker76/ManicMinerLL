@@ -18,7 +18,7 @@
 initGame:
 stmfd sp!, {r0-r10, lr}
 
-	mov r0,#2				@ set level to 1 for start of game
+	mov r0,#1				@ set level to 1 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
 	
@@ -30,7 +30,7 @@ stmfd sp!, {r0-r10, lr}
 	ldr r2, =GameBottomPalLen
 	bl dmaCopy
 	mov r3, #0
-	str r3, [r1]
+	strh r3, [r1]
 	
 	@ Write the tile data
 	

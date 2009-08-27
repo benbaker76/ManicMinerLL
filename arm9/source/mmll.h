@@ -27,7 +27,7 @@
 #include "../build/Background03.h"
 #include "../build/Background04.h"
 #include "../build/Background05.h"
-@#include "../build/Background06.h"
+#include "../build/Background06.h"
 
 #include "../build/Exit01.h"
 
@@ -87,6 +87,7 @@
 #define GAMEMODE_STOPPED			0
 #define GAMEMODE_RUNNING			1
 #define GAMEMODE_PAUSED				2
+#define GAMEMODE_LEVEL_CLEAR		3
 
 @ FX defines. These are bits so we can have multiple fx at once
 
@@ -152,7 +153,7 @@
 #define LEVEL_15					15
 #define LEVEL_16					16
 
-#define LEVEL_COUNT					16
+#define LEVEL_COUNT					2
 
 @ Fade values
 
@@ -203,6 +204,8 @@
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59
 #define KEY_ANIM					4
+#define DOOR_FRAME					16
+#define DOOR_FRAME_END				23
 
 @ level defines
 

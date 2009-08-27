@@ -282,6 +282,23 @@ collectKey:
 	
 	bl keyDust
 	
+	ldr r3,=keyCounter
+	ldr r4,[r3]
+	sub r4,#1			@ decrement key counter
+	str r4,[r3]			@ if 0 we need to open the door..
+	
+	cmp r4,#0
+	bne stillKeysLeft
+	
+		mov r4,#9					@ activate the door..
+		mov r3,#EXIT_OPEN
+		ldr r2,=spriteActive
+		str r3,[r2,r4,lsl#2]
+	
+		@ perhaps a sound effect??
+	
+	stillKeysLeft:
+	
 	ldmfd sp!, {r0-r10, pc}
 
 	

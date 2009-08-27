@@ -81,13 +81,13 @@ collisionMonster:
 			sub r2,#15
 			bgt colMonFail
 			@ next, if py+15<my or py>my+15, no possible collision
-			add r1,#15
+			add r1,#13
 			cmp r1,r3
-			sub r1,#15
+			sub r1,#13
 			blt colMonFail
-			add r3,#15
+			add r3,#13
 			cmp r1,r3
-			sub r1,#15
+			sub r3,#13
 			bgt colMonFail			
 
 			bl pixelDetect
@@ -110,6 +110,6 @@ pixelDetect:
 	
 	
 	
-@	bl initDeath
+	bl initDeath
 	
 	ldmfd sp!, {r0-r10, pc}

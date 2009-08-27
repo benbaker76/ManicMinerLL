@@ -76,13 +76,15 @@ initSystem:
 
 main:
 	bl initVideo
+	bl initInterruptHandler						@ initialize the interrupt handler
+	bl initGame
+
+main2:		@ just for now!!
+
 	bl initSprites
 	
-	bl initInterruptHandler						@ initialize the interrupt handler
 	
 	bl initMusic
-	
-	bl initGame
 	
 	bl initLevel
 	bl drawSprite
@@ -98,13 +100,15 @@ main:
 mainLoop:
 
 	bl swiWaitForVBlank							@ Wait for vblank
-	
+	bl swiWaitForVBlank							@ Wait for vblank	
 	ldr r0, =gameMode
 	ldr r1, [r0]
 	cmp r1, #GAMEMODE_RUNNING
 	beq gameLoop
 	cmp r1, #GAMEMODE_STOPPED
 	beq mainLoopDone
+	cmp r1, #GAMEMODE_LEVEL_CLEAR
+	bleq levelCleared
 	
 	b mainLoop
 
@@ -127,6 +131,8 @@ gameLoop:
 	bl levelAnimate
 	
 	bl collisionMonster
+	
+	bl checkExit
 
 @	bl debugText
 	
@@ -142,7 +148,7 @@ mainLoopDone:
 ldr r0,=265000
 pp:
 subs r0,#1
-bne pp
+@bne pp
 
 @	halt:
 @	ldr r2, =REG_KEYINPUT						@ Read key input register
@@ -152,9 +158,8 @@ bne pp
 
 ldr r1,=minerDied
 ldr r1,[r1]
-asdf:
 cmp r1,#1
-beq main
+beq main2
 
 	b mainLoop									@ our main loop
 
