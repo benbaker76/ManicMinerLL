@@ -27,7 +27,7 @@
 #include "../build/Background03.h"
 #include "../build/Background04.h"
 #include "../build/Background05.h"
-#include "../build/Background06.h"
+@#include "../build/Background06.h"
 
 #include "../build/Exit01.h"
 

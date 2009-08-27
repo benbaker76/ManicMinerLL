@@ -29,6 +29,8 @@ stmfd sp!, {r0-r10, lr}
 	ldr r1, =BG_PALETTE
 	ldr r2, =GameBottomPalLen
 	bl dmaCopy
+	mov r3, #0
+	str r3, [r1]
 	
 	@ Write the tile data
 	

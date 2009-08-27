@@ -44,6 +44,8 @@ drawLevel:
 	ldr r1, =BG_PALETTE_SUB
 	ldr r2, =Background01PalLen
 	bl dmaCopy
+	mov r3, #0
+	str r3, [r1]
 	
 	@ Write the tile data
 
