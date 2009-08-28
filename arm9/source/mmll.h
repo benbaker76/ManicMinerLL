@@ -28,6 +28,7 @@
 #include "../build/Background04.h"
 #include "../build/Background05.h"
 #include "../build/Background06.h"
+#include "../build/Background07.h"
 
 #include "../build/Exit01.h"
 
@@ -37,6 +38,7 @@
 
 #include "../build/Sprites.h"
 #include "../build/Font.h"
+#include "../build/Status.h"
 
 #include "../build/SpriteBank1.h"
 
@@ -200,10 +202,10 @@
 
 #define DUST_FRAME					60
 #define DUST_FRAME_END				63
-#define DUST_ANIM					4
+#define DUST_ANIM					2
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59
-#define KEY_ANIM					4
+#define KEY_ANIM					2
 #define DOOR_FRAME					16
 #define DOOR_FRAME_END				23
 

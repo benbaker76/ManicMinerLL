@@ -194,15 +194,10 @@ moveMiner:
 		str r1,[r2]
 		
 		bl checkLeft
-	
-		cmp r9,#1
-		beq moveMinerLeftFail
-		cmp r10,#1
-		beq moveMinerLeftFail
-		
-		b moveMinerFail
-		
-		moveMinerLeftFail:
+		bl checkBlocked
+
+		cmp r11,#0
+		beq moveMinerFail
 
 		ldr r2,=spriteX
 		ldr r1,[r2]
@@ -218,15 +213,10 @@ moveMiner:
 		str r1,[r2]
 		
 		bl checkRight
-		
-		cmp r9,#1
-		beq moveMinerRightFail
-		cmp r10,#1
-		beq moveMinerRightFail
-		
-		b moveMinerFail
-		
-		moveMinerRightFail:
+		bl checkBlocked
+
+		cmp r11,#0
+		beq moveMinerFail
 
 		ldr r2,=spriteX
 		ldr r1,[r2]

@@ -70,9 +70,34 @@ drawLevel:
 	bl dmaCopy
 	mov r0,r6
 	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	@ destination
+	add r1,#(32*6)*2
 	mov r2,r7
 	bl dmaCopy
 
+	@ draw the top status on bg1 sub (so that sprites can be behind for effects and stuff)
+	@ the first 2 character rows are the air gauge
+	@ then each 4 rows are each screens title
+	
+	ldr r0,=StatusTiles							@ copy the tiles
+	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r2,=StatusTilesLen
+	bl dmaCopy
+
+	ldr r0,=StatusMap							@ draw the air (full)
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+	add r1,#(32*4)*2
+	mov r2,#128
+	bl dmaCopy
+	
+	sub r3,#1		@ r3=level number 0-x
+	lsl r3,#8
+	add r3,#256
+
+	ldr r0,=StatusMap							@ draw the level name
+	add r0,r3
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+	mov r2,#256
+	bl dmaCopy	
 
 	ldmfd sp!, {r0-r10, pc}
 

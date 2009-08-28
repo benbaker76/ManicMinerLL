@@ -41,6 +41,7 @@
 	.global initDeath
 	.global checkFall
 	.global checkExit
+	.global checkBlocked
 	
 @----------------------- We are moving LEFT, we need to check what we collide into in colMapStore	
 @ detection functions should return a value in r9 and r10 to signal a result
@@ -347,21 +348,35 @@ checkFeet:
 	@ Now we need to check for conveyer and act on it
 	@ if on one, set minerAction and also the conveyorDirection
 
+
+	cmp r9,#2
+	moveq r9,#13
+	beq r9OnConveyor
+	cmp r9,#3
+	moveq r9,#20
+	beq r9OnConveyor
+
 	cmp r9,#13
 	blt feetNotLConveyor
 	cmp r9,#20
 	bgt feetNotLConveyor
-	
+	r9OnConveyor:
 	mov r4,r9
 	b feetOnConveyor
 	
 	feetNotLConveyor:
 	
+	cmp r10,#2
+	moveq r10,#13
+	beq r10OnConveyor
+	cmp r10,#3
+	moveq r10,#20
+	beq r10OnConveyor
 	cmp r10,#13
 	blt feetNotRConveyor
 	cmp r10,#20
 	bgt feetNotRConveyor
-	
+	r10OnConveyor:
 	mov r4,r10
 	b feetOnConveyor	
 	
@@ -599,8 +614,6 @@ checkCollectDie:
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
 
-	@	bl initDeath
-	
 		ldr r3,=spriteX
 		ldr r3,[r3]
 		and r3,#7
@@ -617,25 +630,6 @@ checkCollectDie:
 
 		b checkCollectDieDone
 
-		ldr r3,=spriteX
-		ldr r3,[r3]
-		and r3,#7
-		ldr r2,=minerDirection
-		ldr r2,[r2]
-		cmp r2,#MINER_LEFT
-		bne dieCheckRight
-			cmp r3,#2					@ give a couple of pixels grace
-			bllt initDeath
-			b checkCollectDieDone
-		dieCheckRight:
-		cmp r2,#MINER_RIGHT
-		bne dieCheckStill
-			cmp r3,#2					@ give a couple of pixels grace
-			bllt initDeath
-			b checkCollectDieDone	
-		dieCheckStill:
-			bl initDeath
-			b checkCollectDieDone
 	notDieThing:
 
 	@ if between 24 and 31, this is a key (collectable)
@@ -662,9 +656,9 @@ initDeath:
 
 	ldr r1,=minerDied
 	mov r0,#1
-	str r0,[r1]
+@	str r0,[r1]
 	
-	bl playDead
+@	bl playDead
 
 	ldmfd sp!, {r0-r10, pc}	
 
@@ -745,6 +739,37 @@ checkExit:
 				str r1,[r0]
 
 	checkExitFail:
+
+	ldmfd sp!, {r0-r10, pc}	
+
+@--------------------------------------------
+
+checkBlocked:
+	stmfd sp!, {r0-r10, lr}	
+	@ pass r9,r10 as 2 to check 
+	@ if r9=1-3 or r10=1-3 return 1, else 0 in r11
+	
+	mov r11,#0
+	
+	cmp r9,#0
+	beq checkBlock2
+	cmp r9,#3
+	bgt checkBlock2
+
+	mov r11,#1
+	ldmfd sp!, {r0-r10, pc}		
+	
+	checkBlock2:
+	cmp r10,#0
+	beq checkBlock3
+	cmp r10,#3
+	bgt checkBlock3
+
+	mov r11,#1
+
+	ldmfd sp!, {r0-r10, pc}	
+
+	checkBlock3:
 
 	ldmfd sp!, {r0-r10, pc}	
 

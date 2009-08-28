@@ -74,6 +74,8 @@
 	.global exitY
 	.global monsterDelay
 	
+	.global specialEffect
+	
 gameMode:
 	.word 0
 
@@ -110,6 +112,9 @@ exitX:
 exitY:
 	.word 0
 monsterDelay:
+	.word 0
+
+specialEffect:
 	.word 0
 
 	@ Text values

@@ -43,8 +43,6 @@ initLevel:
 	bl clearOAM
 	bl clearSpriteData
 
-	@ Dummy settings for now!
-	
 	mov r0,#1
 	ldr r1,=spriteActive
 	str r0,[r1]
@@ -89,24 +87,27 @@ initLevel:
 	ldr r2,=spriteY
 	str r0,[r2]	
 	ldrb r0,[r1],#1
+	mov r3,r0
+	and r3,#7
 	ldr r2,=spriteHFlip
-	str r0,[r2]	
+	str r3,[r2]	
 	ldr r2,=minerDirection
-	str r0,[r2]	
+	str r3,[r2]
+	lsr r0,#4
+	ldr r2,=specialEffect
+	str r0,[r2]
 	
 	ldrb r0,[r1],#1			@ Background number
 	bl getLevelBackground
 
 	ldrb r0,[r1],#1			@ Door number
 	bl getDoorSprite
-
-	@ the next byte is not used, so dont read it for now
-	@ldrb r0,[r1]
 	
-	bl generateMonsters				@ r1 is the pointer to the first monsters data
+	bl generateMonsters		@ r1 is the pointer to the first monsters data
 	
-	bl drawLevel
+	bl drawLevel			@ Display the level graphics
 	
+	bl levelStory			@ Display the games story in the bottom screen
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -152,25 +153,6 @@ generateColMap:
 	@ r0,=src, r1=dst, r2=len
 	bl dmaCopy
 	
-	ldmfd sp!, {r0-r10, pc}
-
-	@ ------------------------------------
-
-getSprites:
-
-	stmfd sp!, {r0-r10, lr}
-	cmp r0,#0
-	ldreq r0, =SpriteBank1Tiles
-	ldreq r2, =SpriteBank1TilesLen
-
-	ldr r1, =SPRITE_GFX
-	add r1, #(8*256)
-	bl dmaCopy
-	ldr r1, =SPRITE_GFX_SUB
-	add r1, #(8*256)
-	bl dmaCopy
-
-
 	ldmfd sp!, {r0-r10, pc}
 
 	@ ------------------------------------
@@ -247,11 +229,16 @@ getLevelBackground:
 	ldreq r6,=Background05Map
 	ldreq r7,=Background05MapLen
 	cmp r0,#5
-	bgt noLevelBackground
 	ldreq r4,=Background06Tiles
 	ldreq r5,=Background06TilesLen
 	ldreq r6,=Background06Map
 	ldreq r7,=Background06MapLen
+	cmp r0,#6
+	bgt noLevelBackground
+	ldreq r4,=Background07Tiles
+	ldreq r5,=Background07TilesLen
+	ldreq r6,=Background07Map
+	ldreq r7,=Background07MapLen
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
@@ -259,6 +246,7 @@ getLevelBackground:
 	bl dmaCopy
 	mov r0,r6
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
+	add r1,#384
 	mov r2,r7
 	bl dmaCopy
 	

@@ -18,11 +18,12 @@
 initGame:
 stmfd sp!, {r0-r10, lr}
 
-	mov r0,#2				@ set level to 1 for start of game
+	mov r0,#1				@ set level to 1 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
 	
-
+	@ also set lives, score etc...
+	
 	@ Write the palette
 
 	ldr r0, =GameBottomPal
@@ -32,7 +33,7 @@ stmfd sp!, {r0-r10, lr}
 	mov r3, #0
 	strh r3, [r1]
 	
-	@ Write the tile data
+	@ Write the tile data for bottom screen
 	
 	ldr r0 ,=GameBottomTiles
 	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)

@@ -10,7 +10,7 @@ levelData:
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
 @ 3 then, number of keys to collect
 @ 4,5 willies start position
-@ 6 =willies initial direction (0=l 1=r)
+@ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
 @ 7 =background number (0-?)
 @ 8 =door bank number - used for the exit.. 0-???
 
@@ -33,7 +33,7 @@ levelData:
 
 	# 1 / Oric - level 17 originally
 
-	.byte 80,144,3,8,168,1,4,0
+	.byte 80,144,3,8,168,1,6,0
 	
 	.byte 8,88,1,17,1,10,8,144
 	.byte 96,104,1,17,255,10,96,224

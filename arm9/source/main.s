@@ -135,6 +135,8 @@ gameLoop:
 	bl checkExit
 
 @	bl debugText
+
+	bl drawScore
 	
 mainLoopDone:
 

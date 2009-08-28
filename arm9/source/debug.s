@@ -176,32 +176,6 @@ debugText:
 	mov r7, #1							@ 0 = Main, 1 = Sub
 	bl drawDigits
 	
-	ldr r0, =hiscoreText				@ Pointer to text
-	ldr r1, =0							@ X Pos
-	ldr r2, =19							@ Y Pos
-	ldr r3, =0							@ 0 = Main, 1 = Sub
-	bl drawText
-		
-	ldr r10, =0							@ Number
-	mov r11, #11						@ X Pos
-	mov r8, #19							@ Y Pos
-	mov r9, #6							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
-	ldr r0, =scoreText					@ Pointer to text
-	ldr r1, =20							@ X Pos
-	ldr r2, =19							@ Y Pos
-	ldr r3, =0							@ 0 = Main, 1 = Sub
-	bl drawText
-	
-	ldr r10, =0							@ Number
-	mov r11, #26						@ X Pos
-	mov r8, #19							@ Y Pos
-	mov r9, #6							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
 	ldmfd sp!, {r1-r8, pc}
 	
 	.pool
