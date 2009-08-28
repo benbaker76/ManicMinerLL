@@ -503,6 +503,7 @@ checkHeadDie:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
+add r0,#1
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkHeadDieLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
@@ -539,7 +540,7 @@ checkHeadDie:
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	sub r0,#FEET_NIP			@ use this for head detection also
-
+sub r0,#1
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkHeadDieRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
@@ -598,7 +599,22 @@ checkCollectDie:
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
 
+	@	bl initDeath
+	
+		ldr r3,=spriteX
+		ldr r3,[r3]
+		and r3,#7
+		cmp r3,#1
+		bgt dieCheck2
+		cmp r3,#6
+		blt dieCheck2
+		
+		b notDieThing
+		
+		dieCheck2:
+		
 		bl initDeath
+
 		b checkCollectDieDone
 
 		ldr r3,=spriteX
