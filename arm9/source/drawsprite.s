@@ -66,7 +66,9 @@ drawSprite:
 	
 		ldr r0,=spriteY					@ Load Y coord
 		ldr r1,[r0,r8,lsl #2]			@ add ,rX for offsets
-
+		cmp r1,#4096					@ account for floating point
+		lsreq r1,#12
+		
 		@ Draw sprite to SUB screen ONLY (r1 holds Y)
 		
 		ldr r0,=BUF_ATTRIBUTE0_SUB	
@@ -82,6 +84,8 @@ drawSprite:
 		@ Draw X
 		ldr r0,=spriteX					@ get X coord mem space
 		ldr r1,[r0,r8,lsl #2]			@ add ,rX for offsets
+		cmp r1,#4096					@ account for floating point
+		lsreq r1,#12
 		cmp r1,#SCREEN_LEFT				@ if less than 64, this is off left of screen
 		addmi r1,#512					@ convert coord for offscreen (32 each side)
 		sub r1,#SCREEN_LEFT				@ Take 64 off our X
@@ -183,7 +187,7 @@ drawSprite:
 spareSprite:
 	stmfd sp!, {r0-r9, lr}
 
-	mov r0,#64
+	mov r0,#96
 	ldr r1,=spriteActive
 	spareSpriteFind:
 	
@@ -191,7 +195,7 @@ spareSprite:
 		cmp r2,#0
 		beq spareSpriteFound
 		add r0,#1
-		cmp r0,#64
+		cmp r0,#128
 		bne spareSpriteFind
 	mov r10,#0
 	ldmfd sp!, {r0-r9, pc}

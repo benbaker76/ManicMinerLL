@@ -45,12 +45,12 @@ collisionMonster:
 	@ if a boundry check is true, THEN do a per pixel check
 	
 	
-	ldr r0,=spriteX
+	ldr r0,=spriteX+128
 	ldr r0,[r0]
-	ldr r1,=spriteY
+	ldr r1,=spriteY+128
 	ldr r1,[r1]
 	
-	mov r10,#1					@ monster number
+	mov r10,#65					@ monster number
 	
 	collisionMonsterCheckLoop:
 
@@ -94,7 +94,7 @@ collisionMonster:
 
 		colMonFail:
 		add r10,#1
-		cmp r10,#8
+		cmp r10,#72
 	bne collisionMonsterCheckLoop
 	
 	ldmfd sp!, {r0-r10, pc}

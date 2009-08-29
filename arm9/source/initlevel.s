@@ -44,15 +44,15 @@ initLevel:
 	bl clearSpriteData
 
 	mov r0,#1
-	ldr r1,=spriteActive
+	ldr r1,=spriteActive+128
 	str r0,[r1]
 
 	mov r0,#1
-	ldr r1,=spriteObj
+	ldr r1,=spriteObj+128
 	str r0,[r1]
 	
 	mov r0,#0
-	ldr r1,=spriteAnimDelay
+	ldr r1,=spriteAnimDelay+128
 	str r0,[r1]
 	ldr r1,=minerAction
 	str r0,[r1]
@@ -80,16 +80,16 @@ initLevel:
 	str r0,[r2]		
 	ldrb r0,[r1],#1
 	add r0,#64
-	ldr r2,=spriteX
+	ldr r2,=spriteX+128
 	str r0,[r2]	
 	ldrb r0,[r1],#1
 	add r0,#384
-	ldr r2,=spriteY
+	ldr r2,=spriteY+128
 	str r0,[r2]	
 	ldrb r0,[r1],#1
 	mov r3,r0
 	and r3,#7
-	ldr r2,=spriteHFlip
+	ldr r2,=spriteHFlip+128
 	str r3,[r2]	
 	ldr r2,=minerDirection
 	str r3,[r2]
@@ -174,7 +174,7 @@ getDoorSprite:
 
 	@ now we need to add it to the screen
 	ldr r1,=spriteActive
-	mov r0,#9				@ use the 9th sprite
+	mov r0,#63				@ use the 63rd sprite
 	mov r2,#EXIT_CLOSED
 	str r2,[r1,r0,lsl#2]
 	ldr r3,=exitX
@@ -262,8 +262,9 @@ generateMonsters:
 	@ just set up a dummy monster for now!
 	
 	@ r9 = loop for the 7 monsters that can be used per level
+	@ using sprites 65-71
 	
-	mov r9,#1
+	mov r9,#65
 	
 	gmLoop:
 	
@@ -324,7 +325,7 @@ generateMonsters:
 		str r0,[r2,r9,lsl#2]
 
 	add r9,#1
-	cmp r9,#8
+	cmp r9,#72
 	bne gmLoop
 	
 	generateMonstersDone:

@@ -97,7 +97,7 @@ minerControl:
 			ldr r3,=minerDirection
 			mov r0,#MINER_LEFT
 			str r0,[r3]
-			ldr r1,=spriteHFlip
+			ldr r1,=spriteHFlip+128
 			mov r2,#0
 			str r2,[r1]
 
@@ -114,7 +114,7 @@ minerControl:
 			ldr r3,=minerDirection
 			mov r0,#MINER_RIGHT
 			str r0,[r3]
-			ldr r1,=spriteHFlip
+			ldr r1,=spriteHFlip+128
 			mov r2,#1
 			str r2,[r1]
 	
@@ -131,7 +131,7 @@ moveRight:
 
 	stmfd sp!, {r1-r10, lr}
 	
-	ldr r2,=spriteHFlip
+	ldr r2,=spriteHFlip+128
 	ldr r3,[r2]
 	cmp r3,#0
 	moveq r0,#0						@ set dir to 0 if you were facing Left and flip sprite
@@ -141,7 +141,7 @@ moveRight:
 	
 	moveRightDone:
 
-	ldr r2,=spriteHFlip
+	ldr r2,=spriteHFlip+128
 	mov r1,#1						@ flip sprite
 	str r1,[r2]
 
@@ -153,7 +153,7 @@ moveLeft:
 
 	stmfd sp!, {r1-r10, lr}
 	
-	ldr r2,=spriteHFlip
+	ldr r2,=spriteHFlip+128
 	ldr r3,[r2]
 	cmp r3,#1
 	moveq r0,#0						@ set dir to 0 if you were facing right and flip sprite
@@ -163,7 +163,7 @@ moveLeft:
 	
 	moveLeftDone:
 
-	ldr r2,=spriteHFlip
+	ldr r2,=spriteHFlip+128
 	mov r1,#0						@ flip sprite
 	str r1,[r2]
 
@@ -188,7 +188,7 @@ moveMiner:
 	
 	cmp r0,#MINER_LEFT
 	bne moveMinerRight
-		ldr r2,=spriteX
+		ldr r2,=spriteX+128
 		ldr r1,[r2]
 		sub r1,#1
 		str r1,[r2]
@@ -199,7 +199,7 @@ moveMiner:
 		cmp r11,#0
 		beq moveMinerFail
 
-		ldr r2,=spriteX
+		ldr r2,=spriteX+128
 		ldr r1,[r2]
 		add r1,#1
 		str r1,[r2]		
@@ -207,7 +207,7 @@ moveMiner:
 		b moveMinerFail
 
 	moveMinerRight:
-		ldr r2,=spriteX
+		ldr r2,=spriteX+128
 		ldr r1,[r2]
 		add r1,#1
 		str r1,[r2]
@@ -218,7 +218,7 @@ moveMiner:
 		cmp r11,#0
 		beq moveMinerFail
 
-		ldr r2,=spriteX
+		ldr r2,=spriteX+128
 		ldr r1,[r2]
 		sub r1,#1
 		str r1,[r2]		
@@ -240,7 +240,7 @@ moveJump:
 	
 	@ we need to check above head first to see if a jump is possible
 	
-	ldr r1,=spriteY
+	ldr r1,=spriteY+128
 	ldr r2,[r1]
 	sub r2,#8				@ go one char above head
 	str r2,[r1]
@@ -298,7 +298,7 @@ minerJump:
 	ldr r1,=willyJumpData
 	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump	
 
-	ldr r5,=spriteY					@ get y coord
+	ldr r5,=spriteY+128				@ get y coord
 	ldr r6,[r5]
 	mov r8,r6						@ Save the Y value for a 'headbut' for later
 	adds r6,r4
@@ -312,7 +312,7 @@ minerJump:
 		ldr r6,=minerAction
 		str r7,[r6]
 		
-		ldr r0,=spriteY
+		ldr r0,=spriteY+128
 		ldr r1,[r0]
 		lsr r1,#3
 		lsl r1,#3
@@ -354,7 +354,7 @@ minerJump:
 		
 		@ check if the floor detected is not part through us already?
 		
-		ldr r7,=spriteY				@ this is perhaps not the best way???
+		ldr r7,=spriteY+128				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
 		cmp r6,#5
@@ -364,7 +364,7 @@ minerJump:
 		ldr r6,=minerAction
 		str r7,[r6]
 		
-		ldr r7,=spriteY				@ make us land correctly on the floor
+		ldr r7,=spriteY+128				@ make us land correctly on the floor
 		ldr r6,[r7]
 		lsr r6,#3
 		lsl r6,#3
@@ -398,7 +398,7 @@ ldmfd sp!, {r0-r10, pc}
 		ldr r6,=minerAction
 		str r7,[r6]					@ we have hit our head, so, stop jumping, and fall
 		
-		ldr r7,=spriteY				@ restore the coord before the jump
+		ldr r7,=spriteY+128			@ restore the coord before the jump
 		str r8,[r7]
 	
 	b minerJumpFail
@@ -455,7 +455,7 @@ minerFall:
 				
 		bl playFall
 
-		ldr r1,=spriteY
+		ldr r1,=spriteY+128
 		ldr r2,[r1]
 		add r2,#2					@ add 2 to y coord (should we accelerate?)
 		str r2,[r1]
@@ -497,7 +497,7 @@ minerFall:
 		movne r1,#MINER_NORMAL
 		strne r1,[r0]
 		
-		ldr r7,=spriteY				@ make sure we are back on level ground and feet are in correct place.
+		ldr r7,=spriteY+128				@ make sure we are back on level ground and feet are in correct place.
 		ldr r6,[r7]
 		lsr r6,#3
 		lsl r6,#3

@@ -19,7 +19,7 @@ monsterMove:
 	
 	@ Move the monsters, sprite data 1-7 (max 7 per screen)
 	
-	mov r1,#1				@ counter
+	mov r1,#65				@ counter
 	
 	monsterMoveLoop:
 
@@ -65,7 +65,7 @@ monsterMove:
 		
 		moveMonsterFail:
 	add r1,#1
-	cmp r1,#8
+	cmp r1,#72
 	bne monsterMoveLoop
 	
 	ldmfd sp!, {r0-r10, pc}
