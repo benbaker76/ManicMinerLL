@@ -40,7 +40,7 @@ drawLevel:
 	
 	@ Write the palette (our accepted pallet is in bg05)
 
-	ldr r0, =Background01Pal
+	ldr r0, =Background07Pal
 	ldr r1, =BG_PALETTE_SUB
 	ldr r2, =Background01PalLen
 	bl dmaCopy
