@@ -19,8 +19,8 @@ levelData:
 @ 2=initial y (offsets added at level construct)
 @ 3=initial direction (0=neg/1=pos) (LOW 4 BITS) / sprites facing (HFLIP) (HI 4 BITS)
 @ 4=travel direction (0=up/dn 1=l/r 2=topr/botl 3=topl/botr) LOW / Do we flip? HIGH (0=yes/1=no)
-@ 5=speed of travel (0=?) (do we need fractional movement?) (255=every other frame)
-@ 6=level sprite to use (0-4 - or perhaps more?)
+@ 5=speed of travel (0=?) (do we need fractional movement? yes) (255=every other frame movement update)
+@ 6=level sprite to use (0-? read from spritebank)
 @ 7=min movement location
 @ 8=maximum movement locaton
 @ data for each level stored as up to 7 enemies
@@ -36,7 +36,7 @@ levelData:
 	.byte 80,144,3,8,168,1,6,0
 	
 	.byte 8,88,1,17,1,10,8,144
-	.byte 96,104,1,17,255,10,96,224
+	.byte 96,104,1,17,255,10,96,216
 	.byte 160,144,1,1,1,1,160,208
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
