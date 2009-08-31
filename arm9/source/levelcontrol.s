@@ -31,6 +31,7 @@
 
 
 	.global levelCleared
+	.global levelCheat
 	
 	
 levelCleared:
@@ -59,3 +60,29 @@ levelCleared:
 	str r1,[r0]
 	
 	ldmfd sp!, {r0-r10, pc}	
+	
+levelCheat:
+
+	stmfd sp!, {r0-r10, lr}	
+	
+	ldr r2, =REG_KEYINPUT						@ Read key input register
+	ldr r3, [r2]								@ Read key value
+	
+	tst r3,#BUTTON_R
+	bleq cheatWait
+	
+	ldmfd sp!, {r0-r10, pc}	
+	
+	cheatWait:
+	ldr r2, =REG_KEYINPUT
+	ldr r4, [r2]
+	cmp r4,r3
+	beq cheatWait
+	
+	tst r3,#BUTTON_R
+	bleq levelCleared
+	
+	
+	
+	ldmfd sp!, {r0-r10, pc}	
+	

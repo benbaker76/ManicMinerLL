@@ -58,13 +58,13 @@ checkLeft:
 	@ first, top portion
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
@@ -86,13 +86,13 @@ checkLeft:
 	
 	checkLeftTNot:				@ now bottom section	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8		
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 	add r1,#4
@@ -144,13 +144,13 @@ checkRight:
 	@ first, top portion
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
 	subs r1,#384				@ our offset
@@ -171,13 +171,13 @@ checkRight:
 	
 	checkRightTNot:				@ now bottom section
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 	add r1,#4
@@ -239,7 +239,7 @@ checkFeet:
 	@ left side first
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
@@ -247,7 +247,7 @@ checkFeet:
 	bmi checkFeetLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	add r1,#FEET_DROP
 	subs r1,#384				@ our offset
@@ -277,7 +277,7 @@ checkFeet:
 	@ now right side
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	sub r0,#FEET_NIP			@ use this for head detection also
@@ -285,7 +285,7 @@ checkFeet:
 	bmi checkFeetRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	add r1,#FEET_DROP
 	subs r1,#384				@ our offset
@@ -404,7 +404,7 @@ checkFeet:
 	
 feetOnConveyor:
 
-	ldr r0,=spriteY+128						@ make sure we are on the platform nice and firmly
+	ldr r0,=spriteY+256						@ make sure we are on the platform nice and firmly
 	ldr r0,[r0]
 	and r0,#7
 	cmp r0,#0
@@ -441,7 +441,7 @@ checkHead:
 	@ left side first
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
@@ -449,7 +449,7 @@ checkHead:
 	bmi checkHeadLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 add r1,#1
@@ -473,7 +473,7 @@ add r1,#1
 	@ now right side
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	sub r0,#FEET_NIP			@ use this for head detection also
@@ -481,7 +481,7 @@ add r1,#1
 	bmi checkHeadRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 add r1,#1
@@ -514,7 +514,7 @@ checkHeadDie:
 	@ left side first
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
@@ -523,7 +523,7 @@ add r0,#1
 	bmi checkHeadDieLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 	bmi checkHeadDieLNot			@ incase we are jumping off the top of screen (may need work here)
@@ -551,7 +551,7 @@ add r0,#1
 	@ now right side
 	
 	@ make r0=x and r1=y
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	sub r0,#FEET_NIP			@ use this for head detection also
@@ -560,7 +560,7 @@ sub r0,#1
 	bmi checkHeadDieRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
 	bmi checkHeadDieRNot			@ incase we are jumping off the top of screen (may need work here)
@@ -614,7 +614,7 @@ checkCollectDie:
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThing
 
-		ldr r3,=spriteX+128
+		ldr r3,=spriteX+256
 		ldr r3,[r3]
 		and r3,#7
 		cmp r3,#1
@@ -707,9 +707,9 @@ checkExit:
 	cmp r0,#0
 	bne checkExitFail
 
-			ldr r0,=spriteX+128
+			ldr r0,=spriteX+256
 			ldr r0,[r0]
-			ldr r1,=spriteY+128
+			ldr r1,=spriteY+256
 			ldr r1,[r1]
 			ldr r2,=exitX
 			ldr r2,[r2]

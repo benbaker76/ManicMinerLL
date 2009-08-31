@@ -208,6 +208,9 @@
 #define KEY_ANIM					2
 #define DOOR_FRAME					16
 #define DOOR_FRAME_END				23
+#define RAIN						10
+
+#define FX_RAIN						1
 
 @ level defines
 

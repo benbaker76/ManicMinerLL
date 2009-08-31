@@ -34,6 +34,7 @@
 	.global drawText
 	.global drawTextCount
 	.global drawDigits
+	.global drawTextBlack
 
 drawText:
 	
@@ -162,6 +163,39 @@ digitsLoop:
 	bne digitsLoop					@ And loop back until done
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+	@ ---------------------------------------------
+	
+drawTextBlack:
+	
+	@ r0 = pointer to null terminated text
+	@ r1 = x pos
+	@ r2 = y pos
+	@ r3 = 0 = Main, 1 = Sub
+	@ r4 = max number of characters
+
+	stmfd sp!, {r0-r6, lr} 
+	
+	ldr r5, =BG_MAP_RAM(BG0_MAP_BASE)	@ Pointer to main
+	ldr r6, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB) @ Pointer to sub
+	cmp r3, #1						@ Draw on sub screen?
+	moveq r5, r6					@ Yes so store subscreen pointer
+	add r5, r1, lsl #1				@ Add x position
+	add r5, r2, lsl #6				@ Add y multiplied by 64
+	subs r4, #1
+
+drawTextCountBLoop:
+
+	ldrb r6, [r0], #1				@ Read r1 [text] and add 1 to [text] offset
+	sub r6, #32						@ ASCII character - 32 to get tile offset
+	orr r6, #(9 << 12)				@ Orr in the palette number (n << 12)
+	strh r6, [r5], #2				@ Write the tile number to our 32x32 map and move along
+	subs r4, #1
+	bpl drawTextCountBLoop
+
+drawTextCountBDone:
+	
+	ldmfd sp!, {r0-r6, pc}
 	
 	@ ---------------------------------------------
 	

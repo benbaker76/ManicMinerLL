@@ -44,9 +44,9 @@ collisionMonster:
 	@ and check boundries
 	@ if a boundry check is true, THEN do a per pixel check
 	
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]					@ player X
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]					@ player y
 	
 	mov r10,#65					@ monster number (65-71)
@@ -128,7 +128,7 @@ pixelDetect:
 	bleq maskNormal							@ grab data and shove to centre of colMonMap
 	blne maskFlipped						@ for normal and flipped sprites
 	
-	bl displaySpriteMap
+@	bl displaySpriteMap
 	
 	@ now we need to make your x/y 0-47 and alien is plotted in colMonMap at 16,16
 	
@@ -137,13 +137,13 @@ pixelDetect:
 	ldr r0,=spriteY
 	ldr r12,[r0,r10,lsl#2]					@ r12=monster Y
 
-	ldr r0,=spriteX+128
+	ldr r0,=spriteX+256
 	ldr r0,[r0]								@ r0=your X
 
 	sub r11,#16								@ r2 is now a diff value
 	sub r0,r11								@ r0= x coord 0-47
 
-	ldr r1,=spriteY+128
+	ldr r1,=spriteY+256
 	ldr r1,[r1]								@ r0=your Y
 
 	sub r12,#16
@@ -298,7 +298,7 @@ pixelCheckNormal:
 	add r3,r1,#384				@ r3=colmap bot left
 	add r4,r3,#8				@ r4=colmap bot right
 	
-	ldr r11,=spriteObj+128
+	ldr r11,=spriteObj+256
 	ldr r11,[r11]				@ r11= object of sprite
 	ldr r5,=SPRITE_GFX_SUB
 	lsl r11,#8					@ image * 256
@@ -385,7 +385,7 @@ pixelCheckFlipped:
 	add r3,r1,#384				@ r3=colmap bot left
 	add r4,r3,#8				@ r4=colmap bot right
 	
-	ldr r11,=spriteObj+128
+	ldr r11,=spriteObj+256
 	ldr r11,[r11]				@ r11= object of sprite
 	ldr r5,=SPRITE_GFX_SUB
 	lsl r11,#8					@ image * 256

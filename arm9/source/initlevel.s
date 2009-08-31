@@ -44,15 +44,15 @@ initLevel:
 	bl clearSpriteData
 
 	mov r0,#1
-	ldr r1,=spriteActive+128
+	ldr r1,=spriteActive+256
 	str r0,[r1]
 
 	mov r0,#1
-	ldr r1,=spriteObj+128
+	ldr r1,=spriteObj+256
 	str r0,[r1]
 	
 	mov r0,#0
-	ldr r1,=spriteAnimDelay+128
+	ldr r1,=spriteAnimDelay+256
 	str r0,[r1]
 	ldr r1,=minerAction
 	str r0,[r1]
@@ -80,16 +80,16 @@ initLevel:
 	str r0,[r2]		
 	ldrb r0,[r1],#1
 	add r0,#64
-	ldr r2,=spriteX+128
+	ldr r2,=spriteX+256
 	str r0,[r2]	
 	ldrb r0,[r1],#1
 	add r0,#384
-	ldr r2,=spriteY+128
+	ldr r2,=spriteY+256
 	str r0,[r2]	
 	ldrb r0,[r1],#1
 	mov r3,r0
 	and r3,#7
-	ldr r2,=spriteHFlip+128
+	ldr r2,=spriteHFlip+256
 	str r3,[r2]	
 	ldr r2,=minerDirection
 	str r3,[r2]
@@ -108,6 +108,12 @@ initLevel:
 	bl drawLevel			@ Display the level graphics
 	
 	bl levelStory			@ Display the games story in the bottom screen
+	
+	ldr r0,=specialEffect
+	ldr r0,[r0]
+	cmp r0,#FX_RAIN
+		bleq rainInit
+	@ etc
 	
 	ldmfd sp!, {r0-r10, pc}
 

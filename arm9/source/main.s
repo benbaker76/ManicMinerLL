@@ -139,6 +139,10 @@ gameLoop:
 
 	bl drawScore
 	
+	bl updateSpecialFX
+	
+	bl levelCheat
+	
 mainLoopDone:
 
 @mov r0,#5				@ need a timer here to stop execution?
