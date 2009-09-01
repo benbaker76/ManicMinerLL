@@ -91,7 +91,6 @@ rainInit:
 		mov r8,#2
 		str r8,[r1,r0,lsl#2]
 	
-	
 	subs r0,#1
 	bpl rainInitLoop
 	
@@ -100,7 +99,12 @@ rainInit:
 @------------------------------------ Update rain
 rainUpdate:
 	stmfd sp!, {r0-r10, lr}
-	
+	ldr r0,=BLEND_Y
+	mov r2,#15
+	strh r2,[r0]
+	ldr r0, =SUB_BLEND_CR
+	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3)
+	str r1, [r0]	
 	mov r0,#62
 	rainUpdateLoop:
 		ldr r1,=spriteActive
@@ -201,6 +205,37 @@ rainUpdate:
 	
 	subs r0,#1
 	bpl rainUpdateLoop
+
+	
+	@ OK, check for lightning...
+	
+	ldr r1,=lightningFlash
+	ldr r0,[r1]
+
+	bl getRandom
+	ldr r7,=1023
+	and r8,r7
+	cmp r8,#5
+	bgt rainNoLightning
+		cmp r0,#0
+		bne rainNoLightning
+		mov r0,#14
+		str r0,[r1]
+		
+		@-----          LIGHTNING NOISE
+	rainNoLightning:
+	
+	@ UPDATE LIGHTNING
+	
+	cmp r0,#0
+	subne r0,#1
+	str r0,[r1]
+
+	ldr r2,=SUB_BLEND_Y
+	str r0,[r2]
+	ldr r0, =SUB_BLEND_CR
+	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -344,3 +379,8 @@ starsNew:
 		str r8,[r1,r0,lsl#2]	
 	b starsReturn
 	ldmfd sp!, {r0-r10, pc}
+	
+	.pool
+	
+	lightningFlash:
+	.word 0
