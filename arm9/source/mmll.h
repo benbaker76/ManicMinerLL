@@ -199,6 +199,9 @@
 
 #define DUST_ACTIVE					2
 #define KEY_ACTIVE					3
+#define FX_RAIN						1
+#define FX_RAIN_ACTIVE				4
+#define FX_RAIN_SPLASH				5
 
 #define DUST_FRAME					60
 #define DUST_FRAME_END				63
@@ -208,9 +211,10 @@
 #define KEY_ANIM					2
 #define DOOR_FRAME					16
 #define DOOR_FRAME_END				23
-#define RAIN						10
-
-#define FX_RAIN						1
+#define RAIN_FRAME					24
+#define RAIN_SPLASH_FRAME			25
+#define RAIN_SPLASH_FRAME_END		28
+#define RAIN_SPLASH_ANIM			4
 
 @ level defines
 

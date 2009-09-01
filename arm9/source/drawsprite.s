@@ -45,11 +45,11 @@
 drawSprite:
 	stmfd sp!, {lr}
 	
-	mov r8,#127 			@ our counter for 128 sprites, do not think we need them all though	
+	mov r10,#127 			@ our counter for 128 sprites, do not think we need them all though	
 	SLoop:
 
 		ldr r0,=spriteActive				@ r2 is pointer to the sprite active setting
-		ldr r1,[r0,r8, lsl #2]				@ add sprite number * 4
+		ldr r1,[r0,r10, lsl #2]				@ add sprite number * 4
 		cmp r1,#0							@ Is sprite active? (anything other than 0)
 		bne sprites_Draw					@ if so, draw it!
 
@@ -57,7 +57,7 @@ drawSprite:
 			
 			mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
 			ldr r0,=BUF_ATTRIBUTE0_SUB
-			add r0,r8, lsl #3
+			add r0,r10, lsl #3
 			strh r1,[r0]
 
 		b sprites_Done
@@ -65,14 +65,14 @@ drawSprite:
 	sprites_Draw:
 	
 		ldr r0,=spriteY					@ Load Y coord
-		ldr r1,[r0,r8,lsl #2]			@ add ,rX for offsets
+		ldr r1,[r0,r10,lsl #2]			@ add ,rX for offsets
 		cmp r1,#4096					@ account for floating point
 		lsreq r1,#12
 		
 		@ Draw sprite to SUB screen ONLY (r1 holds Y)
 		
 		ldr r0,=BUF_ATTRIBUTE0_SUB	
-		add r0,r8, lsl #3
+		add r0,r10, lsl #3
 		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 		ldr r3,=SCREEN_SUB_TOP
 		cmp r1,r3
@@ -83,7 +83,7 @@ drawSprite:
 		strh r2,[r0]
 		@ Draw X
 		ldr r0,=spriteX					@ get X coord mem space
-		ldr r1,[r0,r8,lsl #2]			@ add ,rX for offsets
+		ldr r1,[r0,r10,lsl #2]			@ add ,rX for offsets
 		cmp r1,#4096					@ account for floating point
 		lsreq r1,#12
 		cmp r1,#SCREEN_LEFT				@ if less than 64, this is off left of screen
@@ -92,23 +92,23 @@ drawSprite:
 		sub r1,r4						@ account for maps horizontal position
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1_SUB		@
-		add r0,r8, lsl #3
+		add r0,r10, lsl #3
 		ldr r2, =(ATTR1_SIZE_16)
 		and r1,r3
 		orr r2,r1
 		ldr r3,=spriteHFlip
-		ldr r3,[r3,r8, lsl #2]			@ load flip H
+		ldr r3,[r3,r10, lsl #2]			@ load flip H
 		strh r2,[r0]
 		orr r2, r3, lsl #12
 		strh r2,[r0]
 			@ Draw Attributes
 		ldr r0,=BUF_ATTRIBUTE2_SUB
-		add r0,r8, lsl #3
+		add r0,r10, lsl #3
 		ldr r2,=spriteObj
-		ldr r3,[r2,r8, lsl #2]
+		ldr r3,[r2,r10, lsl #2]
 		ldr r1,=(0 | ATTR2_PRIORITY(SPRITE_PRIORITY)) @ add palette here *****
 		ldr r2,=spriteBloom
-		ldr r2,[r2,r8, lsl #2]
+		ldr r2,[r2,r10, lsl #2]
 		orr r1,r2, lsl #12
 		orr r1,r3, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
 		strh r1, [r0]					@ store it all back
@@ -119,65 +119,104 @@ drawSprite:
 		@ now we need to animate any shards
 		@----
 		ldr r9,=spriteActive
-		ldr r0,[r9, r8, lsl #2]
+		ldr r0,[r9, r10, lsl #2]
 		cmp r0,#DUST_ACTIVE						@ first, our little dust thing when you land
 		bne drawnNotDust
 						
 			ldr r1,=spriteAnimDelay
-			ldr r2,[r1,r8,lsl #2]
+			ldr r2,[r1,r10,lsl #2]
 			sub r2,#1
 			cmp r2,#0
 			moveq r2,#DUST_ANIM
-			str r2,[r1,r8,lsl #2]
+			str r2,[r1,r10,lsl #2]
 			bne drawnNotDust
 				ldr r1,=spriteObj
-				ldr r2,[r1,r8,lsl #2]
+				ldr r2,[r1,r10,lsl #2]
 				add r2,#1
 				cmp r2,#DUST_FRAME_END+1
-				str r2,[r1,r8,lsl #2]
+				str r2,[r1,r10,lsl #2]
 				bne drawnNotDust
 					ldr r1,=spriteActive
 					mov r2,#0
-					str r2,[r1,r8,lsl #2]
+					str r2,[r1,r10,lsl #2]
 		drawnNotDust:
 		cmp r0,#KEY_ACTIVE						@ now, our little key glisten
 		bne drawnNotKey
 						
 			ldr r1,=spriteAnimDelay
-			ldr r2,[r1,r8,lsl #2]
+			ldr r2,[r1,r10,lsl #2]
 			sub r2,#1
 			cmp r2,#0
 			moveq r2,#KEY_ANIM
-			str r2,[r1,r8,lsl #2]
+			str r2,[r1,r10,lsl #2]
 			bne drawnNotKey
 				ldr r1,=spriteObj
-				ldr r2,[r1,r8,lsl #2]
+				ldr r2,[r1,r10,lsl #2]
 				add r2,#1
 				cmp r2,#KEY_FRAME_END+1
-				str r2,[r1,r8,lsl #2]
+				str r2,[r1,r10,lsl #2]
 				bne drawnNotKey
 					ldr r1,=spriteActive
 					mov r2,#0
-					str r2,[r1,r8,lsl #2]	
+					str r2,[r1,r10,lsl #2]	
 		drawnNotKey:
 		cmp r0,#EXIT_OPEN
 		bne drawNotExitOpen
 			ldr r1,=spriteAnimDelay
-			ldr r2,[r1,r8,lsl #2]
+			ldr r2,[r1,r10,lsl #2]
 			sub r2,#1
 			cmp r2,#0
 			moveq r2,#4
-			str r2,[r1,r8,lsl #2]
+			str r2,[r1,r10,lsl #2]
 			bne drawNotExitOpen
 				ldr r1,=spriteObj
-				ldr r2,[r1,r8,lsl #2]
+				ldr r2,[r1,r10,lsl #2]
 				add r2,#1
 				cmp r2,#DOOR_FRAME_END+1
 				moveq r2,#DOOR_FRAME
-				str r2,[r1,r8,lsl #2]
-
+				str r2,[r1,r10,lsl #2]
 		drawNotExitOpen:
-	subs r8,#1
+		cmp r0,#FX_RAIN_SPLASH
+		bne drawNotRainSplash
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#RAIN_SPLASH_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotRainSplash			
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#RAIN_SPLASH_FRAME_END+1
+				str r2,[r1,r10,lsl #2]				
+				bne drawNotRainSplash
+				@ generate new rain
+
+					bl getRandom				@ r8 returned
+					ldr r7,=0x1FF
+					and r8,r7
+					add r8,#64
+					ldr r1,=spriteX
+					str r8,[r1,r10,lsl#2]		@ store X	0-255
+					mov r8,#384+32
+					ldr r1,=spriteY
+					str r8,[r1,r10,lsl#2]		@ store y	0-191
+					bl getRandom
+					and r8,#3
+					cmp r8,#0
+					moveq r8,#1
+					ldr r1,=spriteSpeed
+					str r8,[r1,r10,lsl#2]
+					mov r8,#FX_RAIN_ACTIVE
+					ldr r1,=spriteActive
+					str r8,[r1,r10,lsl#2]
+					mov r8,#RAIN_FRAME
+					ldr r1,=spriteObj
+					str r8,[r1,r10,lsl#2]		
+		
+		drawNotRainSplash:
+	subs r10,#1
 	bpl SLoop
 
 	ldmfd sp!, {pc}

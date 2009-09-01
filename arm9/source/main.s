@@ -116,18 +116,29 @@ gameLoop:
 
 	@ This is our main game loop
 	
+	ldr r0,=minerDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#2
+	moveq r1,#0
+	str r1,[r0]
+	bne skipFrame
 	
-	bl minerControl
+		@ These are updated every other frame
+		
+		bl monsterMove
+	
+		bl moveMiner	
+		bl minerControl
+		bl minerJump
+		bl minerFall
+
+	skipFrame:
+
 	bl drawSprite
-
-	bl monsterMove
-
-	bl moveMiner
 
 	bl collisionMonster
 
-	bl minerJump
-	bl minerFall
 	bl checkHeadDie
 	
 	bl minerFrame
@@ -142,31 +153,14 @@ gameLoop:
 	bl updateSpecialFX
 	
 	bl levelCheat
+
+	ldr r1,=minerDied		@ this will be moved, just for testing
+	ldr r1,[r1]
+	cmp r1,#1
+	beq main2
 	
 mainLoopDone:
 
-@mov r0,#5				@ need a timer here to stop execution?
-@ldr r1,=delayMe		@ but this does not work CRASHES
-@bl startTimer
-@timeWait:
-@b timeWait
-@delayMe:
-
-ldr r0,=265000
-pp:
-subs r0,#1
-@bne pp
-
-@	halt:
-@	ldr r2, =REG_KEYINPUT						@ Read key input register
-@	ldr r10, [r2]								@ r10= key pressed				
-@	tst r10,#BUTTON_START
-@	beq main
-
-ldr r1,=minerDied
-ldr r1,[r1]
-cmp r1,#1
-beq main2
 
 	b mainLoop									@ our main loop
 

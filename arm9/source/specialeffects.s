@@ -56,10 +56,10 @@ rainInit:
 	mov r0,#62
 	rainInitLoop:
 		ldr r1,=spriteActive
-		mov r2,#RAIN
+		mov r2,#FX_RAIN_ACTIVE
 		str r2,[r1,r0,lsl#2]
 		ldr r1,=spriteObj
-		mov r2,#24					@ object for rain
+		mov r2,#RAIN_FRAME			@ object for rain
 		str r2,[r1,r0,lsl#2]
 		
 		bl getRandom				@ r8 returned
@@ -95,6 +95,11 @@ rainUpdate:
 	
 	mov r0,#62
 	rainUpdateLoop:
+		ldr r1,=spriteActive
+		ldr r2,[r1,r0,lsl#2]
+		cmp r2,#FX_RAIN_ACTIVE
+		bne rainBack
+		
 		ldr r1,=spriteSpeed
 		ldr r2,[r1,r0,lsl#2]			@ r3=speed
 		
@@ -106,11 +111,86 @@ rainUpdate:
 		str r3,[r1,r0,lsl#2]
 		
 		ldr r1,=spriteY
-		ldr r3,[r1,r0,lsl#2]			@ y coord
-		add r3,r2
-		cmp r3,#256+384
+		ldr r4,[r1,r0,lsl#2]			@ y coord
+		add r4,r2
+		cmp r4,#256+384
 		bgt rainNew
-		str r3,[r1,r0,lsl#2]	
+		str r4,[r1,r0,lsl#2]	
+		
+		cmp r3,#64+8
+		ble rainBack
+		cmp r3,#(64+256)-8
+		bge rainBack
+		
+		@ check for 'SPLASHY TIME'
+		@ r3,r4= rain x/y
+		sub r3,#64
+		lsr r3,#3
+		sub r4,#384
+		add r4,#16
+		lsr r4,#3
+		
+		lsl r5,r4,#5
+		add r5,r5,r3					@ r5=offset for pixel detect
+		ldr r6,=colMapStore
+		ldrb r1,[r6,r5]					@ r5=value
+		
+		cmp r4,#23
+		bge skipRandomSplash
+		
+		@ if this is between 1 and 23 this is a platform
+		
+		bl getRandom
+		and r8,#0xFF
+		cmp r8,#32
+		bpl rainBack
+		
+		skipRandomSplash:
+		
+		cmp r1,#0
+		beq rainNotPlatform
+		cmp r1,#23
+		bgt rainNotPlatform
+		
+			@ now we need to check 1 char above
+			sub r5,#32
+			ldrb r1,[r6,r5]
+			cmp r1,#0
+			beq rainOnPlatform
+			cmp r1,#23
+			bgt rainOnPlatform
+			b rainNotPlatform
+		
+			@ ok, this is now a good area for a splash
+			
+			rainOnPlatform:
+			
+			ldr r1,=spriteY
+			ldr r4,[r1,r0,lsl #2]
+			lsr r4,#3
+			lsl r4,#3
+			str r4,[r1,r0,lsl #2]
+			
+			ldr r1,=spriteX
+			ldr r4,[r1,r0,lsl #2]
+			sub r4,#3
+			str r4,[r1,r0,lsl #2]
+	
+			mov r2,#FX_RAIN_SPLASH
+			ldr r1,=spriteActive
+			str r2,[r1,r0,lsl #2]
+			mov r2,#RAIN_SPLASH_FRAME
+
+			ldr r1,=spriteObj
+			str r2,[r1,r0,lsl #2]
+			mov r2,#RAIN_SPLASH_ANIM
+			ldr r1,=spriteAnimDelay
+			str r2,[r1,r0,lsl #2]		
+		
+		rainNotPlatform:
+		
+		
+	
 	
 		rainBack:
 	
