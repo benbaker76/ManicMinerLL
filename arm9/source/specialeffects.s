@@ -90,21 +90,21 @@ rainInit:
 		ldr r1,=spritePriority
 		mov r8,#2
 		str r8,[r1,r0,lsl#2]
+		
 	
 	subs r0,#1
 	bpl rainInitLoop
+	
+	mov r8,#0
+	ldr r1,=LightningFlash
+	str r8,[r1]
 	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------------ Update rain
 rainUpdate:
 	stmfd sp!, {r0-r10, lr}
-	ldr r0,=BLEND_Y
-	mov r2,#15
-	strh r2,[r0]
-	ldr r0, =SUB_BLEND_CR
-	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3)
-	str r1, [r0]	
+	
 	mov r0,#62
 	rainUpdateLoop:
 		ldr r1,=spriteActive
@@ -277,6 +277,13 @@ specialFXStop:
 	
 	ldr r2,=specialEffect
 	str r3,[r3]
+	
+	mov r0,#0
+	ldr r2,=SUB_BLEND_Y
+	str r0,[r2]
+	ldr r0, =SUB_BLEND_CR
+	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r10, pc}	
 	
