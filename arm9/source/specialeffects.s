@@ -35,7 +35,11 @@
 	.global updateSpecialFX
 	.global rainInit
 	.global rainUpdate
-	.global rainStop
+
+	.global starsInit
+	.global starsUpdate
+
+	.global SpecialFXStop
 
 @------------------------------------ Special Effect Update
 
@@ -46,7 +50,8 @@ updateSpecialFX:
 	ldr r0,[r0]
 	cmp r0,#FX_RAIN
 	bleq rainUpdate
-	
+	cmp r0,#FX_STARS
+	bleq starsUpdate	
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -82,6 +87,9 @@ rainInit:
 		moveq r8,#1
 		ldr r1,=spriteSpeed
 		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#2
+		str r8,[r1,r0,lsl#2]
 	
 	
 	subs r0,#1
@@ -113,7 +121,7 @@ rainUpdate:
 		ldr r1,=spriteY
 		ldr r4,[r1,r0,lsl#2]			@ y coord
 		add r4,r2
-		cmp r4,#256+384
+		cmp r4,#192+384
 		bgt rainNew
 		str r4,[r1,r0,lsl#2]	
 		
@@ -188,10 +196,7 @@ rainUpdate:
 			str r2,[r1,r0,lsl #2]		
 		
 		rainNotPlatform:
-		
-		
-	
-	
+
 		rainBack:
 	
 	subs r0,#1
@@ -222,7 +227,7 @@ rainUpdate:
 	b rainBack
 
 @------------------------------------ Stop rain
-rainStop:
+specialFXStop:
 	stmfd sp!, {r0-r10, lr}
 
 	mov r0,#62
@@ -239,3 +244,103 @@ rainStop:
 	str r3,[r3]
 	
 	ldmfd sp!, {r0-r10, pc}	
+	
+@------------------------------------ Init stars
+starsInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r0,#62
+	starsInitLoop:
+		ldr r1,=spriteActive
+		mov r2,#FX_STARS_ACTIVE
+		str r2,[r1,r0,lsl#2]
+		ldr r1,=spriteObj
+		mov r2,#STAR_FRAME			@ object for rain
+		str r2,[r1,r0,lsl#2]
+		
+		bl getRandom				@ r8 returned
+		ldr r7,=0x1FF				@ and with 256
+		and r8,r7
+		add r8,#64
+		lsl r8,#12
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		bl getRandom				@ r8 returned
+		and r8,#0xFF
+		lsr r8,#2
+		mov r3,#3
+		mul r8,r3
+		add r8,#384+48
+		lsl r8,#12
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store y	0-191
+		bl getRandom
+		lsr r8,#20
+		add r8,#1024
+		ldr r1,=spriteSpeed
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]
+	
+	
+	subs r0,#1
+	bpl starsInitLoop
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Update stars
+starsUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r0,#62
+	starsUpdateLoop:
+		ldr r1,=spriteActive
+		ldr r2,[r1,r0,lsl#2]
+		cmp r2,#FX_STARS_ACTIVE
+	@	bne starsReturn
+		
+		ldr r1,=spriteSpeed
+		ldr r2,[r1,r0,lsl#2]			@ r3=speed
+		
+		ldr r1,=spriteX
+		ldr r3,[r1,r0,lsl#2]			@ x coord
+		sub r3,r2
+		mov r4,#32
+		lsl r4,#12
+		cmp r3,r4
+		blt starsNew
+		str r3,[r1,r0,lsl#2]
+
+
+		starsReturn:
+	subs r0,#1
+	bpl starsUpdateLoop
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+starsNew:
+		mov r8,#256
+		add r8,#64
+		lsl r8,#12
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		bl getRandom				@ r8 returned
+		and r8,#0xFF
+		lsr r8,#2
+		mov r3,#3
+		mul r8,r3
+		add r8,#384+48
+		lsl r8,#12
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store y	0-191
+		bl getRandom
+		lsr r8,#20
+		add r8,#1024
+		ldr r1,=spriteSpeed
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]	
+	b starsReturn
+	ldmfd sp!, {r0-r10, pc}

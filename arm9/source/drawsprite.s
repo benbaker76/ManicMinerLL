@@ -67,8 +67,8 @@ drawSprite:
 		ldr r0,=spriteY					@ Load Y coord
 		ldr r1,[r0,r10,lsl #2]			@ add ,rX for offsets
 		cmp r1,#4096					@ account for floating point
-		lsreq r1,#12
-		
+		lsrge r1,#12
+
 		@ Draw sprite to SUB screen ONLY (r1 holds Y)
 		
 		ldr r0,=BUF_ATTRIBUTE0_SUB	
@@ -85,7 +85,7 @@ drawSprite:
 		ldr r0,=spriteX					@ get X coord mem space
 		ldr r1,[r0,r10,lsl #2]			@ add ,rX for offsets
 		cmp r1,#4096					@ account for floating point
-		lsreq r1,#12
+		lsrge r1,#12
 		cmp r1,#SCREEN_LEFT				@ if less than 64, this is off left of screen
 		addmi r1,#512					@ convert coord for offscreen (32 each side)
 		sub r1,#SCREEN_LEFT				@ Take 64 off our X
@@ -106,7 +106,9 @@ drawSprite:
 		add r0,r10, lsl #3
 		ldr r2,=spriteObj
 		ldr r3,[r2,r10, lsl #2]
-		ldr r1,=(0 | ATTR2_PRIORITY(SPRITE_PRIORITY)) @ add palette here *****
+		ldr r1,=spritePriority
+		ldr r1,[r1,r10, lsl #2]
+		lsl r1,#10						@ set priority
 		ldr r2,=spriteBloom
 		ldr r2,[r2,r10, lsl #2]
 		orr r1,r2, lsl #12

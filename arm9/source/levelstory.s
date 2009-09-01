@@ -56,7 +56,7 @@ levelStory:
 		bl drawTextBlack
 		add r2,#1
 		add r0,#26
-		cmp r2,#19
+		cmp r2,#17
 		
 	bne storyLoop
 	
@@ -95,18 +95,18 @@ levelStory:
 	.ascii "IF ONLY IT WASN'T WITCHING"
 	.ascii "HOUR...                   "
 	@ 2
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "  THIS LEVEL IS JUST FOR  "
-	.ascii "     TESTING PURPOSES     "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  DESCENDING THROUGH THE  "
+	.ascii "CHIMNEY INTO HIS HOUSE, HE"
+	.ascii "IS SUPRISED TO FIND THAT  "
+	.ascii "HE IS NOT IN THE ATTIC,   "
+	.ascii "BUT SOMEHOW HAS LANDED IN "
+	.ascii "AN AIRLOCK THAT HE CANNOT "
+	.ascii "REMEMBER BUILDING?        "
+	.ascii "  MYSTIFIED, ALL HE KNOWS "
+	.ascii "IS THAT HE MUST GET THE   "
+	.ascii "THE KEYS NEEDED TO OPEN   "
+	.ascii "CENTRAL AIRLOCK AND MAKE  "
+	.ascii "HIS ESCAPE...             "
 
 	@ 3
 	.ascii "                          "
@@ -358,7 +358,7 @@ levelStory:
 	
 levelInfo:
 	.ascii "    LEVEL 17 - ORIC 1983    "
-	.ascii "  LEVEL 1 - SPECTRUM  1983  "
+	.ascii "    LEVEL XX - ORIC 1983    "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "

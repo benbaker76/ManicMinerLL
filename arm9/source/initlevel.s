@@ -47,8 +47,12 @@ initLevel:
 	ldr r1,=spriteActive+256
 	str r0,[r1]
 
-	mov r0,#1
+	mov r0,#0
 	ldr r1,=spriteObj+256
+	str r0,[r1]
+
+	mov r0,#1
+	ldr r1,=spritePriority+256
 	str r0,[r1]
 	
 	mov r0,#0
@@ -113,6 +117,8 @@ initLevel:
 	ldr r0,[r0]
 	cmp r0,#FX_RAIN
 		bleq rainInit
+	cmp r0,#FX_STARS
+		bleq starsInit
 	@ etc
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -169,7 +175,10 @@ getDoorSprite:
 	cmp r0,#0
 	ldreq r0, =Exit01Tiles
 	ldreq r2, =Exit01TilesLen
-
+	cmp r0,#1
+	ldreq r0, =Exit02Tiles
+	ldreq r2, =Exit02TilesLen
+	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
 	add r1, #(16*256)
@@ -241,10 +250,10 @@ getLevelBackground:
 	ldreq r7,=Background06MapLen
 	cmp r0,#6
 	bgt noLevelBackground
-	ldreq r4,=Background07Tiles
-	ldreq r5,=Background07TilesLen
-	ldreq r6,=Background07Map
-	ldreq r7,=Background07MapLen
+@	ldreq r4,=Background07Tiles
+@	ldreq r5,=Background07TilesLen
+@	ldreq r6,=Background07Map
+@	ldreq r7,=Background07MapLen
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)

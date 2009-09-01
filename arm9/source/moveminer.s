@@ -97,7 +97,7 @@ minerControl:
 			ldr r3,=minerDirection
 			mov r0,#MINER_LEFT
 			str r0,[r3]
-			ldr r1,=spriteHFlip+128
+			ldr r1,=spriteHFlip+256
 			mov r2,#0
 			str r2,[r1]
 
@@ -114,7 +114,7 @@ minerControl:
 			ldr r3,=minerDirection
 			mov r0,#MINER_RIGHT
 			str r0,[r3]
-			ldr r1,=spriteHFlip+128
+			ldr r1,=spriteHFlip+256
 			mov r2,#1
 			str r2,[r1]
 	

@@ -53,6 +53,7 @@
 	.global spriteMonster
 	.global spriteMonsterMove
 	.global spriteMonsterFlips
+	.global spritePriority
 
 	.global minerDelay
 	.global minerDirection
@@ -161,6 +162,8 @@ spriteMonster:
 spriteMonsterMove:
 	.space 512
 spriteMonsterFlips:
+	.space 512
+spritePriority:
 	.space 512
 	
 spriteDataEnd:

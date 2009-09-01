@@ -11,6 +11,7 @@ levelData:
 @ 3 then, number of keys to collect
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
+@												1=rain, 2=stars, 3=
 @ 7 =background number (0-?)
 @ 8 =door bank number - used for the exit.. 0-???
 
@@ -31,8 +32,8 @@ levelData:
 	
 levelData:
 
-	# 1 / Oric - level 17 originally
-	.byte 80,144,3,8,168,17,6,0
+	# 1 / Oric - level 17 - Home at last?
+	.byte 80,144,3,8,168,17,0,0
 	
 	.byte 8,88,1,1,1,17,8,144
 	.byte 104,104,1,1,255,17,104,216
@@ -42,12 +43,12 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 
-	@ 2
-	.byte 232,168,5,8,168,1,5,0
+	@ 2 / Oric - Level xx - Airlock
+	.byte 128,104,3,8,104,33,1,1
 	
-	.byte 60,120,17,1,1,0,60,122
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,160,17,1,1,0,16,104
+	.byte 144,168,17,1,1,7,144,232
+	.byte 144,104,17,1,1,7,144,224
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0

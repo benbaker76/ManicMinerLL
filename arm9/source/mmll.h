@@ -28,9 +28,10 @@
 #include "../build/Background04.h"
 #include "../build/Background05.h"
 #include "../build/Background06.h"
-#include "../build/Background07.h"
+@#include "../build/Background07.h"
 
 #include "../build/Exit01.h"
+#include "../build/Exit02.h"
 
 #include "../build/TopMenu.h"
 
@@ -196,13 +197,18 @@
 #define FEET_DROP					0		@ This does not work :(
 
 @ Effect defines
+@ / These are fx triggers
+#define FX_RAIN						1
+#define FX_STARS					2
 
+@ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
 #define KEY_ACTIVE					3
-#define FX_RAIN						1
 #define FX_RAIN_ACTIVE				4
 #define FX_RAIN_SPLASH				5
+#define FX_STARS_ACTIVE				6
 
+@ / these are various animation settings
 #define DUST_FRAME					60
 #define DUST_FRAME_END				63
 #define DUST_ANIM					2
@@ -215,6 +221,7 @@
 #define RAIN_SPLASH_FRAME			25
 #define RAIN_SPLASH_FRAME_END		28
 #define RAIN_SPLASH_ANIM			4
+#define STAR_FRAME					29
 
 @ level defines
 
