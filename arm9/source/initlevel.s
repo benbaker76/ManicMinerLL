@@ -42,6 +42,7 @@ initLevel:
 	
 	bl clearOAM
 	bl clearSpriteData
+	bl specialFXStop
 
 	mov r0,#1
 	ldr r1,=spriteActive+256
@@ -178,6 +179,9 @@ getDoorSprite:
 	cmp r0,#1
 	ldreq r0, =Exit02Tiles
 	ldreq r2, =Exit02TilesLen
+	cmp r0,#2
+	ldreq r0, =Exit03Tiles
+	ldreq r2, =Exit03TilesLen	
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
@@ -282,7 +286,9 @@ generateMonsters:
 	mov r9,#65
 	
 	gmLoop:
-	
+		mov r0,#0
+		ldr r2,=monsterDelay
+		str r0,[r2,r9,lsl#2]
 		ldrb r0,[r1],#1			@ monster x, if 0, no more monsters
 		cmp r0,#0
 		beq generateMonstersDone

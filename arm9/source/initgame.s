@@ -18,7 +18,7 @@
 initGame:
 stmfd sp!, {r0-r10, lr}
 
-	mov r0,#2				@ set level to 1 for start of game
+	mov r0,#3				@ set level to 1 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
 	

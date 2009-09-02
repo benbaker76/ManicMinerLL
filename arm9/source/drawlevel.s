@@ -62,6 +62,11 @@ drawLevel:
 	ldreq r5,=Level02TilesLen
 	ldreq r6,=Level02Map
 	ldreq r7,=Level02MapLen
+	cmp r3,#3
+	ldreq r4,=Level03Tiles
+	ldreq r5,=Level03TilesLen
+	ldreq r6,=Level03Map
+	ldreq r7,=Level03MapLen	
 	
 	@ Draw main game map!
 	mov r0,r4

@@ -168,7 +168,7 @@ drawSprite:
 			ldr r2,[r1,r10,lsl #2]
 			sub r2,#1
 			cmp r2,#0
-			moveq r2,#4
+			moveq r2,#6
 			str r2,[r1,r10,lsl #2]
 			bne drawNotExitOpen
 				ldr r1,=spriteObj

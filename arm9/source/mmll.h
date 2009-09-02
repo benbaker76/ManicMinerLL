@@ -20,8 +20,11 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../build/BottomScreen.h"
+
 #include "../build/Level01.h"
 #include "../build/Level02.h"
+#include "../build/Level03.h"
+
 #include "../build/Background01.h"
 #include "../build/Background02.h"
 #include "../build/Background03.h"
@@ -32,6 +35,7 @@
 
 #include "../build/Exit01.h"
 #include "../build/Exit02.h"
+#include "../build/Exit03.h"
 
 #include "../build/TopMenu.h"
 
@@ -65,8 +69,8 @@
 #define BG0_TILE_BASE				7
 #define BG0_TILE_BASE_SUB			7
 
-#define BG1_TILE_BASE				6
-#define BG1_TILE_BASE_SUB			6
+#define BG1_TILE_BASE				5
+#define BG1_TILE_BASE_SUB			5
 
 #define BG2_TILE_BASE				4
 #define BG2_TILE_BASE_SUB			4
@@ -156,7 +160,7 @@
 #define LEVEL_15					15
 #define LEVEL_16					16
 
-#define LEVEL_COUNT					2
+#define LEVEL_COUNT					3
 
 @ Fade values
 

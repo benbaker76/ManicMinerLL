@@ -112,8 +112,6 @@ exitX:
 	.word 0
 exitY:
 	.word 0
-monsterDelay:
-	.word 0
 
 specialEffect:
 	.word 0
@@ -164,6 +162,8 @@ spriteMonsterMove:
 spriteMonsterFlips:
 	.space 512
 spritePriority:
+	.space 512
+monsterDelay:
 	.space 512
 	
 spriteDataEnd:

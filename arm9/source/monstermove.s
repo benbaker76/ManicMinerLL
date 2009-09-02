@@ -34,11 +34,11 @@ monsterMove:
 		cmp r4,#255						@ is this fractional?
 		bne monsterMoveNormalSpeed
 			ldr r5,=monsterDelay
-			ldr r6,[r5]
+			ldr r6,[r5,r1,lsl #2]
 			add r6,#1
 			cmp r6,#2
 			moveq r6,#0
-			str r6,[r5]
+			str r6,[r5,r1,lsl #2]
 			moveq r4,#1
 			movne r4,#0
 		monsterMoveNormalSpeed:

@@ -39,7 +39,7 @@
 	.global starsInit
 	.global starsUpdate
 
-	.global SpecialFXStop
+	.global specialFXStop
 
 @------------------------------------ Special Effect Update
 
