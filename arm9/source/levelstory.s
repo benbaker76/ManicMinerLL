@@ -358,10 +358,10 @@ levelStory:
 	.ascii "                          "	
 	
 levelInfo:
-	.ascii "    LEVEL 17 - ORIC 1983    "
-	.ascii "    LEVEL 20 - ORIC 1983    "
+	.ascii "    LEVEL 17 - ORIC 1985    "
+	.ascii "    LEVEL 20 - ORIC 1985    "
 	.ascii "    LEVEL XX - GBA  2002    "
-	.ascii "    LEVEL 24 - ORIC 1983    "
+	.ascii "    LEVEL 24 - ORIC 1985    "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
