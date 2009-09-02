@@ -67,7 +67,11 @@ drawLevel:
 	ldreq r5,=Level03TilesLen
 	ldreq r6,=Level03Map
 	ldreq r7,=Level03MapLen	
-	
+	cmp r3,#4
+	ldreq r4,=Level04Tiles
+	ldreq r5,=Level04TilesLen
+	ldreq r6,=Level04Map
+	ldreq r7,=Level04MapLen		
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)

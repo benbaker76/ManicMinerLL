@@ -120,6 +120,8 @@ initLevel:
 		bleq rainInit
 	cmp r0,#FX_STARS
 		bleq starsInit
+	cmp r0,#FX_LEAVES
+		bleq leafInit
 	@ etc
 	
 	ldmfd sp!, {r0-r10, pc}

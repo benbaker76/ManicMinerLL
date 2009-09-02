@@ -39,6 +39,9 @@
 	.global starsInit
 	.global starsUpdate
 
+	.global leafInit
+	.global leafUpdate
+
 	.global specialFXStop
 
 @------------------------------------ Special Effect Update
@@ -52,6 +55,8 @@ updateSpecialFX:
 	bleq rainUpdate
 	cmp r0,#FX_STARS
 	bleq starsUpdate	
+	cmp r0,#FX_LEAVES
+	bleq leafUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -297,7 +302,7 @@ starsInit:
 		mov r2,#FX_STARS_ACTIVE
 		str r2,[r1,r0,lsl#2]
 		ldr r1,=spriteObj
-		mov r2,#STAR_FRAME			@ object for rain
+		mov r2,#STAR_FRAME			@ object for stars
 		str r2,[r1,r0,lsl#2]
 		
 		bl getRandom				@ r8 returned
@@ -340,7 +345,7 @@ starsUpdate:
 		ldr r1,=spriteActive
 		ldr r2,[r1,r0,lsl#2]
 		cmp r2,#FX_STARS_ACTIVE
-	@	bne starsReturn
+		bne starsReturn
 		
 		ldr r1,=spriteSpeed
 		ldr r2,[r1,r0,lsl#2]			@ r3=speed
@@ -387,7 +392,225 @@ starsNew:
 	b starsReturn
 	ldmfd sp!, {r0-r10, pc}
 	
+@------------------------------------ Init leaves
+leafInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r0,#62
+	leafInitLoop:
+		ldr r1,=spriteActive
+		mov r2,#FX_LEAVES_ACTIVE
+		str r2,[r1,r0,lsl#2]
+		ldr r1,=spriteObj
+		mov r2,#LEAF_FRAME			@ object for rain
+		str r2,[r1,r0,lsl#2]
+		
+		bl getRandom				@ r8 returned
+		ldr r7,=0x1FF				@ and with 256
+		and r8,r7
+		add r8,#64
+		lsl r8,#12
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		bl getRandom				@ r8 returned
+		and r8,#0xFF
+		lsr r8,#2
+		mov r3,#3
+		mul r8,r3
+		add r8,#384+48
+		lsl r8,#12
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store y	0-191
+		bl getRandom
+		lsr r8,#21
+		add r8,#256
+		ldr r1,=spriteSpeed
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spriteMonsterMove
+		mov r8,#0
+		str r8,[r1,r0,lsl#2]		
+		ldr r1,=spriteAnimDelay
+		mov r8,#16
+		str r8,[r1,r0,lsl#2]
+		
+		bl getRandom
+		and r8,#0x1					@ random float direction
+		ldr r1,=spriteDir
+		str r8,[r1,r0,lsl#2]
+		
+		@ Ok, we need to rock them???
+	
+	subs r0,#1
+	bpl leafInitLoop
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Update leaves
+leafUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r0,#62
+	leafUpdateLoop:
+		ldr r1,=spriteActive
+		ldr r2,[r1,r0,lsl#2]
+		cmp r2,#FX_LEAVES_ACTIVE
+		bne leafReturn
+		
+		ldr r1,=spriteSpeed
+		ldr r2,[r1,r0,lsl#2]			@ r3=speed
+		ldr r3,=leafFall
+		ldr r4,=spriteAnimDelay
+		ldr r4,[r4,r0,lsl#2]
+		ldrb r4,[r3,r4]
+		lsl r4,#4
+		subs r2,r4
+		cmp r2,#0
+		movmi r2,#128
+		
+		ldr r1,=spriteY
+		ldr r3,[r1,r0,lsl#2]			@ Y coord
+		add r3,r2
+		mov r4,#248
+		add r4,#384
+		lsl r4,#12
+		cmp r3,r4
+		bgt leafNew
+		str r3,[r1,r0,lsl#2]
+		
+		ldr r1,=spriteX
+		ldr r5,=spriteDir
+		ldr r3,[r5,r0,lsl#2]
+		ldr r6,=spriteAnimDelay
+		ldr r7,[r6,r0,lsl#2]
+		cmp r3,#0
+		bne leafRight
+		@ leaf Left
+			bl getRandom
+			and r8,#0xFF
+			cmp r8,#4
+			bpl leftLeafNoChange
+			cmp r7,#4
+			movle r3,#1
+			strle r3,[r5,r0,lsl#2]			
+			leftLeafNoChange:
+			@ r1=sprite
+			
+			ldr r2,[r1,r0,lsl#2]			@ r2=x co
+			ldr r9,=spriteMonsterMove
+			ldr r10,[r9,r0,lsl#2]			@ r10=speed
+			cmp r10,#-2048
+			subgt r10,#128
+			str r10,[r9,r0,lsl#2]
+			adds r2,r10
+			str r2,[r1,r0,lsl#2]
+			mov r10,#32
+			lsl r10,#12
+			cmp r2,r10
+			blt leafNew
+
+			ldr r1,=spriteAnimDelay
+			cmp r7,#0
+			subne r7,#1
+			str r7,[r1,r0,lsl#2]
+			
+			b leafMoved
+		
+		leafRight:
+			bl getRandom
+			and r8,#0xFF
+			cmp r8,#4
+			bpl rightLeafNoChange
+			cmp r7,#28
+			movge r3,#0
+			strge r3,[r5,r0,lsl#2]			
+			rightLeafNoChange:
+			
+			ldr r2,[r1,r0,lsl#2]			@ r2=x co
+			ldr r9,=spriteMonsterMove
+			ldr r10,[r9,r0,lsl#2]			@ r10=speed
+			cmp r10,#2048
+			addlt r10,#128
+			str r10,[r9,r0,lsl#2]
+			adds r2,r10
+			str r2,[r1,r0,lsl#2]
+			mov r10,#256+96
+			lsl r10,#12
+			cmp r2,r10
+			bgt leafNew
+			
+			ldr r1,=spriteAnimDelay
+			cmp r7,#31
+			addne r7,#1
+			str r7,[r1,r0,lsl#2]
+
+		leafMoved:
+			@ generate frame from spriteAnimDelay
+			
+			ldr r1,=leafSwing
+			ldrb r5,[r1,r7]
+			ldr r1,=spriteObj
+			str r5,[r1,r0,lsl#2]			
+
+		leafReturn:
+	subs r0,#1
+	bpl leafUpdateLoop
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+leafNew:
+		bl getRandom				@ r8 returned
+		ldr r7,=0x1FF				@ and with 256
+		and r8,r7
+		add r8,#64
+		lsl r8,#12
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		mov r8,#384
+		add r8,#32
+		lsl r8,#12
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store y	0-191
+		bl getRandom
+		lsr r8,#21
+		add r8,#256
+		ldr r1,=spriteSpeed
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]
+		
+		ldr r1,=spriteMonsterMove
+		mov r8,#0
+		str r8,[r1,r0,lsl#2]		
+		
+		ldr r1,=spriteAnimDelay
+		mov r8,#16
+		str r8,[r1,r0,lsl#2]
+		
+		bl getRandom
+		and r8,#0x1					@ random float direction
+		ldr r1,=spriteDir
+		str r8,[r1,r0,lsl#2]
+	
+	b leafReturn
+	ldmfd sp!, {r0-r10, pc}	
+
+
+@-----------------------------------
 	.pool
+	.data
+	.align
 	
 	lightningFlash:
 	.word 0
+	
+	.align
+	leafSwing:
+	.byte 30,31,31,31,31,31,31,31,32,32,32,32,32,32,32,32
+	.byte 32,32,32,32,32,32,32,32,33,33,33,33,33,33,33,34
+	leafFall:
+	.byte 20,20,20,20,14,14,14,14,10,10,8,4,0,0,0,0
+	.byte 0,0,0,0,4,8,10,10,14,14,14,14,20,20,20,20

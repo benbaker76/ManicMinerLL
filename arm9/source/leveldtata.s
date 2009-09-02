@@ -11,7 +11,7 @@ levelData:
 @ 3 then, number of keys to collect
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
-@												1=rain, 2=stars, 3=
+@												1=rain, 2=stars, 3=Leaves, 4=
 @ 7 =background number (0-?)
 @ 8 =door bank number - used for the exit.. 0-???
 
@@ -54,7 +54,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 3
+	@ 3 / GBA - Level xx - Mummy Daddy
 	.byte 224,80,5,218,168,0,2,2
 	
 	.byte 104,108,1,16,1,12,108,168
@@ -66,13 +66,13 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 4
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,4,8,168,49,3,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 120,56,1,16,1,18,56,104
+	.byte 8,142,1,17,255,6,8,56
+	.byte 64,168,17,1,1,14,8,72
+	.byte 152,168,17,1,1,14,96,160
+	.byte 232,168,0,1,1,14,168,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 

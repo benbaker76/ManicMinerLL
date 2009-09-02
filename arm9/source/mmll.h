@@ -24,6 +24,7 @@
 #include "../build/Level01.h"
 #include "../build/Level02.h"
 #include "../build/Level03.h"
+#include "../build/Level04.h"
 
 #include "../build/Background01.h"
 #include "../build/Background02.h"
@@ -160,7 +161,7 @@
 #define LEVEL_15					15
 #define LEVEL_16					16
 
-#define LEVEL_COUNT					3
+#define LEVEL_COUNT					4
 
 @ Fade values
 
@@ -204,6 +205,7 @@
 @ / These are fx triggers
 #define FX_RAIN						1
 #define FX_STARS					2
+#define FX_LEAVES					3
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
@@ -211,6 +213,7 @@
 #define FX_RAIN_ACTIVE				4
 #define FX_RAIN_SPLASH				5
 #define FX_STARS_ACTIVE				6
+#define FX_LEAVES_ACTIVE			7
 
 @ / these are various animation settings
 #define DUST_FRAME					60
@@ -226,7 +229,8 @@
 #define RAIN_SPLASH_FRAME_END		28
 #define RAIN_SPLASH_ANIM			4
 #define STAR_FRAME					29
-
+#define LEAF_FRAME					30
+#define LEAF_FRAME_END				33
 @ level defines
 
 #define EXIT_CLOSED					64
