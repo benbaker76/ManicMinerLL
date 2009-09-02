@@ -96,7 +96,7 @@ rainInit:
 	bpl rainInitLoop
 	
 	mov r8,#0
-	ldr r1,=LightningFlash
+	ldr r1,=lightningFlash
 	str r8,[r1]
 	
 	ldmfd sp!, {r0-r10, pc}
