@@ -236,7 +236,7 @@ playSoundContinue:
 	
 	ldr r8, =SCHANNEL_CR(0)
 	ldr r9, =SCHANNEL_ENABLE					@ Enable
-	orr r9, #127								@ Volume
+	orr r9, r4									@ Volume
 	orr r9, r5, lsl #16							@ Pan
 	tst r6, #IPC_SOUND_LOOP						@ Looping sound?
 	orrne r9, #SOUND_REPEAT

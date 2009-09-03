@@ -41,6 +41,7 @@
 	.text
 	.global drawSprite
 	.global spareSprite
+	.global spareSpriteFX
 
 drawSprite:
 	stmfd sp!, {lr}
@@ -218,6 +219,27 @@ drawSprite:
 					str r8,[r1,r10,lsl#2]		
 		
 		drawNotRainSplash:
+		cmp r0,#FX_GLINT_ACTIVE
+		bne drawNotGlint
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#GLINT_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotGlint
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#GLINT_FRAME_END+1
+				str r2,[r1,r10,lsl #2]
+				bne drawNotGlint
+					ldr r1,=spriteActive
+					mov r2,#0
+					str r2,[r1,r10,lsl #2]		
+		drawNotGlint:
+		
+		
 	subs r10,#1
 	bpl SLoop
 
@@ -246,5 +268,30 @@ spareSprite:
 	mov r10,r0
 
 	ldmfd sp!, {r0-r9, pc}
+
+	
+@--------------------------------------------
+
+spareSpriteFX:
+	stmfd sp!, {r0-r9, lr}
+
+	mov r0,#62
+	ldr r1,=spriteActive
+	spareSpriteFindFX:
+	
+		ldr r2,[r1, r0, lsl #2]
+		cmp r2,#0
+		beq spareSpriteFoundFX
+		subs r0,#1
+		bpl spareSpriteFindFX
+	mov r10,#0
+	ldmfd sp!, {r0-r9, pc}
+	
+	spareSpriteFoundFX:
+	
+	mov r10,r0
+
+	ldmfd sp!, {r0-r9, pc}
+	
 	.pool
 	.end

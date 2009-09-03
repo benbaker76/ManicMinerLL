@@ -45,6 +45,7 @@
 	.global fxFadeOutBusy
 	.global fxFadeOutBusy
 	.global fxFadeCallbackAddress
+	.global fxFadeBlackLevelInit
 	
 fxFadeBlackInit:
 
@@ -67,6 +68,28 @@ fxFadeBlackInit:
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
+
+	@ ---------------------------------------
+
+fxFadeBlackLevelInit:
+
+	stmfd sp!, {r0-r1, lr}
+	
+	
+	ldr r0, =SUB_BLEND_CR
+	ldr r1, =(BLEND_FADE_BLACK | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
+	str r1, [r0]
+	
+	ldr r0, =fadeValue					@ Get our fadeValue
+	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldr r0, =fxFadeCallbackAddress
+	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldmfd sp!, {r0-r1, pc}
+	
 	
 	@ ---------------------------------------
 	

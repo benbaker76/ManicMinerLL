@@ -40,9 +40,13 @@ initLevel:
 
 	stmfd sp!, {r0-r10, lr}
 	
+	bl stopMusic
+	
+	bl fxFadeBlackLevelInit
 	bl clearOAM
 	bl clearSpriteData
 	bl specialFXStop
+	bl fxFadeIn
 
 	mov r0,#1
 	ldr r1,=spriteActive+256
@@ -134,6 +138,8 @@ initLevel:
 		bleq starsInit
 	cmp r0,#FX_LEAVES
 		bleq leafInit
+	cmp r0,#FX_GLINT
+		bleq glintInit
 	@ etc
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -379,7 +385,8 @@ generateMonsters:
 	ldreq r1, =Miner_xm
 	cmp r0,#1
 	ldreq r1, =Dark_xm
-
+	cmp r0,#2
+	ldreq r1, =Space_xm
 
 	
 	bl initMusic

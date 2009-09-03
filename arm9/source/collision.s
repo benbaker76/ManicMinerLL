@@ -715,23 +715,28 @@ checkExit:
 			ldr r2,[r2]
 			ldr r3,=exitY
 			ldr r3,[r3]
+			ldr r4,=minerAction
+			ldr r4,[r4]
+			cmp r4,#MINER_NORMAL
+			moveq r5,#3
+			movne r5,#13
 	
-			add r0,#3
+			mov r5,#6
+			add r0,r5
 			cmp r0,r2
-			sub r0,#3
+			sub r0,r5
 			blt checkExitFail
-			add r2,#12
+			add r2,r5
 			cmp r0,r2
-			sub r2,#12
+			sub r2,r5
 			bgt checkExitFail
-			@ next, if py+15<my or py>my+15, no possible collision
-			add r1,#3
+			add r1,r5
 			cmp r1,r3
-			sub r1,#3
+			sub r1,r5
 			blt checkExitFail
-			add r3,#12
+			add r3,r5
 			cmp r1,r3
-			sub r3,#12
+			sub r3,r5
 			bgt checkExitFail			
 
 				ldr r0,=gameMode

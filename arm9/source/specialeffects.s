@@ -42,6 +42,9 @@
 	.global leafInit
 	.global leafUpdate
 
+	.global glintInit
+	.global glintUpdate
+
 	.global specialFXStop
 
 @------------------------------------ Special Effect Update
@@ -57,6 +60,9 @@ updateSpecialFX:
 	bleq starsUpdate	
 	cmp r0,#FX_LEAVES
 	bleq leafUpdate
+	cmp r0,#FX_GLINT
+	bleq glintUpdate
+
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -597,7 +603,89 @@ leafNew:
 	
 	b leafReturn
 	ldmfd sp!, {r0-r10, pc}	
+	
+	
+@------------------------------------ Init Glint
+glintInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ I am not sure we need to init anything????
+		
+	mov r2,#0
+	mov r0,#62
+	glintInitLoop:
+		ldr r1,=spriteActive
+		str r2,[r1,r0,lsl#2]
+	subs r0,#1
+	bpl glintInitLoop
+	
 
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Update Glint
+glintUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ get a random x/y coord and check against level for 1 in colmap
+	@ all we want to glint is walls
+	
+	bl getRandom
+	and r8,#0xFF
+	mov r0,r8						@ r0=x=0-255
+	bl getRandom
+	and r8,#0xFF
+	lsr r8,#2
+	mov r3,#3
+	mul r8,r3
+	mov r1,r8						@ r1=y=0-191
+
+	
+	mov r3,r0,lsr #3				@ x=0-31
+	mov r4,r1,lsr #3				@ y=0-23
+	lsl r4,#5
+	add r3,r4
+@	add r5,r3,r4,lsl #5
+	ldr r2,=colMapStore
+	ldrb r2,[r2,r3]
+	cmp r2,#1
+	bne glintUpdateFail
+
+		@ ok, we have a hit, start at r0,r1 (both minus 4)
+		@ first find a spare sprite..
+		bl spareSpriteFX
+		cmp r10,#0
+		beq glintUpdateFail
+
+		@ r10=sprite
+		ldr r2,=spriteActive
+		mov r3,#FX_GLINT_ACTIVE
+		str r3,[r2,r10,lsl#2]
+	
+		add r0,#64
+		ldr r2,=spriteX
+		str r0,[r2,r10,lsl#2]
+		add r1,#384
+		sub r1,#12
+		ldr r2,=spriteY
+		str r1,[r2,r10,lsl#2]
+		
+		mov r0,#GLINT_FRAME
+		ldr r2,=spriteObj
+		str r0,[r2,r10,lsl#2]
+		
+		ldr r2,=spritePriority
+		mov r0,#2
+		str r0,[r2,r10,lsl#2]
+		
+		mov r0,#GLINT_ANIM
+		ldr r2,=spriteAnimDelay
+		str r0,[r2,r10,lsl#2]
+	
+	
+	glintUpdateFail:
+	
+	
+	ldmfd sp!, {r0-r10, pc}
 
 @-----------------------------------
 	.pool

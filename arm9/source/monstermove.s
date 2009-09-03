@@ -201,6 +201,7 @@ monsterMoveTRBL:
 		ldr r2,=spriteX
 		ldr r10,[r2,r1,lsl#2]
 		sub r10,r4
+		sub r10,r4
 		str r10,[r2,r1,lsl#2]
 		ldr r2,=spriteMin
 		ldr r3,[r2,r1,lsl#2]
@@ -220,6 +221,7 @@ monsterMoveTRBL:
 		str r9,[r2,r1,lsl#2]
 		ldr r2,=spriteX
 		ldr r10,[r2,r1,lsl#2]
+		add r10,r4
 		add r10,r4
 		str r10,[r2,r1,lsl#2]
 		ldr r2,=spriteMax
@@ -264,6 +266,7 @@ monsterMoveTLBR:
 		ldr r2,=spriteX
 		ldr r10,[r2,r1,lsl#2]
 		sub r10,r4
+		sub r10,r4
 		str r10,[r2,r1,lsl#2]
 		ldr r2,=spriteMin
 		ldr r3,[r2,r1,lsl#2]
@@ -283,6 +286,7 @@ monsterMoveTLBR:
 		str r9,[r2,r1,lsl#2]
 		ldr r2,=spriteX
 		ldr r10,[r2,r1,lsl#2]
+		add r10,r4
 		add r10,r4
 		str r10,[r2,r1,lsl#2]
 		ldr r2,=spriteMax

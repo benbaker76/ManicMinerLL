@@ -99,7 +99,7 @@ main2:		@ just for now!!
 mainLoop:
 
 	bl swiWaitForVBlank							@ Wait for vblank
-@	bl swiWaitForVBlank							@ Wait for vblank	
+	
 	ldr r0, =gameMode
 	ldr r1, [r0]
 	cmp r1, #GAMEMODE_RUNNING
