@@ -41,8 +41,10 @@ initMusic:
 
 	stmfd sp!, {r0-r1, lr}
 	
+	@ set r1 to module to play and call
+	
 	ldr r0, =Module
-	ldr r1, =Miner_xm
+@	ldr r1, =Miner_xm
 	bl XM7_LoadXM
 	
 	bl DC_FlushAll

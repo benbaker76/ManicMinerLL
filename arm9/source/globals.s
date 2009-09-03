@@ -74,6 +74,7 @@
 	.global exitX
 	.global exitY
 	.global monsterDelay
+	.global musicPlay
 	
 	.global specialEffect
 	
@@ -112,8 +113,9 @@ exitX:
 	.word 0
 exitY:
 	.word 0
-
 specialEffect:
+	.word 0
+musicPlay:
 	.word 0
 
 	@ Text values

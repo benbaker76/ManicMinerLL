@@ -49,9 +49,7 @@ levelCleared:
 	bl initSprites
 	
 	bl initInterruptHandler						@ initialize the interrupt handler
-	
-	bl initMusic
-	
+
 	bl initLevel
 	bl drawSprite
 

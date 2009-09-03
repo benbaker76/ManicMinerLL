@@ -8,7 +8,7 @@
 levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
-@ 3 then, number of keys to collect
+@ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=)
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
 @												1=rain, 2=stars, 3=Leaves, 4=
@@ -33,7 +33,7 @@ levelData:
 levelData:
 
 	# 1 / Oric - level 17 - Home at last?
-	.byte 80,144,3,8,168,17,0,0
+	.byte 80,144,19,8,168,17,0,0
 	
 	.byte 8,88,1,1,1,17,8,144
 	.byte 104,104,1,1,255,17,104,216

@@ -76,21 +76,31 @@ initLevel:
 	add r0,#64
 	ldr r2,=exitX
 	str r0,[r2]
+
 	ldrb r0,[r1],#1
 	add r0,#384
 	ldr r2,=exitY
 	str r0,[r2]	
+
 	ldrb r0,[r1],#1
+	mov r3,r0
+	and r3,#7
 	ldr r2,=keyCounter
-	str r0,[r2]		
+	str r3,[r2]
+	ldr r2,=musicPlay
+	lsr r0,#4
+	str r0,[r2]
+
 	ldrb r0,[r1],#1
 	add r0,#64
 	ldr r2,=spriteX+256
 	str r0,[r2]	
+
 	ldrb r0,[r1],#1
 	add r0,#384
 	ldr r2,=spriteY+256
 	str r0,[r2]	
+
 	ldrb r0,[r1],#1
 	mov r3,r0
 	and r3,#7
@@ -113,6 +123,8 @@ initLevel:
 	bl drawLevel			@ Display the level graphics
 	
 	bl levelStory			@ Display the games story in the bottom screen
+	
+	bl levelMusic			@ start the music
 	
 	ldr r0,=specialEffect
 	ldr r0,[r0]
@@ -355,5 +367,23 @@ generateMonsters:
 
 	ldmfd sp!, {r0-r10, pc}
 
+@-----------------
+
+	levelMusic:
+	stmfd sp!, {r0-r10, lr}	
+	
+	ldr r0,=musicPlay
+	ldr r0,[r0]
+	
+	cmp r0,#0
+	ldreq r1, =Miner_xm
+	cmp r0,#1
+	ldreq r1, =Dark_xm
+
+
+	
+	bl initMusic
+	
+	ldmfd sp!, {r0-r10, pc}
 	.pool
 	.end

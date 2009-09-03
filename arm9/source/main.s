@@ -83,8 +83,7 @@ main2:		@ just for now!!
 
 	bl initSprites
 	
-	
-	bl initMusic
+
 	
 	bl initLevel
 	bl drawSprite
