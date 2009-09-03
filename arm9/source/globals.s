@@ -37,6 +37,8 @@
 	.global gameMode
 	.global fxMode
 	.global digits
+	.global effectVolume
+	.global musicVolume
 	
 	.global spriteActive
 	.global spriteX
@@ -117,7 +119,11 @@ specialEffect:
 	.word 0
 musicPlay:
 	.word 0
-
+	
+effectVolume:
+	.word 64
+musicVolume:
+	.word 127
 	@ Text values
 	
 	.align

@@ -67,7 +67,8 @@ playDead:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldrb r1, =127
+	ldr r2,=effectVolume
+	ldr r1,[r2]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -120,7 +121,8 @@ playJump:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldrb r1, =127
+	ldr r2,=effectVolume
+	ldr r1,[r2]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -162,7 +164,8 @@ playTone:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldrb r1, =127
+	ldr r2,=effectVolume
+	ldr r1,[r2]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -214,7 +217,8 @@ playFall:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldrb r1, =127
+	ldr r2,=effectVolume
+	ldr r1,[r2]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
