@@ -41,8 +41,12 @@ levelCleared:
 	ldr r0,=levelNum
 	ldr r1,[r0]
 	add r1,#1
+	cmp r1,#22
+	moveq r1,#1
+	beq skippy
 	cmp r1,#LEVEL_COUNT
-	movgt r1,#1
+	movgt r1,#21
+skippy:
 	str r1,[r0]
 	
 	bl initVideo

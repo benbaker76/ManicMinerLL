@@ -226,7 +226,7 @@ playFall:
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
-	ldrb r1, =1
+	ldrb r1, =0
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
