@@ -319,7 +319,7 @@ levelNames:
 	.ascii "REMEMBER BUILDING?        "
 	.ascii "  MYSTIFIED, ALL HE KNOWS "
 	.ascii "IS THAT HE MUST GET THE   "
-	.ascii "THE KEYS NEEDED TO OPEN   "
+	.ascii "KEYS NEEDED TO OPEN THE   "
 	.ascii "CENTRAL AIRLOCK AND MAKE  "
 	.ascii "HIS ESCAPE...             "
 	@ 3
