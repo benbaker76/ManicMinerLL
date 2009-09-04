@@ -39,14 +39,14 @@ initLevel:
 	@ This will be used to set level specifics, ie. colmap, initial x/y, facing etc...
 
 	stmfd sp!, {r0-r10, lr}
-	
+	bl specialFXStop	
+
 	bl stopMusic
 	
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
 	bl clearOAM
 	bl clearSpriteData
-	bl specialFXStop
 	bl fxFadeIn
 
 
@@ -207,6 +207,10 @@ getDoorSprite:
 	cmp r0,#2
 	ldreq r0, =Exit03Tiles
 	ldreq r2, =Exit03TilesLen	
+	cmp r0,#3
+	ldreq r0, =Exit04Tiles
+	ldreq r2, =Exit04TilesLen	
+
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX

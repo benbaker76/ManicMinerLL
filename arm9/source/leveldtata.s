@@ -69,7 +69,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 4 / Oric - level 24 - Hall of the mountain kong
-	.byte 232,168,4,8,168,49,3,0
+	.byte 232,168,4,8,168,49,3,3
 
 	.byte 120,56,1,16,1,18,56,104
 	.byte 50,142,17,17,255,6,8,56
