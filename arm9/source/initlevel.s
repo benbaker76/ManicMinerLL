@@ -42,11 +42,14 @@ initLevel:
 	
 	bl stopMusic
 	
-	bl fxFadeBlackLevelInit
+@	bl fxFadeBlackLevelInit
 	bl clearOAM
 	bl clearSpriteData
 	bl specialFXStop
-	bl fxFadeIn
+@	bl fxFadeIn
+
+
+
 
 	mov r0,#1
 	ldr r1,=spriteActive+256
@@ -141,6 +144,8 @@ initLevel:
 	cmp r0,#FX_GLINT
 		bleq glintInit
 	@ etc
+	
+	bl levelName
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -387,10 +392,32 @@ generateMonsters:
 	ldreq r1, =Dark_xm
 	cmp r0,#2
 	ldreq r1, =Space_xm
-
+	cmp r0,#3
+	ldreq r1, =Egyptian_xm
 	
 	bl initMusic
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+	@ ------------------------------------
+
+levelName:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r1,#1
+	mov r2,#1
+	ldr r0,=levelNames
+	ldr r3,=levelNum
+	ldr r3,[r3]
+	sub r3,#1
+	mov r4,#30
+	mul r3,r4
+	add r0,r3
+	
+	bl drawTextBig	
+
+	ldmfd sp!, {r0-r10, pc}
+	
 	.pool
 	.end

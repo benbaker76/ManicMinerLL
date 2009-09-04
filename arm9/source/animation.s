@@ -321,14 +321,17 @@ shardDust:
 	mov r1,#DUST_ANIM
 	ldr r2,=spriteAnimDelay
 	str r1,[r2,r10,lsl #2]
+	ldr r2,=spriteX+256
+	ldr r3,[r2]
 	ldr r2,=spriteX
-	ldr r3,[r2]
 	str r3,[r2,r10,lsl #2]
+	ldr r2,=spriteY+256
+	ldr r3,[r2]
 	ldr r2,=spriteY
-	ldr r3,[r2]
 	str r3,[r2,r10,lsl #2]	
-	ldr r2,=spriteHFlip
+	ldr r2,=spriteHFlip+256
 	ldr r3,[r2]
+	ldr r2,=spriteHFlip
 	str r3,[r2,r10,lsl #2]
 
 	shardDustFail:

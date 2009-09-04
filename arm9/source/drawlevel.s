@@ -101,10 +101,7 @@ drawLevel:
 	@ the first 2 character rows are the air gauge
 	@ then each 4 rows are each screens title
 	
-	ldr r0,=StatusTiles							@ copy the tiles
-	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
-	ldr r2,=StatusTilesLen
-	bl dmaCopy
+
 
 	ldr r0,=StatusMap							@ draw the air (full)
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
@@ -112,15 +109,21 @@ drawLevel:
 	mov r2,#128
 	bl dmaCopy
 	
-	sub r3,#1		@ r3=level number 0-x
-	lsl r3,#8
-	add r3,#256
+@	sub r3,#1		@ r3=level number 0-x
+@	lsl r3,#8
+@	add r3,#256
 
 	ldr r0,=StatusMap							@ draw the level name
-	add r0,r3
+	add r0,#128
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
 	mov r2,#256
 	bl dmaCopy	
 
-	ldmfd sp!, {r0-r10, pc}
 
+	ldmfd sp!, {r0-r10, pc}
+	
+	.pool
+	.data
+	
+	testText:
+	.asciz "HAPPY MONKEY PANTS"

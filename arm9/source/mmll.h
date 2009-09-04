@@ -48,6 +48,7 @@
 
 #include "../build/Sprites.h"
 #include "../build/Font.h"
+#include "../build/BigFont.h"
 #include "../build/Status.h"
 
 #include "../build/SpriteBank1.h"
@@ -74,8 +75,8 @@
 #define BG0_TILE_BASE				7
 #define BG0_TILE_BASE_SUB			7
 
-#define BG1_TILE_BASE				5
-#define BG1_TILE_BASE_SUB			5
+#define BG1_TILE_BASE				6
+#define BG1_TILE_BASE_SUB			6
 
 #define BG2_TILE_BASE				4
 #define BG2_TILE_BASE_SUB			4
@@ -226,7 +227,7 @@
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
 #define DUST_FRAME_END				63			@ end frame
-#define DUST_ANIM					2			@ animation delay
+#define DUST_ANIM					4			@ animation delay
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59
 #define KEY_ANIM					2

@@ -34,8 +34,9 @@
 	.global drawText
 	.global drawTextCount
 	.global drawDigits
+	.global drawTextBig
 	.global drawTextBlack
-
+	
 drawText:
 	
 	@ r0 = pointer to null terminated text
@@ -198,6 +199,50 @@ drawTextCountBDone:
 	ldmfd sp!, {r0-r6, pc}
 	
 	@ ---------------------------------------------
+
+drawTextBig:
+	
+	@ r0 = pointer to null terminated text
+	@ r1 = x pos
+	@ r2 = y pos
+
+	stmfd sp!, {r4-r8, lr} 
+	
+	ldr r4, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB) @ Pointer to sub
+	add r4, r1, lsl #1				@ Add x position
+	add r4, r2, lsl #6				@ Add y multiplied by 64
+	add r6, r4, #64
+
+	mov r7,#StatusTilesLen
+	lsr r7,#6
+	mov r8,#64
+	sub r7,r8,r7
+	
+	mov r8,#29
+
+drawTextBigLoop:
+
+	ldrb r5, [r0], #1				@ Read r1 [text] and add 1 to [text] offset
+
+	@ our tiles are in pairs (one above another)
+
+	lsl r5,#1
+
+	sub r5,r7
+
+	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
+	add r5,#1
+	strh r5, [r6], #2
+	subs r8,#1
+	
+	bpl drawTextBigLoop
+
+drawTextBigDone:
+	
+	ldmfd sp!, {r4-r8, pc}
+	
+	@ ---------------------------------------------
+
 	
 	.pool
 	.end

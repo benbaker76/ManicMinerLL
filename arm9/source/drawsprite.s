@@ -125,7 +125,7 @@ drawSprite:
 		ldr r0,[r9, r10, lsl #2]
 		cmp r0,#DUST_ACTIVE						@ first, our little dust thing when you land
 		bne drawnNotDust
-						
+					
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
 			sub r2,#1

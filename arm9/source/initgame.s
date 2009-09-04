@@ -38,13 +38,21 @@ stmfd sp!, {r0-r10, lr}
 	ldr r0 ,=GameBottomTiles
 	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)
 	ldr r2, =GameBottomTilesLen
-	bl dmaCopy
-	
-	@ Write map
-	
+	bl dmaCopy	
 	ldr r0, =GameBottomMap
 	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ destination
 	ldr r2, =GameBottomMapLen
+	bl dmaCopy
+	
+	ldr r0,=StatusTiles							@ copy the tiles used for status and air
+	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r2,=StatusTilesLen
+	bl dmaCopy
+	
+	ldr r0,=BigFontTiles							@ copy the tiles used for large font
+	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	add r1,#StatusTilesLen
+	ldr r2,=BigFontTilesLen
 	bl dmaCopy
 	
 	
