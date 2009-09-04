@@ -42,12 +42,12 @@ initLevel:
 	
 	bl stopMusic
 	
-@	bl fxFadeBlackLevelInit
+	bl fxFadeBlackLevelInit
+	bl fxFadeMax
 	bl clearOAM
 	bl clearSpriteData
 	bl specialFXStop
-@	bl fxFadeIn
-
+	bl fxFadeIn
 
 
 

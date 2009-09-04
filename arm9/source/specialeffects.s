@@ -157,7 +157,8 @@ rainUpdate:
 		add r5,r5,r3					@ r5=offset for pixel detect
 		ldr r6,=colMapStore
 		ldrb r1,[r6,r5]					@ r5=value
-		
+		cmp r4,#0
+		beq skipRandomSplash
 		cmp r4,#23
 		bge skipRandomSplash
 		
