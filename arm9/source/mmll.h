@@ -38,6 +38,8 @@
 #include "../build/Background06.h"
 @#include "../build/Background07.h"
 
+#include "../build/Background21.h"
+
 #include "../build/Exit01.h"
 #include "../build/Exit02.h"
 #include "../build/Exit03.h"

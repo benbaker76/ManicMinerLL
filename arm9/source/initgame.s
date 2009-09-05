@@ -48,12 +48,18 @@ stmfd sp!, {r0-r10, lr}
 	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
 	ldr r2,=StatusTilesLen
 	bl dmaCopy
-	
+
 	ldr r0,=BigFontTiles							@ copy the tiles used for large font
-	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 	add r1,#StatusTilesLen
 	ldr r2,=BigFontTilesLen
 	bl dmaCopy
+
+@	ldr r0,=BigFontTiles							@ copy the tiles used for large font
+@	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+@	add r1,#StatusTilesLen
+@	ldr r2,=BigFontTilesLen
+@	bl dmaCopy
 	
 	
 ldmfd sp!, {r0-r10, pc}

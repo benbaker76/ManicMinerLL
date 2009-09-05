@@ -73,9 +73,13 @@ initVideo:
 	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
 	ldr r2, =FontTilesLen
 	bl dmaCopy
-	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-	bl dmaCopy
-	
+@	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
+@	bl dmaCopy
+
+@	ldr r0, =FontTiles
+@	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
+@	ldr r2, =FontTilesLen
+@	bl dmaCopy	
 	ldmfd sp!, {r0-r1, pc}
 	
 	@ ------------------------------------
@@ -88,7 +92,7 @@ initVideoMain:
 	ldr r1, =(BG_COLOR_16 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE) | BG_TILE_BASE(BG0_TILE_BASE) | BG_PRIORITY(BG0_PRIORITY))
 	strh r1, [r0]
 	ldr r0, =REG_BG0CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
-	ldr r1, =(BG_COLOR_16 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE_SUB) | BG_TILE_BASE(BG0_TILE_BASE_SUB) | BG_PRIORITY(BG0_PRIORITY))
+	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE_SUB) | BG_TILE_BASE(BG0_TILE_BASE_SUB) | BG_PRIORITY(BG0_PRIORITY))
 	strh r1, [r0]
 	
 	ldr r0, =REG_BG1CNT				@ Set main screen BG0 format to be 32x32 tiles at base address
