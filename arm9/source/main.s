@@ -83,7 +83,13 @@ main2:		@ just for now!!
 
 	bl initSprites
 	
-
+	@ ------------------- TIMER DEMO -----------------
+	
+	ldr r0, =5000								@ 5 seconds
+	ldr r1, =displayTimerWorkingString
+	bl startTimer
+	
+	@ ------------------- TIMER DEMO -----------------
 	
 	bl initLevel
 	bl drawSprite
@@ -162,8 +168,22 @@ mainLoopDone:
 
 
 	b mainLoop									@ our main loop
+	
+	@ ------------------- TIMER DEMO -----------------
+	
+displayTimerWorkingString:
 
+	stmfd sp!, {r0, lr}
+	
+	ldr r0, =timerWorkingString
+	bl drawDebugString
+	
+	ldmfd sp!, {r0, pc}
 
+timerWorkingString:
+	.asciz "Timer is verking!!!"
+	
+	@ ------------------- TIMER DEMO -----------------
 
 	.pool
 	.end
