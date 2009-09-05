@@ -236,18 +236,25 @@
 #define DUST_FRAME					60			@ start frame (or only frame)
 #define DUST_FRAME_END				63			@ end frame
 #define DUST_ANIM					4			@ animation delay
+
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59
 #define KEY_ANIM					2
+
 #define DOOR_FRAME					16
 #define DOOR_FRAME_END				23
+
 #define RAIN_FRAME					24
+#define RAIN_LIGHTNING_DELAY		25
 #define RAIN_SPLASH_FRAME			25
 #define RAIN_SPLASH_FRAME_END		28
 #define RAIN_SPLASH_ANIM			4
+
 #define STAR_FRAME					29
+
 #define LEAF_FRAME					30
 #define LEAF_FRAME_END				34
+
 #define GLINT_FRAME					35
 #define GLINT_FRAME_END				39
 #define GLINT_ANIM					8

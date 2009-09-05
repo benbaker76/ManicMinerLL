@@ -115,6 +115,10 @@ rainInit:
 	ldr r1,=lightningFlash
 	str r8,[r1]
 	
+	ldr r9,=lightningDelay
+	mov r10,#RAIN_LIGHTNING_DELAY
+	str r10,[r9]
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------------ Update rain
@@ -224,7 +228,17 @@ rainUpdate:
 	bpl rainUpdateLoop
 
 	
-	@ OK, check for lightning...
+	@ OK, check for lightning... (if delay is 0)
+	
+	ldr r9,=lightningDelay
+	ldr r10,[r9]
+	cmp r10,#0
+	beq rainLightning
+	sub r10,#1
+	str r10,[r9]
+	b rainNoLightningFlash
+	
+	rainLightning:
 	
 	ldr r1,=lightningFlash
 	ldr r0,[r1]
@@ -232,7 +246,7 @@ rainUpdate:
 	bl getRandom
 	ldr r7,=1023
 	and r8,r7
-	cmp r8,#5
+	cmp r8,#4
 	bgt rainNoLightning
 		cmp r0,#0
 		bne rainNoLightning
@@ -253,6 +267,8 @@ rainUpdate:
 	ldr r0, =SUB_BLEND_CR
 	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
 	strh r1, [r0]
+	
+	rainNoLightningFlash:
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -798,6 +814,8 @@ dripUpdate:
 	.align
 	
 	lightningFlash:
+	.word 0
+	lightningDelay:
 	.word 0
 	
 	.align
