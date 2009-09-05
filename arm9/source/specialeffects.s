@@ -288,7 +288,7 @@ specialFXStop:
 	bpl rainStopLoop
 	
 	ldr r2,=specialEffect
-	str r3,[r3]
+	str r3,[r2]
 	
 	mov r0,#0
 	ldr r2,=SUB_BLEND_Y

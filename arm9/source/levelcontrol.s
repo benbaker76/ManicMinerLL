@@ -49,10 +49,7 @@ levelCleared:
 skippy:
 	str r1,[r0]
 	
-	bl initVideo
 	bl initSprites
-	
-	bl initInterruptHandler						@ initialize the interrupt handler
 
 	bl initLevel
 	bl drawSprite

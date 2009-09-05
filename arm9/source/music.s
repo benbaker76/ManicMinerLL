@@ -47,8 +47,6 @@ initMusic:
 @	ldr r1, =Miner_xm
 	bl XM7_LoadXM
 	
-	bl DC_FlushAll
-	
 	ldr r0, =XM7_MODULE_IPC
 	ldr r1, =Module
 	str r1, [r0]
@@ -64,6 +62,9 @@ stopMusic:
 	ldr r0, =XM7_MODULE_IPC
 	ldr r1, =XM7_STOP
 	str r1, [r0]
+	
+	ldr r0, =Module
+	bl XM7_UnloadXM
 
 	ldmfd sp!, {r0-r1, pc}
 	
