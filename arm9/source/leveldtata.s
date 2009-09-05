@@ -14,7 +14,7 @@ levelData:
 @ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt)
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
-@												1=rain, 2=stars, 3=Leaves, 4=Glint
+@												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip
 @ 7 =background number (0-?)
 @ 8 =door bank number - used for the exit.. 0-???
 
@@ -80,7 +80,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 5 / Oric - level 18 - back to work
-	.byte 232,168,3,6,168,1,4,0
+	.byte 232,168,3,6,168,81,4,0
 
 	.byte 104,168,17,1,255,0,104,144
 	.byte 32,168,17,1,1,0,16,72
@@ -578,7 +578,7 @@ levelInfo:
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 24 - ORIC 1985    "
 	.ascii "    LEVEL 18 - ORIC 1985    "
-	.ascii "LEVEL 17 - ORIC 1983        "
+	.ascii "  LEVEL 21 - DRAGON32 1983  "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "

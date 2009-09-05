@@ -56,6 +56,8 @@
 
 #include "../build/SpriteBank1.h"
 
+#include "../build/FXDrip.h"
+
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
 @ BG0 - Text / Score / Energy		16
@@ -215,7 +217,7 @@
 #define FX_STARS					2
 #define FX_LEAVES					3
 #define FX_GLINT					4
-
+#define FX_DRIP						5
 
 
 @ / these are sprite active values used by drawsprite
@@ -226,6 +228,9 @@
 #define FX_STARS_ACTIVE				6
 #define FX_LEAVES_ACTIVE			7
 #define FX_GLINT_ACTIVE				8
+#define FX_DRIP_ACTIVE				9
+#define FX_DRIPFALL_ACTIVE			10
+#define FX_DRIPSPLASH_ACTIVE		11
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -246,6 +251,17 @@
 #define GLINT_FRAME					35
 #define GLINT_FRAME_END				39
 #define GLINT_ANIM					8
+
+#define DRIP_FRAME					24
+#define DRIP_FRAME_END				31
+#define DRIP_ANIM					2
+#define DRIPFALL_FRAME				31
+#define DRIPFALL_ANIM				1
+#define DRIPSPLASH_FRAME			32
+#define DRIPSPLASH_FRAME_END		37
+#define DRIPSPLASH_ANIM				8
+
+
 @ level defines
 
 #define EXIT_CLOSED					64

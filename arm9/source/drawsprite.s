@@ -238,8 +238,107 @@ drawSprite:
 					mov r2,#0
 					str r2,[r1,r10,lsl #2]		
 		drawNotGlint:
+		cmp r0,#FX_DRIP_ACTIVE
+		bne drawNotDrip
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#DRIP_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotDrip
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#DRIP_FRAME_END+1
+				str r2,[r1,r10,lsl #2]
+				bne drawNotDrip
+					@ Convert drip to a dripfall
+					ldr r1,=spriteActive
+					mov r2,#FX_DRIPFALL_ACTIVE
+					str r2,[r1,r10,lsl #2]	
+					mov r0,#DRIPFALL_ANIM
+					ldr r2,=spriteAnimDelay
+					str r0,[r2,r10,lsl#2]
+					ldr r1,=spriteObj
+					mov r0,#DRIPFALL_FRAME
+					str r0,[r1,r10,lsl #2]
+				@	b endDrawSprite
+		drawNotDrip:		
+		cmp r0,#FX_DRIPFALL_ACTIVE
+		bne drawNotDripFall
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#DRIPFALL_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotDripFall
+				ldr r1,=spriteY
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				str r2,[r1,r10,lsl #2]
+				@ now check for a platform (not 0, and <24) r2=y
+				ldr r1,=spriteX
+				ldr r1,[r1,r10,lsl #2]
+				sub r1,#64
+				lsr r1,#3
+				sub r2,#384
+				lsr r2,#3
+				lsl r2,#5
+				add r2,r1				@ r2=offset
+				add r2,#32
+				ldr r1,=colMapStore
+				ldrb r0,[r1,r2]
+				cmp r0,#0
+				beq drawNotDripFall
+				cmp r0,#64
+				bge dripHitFloor
+				cmp r0,#24
+				bge drawNotDripFall
+				
+				dripHitFloor:
+				@	ok, we have hit a platform
+				ldr r1,=spriteY
+				ldr r2,[r1,r10,lsl#2]
+				lsr r2,#3
+				lsl r2,#3
+				str r2,[r1,r10,lsl#2]
+				
+				ldr r1,=spriteActive
+				mov r0,#FX_DRIPSPLASH_ACTIVE
+				str r0,[r1,r10,lsl #2]
+				
+				ldr r1,=spriteObj
+				mov r0,#DRIPSPLASH_FRAME
+				str r0,[r1,r10,lsl #2]
+				
+				ldr r1,=spriteAnimDelay
+				mov r0,#DRIPSPLASH_ANIM
+				str r0,[r1,r10,lsl #2]
+		drawNotDripFall:	
+		cmp r0,#FX_DRIPSPLASH_ACTIVE
+		bne drawNotDripSplash
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#DRIPSPLASH_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotDripSplash
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#DRIPSPLASH_FRAME_END+1
+				str r2,[r1,r10,lsl #2]
+				bne drawNotDripSplash
+					ldr r1,=spriteActive
+					mov r2,#0
+					str r2,[r1,r10,lsl #2]	
+
+		drawNotDripSplash:
 		
-		
+		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
 

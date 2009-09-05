@@ -143,6 +143,8 @@ initLevel:
 		bleq leafInit
 	cmp r0,#FX_GLINT
 		bleq glintInit
+	cmp r0,#FX_DRIP
+		bleq dripInit
 	@ etc
 	
 	bl levelName
