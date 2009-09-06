@@ -77,6 +77,7 @@
 	.global exitY
 	.global monsterDelay
 	.global musicPlay
+	.global switch
 	
 	.global specialEffect
 	
@@ -88,6 +89,9 @@ fxMode:
 
 digits:
 	.space 32
+
+switch:
+	.word 0
 
 faller:
 	.word 0

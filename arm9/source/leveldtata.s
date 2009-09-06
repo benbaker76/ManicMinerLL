@@ -11,12 +11,12 @@
 levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
-@ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt)
+@ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano)
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
 @												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip
 @ 7 =background number (0-?)
-@ 8 =door bank number - used for the exit.. 0-???
+@ 8 =door bank number - used for the exit.. 0-??? HIGH= Willy sprite to use (0=normal 1=spectrum 2=space)
 
 @ alien data (if initial X and y is 0 = blank alien)
 @ 1=initial X,
@@ -80,7 +80,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 5 / Oric - level 18 - back to work
-	.byte 232,168,3,6,168,81,4,0
+	.byte 232,168,67,6,168,81,4,0
 
 	.byte 104,168,17,1,255,0,104,144
 	.byte 32,168,17,1,1,0,16,72
@@ -90,7 +90,7 @@ levelData:
 	.byte 96,48,17,1,255,19,8,128
 	.byte 144,48,17,1,1,19,144,208
 	
-	@ 6 / Dragone - Level xx - 
+	@ 6 / Dragon - Level xx - 
 	.byte 232,136,5,6,168,97,5,4
 
 	.byte 172,152,17,17,1,6,148,196
@@ -101,10 +101,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 7
-	.byte 0,0,0,0,0,0,0,0
+	@ 7 / Oric
+	.byte 232,168,5,6,168,1,6,22
 
-	.byte 0,0,0,0,0,0,0,0
+	.byte 96,112,17,1,1,22,96,138+32
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -277,7 +277,7 @@ levelNames:
 	.ascii "  HALL OF THE MOUNTAIN KONG!  "
 	.ascii "         BACK TO WORK         "
 	.ascii "    THE DRAGON USERS BONUS    "
-	.ascii "                              "
+	.ascii "      NOT CENTRAL CAVERN      "
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -375,18 +375,18 @@ levelNames:
 	.ascii "KNOWS SO WELL....         "
 	.ascii "PERHAPS!                  "
 	@ 7
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  WILLY LOOKED AROUND,    "
+	.ascii "'THIS SHOULD HAVE BEEN THE"
+	.ascii "CENTRAL CAVERN' HE THOUGHT"
+	.ascii "TO HIMSELF.               "
+	.ascii "  SOMETHING VERY STRANGE  "
+	.ascii "HAS HAPPENED, IT WAS LIKE "
+	.ascii "HE HAD STEPPED BACK IN    "
+	.ascii "TIME 26 YEARS, BUT STILL  "
+	.ascii "IT WAS DIFFERENT?         "
+	.ascii "  'WHAT IS THAT SWITCH?', "
+	.ascii "WILLY THINKS TO HIMSELF AS"
+	.ascii "VENTURES FORTH.           "
 	@ 8
 	.ascii "                          "
 	.ascii "                          "
@@ -579,7 +579,7 @@ levelInfo:
 	.ascii "    LEVEL 24 - ORIC 1985    "
 	.ascii "    LEVEL 18 - ORIC 1985    "
 	.ascii "  LEVEL 21 - DRAGON32 1983  "
-	.ascii "LEVEL 17 - ORIC 1983        "
+	.ascii "    LEVEL 28 - ORIC 1983    "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "

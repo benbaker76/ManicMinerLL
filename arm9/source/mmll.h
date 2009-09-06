@@ -27,6 +27,7 @@
 #include "../build/Level04.h"
 #include "../build/Level05.h"
 #include "../build/Level06.h"
+#include "../build/Level07.h"
 
 #include "../build/Level21.h"
 
@@ -36,7 +37,7 @@
 #include "../build/Background04.h"
 #include "../build/Background05.h"
 #include "../build/Background06.h"
-@#include "../build/Background07.h"
+#include "../build/Background07.h"
 
 #include "../build/Background21.h"
 
@@ -45,6 +46,7 @@
 #include "../build/Exit03.h"
 #include "../build/Exit04.h"
 #include "../build/Exit05.h"
+#include "../build/Exit06.h"
 
 #include "../build/TopMenu.h"
 
@@ -57,6 +59,7 @@
 
 #include "../build/MinerNormal.h"
 #include "../build/MinerSpace.h"
+#include "../build/MinerSpectrum.h"
 
 #include "../build/SpriteBank1.h"
 
@@ -158,7 +161,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					6
+#define LEVEL_COUNT					7
 
 @ Fade values
 

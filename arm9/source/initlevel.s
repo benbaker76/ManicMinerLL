@@ -49,7 +49,9 @@ initLevel:
 	bl clearSpriteData
 	bl fxFadeIn
 
-
+	mov r0,#0
+	ldr r1,=switch
+	str r0,[r1]
 
 	mov r0,#1
 	ldr r1,=spriteActive+256
@@ -123,7 +125,12 @@ initLevel:
 	bl getLevelBackground
 
 	ldrb r0,[r1],#1			@ Door number
+	mov r3,r0,lsr #4
+	and r0,#7
 	bl getDoorSprite
+	bl getWillySprite
+	
+	
 	
 	bl generateMonsters		@ r1 is the pointer to the first monsters data
 	
@@ -217,6 +224,9 @@ getDoorSprite:
 	cmp r0,#4
 	ldreq r0, =Exit05Tiles
 	ldreq r2, =Exit05TilesLen	
+	cmp r0,#5
+	ldreq r0, =Exit06Tiles
+	ldreq r2, =Exit06TilesLen
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
@@ -287,7 +297,11 @@ getLevelBackground:
 	ldreq r5,=Background06TilesLen
 	ldreq r6,=Background06Map
 	ldreq r7,=Background06MapLen
-
+	cmp r0,#6
+	ldreq r4,=Background07Tiles
+	ldreq r5,=Background07TilesLen
+	ldreq r6,=Background07Map
+	ldreq r7,=Background07MapLen
 
 
 
@@ -408,6 +422,8 @@ generateMonsters:
 	ldreq r1, =Space_xm
 	cmp r0,#3
 	ldreq r1, =Egyptian_xm
+	cmp r0,#4
+	ldreq r1, =Piano_xm
 	
 	bl initMusic
 	
@@ -430,6 +446,30 @@ levelName:
 	add r0,r3
 	
 	bl drawTextBig	
+
+	ldmfd sp!, {r0-r10, pc}
+	
+
+@---------------------------------------
+
+getWillySprite:
+
+	stmfd sp!, {r0-r10, lr}
+
+		@ r3=sprite (0=normal 1=spectrum 2=space 3= )
+
+		cmp r3,#0
+		ldreq r0,=MinerNormalTiles
+		ldreq r2,=MinerNormalTilesLen
+		cmp r3,#1
+		ldreq r0,=MinerSpectrumTiles
+		ldreq r2,=MinerSpectrumTilesLen		
+		cmp r3,#2
+		ldreq r0,=MinerSpaceTiles
+		ldreq r2,=MinerSpaceTilesLen
+		
+		ldr r1, =SPRITE_GFX_SUB
+		bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
 	
