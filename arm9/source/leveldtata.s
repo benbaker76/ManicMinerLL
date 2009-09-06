@@ -11,7 +11,7 @@
 levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
-@ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano)
+@ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
 @												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip
@@ -104,7 +104,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 7 / Oric - level 28 - not the central cavern
-	.byte 232,168,5,6,168,1,6,21
+	.byte 232,168,85,6,168,1,6,21
 
 	.byte 96,112,17,1,1,22,96,138+32
 	.byte 160,168,17,1,2,23,48,232

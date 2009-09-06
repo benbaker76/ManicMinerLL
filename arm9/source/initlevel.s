@@ -433,6 +433,8 @@ generateMonsters:
 	ldreq r1, =Egyptian_xm
 	cmp r0,#4
 	ldreq r1, =Piano_xm
+	cmp r0,#5
+	ldreq r1, =Spectrum_xm
 	
 	bl initMusic
 	

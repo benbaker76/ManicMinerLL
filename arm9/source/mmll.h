@@ -263,7 +263,7 @@
 #define DRIPSPLASH_ANIM				8
 
 #define EYE_FRAME					24
-#define EYE_FRAME_END				31
+#define EYE_FRAME_END				36
 #define EYE_ANIM					8
 
 @ level defines
