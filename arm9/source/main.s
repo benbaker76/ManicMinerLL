@@ -158,6 +158,8 @@ gameLoop:
 	bl updateSpecialFX
 	
 	bl levelCheat
+	
+	bl minerChange
 
 	ldr r1,=minerDied		@ this will be moved, just for testing
 	ldr r1,[r1]

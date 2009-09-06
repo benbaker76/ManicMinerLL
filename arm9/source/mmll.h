@@ -55,6 +55,9 @@
 #include "../build/BigFont.h"
 #include "../build/Status.h"
 
+#include "../build/MinerNormal.h"
+#include "../build/MinerSpace.h"
+
 #include "../build/SpriteBank1.h"
 
 #include "../build/FXDrip.h"

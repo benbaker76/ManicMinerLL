@@ -44,6 +44,7 @@
 	.global collectKey
 	.global shardDust
 	.global monsterAnimate
+	.global minerChange
 	
 crumbler:
 	@
@@ -410,6 +411,43 @@ monsterAnimate:
 		@ r2 = how many bytes
 		
 		bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}
+
+@---------------------------------------
+
+minerChange:
+
+	stmfd sp!, {r0-r10, lr}
+
+		ldr r1,=levelNum
+		ldr r0,[r1]
+		cmp r0,#2
+		bne minerChangeFail
+
+		ldr r1,=spriteX+256
+		ldr r1,[r1]
+		ldr r2,=spriteHFlip+256
+		ldr r2,[r2]
+
+		cmp r1,#128+64
+		bne minerChangeFail
+		
+		ldr r1,=keyCounter
+		ldr r1,[r1]
+		cmp r1,#0
+		beq minerChangeFail
+		
+		cmp r2,#0
+		ldreq r0,=MinerNormalTiles
+		ldreq r2,=MinerNormalTilesLen
+		ldrne r0,=MinerSpaceTiles
+		ldrne r2,=MinerSpaceTilesLen
+		
+		ldr r1, =SPRITE_GFX_SUB
+		bl dmaCopy
+
+		minerChangeFail:
 
 	ldmfd sp!, {r0-r10, pc}
 	
