@@ -55,26 +55,26 @@ fxSpotlightInit:
 @	orr r3, #(WIN0_BG2 | WIN0_BG3 | WIN0_SPRITES | WIN0_BLENDS)
 @	strh r3, [r2]
 	
-	ldr r2, =WIN_OUT
-	mov r3, #0
-	strh r3, [r2]
+@	ldr r2, =WIN_OUT
+@	mov r3, #0
+@	strh r3, [r2]
 	
 	ldr r2, =SUB_WIN_IN						@ Make bg's appear inside the window
 	ldr r3, [r2]
-	orr r3, #(WIN0_BG2 | WIN0_BG3 | WIN0_SPRITES | WIN0_BLENDS)
+	orr r3, #(WIN0_BG0 | WIN0_BG1 | WIN0_BG2 | WIN0_BG3 | WIN0_SPRITES | WIN0_BLENDS)
 	strh r3, [r2]
 	
 	ldr r2, =SUB_WIN_OUT
-	mov r3, #0
+	mov r3, #(WIN0_BG0 | WIN0_BG1 | WIN0_BLENDS)
 	strh r3, [r2]
 	
-	ldr r2, =WIN0_Y0					@ Top pos
-	ldr r3, =0
-	strb r3, [r2]
+@	ldr r2, =WIN0_Y0					@ Top pos
+@	ldr r3, =0
+@	strb r3, [r2]
 
-	ldr r2, =WIN0_Y1					@ Bottom pos
-	ldr r3, =192
-	strb r3, [r2]
+@	ldr r2, =WIN0_Y1					@ Bottom pos
+@	ldr r3, =192
+@	strb r3, [r2]
 	
 	ldr r2, =SUB_WIN0_Y0				@ Top pos
 	ldr r3, =0

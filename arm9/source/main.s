@@ -85,9 +85,9 @@ main2:		@ just for now!!
 	
 	@ ------------------- TIMER DEMO -----------------
 	
-	ldr r0, =5000								@ 5 seconds
-	ldr r1, =displayTimerWorkingString
-	bl startTimer
+	@ldr r0, =5000								@ 5 seconds
+	@ldr r1, =displayTimerWorkingString
+	@bl startTimer
 	
 	@ ------------------- TIMER DEMO -----------------
 	
