@@ -38,7 +38,7 @@ stmfd sp!, {r0-r10, lr}
 	ldr r0 ,=GameBottomTiles
 	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)
 	ldr r2, =GameBottomTilesLen
-	bl dmaCopy	
+	bl decompressToVRAM	
 	ldr r0, =GameBottomMap
 	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ destination
 	ldr r2, =GameBottomMapLen
@@ -53,7 +53,7 @@ stmfd sp!, {r0-r10, lr}
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 	add r1,#StatusTilesLen
 	ldr r2,=BigFontTilesLen
-	bl dmaCopy
+	bl decompressToVRAM
 
 @	ldr r0,=BigFontTiles							@ copy the tiles used for large font
 @	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)

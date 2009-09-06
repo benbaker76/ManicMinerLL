@@ -77,7 +77,11 @@ drawLevel:
 	ldreq r5,=Level05TilesLen
 	ldreq r6,=Level05Map
 	ldreq r7,=Level05MapLen		
-
+	cmp r3,#6
+	ldreq r4,=Level06Tiles
+	ldreq r5,=Level06TilesLen
+	ldreq r6,=Level06Map
+	ldreq r7,=Level06MapLen	
 
 
 	cmp r3,#21
@@ -90,7 +94,7 @@ drawLevel:
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
 	mov r2,r5
-	bl dmaCopy
+	bl decompressToVRAM
 	mov r0,r6
 	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	@ destination
 	add r1,#(32*6)*2
@@ -124,6 +128,3 @@ drawLevel:
 	
 	.pool
 	.data
-	
-	testText:
-	.asciz "HAPPY MONKEY PANTS"

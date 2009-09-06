@@ -47,6 +47,8 @@
 
 	.global dripInit
 	.global dripUpdate
+	
+	.global eyesInit
 
 	.global specialFXStop
 
@@ -711,7 +713,7 @@ glintUpdate:
 	
 	
 	
-@------------------------------------ Init Glint
+@------------------------------------ Init Drip
 dripInit:
 	stmfd sp!, {r0-r10, lr}
 	
@@ -727,7 +729,7 @@ dripInit:
 
 	ldmfd sp!, {r0-r10, pc}
 
-@------------------------------------ Update Glint
+@------------------------------------ Update Drip
 dripUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
@@ -807,7 +809,38 @@ dripUpdate:
 	
 	ldmfd sp!, {r0-r10, pc}
 
+	
+@------------------------------------ Init Eyes
+eyesInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ Load the eyes sprites (FXEyes)
 
+	
+		ldr r0,=FXEyesTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXDripTilesLen
+		
+		bl dmaCopy
+		
+		ldr r1,=spriteActive
+		mov r0,#FX_EYES_ACTIVE
+		str r0,[r1]
+		ldr r1,=spriteX
+		mov r0,#(11*8)+64
+		str r0,[r1]
+		ldr r1,=spriteY
+		mov r0,#(6*8)+384
+		str r0,[r1]
+		ldr r1,=spriteObj
+		mov r0,#EYE_FRAME
+		str r0,[r1]
+		ldr r1,=spriteAnimDelay
+		mov r0,#EYE_ANIM
+		str r0,[r1]
+
+	ldmfd sp!, {r0-r10, pc}
 @-----------------------------------
 	.pool
 	.data

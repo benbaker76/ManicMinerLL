@@ -145,6 +145,8 @@ initLevel:
 		bleq glintInit
 	cmp r0,#FX_DRIP
 		bleq dripInit
+	cmp r0,#FX_EYES
+		bleq eyesInit
 	@ etc
 	
 	bl levelName
@@ -212,7 +214,9 @@ getDoorSprite:
 	cmp r0,#3
 	ldreq r0, =Exit04Tiles
 	ldreq r2, =Exit04TilesLen	
-
+	cmp r0,#4
+	ldreq r0, =Exit05Tiles
+	ldreq r2, =Exit05TilesLen	
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
@@ -297,7 +301,7 @@ getLevelBackground:
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
 	mov r2,r5
-	bl dmaCopy
+	bl decompressToVRAM
 	mov r0,r6
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
 	add r1,#384

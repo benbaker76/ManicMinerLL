@@ -26,7 +26,7 @@
 #include "../build/Level03.h"
 #include "../build/Level04.h"
 #include "../build/Level05.h"
-
+#include "../build/Level06.h"
 
 #include "../build/Level21.h"
 
@@ -44,6 +44,7 @@
 #include "../build/Exit02.h"
 #include "../build/Exit03.h"
 #include "../build/Exit04.h"
+#include "../build/Exit05.h"
 
 #include "../build/TopMenu.h"
 
@@ -154,24 +155,7 @@
 
 @ Levels
 
-#define LEVEL_1						1
-#define LEVEL_2						2
-#define LEVEL_3						3
-#define LEVEL_4						4
-#define LEVEL_5						5
-#define LEVEL_6						6
-#define LEVEL_7						7
-#define LEVEL_8						8
-#define LEVEL_9						9
-#define LEVEL_10					10
-#define LEVEL_11					11
-#define LEVEL_12					12
-#define LEVEL_13					13
-#define LEVEL_14					14
-#define LEVEL_15					15
-#define LEVEL_16					16
-
-#define LEVEL_COUNT					5
+#define LEVEL_COUNT					6
 
 @ Fade values
 
@@ -218,6 +202,7 @@
 #define FX_LEAVES					3
 #define FX_GLINT					4
 #define FX_DRIP						5
+#define FX_EYES						6
 
 
 @ / these are sprite active values used by drawsprite
@@ -231,6 +216,7 @@
 #define FX_DRIP_ACTIVE				9
 #define FX_DRIPFALL_ACTIVE			10
 #define FX_DRIPSPLASH_ACTIVE		11
+#define FX_EYES_ACTIVE				12
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -268,6 +254,9 @@
 #define DRIPSPLASH_FRAME_END		37
 #define DRIPSPLASH_ANIM				8
 
+#define EYE_FRAME					24
+#define EYE_FRAME_END				31
+#define EYE_ANIM					8
 
 @ level defines
 

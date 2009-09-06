@@ -90,12 +90,12 @@ levelData:
 	.byte 96,48,17,1,255,19,8,128
 	.byte 144,48,17,1,1,19,144,208
 	
-	@ 6
-	.byte 0,0,0,0,0,0,0,0
+	@ 6 / Dragone - Level xx - 
+	.byte 232,136,5,6,168,97,5,4
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 172,152,17,17,1,6,148,196
+	.byte 48,144,17,1,1,3,32,88
+	.byte 80,96,17,1,1,3,80,136
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -362,18 +362,18 @@ levelNames:
 	.ascii "THE MINES SO HE CAN ENJOY "
 	.ascii "THAT JETSET LIFESTYLE.... "
 	@ 6
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  A DRAGON APPEARS TO HAVE"
+	.ascii "OPENED A NEW ENTRYWAY INTO"
+	.ascii "A TOTALLY NEW CAVERN, LIT "
+	.ascii "BY A FEW SHARDS OF EVENING"
+	.ascii "TWILIGHT.                 "
+	.ascii "  WILLY SPOTS A SMALL,    "
+	.ascii "ROUND DOOR, PERHAPS THIS  "
+	.ascii "WILL LEAD HIM OUT OF THIS "
+	.ascii "CAVERN AND BACK TO THE    "
+	.ascii "'CENTRAL CAVERN' THAT HE  "
+	.ascii "KNOWS SO WELL....         "
+	.ascii "PERHAPS!                  "
 	@ 7
 	.ascii "                          "
 	.ascii "                          "
