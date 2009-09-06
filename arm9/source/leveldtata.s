@@ -18,6 +18,8 @@ levelData:
 @ 7 =background number (0-?)
 @ 8 =door bank number - used for the exit.. 0-??? HIGH= Willy sprite to use (0=normal 1=spectrum 2=space)
 
+@ "this section is for the monsters only..."
+
 @ alien data (if initial X and y is 0 = blank alien)
 @ 1=initial X,
 @ 2=initial y (offsets added at level construct)
@@ -90,7 +92,7 @@ levelData:
 	.byte 96,48,17,1,255,19,8,128
 	.byte 144,48,17,1,1,19,144,208
 	
-	@ 6 / Dragon - Level xx - 
+	@ 6 / Dragon - Level 21 - The dragon users bonus
 	.byte 232,136,5,6,168,97,5,4
 
 	.byte 172,152,17,17,1,6,148,196
@@ -101,11 +103,11 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 7 / Oric
-	.byte 232,168,5,6,168,1,6,22
+	@ 7 / Oric - level 28 - not the central cavern
+	.byte 232,168,5,6,168,1,6,21
 
 	.byte 96,112,17,1,1,22,96,138+32
-	.byte 0,0,0,0,0,0,0,0
+	.byte 160,168,17,1,2,23,48,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -113,11 +115,11 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 8
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,4,232,56,64,7,1
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 56,96,1,16,1,24,96,140
+	.byte 136,96,1,16,255,24,96,140
+	.byte 8,168,17,1,2,21,8,216
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0

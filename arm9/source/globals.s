@@ -78,6 +78,7 @@
 	.global monsterDelay
 	.global musicPlay
 	.global switch
+	.global onSwitch
 	
 	.global specialEffect
 	
@@ -91,6 +92,8 @@ digits:
 	.space 32
 
 switch:
+	.word 0
+onSwitch:
 	.word 0
 
 faller:

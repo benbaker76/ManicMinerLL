@@ -47,6 +47,11 @@ fxOff:
 	blne fxFadeOff
 	tst r0, #FX_FADE_OUT
 	blne fxFadeOff
+	tst r0, #FX_SPOTLIGHT_IN
+	blne fxSpotlightOff
+	tst r0, #FX_SPOTLIGHT_OUT
+	blne fxSpotlightOff
+
 
 	ldr r0, =fxMode
 	mov r1, #FX_NONE
@@ -71,6 +76,10 @@ fxVBlank:
 	blne fxFadeInVBlank
 	tst r0, #FX_FADE_OUT
 	blne fxFadeOutVBlank
+	tst r0, #FX_SPOTLIGHT_IN
+	blne fxSpotlightInVBlank
+	tst r0, #FX_SPOTLIGHT_OUT
+	blne fxSpotlightOutVBlank
 	
 fxVBlankDone:
 	

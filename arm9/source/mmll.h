@@ -28,6 +28,7 @@
 #include "../build/Level05.h"
 #include "../build/Level06.h"
 #include "../build/Level07.h"
+#include "../build/Level08.h"
 
 #include "../build/Level21.h"
 
@@ -38,6 +39,7 @@
 #include "../build/Background05.h"
 #include "../build/Background06.h"
 #include "../build/Background07.h"
+#include "../build/Background08.h"
 
 #include "../build/Background21.h"
 
@@ -161,7 +163,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					7
+#define LEVEL_COUNT					8
 
 @ Fade values
 

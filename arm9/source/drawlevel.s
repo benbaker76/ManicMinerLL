@@ -87,7 +87,11 @@ drawLevel:
 	ldreq r5,=Level07TilesLen
 	ldreq r6,=Level07Map
 	ldreq r7,=Level07MapLen	
-
+	cmp r3,#8
+	ldreq r4,=Level08Tiles
+	ldreq r5,=Level08TilesLen
+	ldreq r6,=Level08Map
+	ldreq r7,=Level08MapLen	
 	cmp r3,#21
 	ldreq r4,=Level21Tiles
 	ldreq r5,=Level21TilesLen
@@ -109,24 +113,17 @@ drawLevel:
 	@ the first 2 character rows are the air gauge
 	@ then each 4 rows are each screens title
 	
-
-
 	ldr r0,=StatusMap							@ draw the air (full)
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
 	add r1,#(32*4)*2
 	mov r2,#128
 	bl dmaCopy
-	
-@	sub r3,#1		@ r3=level number 0-x
-@	lsl r3,#8
-@	add r3,#256
 
 	ldr r0,=StatusMap							@ draw the level name
 	add r0,#128
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
 	mov r2,#256
 	bl dmaCopy	
-
 
 	ldmfd sp!, {r0-r10, pc}
 	

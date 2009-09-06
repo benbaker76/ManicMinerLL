@@ -265,11 +265,12 @@ checkFeet:
 
 	mov r9,r5	
 	
+
 	@ check for other stuff
 	mov r0,r5
 	mov r1,r3
-	bl checkCollectDie
-	@
+	bl checkCollectDieFeet
+	
 
 	
 	checkFeetLNot:
@@ -305,8 +306,7 @@ checkFeet:
 	@ check for other stuff
 	mov r0,r5
 	mov r1,r3
-	bl checkCollectDie
-	@
+	bl checkCollectDieFeet
 	checkFeetRNot:
 	
 	@ ok, r9 and r10 relate to what is under our feet!
@@ -638,16 +638,92 @@ checkCollectDie:
 	blt notKeyThing
 	cmp r0,#31
 	bgt notKeyThing
+	 
 		
 		@ We have a key, so collect it!
 		
-		bl collectKey
+		bl collectKey 
 		b checkCollectDieDone
 
 	notKeyThing:
+	
+	@ ok, is it a switch? (#switch=state 0=0ff 1=on)
+	
+	cmp r0,#32
+	bne notSwitchThing
+		@ ok, we need to change the state of the switch to on
+		ldr r4,=onSwitch
+		ldr r2,[r4]
+		cmp r2,#0
+		bne notSwitchThing
+		
+		ldr r4,=switch 
+		ldr r2,[r4]
+		cmp r2,#1
+		movne r2,#1					@ flip switch
+		moveq r2,#0
+		str r2,[r4]
+		@ now to redraw the switch
+		
+		bl flipSwitch
+		
+		ldr r4,=onSwitch
+		mov r2,#100
+		str r2,[r4]					@ set timer so it cannot flip in same contact
+		b checkCollectDieDone
+
+	notSwitchThing:
+	ldr r4,=onSwitch
+	ldr r2,[r4]
+	sub r2,#1
+	cmp r2,#0
+	movlt r2,#0
+	str r2,[r4]						@ reduce switch timer	
+
+
+
 
 	checkCollectDieDone:
 	ldmfd sp!, {r0-r10, pc}
+
+@--------------------------------------------
+	
+checkCollectDieFeet:
+	@ we need to pass this 2 things for now - the r9,r10 from detect code and also
+	@ the offset value for colmapstore
+	@ r0 = collide value
+	@ r1 = offset
+	
+	stmfd sp!, {r0-r10, lr}
+	
+	cmp r0,#64							@ check for DEATH first!
+	blt notDieThingFeet
+
+		ldr r3,=spriteX+256
+		ldr r3,[r3]
+		and r3,#7
+		cmp r3,#1
+		bgt dieCheckFeet2
+		cmp r3,#6
+		blt dieCheckFeet2
+		
+		b notDieThingFeet
+		
+		dieCheckFeet2:
+		
+		bl initDeath
+
+		b checkCollectDieDone
+
+	notDieThingFeet:
+
+	ldr r3,=minerAction
+	ldr r3,[r3]
+	cmp r3,#MINER_FALL
+	beq notDieThing
+
+	ldmfd sp!, {r0-r10, pc}
+
 
 @--------------------------------------------
 

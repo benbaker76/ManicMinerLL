@@ -52,6 +52,8 @@ initLevel:
 	mov r0,#0
 	ldr r1,=switch
 	str r0,[r1]
+	ldr r1,=onSwitch
+	str r0,[r1]
 
 	mov r0,#1
 	ldr r1,=spriteActive+256
@@ -120,6 +122,8 @@ initLevel:
 	lsr r0,#4
 	ldr r2,=specialEffect
 	str r0,[r2]
+
+bl fxSpotlightIn
 	
 	ldrb r0,[r1],#1			@ Background number
 	bl getLevelBackground
@@ -157,6 +161,7 @@ initLevel:
 	@ etc
 	
 	bl levelName
+
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -302,7 +307,11 @@ getLevelBackground:
 	ldreq r5,=Background07TilesLen
 	ldreq r6,=Background07Map
 	ldreq r7,=Background07MapLen
-
+	cmp r0,#7
+	ldreq r4,=Background08Tiles
+	ldreq r5,=Background08TilesLen
+	ldreq r6,=Background08Map
+	ldreq r7,=Background08MapLen
 
 
 

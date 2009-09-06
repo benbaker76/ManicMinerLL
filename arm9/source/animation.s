@@ -45,6 +45,7 @@
 	.global shardDust
 	.global monsterAnimate
 	.global minerChange
+	.global flipSwitch
 	
 crumbler:
 	@
@@ -449,6 +450,60 @@ minerChange:
 
 		minerChangeFail:
 
+	ldmfd sp!, {r0-r10, pc}
+	
+@---------------------------------------
+
+flipSwitch:
+	@ a little bit to animate keys... Well, it works!!
+	@ ok, r0 = offset, r1=colmap, r2=frame
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r5,=switch
+	ldr r5,[r5]
+	cmp r5,#0
+	
+	@ now to erase from the screen
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, #1536					@ first tile of offscreen tiles
+	addeq r4, #58					@ add 29 chars (30th along is our off switch)	
+	addne r4, #60					@ add 30 chars (30th along is our on switch)
+	ldrh r5,[r4]					@ r5 now=the graphic we need to display
+	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r4, r1, lsl #1
+	strh r5,[r4]
+	
+	@ now, flip the conveyors (ulp)
+	
+	mov r0,#0
+	ldr r4,=colMapStore
+	flipSwitchLoop:
+	
+		mov r2,#0
+		ldrb r1,[r4,r0]
+		cmp r1,#13
+		moveq r2,#18
+		cmp r1,#14
+		moveq r2,#17
+		cmp r1,#15
+		moveq r2,#16
+		
+		cmp r1,#16
+		moveq r2,#15
+		cmp r1,#17
+		moveq r2,#14
+		cmp r1,#18
+		moveq r2,#13
+		cmp r2,#0
+		beq notFlipSwitch
+		strb r2,[r4,r0]
+		notFlipSwitch:
+		add r0,#1
+		cmp r0,#768
+	bne flipSwitchLoop
+	
+
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 	.align
