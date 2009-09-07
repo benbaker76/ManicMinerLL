@@ -44,7 +44,7 @@
 	.global spareSpriteFX
 
 drawSprite:
-	stmfd sp!, {lr}
+	stmfd sp!, {r0-r10, lr}
 	
 	mov r10,#127 			@ our counter for 128 sprites, do not think we need them all though	
 	SLoop:
@@ -195,7 +195,6 @@ drawSprite:
 				str r2,[r1,r10,lsl #2]				
 				bne drawNotRainSplash
 				@ generate new rain
-
 					bl getRandom				@ r8 returned
 					ldr r7,=0x1FF
 					and r8,r7
@@ -216,8 +215,7 @@ drawSprite:
 					str r8,[r1,r10,lsl#2]
 					mov r8,#RAIN_FRAME
 					ldr r1,=spriteObj
-					str r8,[r1,r10,lsl#2]		
-		
+					str r8,[r1,r10,lsl#2]	
 		drawNotRainSplash:
 		cmp r0,#FX_GLINT_ACTIVE
 		bne drawNotGlint
@@ -359,7 +357,7 @@ drawSprite:
 	subs r10,#1
 	bpl SLoop
 
-	ldmfd sp!, {pc}
+	ldmfd sp!, {r0-r10,pc}
 	
 @--------------------------------------------
 

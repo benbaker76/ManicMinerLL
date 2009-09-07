@@ -77,28 +77,10 @@ initSystem:
 main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
-	bl initGame
 
-main2:		@ just for now!!
+@	bl initGame
 
-	bl initSprites
-	
-	@ ------------------- TIMER DEMO -----------------
-	
-	@ldr r0, =5000								@ 5 seconds
-	@ldr r1, =displayTimerWorkingString
-	@bl startTimer
-	
-	@ ------------------- TIMER DEMO -----------------
-	
-	bl initLevel
-	bl drawSprite
-
-	bl monsterMove
-	
-	ldr r0, =gameMode							@ set to play time for now!!
-	mov r1, #GAMEMODE_RUNNING
-	str r1,[r0]
+	bl initTitleScreen
 
 	@ ------------------------------------
 	
@@ -114,6 +96,8 @@ mainLoop:
 	beq mainLoopDone
 	cmp r1, #GAMEMODE_LEVEL_CLEAR
 	bleq levelCleared
+	cmp r1, #GAMEMODE_TITLE_SCREEN
+	bleq updateTitleScreen
 	
 	b mainLoop
 
@@ -164,7 +148,8 @@ gameLoop:
 	ldr r1,=minerDied		@ this will be moved, just for testing
 	ldr r1,[r1]
 	cmp r1,#1
-	beq main2
+	bleq initGame
+	beq mainLoop
 	
 mainLoopDone:
 

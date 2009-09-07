@@ -33,15 +33,20 @@
 	.text
 
 	.global initLevel
+	.global clearSpriteData
 
 initLevel:
 	
 	@ This will be used to set level specifics, ie. colmap, initial x/y, facing etc...
 
-	stmfd sp!, {r0-r10, lr}
+	stmfd sp!, {r0-r12, lr}
+	
+	ldr r12,=gameMode
+	ldr r12,[r12]
+	cmp r12,#GAMEMODE_TITLE_SCREEN
+	blne stopMusic	
+	
 	bl specialFXStop	
-
-	bl stopMusic
 	
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
@@ -53,6 +58,8 @@ initLevel:
 	ldr r1,=switch
 	str r0,[r1]
 	ldr r1,=onSwitch
+	str r0,[r1]
+	ldr r1,=minerDelay
 	str r0,[r1]
 
 	mov r0,#1
@@ -123,7 +130,9 @@ initLevel:
 	ldr r2,=specialEffect
 	str r0,[r2]
 
-bl fxSpotlightIn
+
+	cmp r12,#GAMEMODE_TITLE_SCREEN
+	blne fxSpotlightIn
 	
 	ldrb r0,[r1],#1			@ Background number
 	bl getLevelBackground
@@ -133,16 +142,15 @@ bl fxSpotlightIn
 	and r0,#7
 	bl getDoorSprite
 	bl getWillySprite
-	
-	
-	
+
 	bl generateMonsters		@ r1 is the pointer to the first monsters data
 	
 	bl drawLevel			@ Display the level graphics
 	
-	bl levelStory			@ Display the games story in the bottom screen
+	cmp r12,#GAMEMODE_TITLE_SCREEN
+	blne levelStory			@ Display the games story in the bottom screen
 	
-	bl levelMusic			@ start the music
+	blne levelMusic			@ start the music
 	
 	ldr r0,=specialEffect
 	ldr r0,[r0]
@@ -163,7 +171,7 @@ bl fxSpotlightIn
 	bl levelName
 
 	
-	ldmfd sp!, {r0-r10, pc}
+	ldmfd sp!, {r0-r12, pc}
 
 	@ ------------------------------------
 
@@ -423,6 +431,7 @@ generateMonsters:
 	levelMusic:
 	stmfd sp!, {r0-r10, lr}	
 	
+
 	ldr r0,=musicPlay
 	ldr r0,[r0]
 	

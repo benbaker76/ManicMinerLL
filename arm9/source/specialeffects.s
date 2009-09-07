@@ -76,7 +76,7 @@ updateSpecialFX:
 rainInit:
 	stmfd sp!, {r0-r10, lr}
 	
-	mov r0,#62
+	mov r0,#61
 	rainInitLoop:
 		ldr r1,=spriteActive
 		mov r2,#FX_RAIN_ACTIVE
@@ -127,7 +127,7 @@ rainInit:
 rainUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
-	mov r0,#62
+	mov r0,#61
 	rainUpdateLoop:
 		ldr r1,=spriteActive
 		ldr r2,[r1,r0,lsl#2]
@@ -155,7 +155,7 @@ rainUpdate:
 		ble rainBack
 		cmp r3,#(64+256)-8
 		bge rainBack
-		
+@b rainBack		
 		@ check for 'SPLASHY TIME'
 		@ r3,r4= rain x/y
 		sub r3,#64
@@ -170,7 +170,7 @@ rainUpdate:
 		ldrb r1,[r6,r5]					@ r5=value
 		cmp r4,#0
 		beq skipRandomSplash
-		cmp r4,#23
+		cmp r4,#24
 		bge skipRandomSplash
 		
 		@ if this is between 1 and 23 this is a platform
@@ -184,8 +184,8 @@ rainUpdate:
 		
 		cmp r1,#0
 		beq rainNotPlatform
-		cmp r1,#23
-		bgt rainNotPlatform
+		cmp r1,#24
+		bge rainNotPlatform
 		
 			@ now we need to check 1 char above
 			sub r5,#32
@@ -214,10 +214,11 @@ rainUpdate:
 			mov r2,#FX_RAIN_SPLASH
 			ldr r1,=spriteActive
 			str r2,[r1,r0,lsl #2]
+			
 			mov r2,#RAIN_SPLASH_FRAME
-
 			ldr r1,=spriteObj
 			str r2,[r1,r0,lsl #2]
+			
 			mov r2,#RAIN_SPLASH_ANIM
 			ldr r1,=spriteAnimDelay
 			str r2,[r1,r0,lsl #2]		

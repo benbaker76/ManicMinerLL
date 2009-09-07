@@ -55,11 +55,15 @@ stmfd sp!, {r0-r10, lr}
 	ldr r2,=BigFontTilesLen
 	bl decompressToVRAM
 
-@	ldr r0,=BigFontTiles							@ copy the tiles used for large font
-@	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
-@	add r1,#StatusTilesLen
-@	ldr r2,=BigFontTilesLen
-@	bl dmaCopy
+	bl initSprites
+
+	bl initLevel
+	bl drawSprite
+
+	bl monsterMove
 	
-	
+	ldr r0, =gameMode							@ set to play time!!
+	mov r1, #GAMEMODE_RUNNING
+	str r1,[r0]
+
 ldmfd sp!, {r0-r10, pc}

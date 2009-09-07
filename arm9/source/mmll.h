@@ -52,6 +52,7 @@
 #include "../build/Exit07.h"
 
 #include "../build/TopMenu.h"
+#include "../build/BotMenu.h"
 
 #include "../build/GameBottom.h"
 
@@ -116,6 +117,7 @@
 #define GAMEMODE_RUNNING			1
 #define GAMEMODE_PAUSED				2
 #define GAMEMODE_LEVEL_CLEAR		3
+#define GAMEMODE_TITLE_SCREEN		4
 
 @ FX defines. These are bits so we can have multiple fx at once
 
