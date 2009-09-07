@@ -426,7 +426,7 @@ starsNew:
 leafInit:
 	stmfd sp!, {r0-r10, lr}
 	
-	mov r0,#62
+	mov r0,#30
 	leafInitLoop:
 		ldr r1,=spriteActive
 		mov r2,#FX_LEAVES_ACTIVE
@@ -482,7 +482,7 @@ leafInit:
 leafUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
-	mov r0,#62
+	mov r0,#30
 	leafUpdateLoop:
 		ldr r1,=spriteActive
 		ldr r2,[r1,r0,lsl#2]
@@ -780,8 +780,8 @@ dripUpdate:
 		lsr r0,#3
 		lsl r0,#3
 		bl getRandom
-		and r8,#7
-		subs r8,#4
+		and r8,#3
+		subs r8,#2
 		adds r0,r8
 		str r0,[r2,r10,lsl#2]
 		lsr r1,#3

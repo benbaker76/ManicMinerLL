@@ -49,6 +49,7 @@
 #include "../build/Exit04.h"
 #include "../build/Exit05.h"
 #include "../build/Exit06.h"
+#include "../build/Exit07.h"
 
 #include "../build/TopMenu.h"
 
