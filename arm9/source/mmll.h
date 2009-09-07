@@ -29,6 +29,14 @@
 #include "../build/Level06.h"
 #include "../build/Level07.h"
 #include "../build/Level08.h"
+#include "../build/Level09.h"
+#include "../build/Level10.h"
+#include "../build/Level11.h"
+#include "../build/Level12.h"
+#include "../build/Level13.h"
+#include "../build/Level14.h"
+#include "../build/Level15.h"
+#include "../build/Level16.h"
 
 #include "../build/Level21.h"
 
