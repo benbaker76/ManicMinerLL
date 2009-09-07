@@ -144,12 +144,9 @@ gameLoop:
 	bl levelCheat
 	
 	bl minerChange
+	
+	bl dieChecker
 
-	ldr r1,=minerDied		@ this will be moved, just for testing
-	ldr r1,[r1]
-	cmp r1,#1
-	bleq initGame
-	beq mainLoop
 	
 mainLoopDone:
 

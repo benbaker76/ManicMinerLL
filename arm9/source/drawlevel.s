@@ -92,6 +92,11 @@ drawLevel:
 	ldreq r5,=Level08TilesLen
 	ldreq r6,=Level08Map
 	ldreq r7,=Level08MapLen	
+	cmp r3,#9
+	ldreq r4,=Level09Tiles
+	ldreq r5,=Level09TilesLen
+	ldreq r6,=Level09Map
+	ldreq r7,=Level09MapLen	
 	cmp r3,#21
 	ldreq r4,=Level21Tiles
 	ldreq r5,=Level21TilesLen

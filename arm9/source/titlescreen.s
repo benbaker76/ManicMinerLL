@@ -218,17 +218,17 @@ titleGameStart:
 	ldr r2, =gameMode
 	str r1,[r2]
 	
+	bl clearBG0
+	bl clearBG1
+	bl clearBG2
+	bl clearBG3
+	
 @	bl stopMusic				@ WHY does this crash it????????????????????
 	
 	bl initVideo
 	bl initSprites
 
 	bl specialFXStop
-	
-	bl clearBG0
-	bl clearBG1
-	bl clearBG2
-	bl clearBG3
 
 	bl initGame
 	

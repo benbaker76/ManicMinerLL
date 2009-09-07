@@ -114,7 +114,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 8
+	@ 8 / oric
 	.byte 232,168,4,232,56,64,7,6
 
 	.byte 56,96,1,16,1,24,96,140
@@ -125,8 +125,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 9
-	.byte 0,0,0,0,0,0,0,0
+	@ 9 / gba
+	.byte 232,168,5,24,168,1,8,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -403,18 +403,18 @@ levelNames:
 	.ascii "GLOOMY DEPTHS BELOW.      "
 	.ascii "  'WHAT NEXT?' HE THINKS. "
 	@ 9
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  ABRUPTLY THERE IS A     "
+	.ascii "LIGHT AS WILLY ENTERS THE "
+	.ascii "NEXT CAVERN, REVEALING A  "
+	.ascii "HELLISH SET OF PAININGS ON"
+	.ascii "THE WALL OF WHAT MAY BE   "
+	.ascii "ZOMBIFIED MINERS, YIKES!  "
+	.ascii "  IT FEELS LIKE A COLLIERS"
+	.ascii "GRAVEYARD, AND WILLY IS   "
+	.ascii "SCARED THAT HE MAY JOIN   "
+	.ascii "THE MASSES...             "
+	.ascii "  ONLY QUICK THINKING AND "
+	.ascii "SKILL WILL GET HIM OUT..  "
 	@ 10
 	.ascii "                          "
 	.ascii "                          "
@@ -583,7 +583,7 @@ levelInfo:
 	.ascii "  LEVEL 21 - DRAGON32 1983  "
 	.ascii "    LEVEL 28 - ORIC 1985    "
 	.ascii "    LEVEL 19 - ORIC 1985    "
-	.ascii "LEVEL 17 - ORIC 1983        "
+	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
