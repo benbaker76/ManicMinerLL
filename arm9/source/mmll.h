@@ -36,6 +36,7 @@
 #include "../build/Level15.h"
 #include "../build/Level16.h"
 #include "../build/Level21.h"
+#include "../build/Level22.h"
 
 #include "../build/Background01.h"
 #include "../build/Background02.h"
@@ -48,6 +49,7 @@
 #include "../build/Background09.h"
 #include "../build/Background10.h"
 #include "../build/Background21.h"
+#include "../build/Background22.h"
 
 #include "../build/Exit01.h"
 #include "../build/Exit02.h"
@@ -57,6 +59,7 @@
 #include "../build/Exit06.h"
 #include "../build/Exit07.h"
 #include "../build/Exit08.h"
+#include "../build/Exit21.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
@@ -73,6 +76,7 @@
 #include "../build/MinerNormal.h"
 #include "../build/MinerSpace.h"
 #include "../build/MinerSpectrum.h"
+#include "../build/MinerHorace.h"
 
 #include "../build/SpriteBank1.h"
 

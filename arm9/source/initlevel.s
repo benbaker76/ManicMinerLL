@@ -260,6 +260,9 @@ getDoorSprite:
 	cmp r0,#7
 	ldreq r0, =Exit08Tiles
 	ldreq r2, =Exit08TilesLen
+	cmp r0,#20
+	ldreq r0, =Exit21Tiles
+	ldreq r2, =Exit21TilesLen	
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
@@ -350,12 +353,16 @@ getLevelBackground:
 	ldreq r5,=Background10TilesLen
 	ldreq r6,=Background10Map
 	ldreq r7,=Background10MapLen
-
 	cmp r0,#20
 	ldreq r4,=Background21Tiles
 	ldreq r5,=Background21TilesLen
 	ldreq r6,=Background21Map
 	ldreq r7,=Background21MapLen
+	cmp r0,#21
+	ldreq r4,=Background22Tiles
+	ldreq r5,=Background22TilesLen
+	ldreq r6,=Background22Map
+	ldreq r7,=Background22MapLen
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
@@ -515,6 +522,9 @@ getWillySprite:
 		cmp r3,#2
 		ldreq r0,=MinerSpaceTiles
 		ldreq r2,=MinerSpaceTilesLen
+		cmp r3,#3
+		ldreq r0,=MinerHoraceTiles
+		ldreq r2,=MinerHoraceTilesLen
 		
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy

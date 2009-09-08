@@ -191,6 +191,8 @@ moveMiner:
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
 		sub r1,#1
+		cmp r1,#64
+		movlt r1,#64
 		str r1,[r2]
 		
 		bl checkLeft
@@ -210,6 +212,8 @@ moveMiner:
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
 		add r1,#1
+		cmp r1,#248+64
+		movgt r1,#248+64
 		str r1,[r2]
 		
 		bl checkRight

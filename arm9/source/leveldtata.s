@@ -16,7 +16,7 @@ levelData:
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
 @												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @ 7 =background number (0-?)
-@ 8 =door bank number - used for the exit.. 0-??? HIGH= Willy sprite to use (0=normal 1=spectrum 2=space)
+@ 8 =door bank number - used for the exit.. 0-??? HIGH= Willy sprite to use (0=normal 1=spectrum 2=space 3=horace)
 
 @ "this section is for the monsters only..."
 
@@ -257,7 +257,18 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 21 / demo data for original level 1
+	@ 21 / Horace
+	.byte 240,80,8,8,168,49,20,48
+	
+	.byte 60,128,17,1,1,13,32,192
+	.byte 122,96,17,1,2,13,0,192
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 22 / demo data for original level 1
 	.byte 232,168,5,8,168,1,20,0
 	
 	.byte 60,120,17,1,1,0,60,122
@@ -293,6 +304,7 @@ levelNames:
 	.ascii "           THE END?           "
 	.ascii "      THE FINAL? BARRIER      "
 	.ascii "   THIS IS THE LAST CAVERN!   "
+	.ascii "       THE MYSTIC WOODS       "
 	.ascii "      THE CENTRAL CAVERN      "
 
 @------------------------------- The story
@@ -559,6 +571,19 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	@ 21
+	.ascii "  WILLY SUDDENLY BECAME   "
+	.ascii "SOMEONE ELSE, 'WHAT!' HE  "
+	.ascii "THOUGHT.                  "
+	.ascii "  SOMEHOW HE HAD ENTERED A"
+	.ascii "TIMEWARP, TIME WAS STILL, "
+	.ascii "ALMOST MOTIONLESS.. HE    "
+	.ascii "REMEMBERED THIS FROM THE  "
+	.ascii "DISCOVERY CHANNEL, THEY   "
+	.ascii "CALLED IT 'SOKURAHLAPSE', "
+	.ascii "A HORRIFIC CONDITION..    "
+	.ascii "  HE REALISED THAT HE WAS "
+	.ascii "HORACE, AT LAST! HURRAH!  "	
+	@ 22
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -595,6 +620,7 @@ levelInfo:
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
+	.ascii "   LEVEL 01 - PSION3 1995   "
 	.ascii "  LEVEL 01 - SPECTRUM 1983  "
 
 	.end
