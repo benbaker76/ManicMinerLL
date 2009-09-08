@@ -241,7 +241,7 @@
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
 #define DUST_FRAME_END				63			@ end frame
-#define DUST_ANIM					4			@ animation delay
+#define DUST_ANIM					8			@ animation delay
 
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59

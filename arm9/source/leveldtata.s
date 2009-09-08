@@ -126,7 +126,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 9 / gba
-	.byte 232,168,5,24,168,1,8,0
+	.byte 232,168,21,24,168,1,8,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -406,13 +406,13 @@ levelNames:
 	.ascii "  ABRUPTLY THERE IS A     "
 	.ascii "LIGHT AS WILLY ENTERS THE "
 	.ascii "NEXT CAVERN, REVEALING A  "
-	.ascii "HELLISH SET OF PAININGS ON"
-	.ascii "THE WALL OF WHAT MAY BE   "
-	.ascii "ZOMBIFIED MINERS, YIKES!  "
+	.ascii "HELLISH SET OF SKULLS THAT"
+	.ascii "MAY BE ANCIENT MINERS SET "
+	.ascii "INTO THE WALLS, YIKES!    "
 	.ascii "  IT FEELS LIKE A COLLIERS"
 	.ascii "GRAVEYARD, AND WILLY IS   "
-	.ascii "SCARED THAT HE MAY JOIN   "
-	.ascii "THE MASSES...             "
+	.ascii "SCARED THAT HE MAY END UP "
+	.ascii "JOINING THE DECORATIONS..."
 	.ascii "  ONLY QUICK THINKING AND "
 	.ascii "SKILL WILL GET HIM OUT..  "
 	@ 10
