@@ -352,7 +352,22 @@ drawSprite:
 				str r2,[r1,r10,lsl #2]
 
 		drawNotEye:
-		
+		cmp r0,#FX_FLIES_ACTIVE
+		bne drawNotFly
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#FLY_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotFly
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#FLY_FRAME_END+1
+				moveq r2,#FLY_FRAME
+				str r2,[r1,r10,lsl #2]	
+		drawNotFly:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

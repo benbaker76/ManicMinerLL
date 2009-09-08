@@ -70,10 +70,15 @@ initVideo:
 	
 	bl initVideoMain
 	
-	ldr r0, =FontTiles
-	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
-	ldr r2, =FontTilesLen
-	bl dmaCopy
+
+	ldr r0, =gameMode
+	ldr r1,[r0]
+	cmp r1,#GAMEMODE_TITLE_SCREEN
+	
+	ldrne r0, =FontTiles
+	ldrne r1, =BG_TILE_RAM(BG0_TILE_BASE)
+	ldrne r2, =FontTilesLen
+	blne dmaCopy
 @	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 @	bl dmaCopy
 	
@@ -183,6 +188,9 @@ initVideoTitle:
  	ldr r0, =REG_BG0CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
 	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE_SUB) | BG_TILE_BASE(BG0_TILE_BASE_SUB) | BG_PRIORITY(BG0_PRIORITY))
 	strh r1, [r0]
+@	ldr r0, =REG_BG0CNT			@ Set sub screen BG0 format to be 32x32 tiles at base address
+@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE) | BG_TILE_BASE(BG0_TILE_BASE) | BG_PRIORITY(BG0_PRIORITY))
+@	strh r1, [r0]
 	ldr r0, =REG_BG1CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
 	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG1_MAP_BASE_SUB) | BG_TILE_BASE(BG1_TILE_BASE_SUB) | BG_PRIORITY(BG1_PRIORITY))
 	strh r1, [r0]
@@ -196,16 +204,36 @@ initVideoTitle:
 	ldr r1,=levelNum
 	ldr r1,[r1]
 	cmp r1,#0
+	bne notTitleStart
 
-	bleq clearBG0
-	bleq clearBG1
-	bleq clearBG2
+		mov r0, #0
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
+		bl dmaFillWords
 
-	ldr r0, =FontTiles
-	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
-	ldr r2, =FontTilesLen
-	bl dmaCopy
-	
+	notTitleStart:
+
+	ldr r0, =gameMode
+	ldr r1,[r0]
+	cmp r1,#GAMEMODE_TITLE_SCREEN
+
+	ldrne r0, =FontTiles
+	ldrne r1, =BG_TILE_RAM(BG0_TILE_BASE)
+	ldrne r2, =FontTilesLen
+	blne dmaCopy
+	ldr r0, =ScrollFontTiles
+	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
+	ldr r2, =ScrollFontTilesLen
+	bl decompressToVRAM	
 
 	ldmfd sp!, {r0-r2, pc}
 	

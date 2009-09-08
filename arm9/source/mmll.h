@@ -19,8 +19,6 @@
 @ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include "../build/BottomScreen.h"
-
 #include "../build/Level01.h"
 #include "../build/Level02.h"
 #include "../build/Level03.h"
@@ -37,7 +35,6 @@
 #include "../build/Level14.h"
 #include "../build/Level15.h"
 #include "../build/Level16.h"
-
 #include "../build/Level21.h"
 
 #include "../build/Background01.h"
@@ -49,7 +46,7 @@
 #include "../build/Background07.h"
 #include "../build/Background08.h"
 #include "../build/Background09.h"
-
+#include "../build/Background10.h"
 #include "../build/Background21.h"
 
 #include "../build/Exit01.h"
@@ -59,6 +56,7 @@
 #include "../build/Exit05.h"
 #include "../build/Exit06.h"
 #include "../build/Exit07.h"
+#include "../build/Exit08.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
@@ -66,8 +64,10 @@
 #include "../build/GameBottom.h"
 
 #include "../build/Sprites.h"
+#include "../build/TitleSprites.h"
 #include "../build/Font.h"
 #include "../build/BigFont.h"
+#include "../build/ScrollFont.h"
 #include "../build/Status.h"
 
 #include "../build/MinerNormal.h"
@@ -77,6 +77,8 @@
 #include "../build/SpriteBank1.h"
 
 #include "../build/FXDrip.h"
+#include "../build/FXFlies.h"
+#include "../build/FXEyes.h"
 
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
@@ -175,7 +177,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					9
+#define LEVEL_COUNT					10
 
 @ Fade values
 
@@ -223,7 +225,7 @@
 #define FX_GLINT					4
 #define FX_DRIP						5
 #define FX_EYES						6
-
+#define FX_FLIES					7
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
@@ -237,6 +239,7 @@
 #define FX_DRIPFALL_ACTIVE			10
 #define FX_DRIPSPLASH_ACTIVE		11
 #define FX_EYES_ACTIVE				12
+#define FX_FLIES_ACTIVE				13
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -278,6 +281,9 @@
 #define EYE_FRAME_END				36
 #define EYE_ANIM					8
 
+#define FLY_FRAME					24
+#define FLY_FRAME_END				28
+#define FLY_ANIM					4
 @ level defines
 
 #define EXIT_CLOSED					64

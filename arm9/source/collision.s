@@ -721,6 +721,8 @@ checkCollectDieFeet:
 	ldr r3,[r3]
 	cmp r3,#MINER_FALL
 	beq notDieThing
+	cmp r3,#MINER_JUMP
+	beq notDieThing
 
 	ldmfd sp!, {r0-r10, pc}
 

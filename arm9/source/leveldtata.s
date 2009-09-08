@@ -14,7 +14,7 @@ levelData:
 @ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @ 4,5 willies start position
 @ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
-@												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip
+@												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @ 7 =background number (0-?)
 @ 8 =door bank number - used for the exit.. 0-??? HIGH= Willy sprite to use (0=normal 1=spectrum 2=space)
 
@@ -86,7 +86,7 @@ levelData:
 
 	.byte 104,168,17,1,255,0,104,144
 	.byte 32,168,17,1,1,0,16,72
-	.byte 24,72,17,1,255,15,24,216
+	.byte 168,72,0,1,255,15,24,216
 	.byte 232,96,1,16,1,9,72,150
 	.byte 152,128,17,3,255,15,152,208
 	.byte 96,48,17,1,255,19,8,128
@@ -114,7 +114,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 8 / oric
+	@ 8 / oric - level - down the pit
 	.byte 232,168,4,232,56,64,7,6
 
 	.byte 56,96,1,16,1,24,96,140
@@ -125,23 +125,23 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 9 / gba
-	.byte 232,168,21,24,168,1,8,0
+	@ 9 / gba - level xx - metropolis bingo
+	.byte 232,168,21,24,168,113,8,7
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 24,116,1,16,255,9,48,168
+	.byte 156,88,17,1,255,0,156,196
+	.byte 188,136,0,1,255,0,156,188
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 10
-	.byte 0,0,0,0,0,0,0,0
+	@ 10 / Oric - Level 21 - at the centre of the earth
+	.byte 112,112,5,16,168,1,9,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,48,1,16,1,12,48,168
+	.byte 232,96,1,16,2,12,96,168
+	.byte 96,168,17,1,1,21,96,142
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -406,9 +406,9 @@ levelNames:
 	.ascii "  ABRUPTLY THERE IS A     "
 	.ascii "LIGHT AS WILLY ENTERS THE "
 	.ascii "NEXT CAVERN, REVEALING A  "
-	.ascii "HELLISH SET OF SKULLS THAT"
-	.ascii "MAY BE ANCIENT MINERS SET "
-	.ascii "INTO THE WALLS, YIKES!    "
+	.ascii "HELLISH COLLECTION OF     "
+	.ascii "SKULLS THAT MAY HAVE BEEN "
+	.ascii "ANCIENT MINERS, YIKES!    "
 	.ascii "  IT FEELS LIKE A COLLIERS"
 	.ascii "GRAVEYARD, AND WILLY IS   "
 	.ascii "SCARED THAT HE MAY END UP "
@@ -416,18 +416,18 @@ levelNames:
 	.ascii "  ONLY QUICK THINKING AND "
 	.ascii "SKILL WILL GET HIM OUT..  "
 	@ 10
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  GRIMLY SOLDIERING ON,   "
+	.ascii "WILLY FINDS EVEN MORE     "
+	.ascii "BLASPHEMIES AGAINST NATURE"
+	.ascii "IN THE BOWELS OF THE EARTH"
+	.ascii "  PREHISTORIC BEASTS PROWL"
+	.ascii "THESE SUBTERRANEAN CAVES, "
+	.ascii "AND THE SOIL ABOVE THEM   "
+	.ascii "LOOKS LOOSE AND UNSTABLE. "
+	.ascii "  LUCKILY, THERE APPEARS  "
+	.ascii "TO BE A TYPE OF ELEVATOR  "
+	.ascii "IN THE CENTRE OF THE CAVE."
+	.ascii "  'UP OR DOWN?' HE THINKS."
 	@ 11
 	.ascii "                          "
 	.ascii "                          "
@@ -584,7 +584,7 @@ levelInfo:
 	.ascii "    LEVEL 28 - ORIC 1985    "
 	.ascii "    LEVEL 19 - ORIC 1985    "
 	.ascii "    LEVEL XX - GBA  2002    "
-	.ascii "LEVEL 17 - ORIC 1983        "
+	.ascii "    LEVEL 21 - ORIC 1983    "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "

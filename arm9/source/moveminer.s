@@ -240,6 +240,14 @@ moveJump:
 	
 	@ we need to check above head first to see if a jump is possible
 	
+	ldr r1,=minerJumpDelay
+	ldr r2,[r1]
+	add r2,#1
+	cmp r2,#6
+	moveq r2,#5
+	str r2,[r1]
+	bne moveJumpFail
+	
 	ldr r1,=spriteY+256
 	ldr r2,[r1]
 	sub r2,#8				@ go one char above head
@@ -357,7 +365,7 @@ minerJump:
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#5
+		cmp r6,#2			@ was 5...
 		bge minerJumpFail
 
 		mov r7,#MINER_NORMAL		@ set us back to normal movement

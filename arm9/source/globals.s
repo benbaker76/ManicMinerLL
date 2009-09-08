@@ -79,6 +79,8 @@
 	.global musicPlay
 	.global switch
 	.global onSwitch
+	.global minerJumpDelay
+	.global minerLives
 	
 	.global specialEffect
 	
@@ -91,11 +93,15 @@ fxMode:
 digits:
 	.space 32
 
+minerLives:
+	.word 0
+
 switch:
 	.word 0
 onSwitch:
 	.word 0
-
+minerJumpDelay:
+	.word 0
 faller:
 	.word 0
 minerDied:

@@ -36,6 +36,9 @@
 
 	.global initTitleScreen
 	.global updateTitleScreen
+	.global tScrollChar
+	.global tScrollSegment
+	.global tScrollText
 
 @----------------------------
 
@@ -45,13 +48,13 @@ initTitleScreen:
 	mov r0,#0							@ set level to 0 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
-
-	bl initVideo
-
-	bl clearBG0
-	bl clearBG0
-	bl clearBG0
-	bl clearBG0
+	ldr r1,=tScrollPix
+	str r0,[r1]
+	ldr r1,=tScrollSegment
+	str r0,[r1]
+	ldr r1,=tScrollChar
+	str r0,[r1]
+	bl initVideoTitle
 
 	mov r1, #GAMEMODE_TITLE_SCREEN
 	ldr r2, =gameMode
@@ -63,8 +66,10 @@ initTitleScreen:
 	
 	bl titleBottomScreen
 	
-	ldr r1,=Miner_xm
+	ldr r1,=Title_xm
 	bl initMusic
+
+	bl initTitleSprites
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -88,13 +93,20 @@ titleBottomScreen:
 	ldr r2, =BotMenuPalLen
 	bl dmaCopy
 	
-	
 	ldmfd sp!, {r0-r10, pc}	
 
 @----------------------------
 titleMainScreen:
 
 	stmfd sp!, {r0-r10, lr}
+
+	bl initVideoTitle
+	
+	bl specialFXStop	
+	
+	bl fxFadeBlackLevelInit
+	bl fxFadeMax
+	bl fxFadeIn
 
 	@ draw our title to sub
 	
@@ -149,7 +161,7 @@ updateTitleScreen:
 	ldr r10,[r10]
 
 	cmp r10,#0				@ set timer, 0=title, 1+= ingame
-	ldreq r8,=400
+	ldreq r8,=500
 	ldrne r8,=100
 
 	titleScreenLoop:
@@ -180,12 +192,21 @@ updateTitleScreen:
 
 		bl drawSprite
 		
+		bl titleScroller
+		
 		@ check for fire
 		
 		ldr r2, =REG_KEYINPUT						@ Read key input register
 		ldr r3, [r2]								@ Read key value
 		tst r3,#BUTTON_START
 		beq titleGameStart
+		
+		
+		cmp r8,#19
+@		bleq fxFadeBlackLevelInit
+@		bleq fxFadeMax
+@		bleq fxFadeOut
+		
 
 	subs r8,#1
 	
@@ -207,8 +228,6 @@ titleNextScreen:
 		cmp r1,#0				@ level 0 is used to title screen graphic
 		blne titleGameScreen
 		bleq titleMainScreen
-		bleq initVideoTitle
-
 		
 	b titleScreenTimer
 
@@ -233,3 +252,82 @@ titleGameStart:
 	bl initGame
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+@-------------------------
+
+titleScroller:
+	stmfd sp!, {r0-r10, lr}	
+
+	ldr r6,=tScrollPix
+	ldr r7,[r6]
+	add r7,#1
+	cmp r7,#8
+	moveq r7,#0
+	str r7,[r6]
+	ldr r0, =REG_BG2HOFS
+	strh r7,[r0]	
+	bleq titleScrollerRefresh
+	
+	titleScrollerDone:
+	ldmfd sp!, {r0-r10, pc}
+	
+@---------------------------
+
+titleScrollerRefresh:
+	@ ok update scroll at Y20 X31 on bg2
+	
+	ldr r1,=BG_MAP_RAM(BG2_MAP_BASE)
+	add r1,#20*64
+	@ r1=left portion of screen 
+	add r2,r1,#2
+	add r3,r1,#64
+	add r4,r3,#2
+	mov r0,#0
+	
+	titleScrollerRefreshLoop:
+	ldrh r5,[r2],#2
+	strh r5,[r1],#2
+	ldrh r5,[r4],#2
+	strh r5,[r3],#2
+	add r0,#1
+	cmp r0,#31
+	
+	bne titleScrollerRefreshLoop
+
+	bl drawTextScroller
+
+b titleScrollerDone
+
+@---------------------------
+
+drawTitleSprites:
+
+	stmfd sp!, {r0-r10, lr}	
+	
+	@ hmmm
+	
+	
+	
+	ldmfd sp!, {r0-r10, pc}	
+
+
+
+
+	.pool
+	.data
+	
+tScrollPix:
+	.word 0
+tScrollChar:
+	.word 0
+tScrollSegment:
+	.word 0
+tScrollText:
+	.ascii	"    HELLO AND WELCOME TO 'MANIC MINER THE LOST LEVELS'...      THIS IS NOT YOUR USUAL "
+	.ascii	"'MANIC MINER' REMAKE AND IS CONSTRUCTED FROM A SELECTION OF THE LEVELS YOU MAY NOT HAVE "
+	.ascii	"SEEN. THESE ARE SOURCED FROM THE NON-SPECTUM VERSIONS OF THE GAME, WHERE THE CODER DECIDED "
+	.ascii	"TO ADD A FEW LEVELS OF THEIR OWN. THE BOTTOM SCREEN SHOWS WHERE THESE LEVELS CAME FROM AND "
+	.ascii	"THE YEAR OF RELEASE.   SEVERAL OF THE LEVELS HAVE HAD TO BE 'SLIGHLY' MODIFIED TO KEEP THEM "
+	.ascii	"CORRECTLY USING THE ORIGINAL ZX SPECTRUM GAME MECHANICS (OTHER VERSIONS PLAYED SLIGHTLY "
+	.ascii	"DIFFERENTLY). "
+	.byte 0

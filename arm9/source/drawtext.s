@@ -36,6 +36,7 @@
 	.global drawDigits
 	.global drawTextBig
 	.global drawTextBlack
+	.global drawTextScroller
 	
 drawText:
 	
@@ -242,7 +243,61 @@ drawTextBigDone:
 	ldmfd sp!, {r4-r8, pc}
 	
 	@ ---------------------------------------------
+	@ ---------------------------------------------
 
+drawTextScroller:
+
+	stmfd sp!, {r0-r8, lr} 
+
+	ldr r1,=BG_MAP_RAM(BG2_MAP_BASE)
+	add r1,#20*64
+	add r4, r1, #62
+	add r6, r4, #64
+
+	ldr r1,=tScrollChar
+	ldr r2,[r1]
+	ldr r0,=tScrollText
+	ldrb r5, [r0,r2]				@ r5=char to draw
+
+	sub r5,#32
+	lsl r5,#2						@ find correct tile code
+
+	@ find segment
+
+	ldr r7,=tScrollSegment
+	ldr r7,[r7]
+	
+	cmp r7,#0
+	
+	
+	addne r5,#1
+
+
+	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
+	add r5,#2
+	strh r5, [r6], #2
+	
+	ldr r7,=tScrollSegment
+	ldr r8,[r7]
+	add r8,#1
+	cmp r8,#2
+	moveq r8,#0
+	str r8,[r7]
+	bne noScrollUpdate
+	
+		ldr r1,=tScrollChar
+		ldr r2,[r1]	
+		add r2,#1
+		ldr r3,=tScrollText
+		ldrb r4,[r3,r2]
+		cmp r4,#0
+		moveq r2,#0
+		str r2,[r1]
+	
+	
+	noScrollUpdate:
+
+	ldmfd sp!, {r0-r8, pc}
 	
 	.pool
 	.end

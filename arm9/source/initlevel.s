@@ -61,10 +61,19 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=minerDelay
 	str r0,[r1]
-
+	ldr r1,=fallCount
+	str r0,[r1]
+	ldr r1,=jumpCount
+	str r0,[r1]
+	
+	
+	
 	mov r0,#1
 	ldr r1,=spriteActive+256
 	str r0,[r1]
+	ldr r1,=minerJumpDelay
+	str r0,[r1]
+
 
 	mov r0,#0
 	ldr r1,=spriteObj+256
@@ -77,9 +86,11 @@ initLevel:
 	mov r0,#0
 	ldr r1,=spriteAnimDelay+256
 	str r0,[r1]
-	ldr r1,=minerAction
-	str r0,[r1]
 	ldr r1,=minerDied
+	str r0,[r1]
+
+	mov r0,#MINER_NORMAL
+	ldr r1,=minerAction
 	str r0,[r1]
 
 	bl generateColMap
@@ -166,6 +177,9 @@ initLevel:
 		bleq dripInit
 	cmp r0,#FX_EYES
 		bleq eyesInit
+	cmp r0,#FX_FLIES
+		bleq fliesInit
+
 	@ etc
 	
 	bl levelName
@@ -243,6 +257,9 @@ getDoorSprite:
 	cmp r0,#6
 	ldreq r0, =Exit07Tiles
 	ldreq r2, =Exit07TilesLen
+	cmp r0,#7
+	ldreq r0, =Exit08Tiles
+	ldreq r2, =Exit08TilesLen
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
@@ -328,7 +345,11 @@ getLevelBackground:
 	ldreq r5,=Background09TilesLen
 	ldreq r6,=Background09Map
 	ldreq r7,=Background09MapLen
-
+	cmp r0,#9
+	ldreq r4,=Background10Tiles
+	ldreq r5,=Background10TilesLen
+	ldreq r6,=Background10Map
+	ldreq r7,=Background10MapLen
 
 	cmp r0,#20
 	ldreq r4,=Background21Tiles

@@ -49,6 +49,8 @@
 	.global dripUpdate
 	
 	.global eyesInit
+	
+	.global fliesInit
 
 	.global specialFXStop
 
@@ -69,7 +71,8 @@ updateSpecialFX:
 	bleq glintUpdate
 	cmp r0,#FX_DRIP
 	bleq dripUpdate
-
+	cmp r0,#FX_FLIES
+	bleq fliesUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -841,7 +844,111 @@ eyesInit:
 		str r0,[r1]
 
 	ldmfd sp!, {r0-r10, pc}
-@-----------------------------------
+
+@------------------------------------ Init Flies
+fliesInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ Load the fly sprites (FXFlies)
+
+	
+		ldr r0,=FXFliesTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXFliesTilesLen
+		
+		bl dmaCopy
+
+	mov r0,#30
+	flieInitLoop:
+		ldr r1,=spriteActive
+		mov r2,#FX_FLIES_ACTIVE
+		str r2,[r1,r0,lsl#2]
+		ldr r1,=spriteObj
+		mov r2,#FLY_FRAME			@ object for FLIES
+		bl getRandom
+		and r8,#03
+		add r2,r8
+		str r2,[r1,r0,lsl#2]
+		
+		bl getRandom				@ r8 returned
+		and r8,#127
+		add r8,#64
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		bl getRandom				@ r8 returned
+		and r8,#31
+		add r8,#384+48
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store y	0-191
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r8,#FLY_ANIM
+		str r8,[r1,r0,lsl#2]
+	
+	subs r0,#1
+	bpl flieInitLoop
+
+	ldmfd sp!, {r0-r10, pc}
+@------------------------------------ Init Eyes
+fliesUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r0,#30
+	
+	fliesUpdateLoop:
+	
+		ldr r1,=spriteActive
+		ldr r2,[r1,r0,lsl#2]
+		cmp r2,#FX_FLIES_ACTIVE
+		bne fliesSkip	
+		@ ok, time to move our flies
+		bl getRandom
+		and r8,#1	
+		ldr r3,=spriteX
+		ldr r4,[r3,r0,lsl#2]
+		cmp r8,#0
+		bne fliesRight
+			sub r4,#1
+			cmp r4,#64
+			movlt r4,#64
+			b fliesLRDone
+		fliesRight:
+			add r4,#1
+			cmp r4,#191
+			movgt r4,#191
+	
+		fliesLRDone:
+		str r4,[r3,r0,lsl#2]
+		bl getRandom
+		and r8,#1	
+		ldr r3,=spriteY
+		ldr r4,[r3,r0,lsl#2]
+		cmp r8,#0
+		bne fliesDown
+			sub r4,#1
+			cmp r4,#424
+			movlt r4,#424
+			b fliesUDDone
+		fliesDown:
+			add r4,#1
+			cmp r4,#424+48
+			movgt r4,#424+48
+		fliesUDDone:
+		str r4,[r3,r0,lsl#2]
+	
+		fliesSkip:
+	subs r0,#1
+	bpl fliesUpdateLoop
+
+
+	ldmfd sp!, {r0-r10, pc}
+	
+	
+	
+	
 	.pool
 	.data
 	.align
