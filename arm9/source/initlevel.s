@@ -101,20 +101,20 @@ initLevel:
 	ldr r2,[r2]
 	sub r2,#1
 	add r1,r2, lsl #6				@ add r1, level number *64, r1 is now the base for the level
-	
+		
 	ldrb r0,[r1],#1
 	add r0,#64
-	ldr r2,=exitX
+	ldr r2,=exitX					@ exit x (8 bit)
 	str r0,[r2]
 
 	ldrb r0,[r1],#1
 	add r0,#384
-	ldr r2,=exitY
+	ldr r2,=exitY					@ exit y (8 bit)
 	str r0,[r2]	
 
 	ldrb r0,[r1],#1
 	mov r3,r0
-	and r3,#7
+	and r3,#15
 	ldr r2,=keyCounter
 	str r3,[r2]
 	ldr r2,=musicPlay
@@ -131,14 +131,14 @@ initLevel:
 	ldr r2,=spriteY+256
 	str r0,[r2]	
 
-	ldrb r0,[r1],#1
+	ldrb r0,[r1],#1					@ low8 = willy dir / high8 = special FX
 	mov r3,r0
-	and r3,#7
+	and r3,#0x1
 	ldr r2,=spriteHFlip+256
 	str r3,[r2]	
 	ldr r2,=minerDirection
 	str r3,[r2]
-	lsr r0,#4
+	lsr r0,#1
 	ldr r2,=specialEffect
 	str r0,[r2]
 
@@ -150,8 +150,8 @@ initLevel:
 	bl getLevelBackground
 
 	ldrb r0,[r1],#1			@ Door number
-	mov r3,r0,lsr #4
-	and r0,#7
+	mov r3,r0,lsr #5		@ high 3 bits = willy sprite 0-7
+	and r0,#31				@ low 8 bits = door banck 0-31
 	bl getDoorSprite
 	bl getWillySprite
 
@@ -180,7 +180,8 @@ initLevel:
 		bleq eyesInit
 	cmp r0,#FX_FLIES
 		bleq fliesInit
-
+	cmp r0,#FX_MALLOW
+		bleq mallowInit
 	@ etc
 	
 	bl levelName

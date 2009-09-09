@@ -11,12 +11,13 @@
 levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
-@ 3 then, number of keys to collect LOW, high = tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
+@ 3 then, number of keys to collect 1-7 LOW 3, high 5 = 0-31 tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @ 4,5 willies start position
-@ 6 =willies initial direction (0=l 1=r) LOW / HIGH=Special effect (ie. rain) (0=none)
-@												1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
+@ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
+@											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
+@											8=mallow
 @ 7 =background number (0-?)
-@ 8 =door bank number - used for the exit.. 0-??? HIGH= Willy sprite to use (0=normal 1=spectrum 2=space 3=horace)
+@ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace)
 
 @ "this section is for the monsters only..."
 
@@ -38,7 +39,7 @@ levelData:
 levelData:
 
 	# 1 / Oric - level 17 - Home at last?
-	.byte 80,144,19,8,168,17,0,0
+	.byte 80,144,19,8,168,3,0,0
 
 	.byte 72,88,17,1,1,17,8,144
 	.byte 104,104,1,1,255,17,104,216
@@ -49,7 +50,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 2 / Oric - Level xx - Airlock
-	.byte 128,104,35,8,104,33,1,1
+	.byte 128,104,35,8,104,5,1,1
 	
 	.byte 16,160,17,1,1,0,16,104
 	.byte 144,168,17,1,1,7,144,232
@@ -60,7 +61,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 3 / GBA - Level xx - Mummy Daddy
-	.byte 224,80,53,218,168,64,2,2
+	.byte 224,80,53,218,168,8,2,2
 	
 	.byte 104,108,1,16,1,16,108,168
 	.byte 56,64,1,16,255,16,64,112
@@ -71,7 +72,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 4 / Oric - level 24 - Hall of the mountain kong
-	.byte 232,168,4,8,168,49,3,3
+	.byte 232,168,4,8,168,7,3,3
 
 	.byte 120,56,1,16,1,18,56,104
 	.byte 50,142,17,17,255,6,8,56
@@ -82,7 +83,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 5 / Oric - level 18 - back to work
-	.byte 232,168,67,6,168,81,4,0
+	.byte 232,168,67,6,168,11,4,0
 
 	.byte 104,168,17,1,255,0,104,144
 	.byte 32,168,17,1,1,0,16,72
@@ -93,7 +94,7 @@ levelData:
 	.byte 144,48,17,1,1,19,144,208
 	
 	@ 6 / Dragon - Level 21 - The dragon users bonus
-	.byte 232,136,5,6,168,97,5,4
+	.byte 232,136,5,6,168,13,5,4
 
 	.byte 172,152,17,17,1,6,148,196
 	.byte 48,144,17,1,1,3,32,88
@@ -104,7 +105,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 7 / Oric - level 28 - not the central cavern
-	.byte 232,168,85,6,168,1,6,21
+	.byte 232,168,85,6,168,1,6,37
 
 	.byte 96,112,17,1,1,22,96,138+32
 	.byte 160,168,17,1,2,23,48,232
@@ -115,7 +116,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 8 / oric - level - down the pit
-	.byte 232,168,4,232,56,64,7,6
+	.byte 232,168,4,232,56,8,7,6
 
 	.byte 56,96,1,16,1,24,96,140
 	.byte 136,96,1,16,255,24,96,140
@@ -126,7 +127,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 9 / gba - level xx - metropolis bingo
-	.byte 232,168,21,24,168,113,8,7
+	.byte 232,168,21,24,168,15,8,7
 
 	.byte 24,116,1,16,255,9,48,168
 	.byte 156,88,17,1,255,0,156,196
@@ -137,7 +138,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 10 / Oric - Level 21 - at the centre of the earth
-	.byte 112,112,5,16,168,1,9,0
+	.byte 112,112,5,16,168,1,9,1
 
 	.byte 16,48,1,16,1,12,48,168
 	.byte 232,96,1,16,2,12,96,168
@@ -258,7 +259,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 21 / Horace
-	.byte 240,80,8,8,168,49,20,48
+	.byte 240,80,8,8,168,7,20,118
 	
 	.byte 60,128,17,1,1,13,32,192
 	.byte 122,96,17,1,2,13,0,192
@@ -269,11 +270,11 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	
-	@ 22 / Lobo Ghostbuster
-	.byte 240,80,8,8,168,49,20,48
+	@ 22 / Lobo Ghostbusters
+	.byte 112,168,3,8,168,17,21,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,56,17,1,1,26,8,232
+	.byte 104,120,17,1,1,27,104,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -515,7 +516,7 @@ levelNames:
 	.ascii "      THE FINAL? BARRIER      "
 	.ascii "   THIS IS THE LAST CAVERN!   "
 	.ascii "       THE MYSTIC WOODS       "
-	.ascii "                              "
+	.ascii "  BUSTIN' MAKES ME FEEL GOOD  "
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -818,7 +819,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	.ascii "                          "
+	.ascii "THE LOBO LEVEL............"
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "

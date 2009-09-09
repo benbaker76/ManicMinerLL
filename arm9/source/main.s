@@ -78,9 +78,9 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-@	bl initGame
+	bl initGame
 
-	bl initTitleScreen
+@	bl initTitleScreen
 
 	@ ------------------------------------
 	

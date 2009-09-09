@@ -234,6 +234,7 @@
 #define FX_DRIP						5
 #define FX_EYES						6
 #define FX_FLIES					7
+#define FX_MALLOW					8
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
@@ -248,6 +249,7 @@
 #define FX_DRIPSPLASH_ACTIVE		11
 #define FX_EYES_ACTIVE				12
 #define FX_FLIES_ACTIVE				13
+#define FX_MALLOW_ACTIVE			14
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -292,6 +294,7 @@
 #define FLY_FRAME					24
 #define FLY_FRAME_END				28
 #define FLY_ANIM					4
+
 @ level defines
 
 #define EXIT_CLOSED					64

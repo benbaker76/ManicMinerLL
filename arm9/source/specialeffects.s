@@ -52,6 +52,8 @@
 	
 	.global fliesInit
 
+	.global mallowInit
+
 	.global specialFXStop
 
 @------------------------------------ Special Effect Update
@@ -73,6 +75,8 @@ updateSpecialFX:
 	bleq dripUpdate
 	cmp r0,#FX_FLIES
 	bleq fliesUpdate
+	cmp r0,#FX_MALLOW
+	bleq mallowUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -946,8 +950,90 @@ fliesUpdate:
 
 	ldmfd sp!, {r0-r10, pc}
 	
+
+@------------------------------------ Init mallow mans eyes
+mallowInit:
+	stmfd sp!, {r0-r10, lr}
 	
+	@ Load the mallow sprites (FXMallow)
+
 	
+		ldr r0,=FXMallowTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXMallowTilesLen		
+		bl dmaCopy
+
+		@ Ok, we need 2 eyes pointing left (24 and 28)
+
+		ldr r1,=spriteActive
+		mov r2,#FX_MALLOW_ACTIVE
+		str r2,[r1]
+		ldr r1,=spriteObj
+		mov r2,#24		
+		str r2,[r1]
+		mov r8,#190
+		add r8,#64
+		ldr r1,=spriteX
+		str r8,[r1]		@ store X	0-255
+		mov r8,#69
+		add r8,#384
+		ldr r1,=spriteY
+		str r8,[r1]		@ store y	0-191
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1]
+
+		ldr r1,=spriteActive+4
+		mov r2,#FX_MALLOW_ACTIVE
+		str r2,[r1]
+		ldr r1,=spriteObj+4
+		mov r2,#28		
+		str r2,[r1]
+		mov r8,#190+16
+		add r8,#64
+		ldr r1,=spriteX+4
+		str r8,[r1]		@ store X	0-255
+		mov r8,#67
+		add r8,#384
+		ldr r1,=spriteY+4
+		str r8,[r1]		@ store y	0-191
+		ldr r1,=spritePriority+2
+		mov r8,#3
+		str r8,[r1]
+
+
+	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ Update mallow mans eyes
+mallowUpdate:
+	stmfd sp!, {r0-r10, lr}	
+	
+	ldr r1,=spriteX+256
+	ldr r1,[r1]
+	
+	ldr r3,=197+64
+	ldr r4,=224+64
+	
+	cmp r1,#80+64
+	movlt r2,#24
+	blt mallowDone
+	cmp r1,r3
+	movlt r2,#25
+	blt mallowDone
+	cmp r1,r4
+	movlt r2,#26
+	blt mallowDone
+	mov r2,#27
+	mallowDone:
+	
+	ldr r1,=spriteObj
+	str r2,[r1]
+	add r2,#4
+	add r1,#4
+	str r2,[r1]
+
+	ldmfd sp!, {r0-r10, pc}
 	
 	.pool
 	.data
