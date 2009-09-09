@@ -67,8 +67,9 @@ initLevel:
 	str r0,[r1]
 	
 	
-	
-	mov r0,#1
+	cmp r12,#GAMEMODE_TITLE_SCREEN
+	movne r0,#1
+	moveq r0,#0
 	ldr r1,=spriteActive+256
 	str r0,[r1]
 	ldr r1,=minerJumpDelay
@@ -262,7 +263,10 @@ getDoorSprite:
 	ldreq r2, =Exit08TilesLen
 	cmp r0,#20
 	ldreq r0, =Exit21Tiles
-	ldreq r2, =Exit21TilesLen	
+	ldreq r2, =Exit21TilesLen
+	cmp r0,#22
+	ldreq r0, =Exit22Tiles
+	ldreq r2, =Exit22TilesLen	
 	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX

@@ -214,16 +214,28 @@ updateTitleScreen:
 	
 titleNextScreen:
 	
-		ldr r0,=levelNum		@ add to level number
-		ldr r1,[r0]
-		add r1,#1			
-		cmp r1,#22
-		moveq r1,#0				
-		beq skipMissLevels
-		cmp r1,#LEVEL_COUNT
-		movgt r1,#21
-		skipMissLevels:
-		str r1,[r0]
+
+	ldr r0,=levelNum
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#23
+	moveq r1,#1
+	beq skipMissLevels
+	cmp r1,#LEVEL_COUNT+1
+	moveq r1,#21
+skipMissLevels:
+	str r1,[r0]
+
+@		ldr r0,=levelNum		@ add to level number
+@		ldr r1,[r0]
+@		add r1,#1			
+@		cmp r1,#22
+@		moveq r1,#0				
+@		beq skipMissLevels
+@		cmp r1,#LEVEL_COUNT
+@		movgt r1,#21
+@		skipMissLevels:
+@		str r1,[r0]
 
 		cmp r1,#0				@ level 0 is used to title screen graphic
 		blne titleGameScreen
