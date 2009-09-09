@@ -265,7 +265,7 @@ getDoorSprite:
 	cmp r0,#20
 	ldreq r0, =Exit21Tiles
 	ldreq r2, =Exit21TilesLen
-	cmp r0,#22
+	cmp r0,#21
 	ldreq r0, =Exit22Tiles
 	ldreq r2, =Exit22TilesLen	
 	
