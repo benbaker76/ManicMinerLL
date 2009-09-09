@@ -1009,8 +1009,29 @@ mallowInit:
 mallowUpdate:
 	stmfd sp!, {r0-r10, lr}	
 	
+	@ If x is between 193 and 203, go crosseyed.. Left=27 right=29
+	
 	ldr r1,=spriteX+256
 	ldr r1,[r1]
+	
+	ldr r5,=193+64
+	ldr r6,=203+64
+	
+	cmp r1,r5
+	blt mallowNoCross
+	cmp r1,r6
+	bgt mallowNoCross
+	
+		mov r2,#27
+		ldr r1,=spriteObj
+		str r2,[r1]
+		mov r2,#29
+		add r1,#4
+		str r2,[r1]
+	
+		b mallowUpdateDone
+	mallowNoCross:
+	
 	
 	ldr r3,=197+64
 	ldr r4,=224+64
@@ -1032,6 +1053,8 @@ mallowUpdate:
 	add r2,#4
 	add r1,#4
 	str r2,[r1]
+	
+	mallowUpdateDone:
 
 	ldmfd sp!, {r0-r10, pc}
 	

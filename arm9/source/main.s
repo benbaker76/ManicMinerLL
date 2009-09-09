@@ -148,7 +148,7 @@ gameLoop:
 	
 	bl minerChange
 	
-	bl dieChecker
+@	bl dieChecker
 
 	
 mainLoopDone:
