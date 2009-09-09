@@ -268,7 +268,217 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 22 / demo data for original level 1
+	
+	@ 22 / Lobo Ghostbuster
+	.byte 240,80,8,8,168,49,20,48
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 23
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 24
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 25
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 26
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 27
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 28
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 29
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 30
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+		
+	@ 31
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 32
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 33
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 34
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 35
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 36
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 37
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 38
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 39
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	
+	@ 40
+	.byte 0,0,0,0,0,0,0,0
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	
+	@ 41 / demo data for original level 1
 	.byte 232,168,5,8,168,1,20,0
 	
 	.byte 60,120,17,1,1,0,60,122
@@ -305,6 +515,25 @@ levelNames:
 	.ascii "      THE FINAL? BARRIER      "
 	.ascii "   THIS IS THE LAST CAVERN!   "
 	.ascii "       THE MYSTIC WOODS       "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
 	.ascii "      THE CENTRAL CAVERN      "
 
 @------------------------------- The story
@@ -588,6 +817,253 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 23
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 24
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "	
+	@ 25
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 26
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 27
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 28
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 29
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 30
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 31
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 32
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 33
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 34
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "	
+	@ 35
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 36
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 37
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 38
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 39
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 41
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 41
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
 	.ascii "THIS IS JUST FOR FUN!!!!!!"
 	.ascii "                          "
 	.ascii "MAY NOT BE USED IN FINAL!!"
@@ -621,6 +1097,25 @@ levelInfo:
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "   LEVEL 01 - PSION3 1995   "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
 	.ascii "  LEVEL 01 - SPECTRUM 1983  "
 
 	.end

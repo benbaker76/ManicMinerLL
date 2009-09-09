@@ -54,7 +54,11 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r1,=tScrollChar
 	str r0,[r1]
+	ldr r1,=tDemoPos
+	str r0,[r1]
+
 	bl initVideoTitle
+
 
 	mov r1, #GAMEMODE_TITLE_SCREEN
 	ldr r2, =gameMode
@@ -219,7 +223,7 @@ titleNextScreen:
 	ldr r1,[r0]
 	add r1,#1
 	cmp r1,#23
-	moveq r1,#1
+	moveq r1,#0
 	beq skipMissLevels
 	cmp r1,#LEVEL_COUNT+1
 	moveq r1,#21
@@ -316,7 +320,7 @@ drawTitleSprites:
 
 	stmfd sp!, {r0-r10, lr}	
 	
-	@ hmmm
+	@ hmmm (animating arms??)
 	
 	
 	
@@ -327,7 +331,10 @@ drawTitleSprites:
 
 	.pool
 	.data
-	
+tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 3, 4096=loop
+	.word 0,1,2,3,4,5,6,7,8,9,10,4096
+tDemoPos:
+	.word 0
 tScrollPix:
 	.word 0
 tScrollChar:

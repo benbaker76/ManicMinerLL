@@ -81,10 +81,13 @@
 	.global onSwitch
 	.global minerJumpDelay
 	.global minerLives
+	.global controlMode
 	
 	.global specialEffect
 	
 gameMode:
+	.word 0
+controlMode:
 	.word 0
 
 fxMode:

@@ -37,6 +37,7 @@
 #include "../build/Level16.h"
 #include "../build/Level21.h"
 #include "../build/Level22.h"
+#include "../build/Level41.h"
 
 #include "../build/Background01.h"
 #include "../build/Background02.h"
@@ -50,6 +51,7 @@
 #include "../build/Background10.h"
 #include "../build/Background21.h"
 #include "../build/Background22.h"
+#include "../build/Background41.h"
 
 #include "../build/Exit01.h"
 #include "../build/Exit02.h"
@@ -84,6 +86,7 @@
 #include "../build/FXDrip.h"
 #include "../build/FXFlies.h"
 #include "../build/FXEyes.h"
+#include "../build/FXMallow.h"
 
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
