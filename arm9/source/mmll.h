@@ -51,6 +51,7 @@
 #include "../build/Background10.h"
 #include "../build/Background21.h"
 #include "../build/Background22.h"
+#include "../build/Background23.h"
 #include "../build/Background41.h"
 
 #include "../build/Exit01.h"
@@ -63,6 +64,7 @@
 #include "../build/Exit08.h"
 #include "../build/Exit21.h"
 #include "../build/Exit22.h"
+#include "../build/Exit23.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
@@ -80,6 +82,7 @@
 #include "../build/MinerSpace.h"
 #include "../build/MinerSpectrum.h"
 #include "../build/MinerHorace.h"
+#include "../build/MinerCasablanca.h"
 
 #include "../build/SpriteBank1.h"
 
@@ -87,6 +90,7 @@
 #include "../build/FXFlies.h"
 #include "../build/FXEyes.h"
 #include "../build/FXMallow.h"
+#include "../build/FXCasablanca.h"
 
 @ View the VRAM layout at http://dev-scene.com/NDS/Tutorials_Day_4#Background_Memory_Layout_and_VRAM_Management
 
