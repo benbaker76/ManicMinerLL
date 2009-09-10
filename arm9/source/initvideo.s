@@ -36,6 +36,7 @@
 	.global resetScrollRegisters
 	.global initVideoTitle
 	.global screenSwapper
+	.global setScreens
 	
 initVideo:
 
@@ -278,6 +279,27 @@ screenSwapper:
 	screenSwapperFail:
 	
 	ldmfd sp!, {r0-r2, pc}	
+
+@------------------------------------
+
+setScreens:
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0,=screenOrder
+	ldr r1,[r0]
+	cmp r1,#0
+	bne setScreens2
+	
+		lcdMainOnBottom
+	
+	b setScreensDone
+	setScreens2:
+	
+		lcdMainOnTop
+		
+	setScreensDone:
+	
+	ldmfd sp!, {r0-r2, pc}
 
 	.pool
 	.end

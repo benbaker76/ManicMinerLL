@@ -15,9 +15,9 @@ levelData:
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
-@											8=mallow
+@											8=mallow, 9=twinkle
 @ 7 =background number (0-?)
-@ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace)
+@ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
 @ "this section is for the monsters only..."
 
@@ -259,7 +259,6 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 21 / Horace
-@	.byte 240,80,8,8,168,7,20,118
 	.byte 240,80,8,8,168,7,20,116
 	
 	.byte 60,128,17,1,1,25,32,192
@@ -282,13 +281,13 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 23
-	.byte 0,0,0,0,0,0,0,0
+	@ 23 / casablanca
+	.byte 184,80,4,8,168,19,22,150
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 190,120,17,1,1,29,144,216
+	.byte 56,120,17,1,1,29,16,120
+	.byte 144,168,17,1,1,28,88,184
+	.byte 144,80,1,16,1,29,48,96
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -517,9 +516,15 @@ levelNames:
 	.ascii "      THE FINAL? BARRIER      "
 	.ascii "   THIS IS THE LAST CAVERN!   "
 	.ascii "       THE MYSTIC WOODS       "
-	.ascii "  BUSTIN' MAKES ME FEEL GOOD  "
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "        HE SLIMED ME!!        "	@ GHOSTBUSTERS
+
+	.ascii "  "
+	.byte 34
+	.ascii "I'M A DRUNKARD"
+	.byte 34
+	.ascii " SAID RICK  "					@ CASABLANCA
+
+	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU."	@ HELLRAISER
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -1099,8 +1104,8 @@ levelInfo:
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "LEVEL 17 - ORIC 1983        "
 	.ascii "   LEVEL 01 - PSION3 1995   "
-	.ascii "                            "
-	.ascii "                            "
+	.ascii "    ORIGINAL - LOBO 2009    "
+	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "

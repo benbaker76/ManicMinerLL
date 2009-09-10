@@ -37,6 +37,7 @@
 #include "../build/Level16.h"
 #include "../build/Level21.h"
 #include "../build/Level22.h"
+#include "../build/Level23.h"
 #include "../build/Level41.h"
 
 #include "../build/Background01.h"
@@ -239,6 +240,7 @@
 #define FX_EYES						6
 #define FX_FLIES					7
 #define FX_MALLOW					8
+#define FX_CSTARS					9
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
@@ -254,6 +256,8 @@
 #define FX_EYES_ACTIVE				12
 #define FX_FLIES_ACTIVE				13
 #define FX_MALLOW_ACTIVE			14
+#define FX_CSTARS_ACTIVE			15
+#define FX_CFLAG_ACTIVE				16
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -299,6 +303,13 @@
 #define FLY_FRAME_END				28
 #define FLY_ANIM					4
 
+#define CSTARS_FRAME				32
+#define CSTARS_FRAME_END			39
+#define CSTARS_ANIM					10
+
+#define CFLAG_FRAME					24
+#define CFLAG_FRAME_END				31
+#define CFLAG_ANIM					10
 @ level defines
 
 #define EXIT_CLOSED					64

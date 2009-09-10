@@ -54,6 +54,8 @@
 
 	.global mallowInit
 
+	.global cStarsInit
+
 	.global specialFXStop
 
 @------------------------------------ Special Effect Update
@@ -113,7 +115,7 @@ rainInit:
 		ldr r1,=spriteSpeed
 		str r8,[r1,r0,lsl#2]
 		ldr r1,=spritePriority
-		mov r8,#2
+		mov r8,#3
 		str r8,[r1,r0,lsl#2]
 		
 	
@@ -1057,6 +1059,135 @@ mallowUpdate:
 	mallowUpdateDone:
 
 	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ init stars for casablanca.. (call twinkleInit)
+cStarsInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r0,=FXCasablancaTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXCasablancaTilesLen
+	
+	bl dmaCopy
+	
+	bl twinkleInit
+
+	@ ok, add the flag at sprite 62
+	
+	mov r10,#62
+	ldr r2,=spriteActive
+	mov r3,#FX_CFLAG_ACTIVE
+	str r3,[r2,r10,lsl#2]
+	
+	mov r0,#196+18
+	add r0,#64
+	ldr r2,=spriteX
+	str r0,[r2,r10,lsl#2]
+	mov r0,#72
+	add r0,#384
+	ldr r2,=spriteY
+	str r0,[r2,r10,lsl#2]
+		
+	mov r0,#CFLAG_FRAME
+	ldr r2,=spriteObj
+	str r0,[r2,r10,lsl#2]
+		
+	ldr r2,=spritePriority
+	mov r0,#2
+	str r0,[r2,r10,lsl#2]
+		
+	mov r0,#CFLAG_ANIM
+	ldr r2,=spriteAnimDelay
+	str r0,[r2,r10,lsl#2]
+
+	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ Generate Twinkle stars over #39 tiles
+	
+twinkleInit:
+	stmfd sp!, {r0-r10, lr}
+		
+	@ get a random x/y coord and check against level for 39 in colmap
+	@ then generate a twinkly
+
+	ldr r5,=CSTARS_FRAME
+
+	mov r10,#61
+	
+	twinkleInitLoop:
+	
+		mov r9,#10
+	
+		twinkleTryLoop:
+	
+			bl getRandom
+			and r8,#0xFF
+			mov r0,r8						@ r0=x=0-255
+			bl getRandom
+			and r8,#0xFF
+			lsr r8,#2
+			mov r3,#3
+			mul r8,r3
+			mov r1,r8						@ r1=y=0-191
+	
+			mov r3,r0,lsr #3				@ x=0-31
+			mov r4,r1,lsr #3				@ y=0-23
+			lsl r4,#5
+			add r3,r4
+@	add r5,r3,r4,lsl #5
+			ldr r2,=colMapStore
+			ldrb r2,[r2,r3]
+			cmp r2,#39
+			beq twinkleFound
+		
+			subs r9,#1
+		bpl twinkleTryLoop
+		b twinkleInitFail
+		
+		twinkleFound:
+		ldr r2,=spriteActive
+		mov r3,#FX_CSTARS_ACTIVE
+		str r3,[r2,r10,lsl#2]
+	
+		add r0,#64
+		ldr r2,=spriteX
+		str r0,[r2,r10,lsl#2]
+		add r1,#384
+		sub r1,#6
+		ldr r2,=spriteY
+		str r1,[r2,r10,lsl#2]
+		
+		bl getRandom
+		and r8,#0x7
+		add r8,#CSTARS_FRAME
+		ldr r2,=spriteObj
+		str r8,[r2,r10,lsl#2]
+		
+		ldr r2,=spritePriority
+		mov r0,#3
+		str r0,[r2,r10,lsl#2]
+		
+		mov r0,#CSTARS_ANIM
+		ldr r2,=spriteAnimDelay
+		bl getRandom
+		and r8,#0x15
+		add r0,r8
+		str r0,[r2,r10,lsl#2]
+		ldr r2,=spriteSpeed			@ use this as a anim speed backup
+		str r0,[r2,r10,lsl#2]
+	
+	
+	twinkleInitFail:
+	
+	subs r10,#1
+	bpl twinkleInitLoop
+	
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+
+	
 	
 	.pool
 	.data

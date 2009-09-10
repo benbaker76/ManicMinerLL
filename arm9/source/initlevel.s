@@ -41,8 +41,6 @@ initLevel:
 
 	stmfd sp!, {r0-r12, lr}
 
-@	lcdMainOnTop
-	
 	ldr r12,=gameMode
 	ldr r12,[r12]
 	cmp r12,#GAMEMODE_TITLE_SCREEN
@@ -166,32 +164,14 @@ initLevel:
 	
 	blne levelMusic			@ start the music
 	
-	ldr r0,=specialEffect
-	ldr r0,[r0]
-	cmp r0,#FX_RAIN
-		bleq rainInit
-	cmp r0,#FX_STARS
-		bleq starsInit
-	cmp r0,#FX_LEAVES
-		bleq leafInit
-	cmp r0,#FX_GLINT
-		bleq glintInit
-	cmp r0,#FX_DRIP
-		bleq dripInit
-	cmp r0,#FX_EYES
-		bleq eyesInit
-	cmp r0,#FX_FLIES
-		bleq fliesInit
-	cmp r0,#FX_MALLOW
-		bleq mallowInit
-	@ etc
+	bl specialEffectStart
 	
 	bl levelName
 
 	
 	ldmfd sp!, {r0-r12, pc}
 
-	@ ------------------------------------
+@-------------------------------------------------
 
 clearSpriteData:
 
@@ -212,7 +192,7 @@ clearSpriteData:
 
 	ldmfd sp!, {r0-r3, pc}
 	
-	@ ------------------------------------
+@-------------------------------------------------
 
 generateColMap:
 
@@ -249,11 +229,12 @@ generateColMap:
 	
 	ldmfd sp!, {r0-r10, pc}
 
-	@ ------------------------------------
+@-------------------------------------------------
 
 getDoorSprite:
 
 	stmfd sp!, {r0-r10, lr}
+	mov r2,#0
 	cmp r0,#0
 	ldreq r0, =Exit01Tiles
 	ldreq r2, =Exit01TilesLen
@@ -284,7 +265,11 @@ getDoorSprite:
 	cmp r0,#21
 	ldreq r0, =Exit22Tiles
 	ldreq r2, =Exit22TilesLen	
-	
+	cmp r0,#22
+	ldreq r0, =Exit23Tiles
+	ldreq r2, =Exit23TilesLen
+	cmp r2,#0
+	beq skipExit
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
 	add r1, #(16*256)
@@ -292,7 +277,7 @@ getDoorSprite:
 	ldr r1, =SPRITE_GFX_SUB
 	add r1, #(16*256)
 	bl dmaCopy
-
+	skipExit:
 	@ now we need to add it to the screen
 	ldr r1,=spriteActive
 	mov r0,#63				@ use the 63rd sprite
@@ -318,8 +303,8 @@ getDoorSprite:
 	
 	
 	ldmfd sp!, {r0-r10, pc}
-
-	@ ------------------------------------
+	
+@-------------------------------------------------
 
 getLevelBackground:
 
@@ -384,6 +369,12 @@ getLevelBackground:
 	ldreq r5,=Background22TilesLen
 	ldreq r6,=Background22Map
 	ldreq r7,=Background22MapLen
+	cmp r0,#22
+	ldreq r4,=Background23Tiles
+	ldreq r5,=Background23TilesLen
+	ldreq r6,=Background23Map
+	ldreq r7,=Background23MapLen
+
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
@@ -399,7 +390,8 @@ getLevelBackground:
 
 	ldmfd sp!, {r0-r10, pc}
 
-	@ ------------------------------------
+@-------------------------------------------------
+
 generateMonsters:
 
 	stmfd sp!, {r0-r10, lr}
@@ -479,7 +471,7 @@ generateMonsters:
 
 	ldmfd sp!, {r0-r10, pc}
 
-@-----------------
+@-------------------------------------------------
 
 	levelMusic:
 	stmfd sp!, {r0-r10, lr}	
@@ -505,7 +497,7 @@ generateMonsters:
 	
 	ldmfd sp!, {r0-r10, pc}
 	
-	@ ------------------------------------
+@-------------------------------------------------
 
 levelName:
 
@@ -526,13 +518,13 @@ levelName:
 	ldmfd sp!, {r0-r10, pc}
 	
 
-@---------------------------------------
+@-------------------------------------------------
 
 getWillySprite:
 
 	stmfd sp!, {r0-r10, lr}
 
-		@ r3=sprite (0=normal 1=spectrum 2=space 3= )
+		@ r3=sprite (0=normal 1=spectrum 2=space 3=horace, 4=dirk )
 
 		cmp r3,#0
 		ldreq r0,=MinerNormalTiles
@@ -546,11 +538,40 @@ getWillySprite:
 		cmp r3,#3
 		ldreq r0,=MinerHoraceTiles
 		ldreq r2,=MinerHoraceTilesLen
-		
+		cmp r3,#4
+		ldreq r0,=MinerCasablancaTiles
+		ldreq r2,=MinerCasablancaTilesLen		
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------------------------------
 	
+specialEffectStart:
+
+	stmfd sp!, {r0-r1, lr}
+	ldr r0,=specialEffect
+	ldr r0,[r0]
+	cmp r0,#FX_RAIN
+		bleq rainInit
+	cmp r0,#FX_STARS
+		bleq starsInit
+	cmp r0,#FX_LEAVES
+		bleq leafInit
+	cmp r0,#FX_GLINT
+		bleq glintInit
+	cmp r0,#FX_DRIP
+		bleq dripInit
+	cmp r0,#FX_EYES
+		bleq eyesInit
+	cmp r0,#FX_FLIES
+		bleq fliesInit
+	cmp r0,#FX_MALLOW
+		bleq mallowInit
+	cmp r0,#FX_CSTARS
+		bleq cStarsInit
+	@ etc
+	ldmfd sp!, {r0-r1, pc}	
 	.pool
 	.end

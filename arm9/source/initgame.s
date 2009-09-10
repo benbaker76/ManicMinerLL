@@ -18,6 +18,8 @@
 initGame:
 stmfd sp!, {r0-r10, lr}
 
+	bl setScreens
+
 	mov r0,#22				@ set level to 1 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]

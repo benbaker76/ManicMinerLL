@@ -368,6 +368,39 @@ drawSprite:
 				moveq r2,#FLY_FRAME
 				str r2,[r1,r10,lsl #2]	
 		drawNotFly:
+		cmp r0,#FX_CSTARS_ACTIVE
+		bne drawNotcStars
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			ldreq r3,=spriteSpeed
+			ldreq r2,[r3,r10,lsl#2]
+			str r2,[r1,r10,lsl #2]
+			bne drawNotcStars
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#CSTARS_FRAME_END+1
+				moveq r2,#CSTARS_FRAME
+				str r2,[r1,r10,lsl #2]	
+		drawNotcStars:
+		cmp r0,#FX_CFLAG_ACTIVE
+		bne drawNotcFlag
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#CFLAG_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotcFlag
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#CFLAG_FRAME_END+1
+				moveq r2,#CFLAG_FRAME
+				str r2,[r1,r10,lsl #2]	
+		drawNotcFlag:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
