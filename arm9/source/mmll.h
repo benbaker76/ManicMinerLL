@@ -82,7 +82,7 @@
 #include "../build/Proteus.h"
 #include "../build/Headsoft.h"
 #include "../build/Infectuous.h"
-#include "../build/SpaceDractal.h"
+#include "../build/Spacefractal.h"
 #include "../build/Web.h"
 #include "../build/Retrobytes.h"
 
