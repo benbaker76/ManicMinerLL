@@ -43,14 +43,13 @@ initMusic:
 	
 	@ set r1 to module to play and call
 	
-	ldr r0, =Module
-@	ldr r1, =Miner_xm
-	bl XM7_LoadXM
+	ldr r0, =Module								@ Pointer to module data
+	bl XM7_LoadXM								@ Load module
 	
-	bl DC_FlushAll
+	bl DC_FlushAll								@ Flush
 	
-	ldr r0, =XM7_MODULE_IPC
-	ldr r1, =Module
+	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
+	ldr r1, =Module								@ Send module data location
 	str r1, [r0]
 
 	ldmfd sp!, {r0-r1, pc}
@@ -61,11 +60,13 @@ stopMusic:
 
 	stmfd sp!, {r0-r1, lr}
 	
-	ldr r0, =XM7_MODULE_IPC
-	ldr r1, =XM7_STOP
+	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
+	ldr r1, =XM7_STOP							@ Send stop command
 	str r1, [r0]
 	
-	ldr r0, =Module
+	bl swiWaitForVBlank							@ Need some time to wait for Arm7 to stop song
+	
+	ldr r0, =Module								@ Unload module
 	bl XM7_UnloadXM
 
 	ldmfd sp!, {r0-r1, pc}
