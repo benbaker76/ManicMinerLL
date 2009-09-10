@@ -136,7 +136,7 @@ drawSprite:
 				ldr r1,=spriteObj
 				ldr r2,[r1,r10,lsl #2]
 				add r2,#1
-				cmp r2,#DUST_FRAME_END+1
+				cmp r2,#DUST_FRAME_END-3
 				str r2,[r1,r10,lsl #2]
 				bne drawnNotDust
 					ldr r1,=spriteActive
