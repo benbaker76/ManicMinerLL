@@ -27,6 +27,8 @@
 
 ---------------------------------------------------------------------------------*/
 
+#define BIT(n) (1<<(n))
+
 @ LCD status register.
 #define	REG_DISPSTAT		0x04000004
 
@@ -83,3 +85,24 @@
 #define BUTTON_DOWN       BIT(7)
 #define BUTTON_R          BIT(8)
 #define BUTTON_L          BIT(9)
+
+.macro lcdSwap
+	ldr r0, =REG_POWERCNT
+	ldr r1, [r0]
+	eor r1, #POWER_SWAP_LCDS
+	str r1, [r0]
+.endm
+
+.macro lcdMainOnTop
+	ldr r0, =REG_POWERCNT
+	ldr r1, [r0]
+	orr r1, #POWER_SWAP_LCDS
+	str r1, [r0]
+.endm
+
+.macro lcdMainOnBottom
+	ldr r0, =REG_POWERCNT
+	ldr r1, [r0]
+	bic r1, #POWER_SWAP_LCDS
+	str r1, [r0]
+.endm
