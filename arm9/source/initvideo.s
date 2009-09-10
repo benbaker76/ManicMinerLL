@@ -35,6 +35,7 @@
 	.global initVideoMain
 	.global resetScrollRegisters
 	.global initVideoTitle
+	.global screenSwapper
 	
 initVideo:
 
@@ -238,6 +239,45 @@ initVideoTitle:
 	ldmfd sp!, {r0-r2, pc}
 	
 	@ ------------------------------------
+	
+screenSwapper:	
+	
+	stmfd sp!, {r0-r2, lr}
+	
+	@ use screenOrder.. 0=sub on top (L) 1=sub on bottom (R)
+	
+	ldr r2, =REG_KEYINPUT
+	ldr r1, [r2]			
+	tst r1,#BUTTON_L
+	bne screenSwapper1
+		
+		ldr r2,=screenOrder
+		ldr r1,[r2]
+		cmp r1,#0
+		beq screenSwapperFail
+			mov r1,#0
+			str r1,[r2]
+	
+			lcdMainOnBottom
+			
+			b screenSwapperFail
+	
+	screenSwapper1:
+	tst r1,#BUTTON_R
+	bne screenSwapperFail
+
+		ldr r2,=screenOrder
+		ldr r1,[r2]
+		cmp r1,#1
+		beq screenSwapperFail
+			mov r1,#1
+			str r1,[r2]	
+	
+			lcdMainOnTop
+	
+	screenSwapperFail:
+	
+	ldmfd sp!, {r0-r2, pc}	
 
 	.pool
 	.end

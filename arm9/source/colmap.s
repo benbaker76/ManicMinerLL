@@ -1,4 +1,5 @@
 	.global colMapStore
+	.global colMapStoreEnd
 	.global colMapLevels
 	
 	.data
@@ -23,6 +24,7 @@
 	@	*= to implement if needed
 colMapStore:
 	.space 768
+colMapStoreEnd:
 
 colMapLevels:
 .byte 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1

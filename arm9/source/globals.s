@@ -39,6 +39,7 @@
 	.global digits
 	.global effectVolume
 	.global musicVolume
+	.global screenOrder
 	
 	.global spriteActive
 	.global spriteX
@@ -88,6 +89,8 @@
 gameMode:
 	.word 0
 controlMode:
+	.word 0
+screenOrder:
 	.word 0
 
 fxMode:

@@ -37,6 +37,8 @@ initSprites:
 initTitleSprites:
 
 	stmfd sp!, {r0-r10, lr}
+	
+	bl clearOAM
 
 	ldr r0, =ATTR0_DISABLED			@ Set OBJ_ATTRIBUTE0 to ATTR0_DISABLED
 	ldr r1, =OAM

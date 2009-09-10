@@ -81,6 +81,7 @@ main:
 @	bl initGame
 
 	bl initTitleScreen
+	
 
 	@ ------------------------------------
 	
@@ -138,18 +139,19 @@ gameLoop:
 		
 	bl checkExit
 
-@	bl debugText
-
 	bl drawScore
 	
 	bl updateSpecialFX
 	
-	bl levelCheat
-	
 	bl minerChange
 	
 	bl dieChecker
+	
+	bl screenSwapper
+	bl levelCheat	
 
+
+@	bl debugText
 	
 mainLoopDone:
 

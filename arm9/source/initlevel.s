@@ -40,6 +40,8 @@ initLevel:
 	@ This will be used to set level specifics, ie. colmap, initial x/y, facing etc...
 
 	stmfd sp!, {r0-r12, lr}
+
+@	lcdMainOnTop
 	
 	ldr r12,=gameMode
 	ldr r12,[r12]
@@ -215,6 +217,20 @@ clearSpriteData:
 generateColMap:
 
 	stmfd sp!, {r0-r10, lr}
+	
+	@ clear colmapstore
+	ldr r0, =colMapStore
+	ldr r1, =colMapStoreEnd
+	ldr r2, =colMapStore
+	sub r1, r2 @ sprite end - start = size
+	bl DC_FlushRange
+
+	mov r0, #0
+	ldr r1, =colMapStore
+	ldr r2, =colMapStoreEnd
+	ldr r3, =colMapStore
+	sub r2, r3 @ sprite end - start = size
+	bl dmaFillWords 
 	
 	@ generate the colmapstore based on the levelNum
 	
