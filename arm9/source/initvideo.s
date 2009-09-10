@@ -37,6 +37,7 @@
 	.global initVideoTitle
 	.global screenSwapper
 	.global setScreens
+	.global initVideoBG2_256
 	
 initVideo:
 
@@ -83,6 +84,21 @@ initVideo:
 	blne dmaCopy
 @	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 @	bl dmaCopy
+	
+	ldmfd sp!, {r0-r1, pc}
+	
+	@ ------------------------------------
+	
+initVideoBG2_256:
+
+	stmfd sp!, {r0-r1, lr}
+	
+	ldr r0, =REG_BG2CNT				@ Set main screen BG0 format to be 32x32 tiles at base address
+	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG2_MAP_BASE) | BG_TILE_BASE(BG2_TILE_BASE) | BG_PRIORITY(BG2_PRIORITY))
+	strh r1, [r0]
+	ldr r0, =REG_BG2CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
+	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG2_MAP_BASE_SUB) | BG_TILE_BASE(BG2_TILE_BASE_SUB) | BG_PRIORITY(BG2_PRIORITY))
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
 	

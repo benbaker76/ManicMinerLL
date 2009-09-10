@@ -79,6 +79,13 @@
 #include "../build/ScrollFont.h"
 #include "../build/Status.h"
 
+#include "../build/Proteus.h"
+#include "../build/Headsoft.h"
+#include "../build/Infectuous.h"
+#include "../build/SpaceDractal.h"
+#include "../build/Web.h"
+#include "../build/Retrobytes.h"
+
 #include "../build/MinerNormal.h"
 #include "../build/MinerSpace.h"
 #include "../build/MinerSpectrum.h"
@@ -100,17 +107,17 @@
 @ BG2 - Level Layout				256
 @ BG3 - Background					256
 
-#define BG0_MAP_BASE				28
-#define BG0_MAP_BASE_SUB			28
+#define BG0_MAP_BASE				22
+#define BG0_MAP_BASE_SUB			22
 
-#define BG1_MAP_BASE				31
-#define BG1_MAP_BASE_SUB			31
+#define BG1_MAP_BASE				26
+#define BG1_MAP_BASE_SUB			26
 
-#define BG2_MAP_BASE				30
-#define BG2_MAP_BASE_SUB			30
+#define BG2_MAP_BASE				25
+#define BG2_MAP_BASE_SUB			25
 
-#define BG3_MAP_BASE				29
-#define BG3_MAP_BASE_SUB			29
+#define BG3_MAP_BASE				23
+#define BG3_MAP_BASE_SUB			23
 
 #define BG0_TILE_BASE				7
 #define BG0_TILE_BASE_SUB			7
@@ -142,6 +149,7 @@
 #define GAMEMODE_PAUSED				2
 #define GAMEMODE_LEVEL_CLEAR		3
 #define GAMEMODE_TITLE_SCREEN		4
+#define GAMEMODE_INTRO				5
 
 @ FX defines. These are bits so we can have multiple fx at once
 

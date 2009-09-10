@@ -80,7 +80,9 @@ main:
 
 @	bl initGame
 
-	bl initTitleScreen
+@	bl initTitleScreen
+	
+	bl showIntro1
 	
 
 	@ ------------------------------------
@@ -99,6 +101,8 @@ mainLoop:
 	bleq levelCleared
 	cmp r1, #GAMEMODE_TITLE_SCREEN
 	bleq updateTitleScreen
+	cmp r1, #GAMEMODE_INTRO
+	bleq updateIntro
 	
 	b mainLoop
 

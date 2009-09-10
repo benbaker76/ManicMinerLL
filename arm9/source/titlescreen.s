@@ -44,6 +44,11 @@
 
 initTitleScreen:
 	stmfd sp!, {r0-r10, lr}
+	
+	bl clearBG0									@ Clear bgs
+	bl clearBG1
+	bl clearBG2
+	bl clearBG3
 
 	mov r0,#0							@ set level to 0 for start of game
 	ldr r1,=levelNum
@@ -327,7 +332,7 @@ drawTitleSprites:
 	ldr r0,=tArmsDelay
 	ldr r1,[r0]
 	add r1,#1
-	cmp r1,#250
+	cmp r1,#64
 	moveq r1,#0
 	str r1,[r0]
 	beq updateArms
@@ -338,14 +343,13 @@ drawTitleSprites:
 	
 	ldr r0,=tArms
 	ldr r1,[r0]
-	add r1,#0
+	add r1,#1
 	cmp r1,#2
 	moveq r1,#0
 	str r1,[r0]
 	
 	beq tArmsOn
 	bne tArmsOff
-	
 	
 	armsReturn:
 	
@@ -355,257 +359,31 @@ drawTitleSprites:
 tArmsOn:
 
 @ arms on
-	ldr r0,=OBJ_ATTRIBUTE0(2)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#7*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(2)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#7*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(2)
-	mov r2,#2
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(3)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#7*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(3)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#9*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(3)
-	mov r2,#3
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(4)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#7*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(4)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#11*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(4)
-	mov r2,#4
-	lsl r2,#3
-	strh r2,[r0]		
-@	
-	ldr r0,=OBJ_ATTRIBUTE0(5)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#9*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(5)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#7*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(5)
-	mov r2,#5
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(6)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#9*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(6)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#9*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(6)
-	mov r2,#6
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(7)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#9*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(7)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#11*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(7)
-	mov r2,#7
-	lsl r2,#3
-	strh r2,[r0]			
-	
-@	
-	ldr r0,=OBJ_ATTRIBUTE0(8)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#11*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(8)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#7*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(8)
-	mov r2,#8
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(9)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#11*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(9)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#9*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(9)
-	mov r2,#9
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(10)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#11*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(10)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#11*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(10)
-	mov r2,#10
-	lsl r2,#3
-	strh r2,[r0]
 
-@ Right
-
-	ldr r0,=OBJ_ATTRIBUTE0(11)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#7*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(11)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#18*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(11)
-	mov r2,#11
-	lsl r2,#3
-	strh r2,[r0]
+	@ ok, we have the tiles below the screen 32*5 and we need to copy them to the screen..
 	
-	ldr r0,=OBJ_ATTRIBUTE0(12)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#7*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(12)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#20*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(12)
-	mov r2,#12
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(13)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#7*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(13)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#22*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(13)
-	mov r2,#13
-	lsl r2,#3
-	strh r2,[r0]		
-@	
-	ldr r0,=OBJ_ATTRIBUTE0(14)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#9*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(14)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#18*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(14)
-	mov r2,#14
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(15)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#9*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(15)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#20*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(15)
-	mov r2,#15
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(16)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#9*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(16)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#22*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(16)
-	mov r2,#16
-	lsl r2,#3
-	strh r2,[r0]			
-	
-@	
-	ldr r0,=OBJ_ATTRIBUTE0(17)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#11*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(17)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#18*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(17)
-	mov r2,#17
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(18)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#11*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(18)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#20*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(18)
-	mov r2,#18
-	lsl r2,#3
-	strh r2,[r0]
-	
-	ldr r0,=OBJ_ATTRIBUTE0(19)
-	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
-	orr r2,#11*8					@ y
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE1(19)
-	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#22*8				@ x
-	strh r2,[r0]
-	ldr r0,=OBJ_ATTRIBUTE2(19)
-	mov r2,#19
-	lsl r2,#3
-	strh r2,[r0]
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
+	add r0,r1,#1536 						@ start of offscreen
+	add r1,#(7*32)*2						@ destination
+	mov r2,#(5*32)*2						@ tile count
+	@ r0=src, r1=des, r2=len
+	bl dmaCopy
 	
 b armsReturn
 
 tArmsOff:
 @ arms off
 
-@	mov r1,#ATTR0_DISABLED
-@	ldr r0,=OBJ_ATTRIBUTE0(2)
-@	strh r1,[r0]
-
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
+	add r0,r1,#1536+((5*32)*2) 				@ start of offscreen
+	add r1,#(7*32)*2						@ destination
+	mov r2,#(5*32)*2						@ tile count
+	@ r0=src, r1=des, r2=len
+	bl dmaCopy
 
 b armsReturn
 
-
+@---------------------------------------------------
 
 	.pool
 	.data
