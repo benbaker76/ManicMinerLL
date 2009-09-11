@@ -41,7 +41,7 @@
 	
 initMusic:
 
-	stmfd sp!, {r0-r1, lr}
+	stmfd sp!, {r0-r2, lr}
 	
 	@ set r1 to module to play and call
 	
@@ -49,15 +49,15 @@ initMusic:
 	
 	ldr r0, =modLoaded
 	ldr r1, [r0]
-	ldr r2, =XM7_MOD_NOT_LOADED
 	cmp r1, #XM7_MOD_LOADED
-	streq r2, [r0]
 	bne initMusicContinue
 
 	bl stopMusic
 	bl swiWaitForVBlank
+	
+	ldr r0, =Module
 	bl XM7_UnloadXM
-
+	
 initMusicContinue:
 	
 	pop {r1}
@@ -70,8 +70,12 @@ initMusicContinue:
 	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
 	ldr r1, =Module								@ Send module data location
 	str r1, [r0]
+	
+	ldr r0, =modLoaded
+	ldr r1, =XM7_MOD_LOADED
+	str r1, [r0]
 
-	ldmfd sp!, {r0-r1, pc}
+	ldmfd sp!, {r0-r2, pc}
 	
 	@ ---------------------------------------
 	
