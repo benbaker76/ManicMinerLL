@@ -36,12 +36,31 @@
 	#define XM7_MODULEMANAGER_TYPE_SIZE			0xCE8
 	#define XM7_MODULE_IPC						IPC+0x20
 	#define XM7_STOP							-1
+	#define XM7_MOD_NOT_LOADED					0
+	#define XM7_MOD_LOADED						1
 	
 initMusic:
 
 	stmfd sp!, {r0-r1, lr}
 	
 	@ set r1 to module to play and call
+	
+	push {r1}
+	
+	ldr r0, =modLoaded
+	ldr r1, [r0]
+	ldr r2, =XM7_MOD_NOT_LOADED
+	cmp r1, #XM7_MOD_LOADED
+	streq r2, [r0]
+	bne initMusicContinue
+
+	bl stopMusic
+	bl swiWaitForVBlank
+	bl XM7_UnloadXM
+
+initMusicContinue:
+	
+	pop {r1}
 	
 	ldr r0, =Module								@ Pointer to module data
 	bl XM7_LoadXM								@ Load module
@@ -63,11 +82,6 @@ stopMusic:
 	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
 	ldr r1, =XM7_STOP							@ Send stop command
 	str r1, [r0]
-	
-	bl swiWaitForVBlank							@ Need some time to wait for Arm7 to stop song
-	
-	ldr r0, =Module								@ Unload module
-	bl XM7_UnloadXM
 
 	ldmfd sp!, {r0-r1, pc}
 	
@@ -75,6 +89,9 @@ stopMusic:
 
 	.data
 	.align
+
+modLoaded:
+	.word 0
 	
 Module:
 	.space XM7_MODULEMANAGER_TYPE_SIZE
