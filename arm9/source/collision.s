@@ -757,6 +757,14 @@ checkFall:
 	cmp r9,#24
 	bge checkFall2
 
+		ldr r7,=spriteY+256				@ this is perhaps not the best way???
+		ldr r6,[r7]
+		and r6,#7
+		cmp r6,#3			@ was 5...
+		bge checkFall3
+
+
+
 	mov r8,#1
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}		
@@ -766,6 +774,13 @@ checkFall:
 	beq checkFall3
 	cmp r10,#24
 	bge checkFall3
+
+		ldr r7,=spriteY+256				@ this is perhaps not the best way???
+		ldr r6,[r7]
+		and r6,#7
+		cmp r6,#3			@ was 5...
+		bge checkFall3
+
 	
 	mov r8,#1
 

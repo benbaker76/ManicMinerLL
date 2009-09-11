@@ -369,7 +369,7 @@ minerJump:
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#2			@ was 5...
+		cmp r6,#3			@ was 5...
 		bge minerJumpFail
 
 		mov r7,#MINER_NORMAL		@ set us back to normal movement
