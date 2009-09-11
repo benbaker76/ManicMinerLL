@@ -293,7 +293,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 24
+	@ 24 / gremlins
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -304,7 +304,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 25
+	@ 25 / goonies
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -315,7 +315,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 26
+	@ 26 / back to the future
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -326,7 +326,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 27
+	@ 27 / hellraiser
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -337,7 +337,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 28
+	@ 28 / ghostbusters					(MOVE HERE LATER)
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -348,7 +348,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 29
+	@ 29 / King Kong
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -359,7 +359,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 30
+	@ 30 / Rocky Horror
 	.byte 0,0,0,0,0,0,0,0
 
 	.byte 0,0,0,0,0,0,0,0
@@ -525,13 +525,13 @@ levelNames:
 	.byte 34
 	.ascii " SAID RICK  "					@ CASABLANCA
 
-	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU."	@ HELLRAISER
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "                              "	@ GREMLINS
+	.ascii "                              " @ GOONIES
+	.ascii "                              " @ BACK TO THE FUTURE
+	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU." @ HELLRAISER
+	.ascii "                              " @ GHOSTBUSTERS
+	.ascii "                              " @ KING KONG
+	.ascii "                              " @ ROCKY HORROR
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -886,7 +886,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	@ 27
-	.ascii "                          "
+	.ascii " HELLRAISER               "
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
