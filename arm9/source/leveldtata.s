@@ -1110,7 +1110,7 @@ levelInfo:
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "
-	.ascii "                            "
+	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "
