@@ -80,9 +80,9 @@ main:
 
 @	bl initGame
 
-	bl initTitleScreen
+@	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 
 	@ ------------------------------------

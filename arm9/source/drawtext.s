@@ -228,7 +228,7 @@ drawTextBigLoop:
 	@ our tiles are in pairs (one above another)
 
 	lsl r5,#1
-add r5,#43
+add r5,#64
 @	sub r5,r7
 
 	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
@@ -242,8 +242,7 @@ drawTextBigDone:
 	
 	ldmfd sp!, {r4-r8, pc}
 	
-	@ ---------------------------------------------
-	@ ---------------------------------------------
+	@ -----------------------------------------------
 
 drawTextScroller:
 
@@ -298,6 +297,8 @@ drawTextScroller:
 	noScrollUpdate:
 
 	ldmfd sp!, {r0-r8, pc}
+	
+	@ ----------------------------------------
 	
 	.pool
 	.end

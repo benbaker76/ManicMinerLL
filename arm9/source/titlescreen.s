@@ -61,6 +61,29 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r1,=tDemoPos
 	str r0,[r1]
+	ldr r1,=tArmsDelay
+	str r0,[r1]
+	ldr r1,=tPump
+	str r0,[r1]
+	ldr r1,=tPumpDelay
+	str r0,[r1]	
+	ldr r1,=tBearF
+	str r0,[r1]
+	ldr r1,=tBearDelay
+	str r0,[r1]
+	ldr r1,=tRobotF
+	str r0,[r1]
+	ldr r1,=tRobotDelay
+	str r0,[r1]
+	ldr r1,=tGorillaF
+	str r0,[r1]
+	ldr r1,=tGorillaDelay
+	str r0,[r1]
+
+	add r0,#1
+	ldr r1,=tArms
+	str r0,[r1]
+
 
 	bl initVideoTitle
 
@@ -148,7 +171,7 @@ titleGameScreen:
 
 	ldr r0,=BigFontTiles							@ copy the tiles used for large font
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-	add r1,#StatusTilesLen
+	add r1,#BigFontOffset
 	ldr r2,=BigFontTilesLen
 	bl decompressToVRAM
 
@@ -237,16 +260,6 @@ titleNextScreen:
 skipMissLevels:
 	str r1,[r0]
 
-@		ldr r0,=levelNum		@ add to level number
-@		ldr r1,[r0]
-@		add r1,#1			
-@		cmp r1,#22
-@		moveq r1,#0				
-@		beq skipMissLevels
-@		cmp r1,#LEVEL_COUNT
-@		movgt r1,#21
-@		skipMissLevels:
-@		str r1,[r0]
 
 		cmp r1,#0				@ level 0 is used to title screen graphic
 		blne titleGameScreen
@@ -267,7 +280,7 @@ titleGameStart:
 	
 @	bl stopMusic				@ WHY does this crash it????????????????????
 	
-bl XM7_UnloadXM
+@   bl XM7_UnloadXM
 	
 	bl initVideo
 	bl initSprites
@@ -329,34 +342,59 @@ drawTitleSprites:
 
 	stmfd sp!, {r0-r10, lr}	
 	
-	@ hmmm (animating arms?)
+	@ Arms
 	
 	ldr r0,=tArmsDelay
 	ldr r1,[r0]
 	add r1,#1
-	cmp r1,#64
+	cmp r1,#50
 	moveq r1,#0
 	str r1,[r0]
 	beq updateArms
 
-	ldmfd sp!, {r0-r10, pc}	
+		b armsReturn
 	
 	updateArms:
 	
-	ldr r0,=tArms
-	ldr r1,[r0]
-	add r1,#1
-	cmp r1,#2
-	moveq r1,#0
-	str r1,[r0]
+		ldr r0,=tArms
+		ldr r1,[r0]
+		add r1,#1
+		cmp r1,#2
+		moveq r1,#0
+		str r1,[r0]
 	
-	beq tArmsOn
-	bne tArmsOff
+		beq tArmsOn
+		bne tArmsOff
 	
 	armsReturn:
 	
+	@ Pumpkin
+	
+		b tPumpkin
+
+	pumpkinReturn:
+	
+	@ Bears eye
+	
+		b tBear
+
+	bearReturn:
+
+	@ Robots eye
+	
+		b tRobot
+
+	robotReturn:
+
+	@ Gorilla
+	
+		b tGorilla
+
+	gorillaReturn:
 	
 	ldmfd sp!, {r0-r10, pc}	
+
+@------------------------------
 
 tArmsOn:
 
@@ -408,7 +446,199 @@ tArmsOffLoop:
 
 b armsReturn
 
+@---------------------------------------------
+
+tPumpkin:
+
+	@ read tPump as the frame to use
+	
+	ldr r0,=tPumpDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#8
+	moveq r1,#0
+	str r1,[r0]
+	bne pumpkinReturn
+
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
+	add r0, #(32*24*2) 						@ start of offscreen
+	add r0,#17*2
+	mov r5,#5
+	ldr r7,=tPump			@ frame 0-11
+	ldr r6,[r7]
+	add r6,#1
+	cmp r6,#16
+	moveq r6,#0
+	str r6,[r7]
+	ldr r7,=tPumpFrames
+	ldrb r7,[r7,r6]
+	mul r7,r5
+	add r0,r7,lsl #1
+
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r2, =(2+8*32)*2
+	add r1, r2
+	mov r2, #(5*2)							@ tile count
+	mov r3, #(32*2)							@ tile skip
+	mov r4, #3								
+
+tPumpkinLoop:
+
+	bl dmaCopy
+
+	add r0, r3
+	add r1, r3
+	
+	subs r4, #1
+	bpl tPumpkinLoop
+	
+b pumpkinReturn
+
 @---------------------------------------------------
+
+tBear:
+
+	@ read tPump as the frame to use
+	
+	ldr r0,=tBearDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#4
+	moveq r1,#0
+	str r1,[r0]
+	bne bearReturn
+
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
+	add r0, #(32*28*2) 						@ start of offscreen
+	add r0,#17*2							@ initial frame location
+	mov r5,#2								@ width of frame
+	ldr r7,=tBearF							@ frame 0-11
+	ldr r6,[r7]
+	add r6,#1
+	cmp r6,#32
+	moveq r6,#0
+	str r6,[r7]
+	ldr r7,=tBearFrames
+	ldrb r7,[r7,r6]
+	mul r7,r5
+	add r0,r7,lsl #1						@ r0=source
+
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r2, =(10+12*32)*2
+	add r1, r2
+	mov r2, #(2*2)							@ tile count (x)
+	mov r3, #(32*2)							@ tile skip
+	mov r4, #1								@ rows
+
+tBearLoop:
+
+	bl dmaCopy
+
+	add r0, r3
+	add r1, r3
+	
+	subs r4, #1
+	bpl tBearLoop
+	
+b bearReturn
+
+
+@---------------------------------------------------
+
+tRobot:
+
+	@ read tPump as the frame to use
+	
+	ldr r0,=tRobotDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#8
+	moveq r1,#0
+	str r1,[r0]
+	bne robotReturn
+
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
+	add r0, #(32*34*2) 						@ start of offscreen
+@	add r0,#17*2							@ initial frame location
+	mov r5,#5								@ width of frame
+	ldr r7,=tRobotF							@ frame 0-11
+	ldr r6,[r7]
+	add r6,#1
+	cmp r6,#4
+	moveq r6,#0
+	str r6,[r7]
+	mul r6,r5
+	add r0,r6,lsl #1						@ r0=source
+
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r2, =(26+14*32)*2
+	add r1, r2
+	mov r2, #(5*2)							@ tile count (x)
+	mov r3, #(32*2)							@ tile skip
+	mov r4, #2								@ rows
+
+tRobotLoop:
+
+	bl dmaCopy
+
+	add r0, r3
+	add r1, r3
+	
+	subs r4, #1
+	bpl tRobotLoop
+	
+b robotReturn
+
+
+@---------------------------------------------------
+
+tGorilla:
+
+	@ read tPump as the frame to use
+	
+	ldr r0,=tGorillaDelay
+	ldr r1,[r0]
+	add r1,#1
+	cmp r1,#12
+	moveq r1,#0
+	str r1,[r0]
+	bne gorillaReturn
+
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
+	add r0, #(32*30*2) 						@ start of offscreen
+	add r0,#20*2							@ initial frame location
+	mov r5,#4								@ width of frame
+	ldr r7,=tGorillaF							@ frame 0-11
+	ldr r6,[r7]
+	add r6,#1
+	cmp r6,#18
+	moveq r6,#0
+	str r6,[r7]
+	ldr r7,=tGorillaFrames
+	ldrb r7,[r7,r6]
+	mul r7,r5
+	add r0,r7,lsl #1						@ r0=source
+
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r2, =(24+5*32)*2
+	add r1, r2
+	mov r2, #(4*2)							@ tile count (x)
+	mov r3, #(32*2)							@ tile skip
+	mov r4, #5								@ rows
+
+tGorillaLoop:
+
+	bl dmaCopy
+
+	add r0, r3
+	add r1, r3
+	
+	subs r4, #1
+	bpl tGorillaLoop
+	
+b gorillaReturn
+
+@---------------------------------------------
 
 	.pool
 	.data
@@ -423,9 +653,31 @@ tScrollChar:
 tScrollSegment:
 	.word 0
 tArms:
-	.word 0
+	.word 1
 tArmsDelay:
 	.word 0
+tPump:
+	.word 0
+tPumpDelay:
+	.word 0
+tPumpFrames:
+	.byte 0,0,0,0,0,0,0,0,1,2,2,1,0,0,0,0
+tBearF:
+	.word 0
+tBearDelay:
+	.word 0
+tBearFrames:
+	.byte 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,1,0
+tRobotF:
+	.word 0
+tRobotDelay:
+	.word 0
+tGorillaF:
+	.word 0
+tGorillaDelay:
+	.word 0
+tGorillaFrames:
+	.byte 2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,1,2
 tScrollText:
 	.ascii	"    HELLO AND WELCOME TO 'MANIC MINER THE LOST LEVELS'...      THIS IS NOT YOUR USUAL "
 	.ascii	"'MANIC MINER' REMAKE AND IS CONSTRUCTED FROM A SELECTION OF THE LEVELS YOU MAY NOT HAVE "

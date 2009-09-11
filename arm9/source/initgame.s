@@ -55,7 +55,7 @@ stmfd sp!, {r0-r10, lr}
 
 	ldr r0,=BigFontTiles							@ copy the tiles used for large font
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-	add r1,#StatusTilesLen
+	add r1,#BigFontOffset
 	ldr r2,=BigFontTilesLen
 	bl decompressToVRAM
 

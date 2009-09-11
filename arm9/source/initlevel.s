@@ -492,7 +492,8 @@ generateMonsters:
 	ldreq r1, =Piano_xm
 	cmp r0,#5
 	ldreq r1, =Spectrum_xm
-	
+	cmp r0,#6
+	ldreq r1, =Toccata_xm	
 	bl initMusic
 	
 	ldmfd sp!, {r0-r10, pc}
