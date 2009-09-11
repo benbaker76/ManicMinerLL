@@ -364,24 +364,47 @@ tArmsOn:
 
 	@ ok, we have the tiles below the screen 32*5 and we need to copy them to the screen..
 	
-	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
-	add r0,r1,#1536 						@ start of offscreen
-	add r1,#(7*32)*2						@ destination
-	mov r2,#(5*32)*2						@ tile count
-	@ r0=src, r1=des, r2=len
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
+	add r0, #(32*24*2) 						@ start of offscreen
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r2, =(7+7*32)*2
+	add r1, r2
+	mov r2, #(17*2)							@ tile count
+	mov r3, #(32*2)							@ tile skip
+	mov r4, #4
+
+tArmsOnLoop:
+
 	bl dmaCopy
+
+	add r0, r3
+	add r1, r3
+	
+	subs r4, #1
+	bpl tArmsOnLoop
 	
 b armsReturn
 
 tArmsOff:
-@ arms off
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
+	add r0, #(32*24*2)+(5*32*2) 			@ start of offscreen
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)		@ dest
+	ldr r2, =(7+7*32)*2
+	add r1, r2
+	mov r2, #(17*2)							@ tile count
+	mov r3, #(32*2)							@ tile skip
+	mov r4, #4
 
-	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
-	add r0,r1,#1536+((5*32)*2) 				@ start of offscreen
-	add r1,#(7*32)*2						@ destination
-	mov r2,#(5*32)*2						@ tile count
-	@ r0=src, r1=des, r2=len
+tArmsOffLoop:
+
 	bl dmaCopy
+
+	add r0, r3
+	add r1, r3
+	
+	subs r4, #1
+	bpl tArmsOffLoop
 
 b armsReturn
 
