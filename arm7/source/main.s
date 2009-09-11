@@ -46,7 +46,9 @@ interruptHandlerVBlank:
 	
 	ldr r1, =XM7_MODULE_IPC
 	ldr r0, [r1]
+	mov r2, #0
 	cmp r0, #0
+	strgt r2, [r1]
 	blgt XM7_PlayModule
 	
 	@ldr r0, =XM7_MODULE_IPC
@@ -55,15 +57,11 @@ interruptHandlerVBlank:
 	@ldr r0, =debugString
 	@blgt drawDebugString
 	
-	ldr r0, =XM7_MODULE_IPC
-	ldr r1, [r0]
+	ldr r1, =XM7_MODULE_IPC
+	ldr r0, [r1]
 	mov r2, #0
-	cmp r1, #0
-	strgt r2, [r0]
-	
-	ldr r0, =XM7_MODULE_IPC
-	ldr r1, [r0]
-	cmp r1, #XM7_STOP
+	cmp r0, #XM7_STOP
+	streq r2, [r1]
 	bleq XM7_StopModule
 	
 	ldr r7, =IPC_SOUND_DATA(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
