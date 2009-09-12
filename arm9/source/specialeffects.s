@@ -1000,7 +1000,7 @@ mallowInit:
 		add r8,#384
 		ldr r1,=spriteY+4
 		str r8,[r1]		@ store y	0-191
-		ldr r1,=spritePriority+2
+		ldr r1,=spritePriority+4
 		mov r8,#3
 		str r8,[r1]
 
