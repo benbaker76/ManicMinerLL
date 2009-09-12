@@ -48,8 +48,11 @@ dieChecker:
 
 		@ Bugger, we have died :(
 		
-		bl initLevel
-	
+		ldr r0,=minerLives
+		ldr r0,[r0]
+		cmp r0,#0
+		bleq initTitleScreen
+		blne initLevel
 	
 	
 	

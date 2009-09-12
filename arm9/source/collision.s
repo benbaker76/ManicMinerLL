@@ -742,6 +742,7 @@ initDeath:
 	movmi r0,#0
 	str r0,[r1]
 	
+	
 	bl drawLives
 	
 	bl playDead

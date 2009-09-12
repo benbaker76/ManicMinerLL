@@ -12,7 +12,7 @@ levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
 @ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
-@																			(6=Tocatta,
+@																			(6=Tocatta, 7=alleycat
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
@@ -117,7 +117,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 8 / oric - level - down the pit
-	.byte 232,168,4,232,56,8,7,6
+	.byte 232,168,116,232,56,8,7,6
 
 	.byte 56,96,1,16,1,24,96,140
 	.byte 136,96,1,16,255,24,96,140

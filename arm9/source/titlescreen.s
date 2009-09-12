@@ -45,6 +45,8 @@
 initTitleScreen:
 	stmfd sp!, {r0-r10, lr}
 	
+	bl fxOff
+	
 	bl clearBG0									@ Clear bgs
 	bl clearBG1
 	bl clearBG2
