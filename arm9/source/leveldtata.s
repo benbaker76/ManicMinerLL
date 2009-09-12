@@ -12,7 +12,7 @@ levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
 @ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
-@																			(6=Tocatta, 7=alleycat
+@																			(6=Tocatta, 7=alleycat, 8=jungle
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
@@ -73,7 +73,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 4 / Oric - level 24 - Hall of the mountain kong
-	.byte 232,168,4,8,168,7,3,3
+	.byte 232,168,132,8,168,7,3,3
 
 	.byte 120,56,1,16,1,18,56,104
 	.byte 50,142,17,17,255,6,8,56

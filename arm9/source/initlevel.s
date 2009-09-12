@@ -510,6 +510,8 @@ generateMonsters:
 	ldreq r1, =Toccata_xm	
 	cmp r0,#7
 	ldreq r1, =Cat_xm	
+	cmp r0,#8
+	ldreq r1, =Jungle_xm	
 	bl initMusic
 	
 	ldmfd sp!, {r0-r10, pc}
