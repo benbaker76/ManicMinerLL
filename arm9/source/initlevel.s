@@ -374,7 +374,12 @@ getLevelBackground:
 	ldreq r5,=Background23TilesLen
 	ldreq r6,=Background23Map
 	ldreq r7,=Background23MapLen
-
+	
+	cmp r0,#26
+	ldreq r4,=Background27Tiles
+	ldreq r5,=Background27TilesLen
+	ldreq r6,=Background27Map
+	ldreq r7,=Background27MapLen
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
