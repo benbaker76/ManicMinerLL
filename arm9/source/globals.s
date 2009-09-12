@@ -58,6 +58,8 @@
 	.global spriteMonsterFlips
 	.global spritePriority
 
+	.global cheatMode
+
 	.global minerDelay
 	.global minerDirection
 	.global minerAction
@@ -97,6 +99,9 @@ screenOrder:
 air:
 	.word 160
 airDelay:
+	.word 0
+	
+cheatMode:
 	.word 0
 
 fxMode:

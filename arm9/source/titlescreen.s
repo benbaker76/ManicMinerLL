@@ -51,6 +51,8 @@ initTitleScreen:
 	bl clearBG1
 	bl clearBG2
 	bl clearBG3
+	
+	bl initCheat
 
 	mov r0,#0							@ set level to 0 for start of game
 	ldr r1,=levelNum
@@ -229,6 +231,8 @@ updateTitleScreen:
 		bl titleScroller
 		
 		bl drawTitleSprites
+		
+		bl updateCheatCheck
 		
 		@ check for fire
 		

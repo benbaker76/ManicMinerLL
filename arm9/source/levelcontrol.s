@@ -64,6 +64,11 @@ levelCheat:
 
 	stmfd sp!, {r0-r10, lr}	
 	
+	ldr r2,=cheatMode
+	ldr r2,[r2]
+	cmp r2,#0
+	beq levelCheatFail
+	
 	ldr r2, =REG_KEYINPUT						@ Read key input register
 	ldr r3, [r2]								@ Read key value
 	
@@ -81,7 +86,7 @@ levelCheat:
 	tst r3,#BUTTON_SELECT
 	bleq levelCleared
 	
-	
+	levelCheatFail:
 	
 	ldmfd sp!, {r0-r10, pc}	
 	

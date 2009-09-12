@@ -124,7 +124,7 @@ airDrain:
 	ldr r1,=airDelay
 	ldr r2,[r1]
 	add r2,#1
-	cmp r2,#15
+	cmp r2,#20
 	moveq r2,#0
 	str r2,[r1]
 	beq airDrainYes

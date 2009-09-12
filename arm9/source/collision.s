@@ -732,8 +732,13 @@ checkCollectDieFeet:
 initDeath:
 	stmfd sp!, {r0-r10, lr}
 
+	ldr r1,=cheatMode
+	ldr r0,[r1]
+	cmp r0,#1
+	moveq r0,#0
+	movne r0,#1
+
 	ldr r1,=minerDied
-	mov r0,#1
 	str r0,[r1]
 	
 	ldr r1,=minerLives
@@ -741,8 +746,7 @@ initDeath:
 	subs r0,#1
 	movmi r0,#0
 	str r0,[r1]
-	
-	
+
 	bl drawLives
 	
 	bl playDead
@@ -772,8 +776,6 @@ checkFall:
 		cmp r6,#3			@ was 5...
 		bge checkFall3
 
-
-
 	mov r8,#1
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}		
@@ -790,7 +792,6 @@ checkFall:
 		cmp r6,#3			@ was 5...
 		bge checkFall3
 
-	
 	mov r8,#1
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}	

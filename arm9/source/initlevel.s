@@ -86,7 +86,7 @@ initLevel:
 	ldr r1,=spriteObj+256
 	str r0,[r1]
 
-	mov r0,#1
+	mov r0,#2
 	ldr r1,=spritePriority+256
 	str r0,[r1]
 	

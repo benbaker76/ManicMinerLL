@@ -75,14 +75,18 @@ initSystem:
 	ldmfd sp!, {r0-r2, pc}
 
 main:
+	ldr r0,=cheatMode
+	mov r1,#0
+	str r1,[r0]
+
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
 @	bl initGame
 
-	bl initTitleScreen
+@	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 
 	@ ------------------------------------
