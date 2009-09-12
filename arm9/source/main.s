@@ -78,11 +78,11 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
 
 	@ ------------------------------------
@@ -148,6 +148,9 @@ gameLoop:
 	bl updateSpecialFX
 	
 	bl minerChange
+	
+	bl airDrain
+	bl drawAir
 	
 	bl dieChecker
 	

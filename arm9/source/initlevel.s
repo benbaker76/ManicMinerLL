@@ -65,7 +65,13 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=jumpCount
 	str r0,[r1]
+	ldr r1,=airDelay
+	str r0,[r1]
+
 	
+	mov r0,#160
+	ldr r1,=air
+	str r0,[r1]
 	
 	cmp r12,#GAMEMODE_TITLE_SCREEN
 	movne r0,#1
@@ -168,7 +174,6 @@ initLevel:
 	
 	bl levelName
 
-	
 	ldmfd sp!, {r0-r12, pc}
 
 @-------------------------------------------------
@@ -581,6 +586,8 @@ specialEffectStart:
 		bleq mallowInit
 	cmp r0,#FX_CSTARS
 		bleq cStarsInit
+	cmp r0,#FX_BLOOD
+		bleq bloodInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 	.pool

@@ -83,6 +83,8 @@
 	.global minerJumpDelay
 	.global minerLives
 	.global controlMode
+	.global air
+	.global airDelay
 	
 	.global specialEffect
 	
@@ -91,6 +93,10 @@ gameMode:
 controlMode:
 	.word 0
 screenOrder:
+	.word 0
+air:
+	.word 160
+airDelay:
 	.word 0
 
 fxMode:

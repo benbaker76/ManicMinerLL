@@ -736,6 +736,14 @@ initDeath:
 	mov r0,#1
 	str r0,[r1]
 	
+	ldr r1,=minerLives
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#0
+	str r0,[r1]
+	
+	bl drawLives
+	
 	bl playDead
 
 	ldmfd sp!, {r0-r10, pc}	

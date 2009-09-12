@@ -55,6 +55,8 @@
 	.global mallowInit
 
 	.global cStarsInit
+	
+	.global bloodInit
 
 	.global specialFXStop
 
@@ -1182,8 +1184,28 @@ twinkleInit:
 	
 	subs r10,#1
 	bpl twinkleInitLoop
+
+
+	ldmfd sp!, {r0-r10, pc}	
 	
 	
+@------------------------------------ Init Eyes
+bloodInit:
+	stmfd sp!, {r0-r10, lr}
+
+	
+		ldr r0,=FXBloodTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXBloodTilesLen
+		
+		bl dmaCopy
+
+
+	ldr r0,=specialEffect
+	mov r1,#FX_DRIP
+	str r1,[r0]
+
 	ldmfd sp!, {r0-r10, pc}
 	
 

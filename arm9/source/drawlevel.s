@@ -168,11 +168,13 @@ drawLevel:
 	mov r2,#128
 	bl dmaCopy
 
-	ldr r0,=StatusMap							@ draw the level name
+	ldr r0,=StatusMap							@ draw the level name border
 	add r0,#128
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
 	mov r2,#256
 	bl dmaCopy	
+	
+	bl drawLives
 
 	ldmfd sp!, {r0-r10, pc}
 	

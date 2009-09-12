@@ -102,6 +102,7 @@
 #include "../build/FXEyes.h"
 #include "../build/FXMallow.h"
 #include "../build/FXCasablanca.h"
+#include "../build/FXBlood.h"
 
 @ tile offset for the status font
 
@@ -256,6 +257,7 @@
 #define FX_FLIES					7
 #define FX_MALLOW					8
 #define FX_CSTARS					9
+#define FX_BLOOD					10
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2

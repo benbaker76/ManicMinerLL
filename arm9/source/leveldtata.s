@@ -16,7 +16,7 @@ levelData:
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
-@											8=mallow, 9=twinkle
+@											8=mallow, 9=twinkle, 10=blood
 @ 7 =background number (0-?)
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -327,7 +327,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 27 / hellraiser
-	.byte 208,168,5,232,64,0,26,26
+	.byte 208,168,5,232,64,20,26,26
 
 	.byte 168,120,1,16,255,30,48,168
 	.byte 160,168,17,1,1,31,8,184
