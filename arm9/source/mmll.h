@@ -68,6 +68,7 @@
 #include "../build/Exit21.h"
 #include "../build/Exit22.h"
 #include "../build/Exit23.h"
+#include "../build/Exit27.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"

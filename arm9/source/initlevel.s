@@ -268,8 +268,12 @@ getDoorSprite:
 	cmp r0,#22
 	ldreq r0, =Exit23Tiles
 	ldreq r2, =Exit23TilesLen
+	cmp r0,#26
+	ldreq r0, =Exit27Tiles
+	ldreq r2, =Exit27TilesLen
 	cmp r2,#0
 	beq skipExit
+	
 	@ sprite images 16-23 are for the door and its animation (door is 9th sprite)
 	ldr r1, =SPRITE_GFX
 	add r1, #(16*256)
