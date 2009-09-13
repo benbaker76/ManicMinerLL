@@ -38,6 +38,9 @@
 #include "../build/Level21.h"
 #include "../build/Level22.h"
 #include "../build/Level23.h"
+#include "../build/Level24.h"
+#include "../build/Level25.h"
+#include "../build/Level26.h"
 #include "../build/Level27.h"
 #include "../build/Level41.h"
 

@@ -258,7 +258,7 @@ titleNextScreen:
 	ldr r0,=levelNum
 	ldr r1,[r0]
 	add r1,#1
-	cmp r1,#24
+	cmp r1,#28
 	moveq r1,#0
 	beq skipMissLevels
 	cmp r1,#LEVEL_COUNT+1
@@ -283,11 +283,7 @@ titleGameStart:
 	bl clearBG1
 	bl clearBG2
 	bl clearBG3
-	
-@	bl stopMusic				@ WHY does this crash it????????????????????
-	
-@   bl XM7_UnloadXM
-	
+
 	bl initVideo
 	bl initSprites
 

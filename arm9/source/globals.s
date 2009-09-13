@@ -87,6 +87,8 @@
 	.global controlMode
 	.global air
 	.global airDelay
+	.global score
+	.global adder
 	
 	.global specialEffect
 	
@@ -109,9 +111,6 @@ fxMode:
 
 digits:
 	.space 32
-
-minerLives:
-	.word 0
 
 switch:
 	.word 0
@@ -216,6 +215,14 @@ willyJumpData:
 
 levelNum:
 	.word 1
+
+score:
+	.byte 0,0,0,0,0,0,0,0
+adder:
+	.byte 0,0,0,0,0,0,0,0
+minerLives:
+	.word 0
+
 	
 	.pool
 	.end
