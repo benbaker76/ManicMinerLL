@@ -173,6 +173,14 @@ initLevel:
 	bl specialEffectStart
 	
 	bl levelName
+	
+	bl levelMusic
+	
+	@UNCOMMENT TO OPEN EXIT
+@	ldr r1,=spriteActive
+@	mov r0,#63				@ use the 63rd sprite
+@	mov r2,#EXIT_OPEN
+@	str r2,[r1,r0,lsl#2]
 
 	ldmfd sp!, {r0-r12, pc}
 
@@ -489,7 +497,6 @@ generateMonsters:
 
 	levelMusic:
 	stmfd sp!, {r0-r10, lr}	
-	
 
 	ldr r0,=musicPlay
 	ldr r0,[r0]
@@ -512,6 +519,9 @@ generateMonsters:
 	ldreq r1, =Cat_xm	
 	cmp r0,#8
 	ldreq r1, =Jungle_xm	
+	cmp r0,#9
+	ldreq r1, =Cavern_xm
+	
 	bl initMusic
 	
 	ldmfd sp!, {r0-r10, pc}

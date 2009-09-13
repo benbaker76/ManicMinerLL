@@ -31,7 +31,6 @@
 
 	.global drawScore
 	.global addScore
-	.global drawScoreSub
 
 drawScore:
 	@ levelNum holds the number of the level needed
@@ -43,27 +42,39 @@ drawScore:
 	ldr r2, =22							@ Y Pos
 	ldr r3, =0							@ 0 = Main, 1 = Sub
 	bl drawText
-		
-	ldr r10, =0							@ Number
-	mov r11, #11						@ X Pos
-	mov r8, #22							@ Y Pos
-	mov r9, #6							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
 	
 	ldr r0, =scoreText					@ Pointer to text
 	ldr r1, =20							@ X Pos
 	ldr r2, =22							@ Y Pos
 	ldr r3, =0							@ 0 = Main, 1 = Sub
 	bl drawText
-	
-	ldr r10, =0							@ Number
-	mov r11, #26						@ X Pos
-	mov r8, #22							@ Y Pos
-	mov r9, #6							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
-	
+
+	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE)
+	add r4,#22*32*2
+	add r4,#52+(6*2)
+	mov r0, #5
+	ldr r5, =score
+	drawScoreSubLoop:
+		ldrb r1,[r5,r0]
+		add r1,#16
+		strh r1,[r4]
+		subs r0,#1
+		sub r4,#2
+	bpl drawScoreSubLoop	
+
+	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE)
+	add r4,#22*32*2
+	add r4,#22+(6*2)
+	mov r0, #5
+	ldr r5, =highScore
+	drawHighSubLoop:
+		ldrb r1,[r5,r0]
+		add r1,#16
+		strh r1,[r4]
+		subs r0,#1
+		sub r4,#2
+	bpl drawHighSubLoop		
+
 	ldmfd sp!, {r0-r10, pc}
 	
 addScore:
@@ -72,7 +83,7 @@ addScore:
 	@ To use the score adder, just store the digits in 'adder' a byte for each and call this.
 	@ the adder is cleared on exit to stop in keep counting digits.
 
-	mov r0,#7			@ r0 = start digit offset in score and adder
+	mov r0,#5			@ r0 = start digit offset in score and adder
 	ldr r3,=score
 	ldr r4,=adder
 	addLoop:
@@ -111,6 +122,7 @@ drawDigit:
 	cmp r2, #0
 	moveq r2, r4
 	movne r2, r5
+	
 	add r2, r3
 	mov r3, #4
 	mov r4, #0
@@ -133,20 +145,4 @@ drawDigit:
 	
 	@ ---------------------------------------
 
-drawScoreSub:
-	stmfd sp!, {r0-r4, lr}
-	
-	mov r0, #7
-	mov r2, #1
-	mov r3, #13*32*2+16
-	ldr r4, =score
-	drawScoreSubLoop:
-		ldrb r1,[r4,r0]
-		bl drawDigit
-		subs r0,#1
-	bpl drawScoreSubLoop
-	
-	ldmfd sp!, {r0-r4, pc}
-	
-	@ ---------------------------------------
 

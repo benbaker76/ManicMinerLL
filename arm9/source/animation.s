@@ -297,6 +297,13 @@ collectKey:
 	
 	stillKeysLeft:
 	
+	@ add to score
+	
+	mov r1,#1				@ 10 points for a key!
+	ldr r2,=adder+3
+	strb r1,[r2]
+	bl addScore
+	
 	ldmfd sp!, {r0-r10, pc}
 
 	

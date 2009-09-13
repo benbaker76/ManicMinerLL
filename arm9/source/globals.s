@@ -89,6 +89,7 @@
 	.global airDelay
 	.global score
 	.global adder
+	.global highScore
 	
 	.global specialEffect
 	
@@ -216,10 +217,15 @@ willyJumpData:
 levelNum:
 	.word 1
 
+
+	.align
 score:
 	.byte 0,0,0,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
+highScore:
+	.byte 0,0,0,0,0,0,0,0
+	
 minerLives:
 	.word 0
 

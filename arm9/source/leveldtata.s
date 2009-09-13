@@ -12,12 +12,12 @@ levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
 @ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
-@																			(6=Tocatta, 7=alleycat, 8=jungle
+@																			(6=Tocatta, 7=alleycat, 8=jungle, 9=cavern
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @											8=mallow, 9=twinkle, 10=blood
-@ 7 =background number (0-?)
+@ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
 @ "this section is for the monsters only..."
@@ -139,7 +139,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 10 / Oric - Level 21 - at the centre of the earth
-	.byte 112,112,5,16,168,1,9,1
+	.byte 112,112,149,16,168,1,9,1
 
 	.byte 16,48,1,16,1,12,48,168
 	.byte 232,96,1,16,2,12,96,168
@@ -525,13 +525,13 @@ levelNames:
 	.byte 34
 	.ascii " SAID RICK  "					@ CASABLANCA
 
-	.ascii "                              "	@ GREMLINS
-	.ascii "                              " @ GOONIES
-	.ascii "                              " @ BACK TO THE FUTURE
+	.ascii "  BRIGHT LIGHT, BRIGHT LIGHT  "	@ GREMLINS
+	.ascii " HELLO GUYS, I'M MR. PERKINS! " @ GOONIES
+	.ascii "     WE DON'T NEED ROADS!     " @ BACK TO THE FUTURE
 	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU." @ HELLRAISER
-	.ascii "                              " @ GHOSTBUSTERS
-	.ascii "                              " @ KING KONG
-	.ascii "                              " @ ROCKY HORROR
+	.ascii "        HE SLIMED ME!!        " @ GHOSTBUSTERS
+	.ascii "BLONDES ARE SCARCE ROUND HERE!" @ KING KONG
+	.ascii " DO YOU KNOW HOW TO MADDISON? " @ ROCKY HORROR
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -820,99 +820,99 @@ levelNames:
 	.ascii "A HORRIFIC CONDITION..    "
 	.ascii "  HE REALISED THAT HE WAS "
 	.ascii "HORACE, AT LAST! HURRAH!  "	
-	@ 22
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "THE LOBO LEVEL............"
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 23
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 24
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "	
-	@ 25
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 26
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 27
-	.ascii " HELLRAISER               "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 28
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 29
-	.ascii "                          "
+	@ 22	/GB TEST
+	.ascii "  ALAS, THE PLANE SWERVED "
+	.ascii "THROUGH ANOTHER CELLULOID "
+	.ascii "HOLE IN TIME! MADNESS! AS "
+	.ascii "WILLY TRIES TO CLEAN HIS  "
+	.ascii "PANTS FROM ODDLY SLIME, HE" 
+	.ascii "NOTICES THAT THE PLACE IS "
+	.ascii "OVERTAKEN BY THE GHASTLY  "
+	.ascii "APPARITIONS! HE NEEDS TO  "
+	.ascii "GET TO THAT DOOR AS SOON  "
+	.ascii "AS POSSIBLE, OTHERWISE HE "
+	.ascii "ENDS UP TASTING THAT ZOOL "
+	.ascii "FLAVORED MARSHMALLOW!     "
+	@ 23	/CASABLANCA
+	.ascii "  FALLING THROUGH THE VOID"
+	.ascii "OF CELLULOID, WILLY VISITS"
+	.ascii "THE SIGHT HE THOUGHT WAS  "
+	.ascii "FAMILIAR.                 "
+	.ascii "  GERMANS, GENDARME, 1942 "
+	.ascii "SOMEWHERE IN MOROCCO.     "
+	.ascii "IT'S ALL ABOUT GETTING ON "
+	.ascii "A PLANE TO LISBON BUT HE  "
+	.ascii "NEEDS TO COLLECT MONEY FOR"
+	.ascii "THAT. ONLY THEN HE CAN    "
+	.ascii "CALL HIMSELF 'A CITIZEN OF"
+	.ascii " THE WORLD'.              "
+	@ 24	/ GREMLINS
+	.ascii "  80S WERE NOT OVER YET!  "
+	.ascii "WILLY HAS JUST BEEN MOVED "
+	.ascii "INTO ANOTHER WILD WORLD IN"
+	.ascii " WHICH COMPLEX FX SYSTEM  "
+	.ascii "CREATES CREATURES WITHOUT "
+	.ascii "ANY NEED OF SOFTWARE. ALL "
+	.ascii "DONE WITH WIRES, WILLY IS "   
+	.ascii "SURE ABOUT IT. DON'T LET  "
+	.ascii "THEM TOUCH THE WATER, THE "
+	.ascii "VOICE OF SOME S. SPIELBERG"
+	.ascii " THUNDERS THROUGH THE DARK"
+	.ascii " ROOM...'USE REMOTE'...   "
+	@ 25	/goonies
+	.ascii "  'COME TO MAMA SLOTHY!'  "
+	.ascii "WILLY HEARS A GRUBBY VOICE"
+	.ascii "COMING FROM THE CELLAR OF "
+	.ascii "YET ANOTHER WEIRDNESS HE  "
+	.ascii "VISITS, DUE TO FLUCTUATION"
+	.ascii "OF SUBDERMAL BURGERONION  "
+	.ascii "OF PARTICLE DECIMATIONS BY"   
+	.ascii "ELEVEN.                   "
+	.ascii "AH WELL, MIGHT GO THROUGH "
+	.ascii "THE EXIT AND COLLECT SOME "
+	.ascii "OF THE GOLD THAT ONE-EYED "
+	.ascii "WILLY IS PROTECTING?      "
+	@ 26	/BACK TO THE FUTURE
+	.ascii "  OHNO! JUST AS WILLY WAS "
+	.ascii "ABOUT TO SMELL THE SWEET  "
+	.ascii "FLOWERS OF HOME..PLUTONIUM"
+	.ascii "CHARGED ROCKET OPENED YET "
+	.ascii "ANOTHER DOORWAY LEADING TO"
+	.ascii "THE RETRO PLACE LOST IN   "
+	.ascii "1985. WALKMAN, NIKE, PINK "
+	.ascii "HEADBANDS, BENNETTON...   "
+	.ascii "IT IS TOO MUCH FOR WILLY, "
+	.ascii "HE SHIELDS HIS EYES WITH  "
+	.ascii "RAYBAN SHADES AND TIGHTENS"
+	.ascii "BANDANA AROUND HIS WAIST. "
+	@ 27	/ HELLRAISER
+	.ascii "  BY BLOODY CLIVE! WHAT IN"
+	.ascii "HELL, OR WHERE IN HELL IS "
+	.ascii "WILLY NOW? THE WALLS ARE  "
+	.ascii "SPILLING BLOOD, HOOKS AND "
+	.ascii "CHAINS FLOATING IN THE AIR"
+	.ascii "REMAINS OF A TREACHEROUS  "
+	.ascii "WIFE AND CRAZY BROTHER ARE"
+	.ascii "BEING CHEWED UP BY RATS!  "
+	.ascii "PG 13, NSFW, CONTAINS WHAT"
+	.ascii "IS UNCONTAINABLE - HELL!  "
+	.ascii "'NO TEARS, PLEASE. IT'S A "
+	.ascii "WASTE OF GOOD SUFFERING'! "
+	@ 28	/GHOSTBUSTERS
+	.ascii "  ALAS, THE PLANE SWERVED "
+	.ascii "THROUGH ANOTHER CELLULOID "
+	.ascii "HOLE IN TIME! MADNESS! AS "
+	.ascii "WILLY TRIES TO CLEAN HIS  "
+	.ascii "PANTS FROM ODDLY SLIME, HE" 
+	.ascii "NOTICES THAT THE PLACE IS "
+	.ascii "OVERTAKEN BY THE GHASTLY  "
+	.ascii "APPARITIONS! HE NEEDS TO  "
+	.ascii "GET TO THAT DOOR AS SOON  "
+	.ascii "AS POSSIBLE, OTHERWISE HE "
+	.ascii "ENDS UP TASTING THAT ZOOL "
+	.ascii "FLAVORED MARSHMALLOW!     "
+	@ 29	/ KING KONG
+	.ascii "KING KONG                 "
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -925,7 +925,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	@ 30
-	.ascii "                          "
+	.ascii "ROCKY HORROR              "
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "

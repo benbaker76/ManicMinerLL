@@ -668,7 +668,7 @@ checkCollectDie:
 		bl flipSwitch
 		
 		ldr r4,=onSwitch
-		mov r2,#100
+		mov r2,#125
 		str r2,[r4]					@ set timer so it cannot flip in same contact
 		b checkCollectDieDone
 
@@ -808,6 +808,12 @@ checkExit:
 	ldr r0,=keyCounter
 	ldr r0,[r0]
 	cmp r0,#0
+@	bne checkExitFail
+
+	ldr r1,=spriteActive
+	mov r0,#63				@ use the 63rd sprite
+	ldr r2,[r1,r0,lsl#2]
+	cmp r2,#EXIT_OPEN
 	bne checkExitFail
 
 			ldr r0,=spriteX+256
@@ -843,7 +849,7 @@ checkExit:
 			bgt checkExitFail			
 
 				ldr r0,=gameMode
-				mov r1,#GAMEMODE_LEVEL_CLEAR
+				mov r1,#GAMEMODE_LEVEL_CLEAR_INIT
 				str r1,[r0]
 
 	checkExitFail:

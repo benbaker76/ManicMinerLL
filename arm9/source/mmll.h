@@ -158,9 +158,11 @@
 #define GAMEMODE_STOPPED			0
 #define GAMEMODE_RUNNING			1
 #define GAMEMODE_PAUSED				2
-#define GAMEMODE_LEVEL_CLEAR		3
+
 #define GAMEMODE_TITLE_SCREEN		4
 #define GAMEMODE_INTRO				5
+#define GAMEMODE_LEVEL_CLEAR_INIT	6
+#define GAMEMODE_LEVEL_CLEAR		7
 
 @ FX defines. These are bits so we can have multiple fx at once
 

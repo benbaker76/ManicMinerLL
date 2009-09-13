@@ -30,11 +30,11 @@
 
 
 
-	.global levelCleared
+	.global levelNext
 	.global levelCheat
 	
 	
-levelCleared:
+levelNext:
 
 	stmfd sp!, {r0-r10, lr}	
 	
@@ -84,7 +84,7 @@ levelCheat:
 	beq cheatWait
 	
 	tst r3,#BUTTON_SELECT
-	bleq levelCleared
+	bleq levelNext
 	
 	levelCheatFail:
 	

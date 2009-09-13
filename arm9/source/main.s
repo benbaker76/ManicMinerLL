@@ -101,8 +101,10 @@ mainLoop:
 	beq gameLoop
 	cmp r1, #GAMEMODE_STOPPED
 	beq mainLoopDone
+	cmp r1, #GAMEMODE_LEVEL_CLEAR_INIT
+	bleq initLevelClear
 	cmp r1, #GAMEMODE_LEVEL_CLEAR
-	bleq levelCleared
+	bleq levelClear
 	cmp r1, #GAMEMODE_TITLE_SCREEN
 	bleq updateTitleScreen
 	cmp r1, #GAMEMODE_INTRO
