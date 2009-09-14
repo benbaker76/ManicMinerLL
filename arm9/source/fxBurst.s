@@ -27,124 +27,104 @@
 #include "interrupts.h"
 #include "windows.h"
 
-	#define STAR_COUNT					1024
-	#define STAR_COLOR_OFFSET			11
-	#define STAR_COLOR_TRAIL_OFFSET_1	12
-	#define STAR_COLOR_TRAIL_OFFSET_2	13
-	#define STAR_COLOR_TRAIL_OFFSET_3	14
-
+	#define burstFrameStart		40
+	#define burstFrameEnd		47
+	#define burstAnimDelay		4
+	
 	.arm
 	.align
 	.text
 
-	.global fxStarburstOn
-	.global fxStarburstVBlank
+	.global fxStarburstInit
+	.global fxMoveStarburst
 
-fxStarburstOn:
+fxStarburstInit:
 
-	stmfd sp!, {r0-r2, lr}
-
-	mov r0,#STAR_COUNT
-	ldr r1,=starAmount
-	str r0,[r1]
-	
-	ldr r0, =fxMode
-	ldr r1, [r0]
-	orr r1, #FX_STARBURST
-	str r1, [r0]
-
-	@ set the screen up to use numbered tiles from 0-767, a hybrid bitmap!	
-	
-	mov r0, #0										@ tile number
-	ldr r1, =BG_MAP_RAM(BG2_MAP_BASE)				@ where to store it
-	ldr r2, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)		@ where to store it
-
-fxStarburstOnLoop:
-
-	strh r0, [r1], #2
-	strh r0, [r2], #2
-	add r0, #1
-	cmp r0, #(32 * 24)
-	
-	bne fxStarburstOnLoop
-
-	ldr r1,=0x3fff	
-	bl randomStarburst									@ generate em!
-	bl moveStarburst									@ draw them
-	
-	ldmfd sp!, {r0-r2, pc}
-
-	@ ---------------------------------------
-
-fxStarburstVBlank:
-
-	stmfd sp!, {r0, lr}
-	
-	bl moveStarburst								@ move em, based on x/y speeds and plot
-
-	ldmfd sp!, {r0, pc}
-
-	@ ---------------------------------------
-
-randomStarburst:
 	stmfd sp!, {r0-r11, lr}
 
-	@ r1 is passed for the max speed (0x3fff is a good starter)
-	ldr r0,=starAmount
-	ldr r3,[r0]
-	sub r3,#1
-	ldr r4, =starXCoord32
-	ldr r5, =starYCoord
-	ldr r6, =starSpeed
-	ldr r10, =starShade
-	ldr r11, =starDir
-	ldr r7,=0x1ff
+	ldr r1,=burstLength
+	ldr r0,=220
+	str r0,[r1]
 
+	ldr r4, =spriteX+324
+	ldr r5, =spriteY+324
+	ldr r6, =spriteSpeed+324
+	ldr r11, =spriteDir+324
+	ldr r9,=spriteActive+324
+	ldr r10,=spriteObj+324
+	ldr r12,=spritePriority+324
+	ldr r7,=0x1ff
+	ldr r1,=0x8ff
+
+	mov r3,#46							@ amount of stars
 	starburstloopMulti:
 	
-		mov r8,#128
+		ldr r8,=exitX
+		ldr r8,[r8]
+
 		lsl r8,#12
 		str r8, [r4, r3, lsl #2]						@ Store X
-		mov r8,#192
+		ldr r8,=exitY
+		ldr r8,[r8]
 		lsl r8,#12
 		str r8, [r5, r3, lsl #2] 						@ Store Y
 
 		bl getRandom									@ generate direction (we need from a range that only goes up)
-		and r8, r7
+		and r8, #127										@ 0-511
+		add r8,#320
 		str r8, [r11, r3, lsl #2]
 
 		bl getRandom									@ generate speed
+		ldr r1,=0x7ff
 		and r8, r1	
-		add r8,#1024
+		add r8,#2048
 		str r8, [r6, r3, lsl #2] 						@ Store Speed
-	
-		bl getRandom									@ generate colours
-		and r8,#0x3
-		add r8,#11
-		cmp r8,#14
-		movpl r8,#13		
-		strb r8,[r10, r3]
+		
+		mov r8,#1										@ sprite active
+		str r8, [r9, r3, lsl #2]
+		
+		bl getRandom
+		and r8,#0x7
+		add r8,#burstFrameStart							@ obj
+		str r8, [r10,r3, lsl #2]
+		
+		mov r8,#2										@ priority
+		str r8, [r12,r3, lsl #2]
+		
+		ldr r1,=spriteMax+324							@ time to live!
+		bl getRandom
+		lsr r8,#12
+		add r8,#0x20000
+		str r8,[r1, r3, lsl #2]
+
+		ldr r1,=spriteMin+324							@ time to live!
+		bl getRandom
+		and r8,#127
+		str r8,[r1, r3, lsl #2]
+
+		ldr r1,=spriteAnimDelay+324
+		mov r8,#burstAnimDelay
+		str r8,[r1, r3, lsl #2]
 
 		subs r3, #1	
-	bne starburstloopMulti
+	bpl starburstloopMulti
 
 	ldmfd sp!, {r0-r11, pc}
 	
 	@ ---------------------------------------
 
-moveStarburst:
+fxMoveStarburst:
 	stmfd sp!, {r0-r12, lr}
 
-	ldr r0,=starAmount
-	ldr r10,[r0]
-	sub r10,#1
-	ldr r4, =starSpeed
-	ldr r3, =starYCoord
-	ldr r2, =starXCoord32
-	ldr r12, =starShade
 
+	ldr r4, =spriteSpeed+324
+	ldr r2, =spriteX+324
+	ldr r3, =spriteY+324
+	
+	mov r10,#46
+	
 moveStarburstLoop:
-	ldr r0,=starDir
+	ldr r0,=spriteDir+324
 	ldr r0,[r0, r10, lsl #2]
 	lsl r0,#1
 	ldr r7,=COS_bin
@@ -156,78 +136,127 @@ moveStarburstLoop:
 
 	ldr r0, [r2, r10, lsl #2]						@ r0 is now X coord value					MOVE X
 	muls r9,r6,r7									@ mul cos by speed
-	adds r0,r9, asr #12								@ add to x
+	add r0,r9, asr #12								@ add to x
 
-	bmi burstRegenerate
-	cmp r0,#0xff000
+	cmp r0,#(32<<12)
+	blt burstRegenerate
+	cmp r0,#(320<<12)
 	bge burstRegenerate
 	
 	str r0, [r2,r10, lsl #2]
 			
 	ldr r1, [r3, r10, lsl #2]						@ r1 now holds the Y coord of the star		MOVE Y
 	muls r9,r6,r8
-	adds r1,r9, asr #12								@ add to Y coord (signed)
+	add r1,r9, asr #12								@ add to Y coord (signed)
+	
+	@ now add gravity to y
+	
+	ldr r7,=spriteMin+324							@ add to gravity
+	ldr r5,[r7, r10, lsl #2]
+@	ldr r8,=512
+@	sub r8,r6
+@	lsr r8,#7
+@	add r5,r8
+	add r5,#32
 
-	bmi burstRegenerate
-	cmp r1,#0x180000
-	bge burstRegenerate
+	str r5,[r7, r10, lsl #2]
+	add r1,r5
+	
+
+	cmp r1,#(400<<12)
+	blt burstRegenerate
+	cmp r1,#(576<<12)
+	movge r1,#(576<<12)
 
 	str r1, [r3, r10, lsl #2]						@ store y 20.12
 	
-	@ draw sprite here
-
-burstSkip:
+	ldr r7,=spriteMax+324
+	ldr r1,[r7, r10, lsl #2]
+	subs r1,r6
+	subs r1,r5
+	str r1,[r7, r10, lsl #2]
+	bmi burstRegenerate
+	
+	burstOver:
+	
+	@ animate
+	ldr r7,=spriteAnimDelay+324
+	ldr r6,[r7, r10, lsl #2]
+	subs r6,#1
+	movmi r6,#burstAnimDelay
+	str r6,[r7, r10, lsl #2]
+	bpl burstSkip
+	
+		ldr r7,=spriteObj+324
+		ldr r6,[r7,r10,lsl#2]
+		add r6,#1
+		cmp r6,#burstFrameEnd+1
+		moveq r6,#burstFrameStart
+		str r6,[r7,r10,lsl#2]
+	
+	burstSkip:
 
 	subs r10, #1									@ count down the number of starSpeed
-	bne moveStarburstLoop
+	bpl moveStarburstLoop
+	
+	ldr r1,=burstLength
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#0
+	str r0,[r1]
 
 	ldmfd sp!, {r0-r12, pc}
 
 burstRegenerate:
 
-		mov r8,#128
+		ldr r8,=burstLength
+		ldr r8,[r8]
+		cmp r8,#0
+		ldreq r8,=spriteActive+324
+		moveq r7,#0
+		streq r7,[r8,r10,lsl#2]
+		beq burstOver
+
+		ldr r8,=exitX
+		ldr r8,[r8]
 		lsl r8,#12
 		str r8, [r2, r10, lsl #2]						@ Store X
-		mov r8,#192
+		ldr r8,=exitY
+		ldr r8,[r8]
 		lsl r8,#12
 		str r8, [r3, r10, lsl #2] 						@ Store Y
 
 		bl getRandom									@ generate direction
-		ldr r6,=0x1ff
-		and r8, r6
-		ldr r0,=starDir
+		and r8, #127
+		add r8, #320
+		ldr r0,=spriteDir+324
 		str r8, [r0, r10, lsl #2]
 
 		bl getRandom									@ generate speed
-		ldr r6,=0x3fff
+		ldr r6,=0x7ff
 		and r8, r6	
-		add r8,#1024
-		ldr r0,=starSpeed
+		add r8,#2048
+		ldr r0,=spriteSpeed+324
 		str r8, [r0, r10, lsl #2] 						@ Store Speed
+
+		ldr r0,=spriteMax+324							@ time to live!
+		bl getRandom
+		lsr r8,#12
+		add r8,#0x60000
+		str r8,[r0, r10, lsl #2]
+
+		ldr r0,=spriteMin+324							@ gravity
+		bl getRandom
+		and r8,#127
+		str r8,[r0, r10, lsl #2]
 	
 	b burstSkip
 
 
-starMain:
-.word 0
-starSub:
-.word 0
 
 	.data
 	.pool
 	.align
-starAmount:
+
+	burstLength:
 	.word 0
-starDirection:
-	.word 0
-starShade:
-	.space STAR_COUNT
-starSpeed:
-	.space STAR_COUNT*4	
-starYCoord:
-	.space STAR_COUNT*4
-starXCoord32:
-	.space STAR_COUNT*4
-starDir:
-	.space STAR_COUNT*4
-	.end

@@ -90,6 +90,7 @@
 	.global score
 	.global adder
 	.global highScore
+	.global musicRestart
 	
 	.global specialEffect
 	
@@ -102,6 +103,8 @@ screenOrder:
 air:
 	.word 160
 airDelay:
+	.word 0
+musicRestart:
 	.word 0
 	
 cheatMode:

@@ -44,7 +44,7 @@ initLevel:
 	ldr r12,=gameMode
 	ldr r12,[r12]
 	cmp r12,#GAMEMODE_TITLE_SCREEN
-	blne stopMusic	
+@	blne stopMusic	
 	
 	bl specialFXStop	
 	
@@ -174,7 +174,7 @@ initLevel:
 	
 	bl levelName
 	
-	bl levelMusic
+@	bl levelMusic
 	
 	@UNCOMMENT TO OPEN EXIT
 @	ldr r1,=spriteActive
@@ -498,6 +498,15 @@ generateMonsters:
 	levelMusic:
 	stmfd sp!, {r0-r10, lr}	
 
+	ldr r0,=musicRestart
+	ldr r1,[r0]
+	ldr r2,=levelNum
+	ldr r2,[r2]
+	cmp r1,r2
+	beq levelMusicFail
+	str r2,[r0]
+	
+
 	ldr r0,=musicPlay
 	ldr r0,[r0]
 	
@@ -523,6 +532,8 @@ generateMonsters:
 	ldreq r1, =Cavern_xm
 	
 	bl initMusic
+	
+	levelMusicFail:
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -604,5 +615,8 @@ specialEffectStart:
 		bleq bloodInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
+
+
 	.pool
+
 	.end

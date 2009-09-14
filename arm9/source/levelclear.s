@@ -50,7 +50,7 @@ initLevelClear:										@ set up the level clear dat
 	str r1,[r0]
 	
 	ldr r0,=levelEndTimer
-	ldr r1,=350
+	ldr r1,=450				@ 350 works
 	str r1,[r0]
 	
 	ldr r1,=spriteActive		@ Close the door
@@ -60,6 +60,8 @@ initLevelClear:										@ set up the level clear dat
 	mov r3,#DOOR_FRAME
 	ldr r1,=spriteObj
 	str r3,[r1,r0,lsl#2]
+	
+	bl fxStarburstInit
 	
 
 	ldmfd sp!, {r0-r10, pc}	
@@ -94,6 +96,7 @@ levelClear:											@ do the level clear stuff
 		bl updateSpecialFX	
 		bl drawAir	
 	
+		bl fxMoveStarburst
 	
 	subs r10,#1
 	bpl levelClearLoop
@@ -129,11 +132,11 @@ scoreAir:											@ reduce Air and score it
 		strb r4,[r5]
 		bl addScore
 
-		ldr r7,=jumpCount
-		mov r4,r2, lsl#1
-		str r4,[r7]
-
-		bl playJump
+@		ldr r7,=jumpCount
+@		mov r4,r2, lsl#1
+@		str r4,[r7]
+@
+@		bl playJump
 	scoreAirDone:
 
 	ldmfd sp!, {r0-r10, pc}

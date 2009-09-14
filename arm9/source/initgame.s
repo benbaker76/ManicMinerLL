@@ -27,6 +27,14 @@ stmfd sp!, {r0-r10, lr}
 	ldr r1,=minerLives
 	str r0,[r1]	
 	@ also set lives, score etc...
+	mov r1,#0
+	ldr r2,=score
+	str r1,[r2],#4
+	str r1,[r2],#4
+	
+	ldr r0,=musicRestart
+	mov r1,#0
+	str r1,[r0]
 	
 	@ Write the palette
 

@@ -279,6 +279,8 @@ titleGameStart:
 	ldr r2, =gameMode
 	str r1,[r2]
 	
+@	bl stopMusic
+	
 	bl clearBG0
 	bl clearBG1
 	bl clearBG2

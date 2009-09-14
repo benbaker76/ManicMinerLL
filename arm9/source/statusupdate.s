@@ -132,10 +132,16 @@ airDrain:
 	ldmfd sp!, {r0-r11, pc}
 	
 	airDrainYes:
+	ldr r1,=cheatMode				@ no air drain in cheatmode
+	ldr r5,[r1]
+	cmp r5,#0
+	moveq r5,#1
+	movne r5,#0
+
 
 	ldr r1,=air
 	ldr r2,[r1]
-	subs r2,#1
+	subs r2,r5
 	movmi r2,#0
 	str r2,[r1]
 	bmi airGoneUlp

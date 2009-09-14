@@ -51,7 +51,7 @@ drawScore:
 
 	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE)
 	add r4,#22*32*2
-	add r4,#52+(6*2)
+	add r4,#50+(6*2)
 	mov r0, #5
 	ldr r5, =score
 	drawScoreSubLoop:
@@ -64,7 +64,7 @@ drawScore:
 
 	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE)
 	add r4,#22*32*2
-	add r4,#22+(6*2)
+	add r4,#20+(6*2)
 	mov r0, #5
 	ldr r5, =highScore
 	drawHighSubLoop:

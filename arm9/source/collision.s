@@ -738,14 +738,15 @@ initDeath:
 	moveq r0,#0
 	movne r0,#1
 
+	mov r2,#1
 	ldr r1,=minerDied
-	str r0,[r1]
+	str r2,[r1]
 	
 	ldr r1,=minerLives
-	ldr r0,[r1]
-	subs r0,#1
-	movmi r0,#0
-	str r0,[r1]
+	ldr r2,[r1]
+	subs r2,r0
+	movmi r2,#0
+	str r2,[r1]
 
 	bl drawLives
 	

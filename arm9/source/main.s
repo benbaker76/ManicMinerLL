@@ -82,13 +82,14 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
-
+	bl initLevelClear
+	
 	@ ------------------------------------
 	
 mainLoop:
@@ -130,16 +131,13 @@ gameLoop:
 		@ These are updated every other frame
 		
 		bl monsterMove
-	
 		bl moveMiner	
 		bl minerControl
 		bl minerJump
 		bl minerFall
 
 	skipFrame:
-
-	bl drawSprite
-
+	
 	bl collisionMonster
 
 	bl checkHeadDie
@@ -163,6 +161,7 @@ gameLoop:
 	bl screenSwapper
 	bl levelCheat	
 
+	bl drawSprite
 
 @	bl debugText
 	
