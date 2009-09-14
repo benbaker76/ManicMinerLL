@@ -72,7 +72,7 @@ levelCheat:
 	ldr r2, =REG_KEYINPUT						@ Read key input register
 	ldr r3, [r2]								@ Read key value
 	
-	tst r3,#BUTTON_SELECT
+	tst r3,#BUTTON_R
 	bleq cheatWait
 	
 	ldmfd sp!, {r0-r10, pc}	
@@ -83,7 +83,7 @@ levelCheat:
 	cmp r4,r3
 	beq cheatWait
 	
-	tst r3,#BUTTON_SELECT
+	tst r3,#BUTTON_R
 	bleq levelNext
 	
 	levelCheatFail:

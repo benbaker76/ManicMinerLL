@@ -278,32 +278,43 @@ screenSwapper:
 	ldr r1, [r2]			
 	tst r1,#BUTTON_L
 	bne screenSwapper1
+
+		ldr r2,=swapperLock
+		ldr r2,[r2]
+		cmp r2,#1
+		beq screenSwapperFail
+
+		ldr r2,=swapperLock
+		mov r3,#1
+		str r3,[r2]
 		
 		ldr r2,=screenOrder
 		ldr r1,[r2]
+		add r1,#1
+		cmp r1,#2
+		moveq r1,#0
+		str r1,[r2]
 		cmp r1,#0
-		beq screenSwapperFail
-			mov r1,#0
-			str r1,[r2]
-	
+		
+		bne screenSwapper2
+
 			lcdMainOnBottom
 			
 			b screenSwapperFail
+
+			screenSwapper2:
+			
+			lcdMainOnTop
+			
+		screenSwapperFail:
+			
+		ldmfd sp!, {r0-r2, pc}	
 	
 	screenSwapper1:
-	tst r1,#BUTTON_R
-	bne screenSwapperFail
-
-		ldr r2,=screenOrder
-		ldr r1,[r2]
-		cmp r1,#1
-		beq screenSwapperFail
-			mov r1,#1
-			str r1,[r2]	
 	
-			lcdMainOnTop
-	
-	screenSwapperFail:
+		ldr r2,=swapperLock
+		mov r1,#0
+		str r1,[r2]
 	
 	ldmfd sp!, {r0-r2, pc}	
 
@@ -329,4 +340,8 @@ setScreens:
 	ldmfd sp!, {r0-r2, pc}
 
 	.pool
+
+swapperLock:
+	.word 0
+	
 	.end
