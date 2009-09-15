@@ -749,8 +749,6 @@ initDeath:
 	str r2,[r1]
 
 	bl drawLives
-	
-	bl playDead
 
 	ldmfd sp!, {r0-r10, pc}	
 

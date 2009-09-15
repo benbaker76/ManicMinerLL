@@ -66,6 +66,7 @@ interruptHandlerVBlank:
 	stmfd sp!, {lr}
 	
 	bl fxVBlank
+	bl titleScroller
 	
 	ldmfd sp!, {pc}
 	

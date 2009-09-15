@@ -35,6 +35,8 @@
 
 
 	.global dieChecker
+	.global initDeathAnim
+	.global updateDeathAnim
 	
 	
 dieChecker:
@@ -45,27 +47,50 @@ dieChecker:
 	ldr r1,[r1]
 	cmp r1,#1
 	bne dieCheckFailed
+	
+		@ we have already removed a life
 
 		@ Bugger, we have died :(
 		
 		ldr r0,=minerLives
 		ldr r0,[r0]
-		cmp r0,#0
-		bleq initTitleScreen
-		blne initLevel
+	@	cmp r0,#0
+	@	bleq initTitleScreen
+	@	blne initLevel
+
+		@ now we need to set the gamemode to dying and use update die
+		
+		ldr r1,=gameMode
+		mov r2,#GAMEMODE_DIES_INIT	
+		str r2,[r1]
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	dieCheckFailed:
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------------
+	
+initDeathAnim:
+
+	@ init all we need for dying animation and sound!
+
+	stmfd sp!, {r0-r10, lr}
+	
+		ldr r1,=gameMode
+		mov r2,#GAMEMODE_DIES_INIT	
+		str r2,[r1]	
+	
+
+		bl playDead
+
+	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------------
+	
+updateDeathAnim:
+
+	@ update the death animation and either return to game or gameover!
+
+	stmfd sp!, {r0-r10, lr}
+	
 	ldmfd sp!, {r0-r10, pc}

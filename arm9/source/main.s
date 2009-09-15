@@ -106,10 +106,16 @@ mainLoop:
 	bleq initLevelClear
 	cmp r1, #GAMEMODE_LEVEL_CLEAR
 	bleq levelClear
+	cmp r1, #GAMEMODE_INIT_TITLESCREEN
+	bleq initTitleScreen
 	cmp r1, #GAMEMODE_TITLE_SCREEN
 	bleq updateTitleScreen
 	cmp r1, #GAMEMODE_INTRO
 	bleq updateIntro
+	cmp r1, #GAMEMODE_DIES_INIT
+	bleq initDeathAnim
+	cmp r1, #GAMEMODE_DIES_UPDATE
+	bleq updateDeathAnim
 	
 	b mainLoop
 

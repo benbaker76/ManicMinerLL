@@ -39,6 +39,7 @@
 	.global tScrollChar
 	.global tScrollSegment
 	.global tScrollText
+	.global titleScroller
 
 @----------------------------
 
@@ -57,6 +58,9 @@ initTitleScreen:
 	mov r0,#0							@ set level to 0 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
+	ldr r1,=tScrollerOn
+	str r0,[r1]
+
 	ldr r1,=tScrollPix
 	str r0,[r1]
 	ldr r1,=tScrollSegment
@@ -106,6 +110,10 @@ initTitleScreen:
 	bl initMusic
 
 	bl initTitleSprites
+	
+	mov r1, #1
+	ldr r2,=tScrollerOn
+	str r1,[r2]
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -228,7 +236,7 @@ updateTitleScreen:
 
 		bl drawSprite
 		
-		bl titleScroller
+	@	bl titleScroller
 		
 		bl drawTitleSprites
 		
@@ -278,6 +286,9 @@ titleGameStart:
 	mov r1, #GAMEMODE_RUNNING
 	ldr r2, =gameMode
 	str r1,[r2]
+	mov r1, #0
+	ldr r2,=tScrollerOn
+	str r1,[r2]
 	
 @	bl stopMusic
 	
@@ -299,6 +310,11 @@ titleGameStart:
 
 titleScroller:
 	stmfd sp!, {r0-r10, lr}	
+	
+	ldr r6,=tScrollerOn
+	ldr r6,[r6]
+	cmp r6,#0
+	beq titleScrollerDone
 
 	ldr r6,=tScrollPix
 	ldr r7,[r6]
@@ -646,6 +662,8 @@ b gorillaReturn
 
 	.pool
 	.data
+tScrollerOn:
+	.word 0
 tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 3, 4096=loop
 	.word 0,1,2,3,4,5,6,7,8,9,10,4096
 tDemoPos:
