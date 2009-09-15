@@ -54,6 +54,7 @@
 #include "../build/Background08.h"
 #include "../build/Background09.h"
 #include "../build/Background10.h"
+#include "../build/Background11.h"
 #include "../build/Background21.h"
 #include "../build/Background22.h"
 #include "../build/Background23.h"
@@ -217,7 +218,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					10
+#define LEVEL_COUNT					11
 
 @ Fade values
 

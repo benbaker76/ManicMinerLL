@@ -149,8 +149,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 11
-	.byte 0,0,0,0,0,0,0,0
+	@ 11 / Dragon 32 - eddies forest
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -161,7 +161,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 12
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -172,7 +172,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 13
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -183,7 +183,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 14
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -194,7 +194,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 15
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -205,7 +205,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 16
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -1094,16 +1094,16 @@ levelInfo:
 	.ascii "    LEVEL 19 - ORIC 1985    "
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 21 - ORIC 1983    "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
-	.ascii "LEVEL 17 - ORIC 1983        "
+	.ascii "  LEVEL 22 - DRAGON32 1983  "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
+	.ascii "                            "
 	.ascii "   LEVEL 01 - PSION3 1995   "
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "    ORIGINAL - LOBO 2009    "
