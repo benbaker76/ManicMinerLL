@@ -130,6 +130,12 @@
 #define BG3_MAP_BASE				30
 #define BG3_MAP_BASE_SUB			30
 
+#define BG1_INTRO_TILE_BASE			4
+#define BG1_INTRO_TILE_BASE_SUB		4
+
+#define BG2_INTRO_TILE_BASE			0
+#define BG2_INTRO_TILE_BASE_SUB		0
+
 #define BG0_TILE_BASE				7
 #define BG0_TILE_BASE_SUB			7
 

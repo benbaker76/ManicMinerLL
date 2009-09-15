@@ -45,7 +45,7 @@ showIntro1:
 	ldr r1, =GAMEMODE_INTRO
 	str r1, [r0]
 	
-	bl initVideoBG2_256
+	bl initVideoIntro
 	
 	bl fxFadeBlackInit
 	bl fxFadeMax
@@ -62,12 +62,12 @@ showIntro1:
 	@ Write the tile data
 	
 	ldr r0 ,=ProteusTiles
-	ldr r1, =BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r1, =BG_TILE_RAM_SUB(BG1_INTRO_TILE_BASE_SUB)
 	ldr r2, =ProteusTilesLen
 	bl dmaCopy
 
 	ldr r0, =HeadsoftTiles
-	ldr r1, =BG_TILE_RAM(BG1_TILE_BASE)
+	ldr r1, =BG_TILE_RAM(BG1_INTRO_TILE_BASE)
 	ldr r2, =HeadsoftTilesLen
 	bl dmaCopy
 	
@@ -86,12 +86,12 @@ showIntro1:
 	@ Write the tile data
 	
 	ldr r0 ,=InfectuousTiles
-	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
+	ldr r1, =BG_TILE_RAM_SUB(BG2_INTRO_TILE_BASE_SUB)
 	ldr r2, =InfectuousTilesLen
 	bl dmaCopy
 
 	ldr r0, =SpacefractalTiles
-	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
+	ldr r1, =BG_TILE_RAM(BG2_INTRO_TILE_BASE)
 	ldr r2, =SpacefractalTilesLen
 	bl dmaCopy
 	
@@ -142,12 +142,12 @@ showIntro2:
 	@ Write the tile data
 	
 	ldr r0 ,=InfectuousTiles
-	ldr r1, =BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r1, =BG_TILE_RAM_SUB(BG1_INTRO_TILE_BASE_SUB)
 	ldr r2, =InfectuousTilesLen
 	bl dmaCopy
 
 	ldr r0, =SpacefractalTiles
-	ldr r1, =BG_TILE_RAM(BG1_TILE_BASE)
+	ldr r1, =BG_TILE_RAM(BG1_INTRO_TILE_BASE)
 	ldr r2, =SpacefractalTilesLen
 	bl dmaCopy
 	
@@ -166,12 +166,12 @@ showIntro2:
 	@ Write the tile data
 	
 	ldr r0 ,=RetrobytesTiles
-	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
+	ldr r1, =BG_TILE_RAM_SUB(BG2_INTRO_TILE_BASE_SUB)
 	ldr r2, =RetrobytesTilesLen
 	bl dmaCopy
 
 	ldr r0, =WebTiles
-	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
+	ldr r1, =BG_TILE_RAM(BG2_INTRO_TILE_BASE)
 	ldr r2, =WebTilesLen
 	bl dmaCopy
 	
@@ -220,12 +220,12 @@ showIntro3:
 	@ Write the tile data
 	
 	ldr r0 ,=RetrobytesTiles
-	ldr r1, =BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	ldr r1, =BG_TILE_RAM_SUB(BG1_INTRO_TILE_BASE_SUB)
 	ldr r2, =RetrobytesTilesLen
 	bl dmaCopy
 
 	ldr r0, =WebTiles
-	ldr r1, =BG_TILE_RAM(BG1_TILE_BASE)
+	ldr r1, =BG_TILE_RAM(BG1_INTRO_TILE_BASE)
 	ldr r2, =WebTilesLen
 	bl dmaCopy
 	
