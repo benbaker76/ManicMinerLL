@@ -152,6 +152,7 @@ initVideoIntro:
 
 	stmfd sp!, {r0-r1, lr}
 	
+	mov r0, #REG_DISPCNT			@ Main screen to Mode 0 with BG0-3 active
 	ldr r1, =(MODE_0_2D | DISPLAY_SPR_ACTIVE | DISPLAY_SPR_1D_LAYOUT | DISPLAY_BG1_ACTIVE | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE)
 	str r1, [r0]
 	
@@ -250,6 +251,8 @@ resetScrollRegisters:
 initVideoTitle:
 
 	stmfd sp!, {r0-r2, lr}
+	
+	bl initVideoMain
 	
 	mov r0, #REG_DISPCNT			@ Main screen to Mode 0 with BG0-3 active
 	ldr r1, =(MODE_0_2D | DISPLAY_SPR_ACTIVE | DISPLAY_SPR_1D_LAYOUT | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE)
