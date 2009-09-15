@@ -96,6 +96,12 @@ minerFrame:
 	
 	stmfd sp!, {r0-r10, lr}
 	
+	ldr r0,=gameMode
+	ldr r0,[r0]
+	cmp r0,#GAMEMODE_RUNNING
+	bne minerFrameDone
+	
+	
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	
@@ -109,6 +115,8 @@ minerFrame:
 
 	ldr r1,=spriteObj+256
 	str r0,[r1]
+	
+	minerFrameDone:
 	
 	ldmfd sp!, {r0-r10, pc}
 	

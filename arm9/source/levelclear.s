@@ -63,7 +63,11 @@ initLevelClear:										@ set up the level clear dat
 	
 	bl fxStarburstInit
 	
-
+	bl playLevelEnd
+	
+@	ldreq r1, =Piano_xm
+@	bl initMusic
+	
 	ldmfd sp!, {r0-r10, pc}	
 @-----------------------------------------------
 

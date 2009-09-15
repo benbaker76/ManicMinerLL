@@ -275,6 +275,12 @@ rainUpdate:
 	subne r0,#1
 	str r0,[r1]
 
+@	ldr r2,=gameMode
+@	ldr r2,[r2]
+@	cmp r2,#GAMEMODE_DIES_UPDATE
+@	beq rainNoLightningFlash
+
+
 	ldr r2,=SUB_BLEND_Y
 	str r0,[r2]
 	ldr r0, =SUB_BLEND_CR

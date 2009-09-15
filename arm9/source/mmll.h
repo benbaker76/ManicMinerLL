@@ -86,12 +86,16 @@
 #include "../build/ScrollFont.h"
 #include "../build/Status.h"
 
+@ intro graphics
+
 #include "../build/Proteus.h"
 #include "../build/Headsoft.h"
 #include "../build/Infectuous.h"
 #include "../build/Spacefractal.h"
 #include "../build/Web.h"
 #include "../build/Retrobytes.h"
+
+@ miner sprites
 
 #include "../build/MinerNormal.h"
 #include "../build/MinerSpace.h"
@@ -101,12 +105,23 @@
 
 #include "../build/SpriteBank1.h"
 
+@ FX animated sprites
+
 #include "../build/FXDrip.h"
 #include "../build/FXFlies.h"
 #include "../build/FXEyes.h"
 #include "../build/FXMallow.h"
 #include "../build/FXCasablanca.h"
 #include "../build/FXBlood.h"
+
+@ death animations
+
+#include "../build/DieFall.h"
+#include "../build/DieSkeleton.h"
+#include "../build/DieChicken.h"
+#include "../build/DieCrumble.h"
+#include "../build/DieExplode.h"
+#include "../build/DieOriginal.h"
 
 @ tile offset for the status font
 

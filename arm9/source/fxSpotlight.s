@@ -173,9 +173,11 @@ fxSpotlightInVBlank:
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	sub r0,#64
+	add r0,#8
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	sub r1,#384
+	add r1,#8
 	
 	bl createCircleTable
 	
