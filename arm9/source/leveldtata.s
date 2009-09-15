@@ -150,12 +150,12 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 11 / Dragon 32 - eddies forest
-	.byte 16,168,129,6,168,1,10,0
+	.byte 232,72,132,128,72,1,10,3
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 176,108,1,16,1,16,64,168
+	.byte 132,168,17,1,1,21,72,160
+	.byte 64,88,17,1,1,21,8,160
+	.byte 72,128,0,1,1,21,32,160
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -1094,7 +1094,7 @@ levelInfo:
 	.ascii "    LEVEL 19 - ORIC 1985    "
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 21 - ORIC 1983    "
-	.ascii "  LEVEL 22 - DRAGON32 1983  "
+	.ascii " LEVEL 22 - ARCHIMEDES 19XX "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "
