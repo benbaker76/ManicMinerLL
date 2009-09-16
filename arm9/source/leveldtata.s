@@ -160,10 +160,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 12
-	.byte 8,72,85,128,168,5,1,65
+	@ 12 / Oric - level xx - In a deep dark hole
+	.byte 8,72,35,136,168,5,1,65
 
-	.byte 0,0,0,0,0,0,0,0
+	.byte 152,48,1,16,1,12,48,168
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -850,7 +850,7 @@ levelNames:
 	.ascii "  80S WERE NOT OVER YET!  "
 	.ascii "WILLY HAS JUST BEEN MOVED "
 	.ascii "INTO ANOTHER WILD WORLD IN"
-	.ascii " WHICH COMPLEX FX SYSTEM  "
+	.ascii " WHICH A COMPLEX FX SYSTEM"
 	.ascii "CREATES CREATURES WITHOUT "
 	.ascii "ANY NEED OF SOFTWARE. ALL "
 	.ascii "DONE WITH WIRES, WILLY IS "   
