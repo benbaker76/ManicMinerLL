@@ -183,7 +183,7 @@ updateDeathAnim:
 			ldr r0,=willySpriteType
 			ldr r0,[r0]
 			cmp r0,#1
-			beq notDieFall
+			beq notDieFallFall
 			
 			bl checkFeet				@ this little bit helps us FALL!!
 			bl checkFall
@@ -194,8 +194,19 @@ updateDeathAnim:
 				ldr r1,[r0]
 				add r1,#2
 				str r1,[r0]
-		
+				b notDieFallFall
 			notDieFall:
+				@ are we on a conveyor? If so, Our corpse must move also - LOL
+				ldr r0,=minerAction
+				ldr r0,[r0]
+				cmp r0,#MINER_CONVEYOR
+				bne notDieFallFall
+					ldr r0,=conveyorDirection
+					ldr r0,[r0]
+					ldr r1,=minerDirection
+					str r0,[r1]
+					bl moveMiner
+			notDieFallFall:
 		skipFrameClearDie:	
 	
 		bl drawSprite

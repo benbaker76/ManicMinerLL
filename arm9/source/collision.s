@@ -384,22 +384,6 @@ checkFeet:
 	
 	checkFeetFinish:
 
-	push {r8-r10}				@ this is just so we can see what is under us
-	mov r6,r10
-	mov r10,r9
-	mov r11,#2							@ X Pos
-	mov r8,#9							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits
-	mov r10,r6
-	mov r11,#5							@ X Pos
-	mov r8,#9							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits
-	pop {r8-r10}
-	
 	ldmfd sp!, {r0-r8, pc}
 	
 feetOnConveyor:
