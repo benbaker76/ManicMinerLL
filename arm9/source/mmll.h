@@ -58,6 +58,7 @@
 #include "../build/Background21.h"
 #include "../build/Background22.h"
 #include "../build/Background23.h"
+#include "../build/Background25.h"
 #include "../build/Background27.h"
 #include "../build/Background41.h"
 
@@ -72,6 +73,7 @@
 #include "../build/Exit21.h"
 #include "../build/Exit22.h"
 #include "../build/Exit23.h"
+#include "../build/Exit25.h"
 #include "../build/Exit27.h"
 
 #include "../build/TopMenu.h"
