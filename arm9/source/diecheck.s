@@ -96,6 +96,8 @@ testingit:
 		sub r3,#1
 		mov r2,#2048						@ 8 * 16x16 sprites
 		
+		@ set the DEATH anim frames based on level
+		
 		ldr r0,=DieFallTiles				@ default death
 		cmp r3,#0
 		ldreq r0,=DieSkeletonTiles
@@ -176,7 +178,7 @@ updateDeathAnim:
 			cmp r0,#1
 			beq notDieFall
 			
-			bl checkFeet
+			bl checkFeet				@ this little bit helps us FALL!!
 			bl checkFall
 			cmp r8,#0
 			bne notDieFall
@@ -224,7 +226,6 @@ updateDeathAnim:
 
 		bl initTitleScreen
 
-	
 	updateDeathAnimDone:
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -262,14 +263,11 @@ dieAnimationUpdate:
 		
 		dieAnimFinished:
 	
-		
-	
-	
 	ldmfd sp!, {r0-r10, pc}	
 
 dieAnimationUpdateSpectrum:
 
-	cmp r12,#75
+	cmp r12,#50
 	bpl dieAnimFinished
 	ldr r3,=spriteActive+256
 	mov r4,#0
@@ -277,7 +275,7 @@ dieAnimationUpdateSpectrum:
 	
 	b dieAnimFinished
 	
-	
+@-------------------------------------------	
 	
 	.pool
 	.data

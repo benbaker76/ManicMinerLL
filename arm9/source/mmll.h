@@ -123,7 +123,6 @@
 #include "../build/DieChicken.h"
 #include "../build/DieCrumble.h"
 #include "../build/DieExplode.h"
-#include "../build/DieOriginal.h"
 #include "../build/DieSpaceMan.h"
 #include "../build/DieRick.h"
 #include "../build/DieHorace.h"
@@ -240,7 +239,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					11
+#define LEVEL_COUNT					12
 
 @ Fade values
 
