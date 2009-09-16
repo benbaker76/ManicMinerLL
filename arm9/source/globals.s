@@ -91,6 +91,7 @@
 	.global adder
 	.global highScore
 	.global musicRestart
+	.global willySpriteType
 	
 	.global specialEffect
 	
@@ -151,6 +152,8 @@ exitY:
 specialEffect:
 	.word 0
 musicPlay:
+	.word 0
+willySpriteType:
 	.word 0
 	
 effectVolume:

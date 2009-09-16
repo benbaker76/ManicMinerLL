@@ -459,9 +459,15 @@ minerChange:
 		ldreq r2,=MinerNormalTilesLen
 		ldrne r0,=MinerSpaceTiles
 		ldrne r2,=MinerSpaceTilesLen
+		moveq r4,#0
+		movne r4,#2
+		
 		
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
+		
+		ldr r1,=willySpriteType
+		str r4,[r1]
 
 		minerChangeFail:
 

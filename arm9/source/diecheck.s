@@ -86,6 +86,11 @@ testingit:
 		
 		@ overlay the sprites needed to the sprite oam..
 		
+		ldr r3,=willySpriteType				@ if spectrum original sprite, keep same frame
+		ldr r3,[r3]
+		cmp r3,#1
+		beq dieNotSpecialSprite
+		
 		ldr r3,=levelNum
 		ldr r3,[r3]
 		sub r3,#1
@@ -98,10 +103,29 @@ testingit:
 		ldreq r0,=DieExplodeTiles
 		cmp r3,#2
 		ldreq r0,=DieCrumbleTiles
-		cmp r3,#6
-		ldreq r0,=DieOriginalTiles
 		ldr r1, =SPRITE_GFX_SUB				@ copy tiles
 		bl dmaCopy
+
+		mov r2,#0							@ start at death frame 0
+		ldr r1,=spriteObj+256
+		str r2,[r1]
+
+		ldr r3,=willySpriteType				@ if WILLY is a special Sprite, we meed to use correct DEATH
+		ldr r3,[r3]
+		cmp r3,#2
+		blt dieNotSpecialSprite
+			ldreq r0,=DieSpacemanTiles
+			cmp r3,#3
+			ldreq r0,=DieHoraceTiles
+			cmp r3,#4
+			ldreq r0,=DieRickTiles
+		
+			ldr r1, =SPRITE_GFX_SUB				@ copy tiles	
+			mov r2,#2048	
+			bl dmaCopy
+		
+		dieNotSpecialSprite:
+
 
 		@ set a few setting for the death
 
@@ -115,8 +139,6 @@ testingit:
 		
 		mov r2,#0							@ set initial frame
 		ldr r1,=dieFrame
-		str r2,[r1]
-		ldr r1,=spriteObj+256
 		str r2,[r1]
 		
 	@	bl fxFadeBlackLevelInit
@@ -148,6 +170,23 @@ updateDeathAnim:
 		str r1,[r0]
 		bne skipFrameClearDie
 			bl monsterMove
+			
+			ldr r0,=willySpriteType
+			ldr r0,[r0]
+			cmp r0,#1
+			beq notDieFall
+			
+			bl checkFeet
+			bl checkFall
+			cmp r8,#0
+			bne notDieFall
+		
+				ldr r0,=spriteY+256
+				ldr r1,[r0]
+				add r1,#2
+				str r1,[r0]
+		
+			notDieFall:
 		skipFrameClearDie:	
 	
 		bl drawSprite
@@ -198,12 +237,17 @@ dieAnimationUpdate:
 	
 		@ ok, animate death
 		
+		ldr r0,=willySpriteType				@ are we original willy?
+		ldr r10,[r0]
+		cmp r10,#1
+		beq dieAnimationUpdateSpectrum
+		
 		ldr r1,=dieAnim
 		ldr r2,[r1]
 		subs r2,#1
 		movmi r2,#DIE_ANIM_DELAY
 		str r2,[r1]
-		bpl dieAnimWaits
+		bpl dieAnimFinished
 		
 			ldr r1,=dieFrame
 			ldr r2,[r1]
@@ -213,25 +257,26 @@ dieAnimationUpdate:
 			str r2,[r1]
 			bge dieAnimFinished
 
-				cmp r2,#6
-			@	bleq fxSpotlightOut
-
 				ldr r3,=spriteObj+256
 				str r2,[r3]
-				b dieAnimWaits
-			
-			dieAnimFinished:
-				ldr r3,=spriteActive+256
-				mov r4,#0
-				str r4,[r3]	
-				
 		
-		dieAnimWaits:
+		dieAnimFinished:
 	
 		
 	
 	
 	ldmfd sp!, {r0-r10, pc}	
+
+dieAnimationUpdateSpectrum:
+
+	cmp r12,#75
+	bpl dieAnimFinished
+	ldr r3,=spriteActive+256
+	mov r4,#0
+	str r4,[r3]
+	
+	b dieAnimFinished
+	
 	
 	
 	.pool

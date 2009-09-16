@@ -67,7 +67,8 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=airDelay
 	str r0,[r1]
-
+	ldr r1,=willySpriteType
+	str r0,[r1]
 	
 	mov r0,#160
 	ldr r1,=air
@@ -281,6 +282,10 @@ getDoorSprite:
 	cmp r0,#22
 	ldreq r0, =Exit23Tiles
 	ldreq r2, =Exit23TilesLen
+	cmp r0,#23
+	ldreq r0, =Exit24Tiles
+	ldreq r2, =Exit24TilesLen
+
 	cmp r0,#26
 	ldreq r0, =Exit27Tiles
 	ldreq r2, =Exit27TilesLen
@@ -396,7 +401,11 @@ getLevelBackground:
 	ldreq r5,=Background23TilesLen
 	ldreq r6,=Background23Map
 	ldreq r7,=Background23MapLen
-	
+	cmp r0,#23
+	ldreq r4,=Background24Tiles
+	ldreq r5,=Background24TilesLen
+	ldreq r6,=Background24Map
+	ldreq r7,=Background24MapLen
 	cmp r0,#26
 	ldreq r4,=Background27Tiles
 	ldreq r5,=Background27TilesLen
@@ -588,6 +597,9 @@ getWillySprite:
 		ldreq r2,=MinerCasablancaTilesLen		
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
+		
+		ldr r0,=willySpriteType
+		str r3,[r0]
 
 	ldmfd sp!, {r0-r10, pc}
 
