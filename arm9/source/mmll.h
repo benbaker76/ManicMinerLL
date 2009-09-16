@@ -126,6 +126,7 @@
 #include "../build/DieSpaceMan.h"
 #include "../build/DieRick.h"
 #include "../build/DieHorace.h"
+#include "../build/DieRIP.h"
 @ tile offset for the status font
 
 #define BigFontOffset				8192

@@ -96,7 +96,7 @@ testingit:
 		sub r3,#1
 		mov r2,#2048						@ 8 * 16x16 sprites
 		
-		@ set the DEATH anim frames based on level
+		@ set the DEATH anim frames based on level (-1)
 		
 		ldr r0,=DieFallTiles				@ default death
 		cmp r3,#0
@@ -105,6 +105,13 @@ testingit:
 		ldreq r0,=DieExplodeTiles
 		cmp r3,#2
 		ldreq r0,=DieCrumbleTiles
+		cmp r3,#7
+		ldreq r0,=DieSkeletonTiles
+		cmp r3,#8
+		ldreq r0,=DieRIPTiles
+		cmp r3,#26
+		ldreq r0,=DieRIPTiles
+
 		ldr r1, =SPRITE_GFX_SUB				@ copy tiles
 		bl dmaCopy
 
