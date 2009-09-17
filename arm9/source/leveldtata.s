@@ -172,8 +172,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 13
-	.byte 16,168,85,6,168,1,10,0
+	@ 13 / Orice - level xx - the channel tunnel
+	.byte 232,104,3,6,136,1,6,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0

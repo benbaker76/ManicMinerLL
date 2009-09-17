@@ -244,7 +244,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					12
+#define LEVEL_COUNT					13
 
 @ Fade values
 
