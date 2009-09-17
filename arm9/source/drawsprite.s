@@ -401,6 +401,25 @@ drawSprite:
 				moveq r2,#CFLAG_FRAME
 				str r2,[r1,r10,lsl #2]	
 		drawNotcFlag:
+		cmp r0,#FX_BLINKS_ACTIVE
+		bne drawNotBlinks
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#BLINKS_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotBlinks
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				str r2,[r1,r10,lsl #2]
+				cmp r2,#BLINKS_FRAME_END+1
+				bne drawNotBlinks
+				mov r2,#0
+				ldr r1,=spriteActive
+				str r2,[r1,r10,lsl#2]
+		drawNotBlinks:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

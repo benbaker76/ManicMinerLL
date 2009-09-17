@@ -57,6 +57,10 @@
 	.global cStarsInit
 	
 	.global bloodInit
+	
+	.global bulbInit
+	
+	.global blinksInit
 
 	.global specialFXStop
 
@@ -81,6 +85,10 @@ updateSpecialFX:
 	bleq fliesUpdate
 	cmp r0,#FX_MALLOW
 	bleq mallowUpdate
+	cmp r0,#FX_BULB
+	bleq bulbUpdate
+	cmp r0,#FX_BLINKS
+	bleq blinksUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -376,8 +384,7 @@ starsInit:
 		ldr r1,=spritePriority
 		mov r8,#3
 		str r8,[r1,r0,lsl#2]
-	
-	
+
 	subs r0,#1
 	bpl starsInitLoop
 	
@@ -1143,7 +1150,6 @@ twinkleInit:
 			mov r4,r1,lsr #3				@ y=0-23
 			lsl r4,#5
 			add r3,r4
-@	add r5,r3,r4,lsl #5
 			ldr r2,=colMapStore
 			ldrb r2,[r2,r3]
 			cmp r2,#39
@@ -1213,10 +1219,217 @@ bloodInit:
 	str r1,[r0]
 
 	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Init Bulb flash!
+
+bulbInit:
+	stmfd sp!, {r0-r10, lr}
+
+
+		ldr r0,=FXBulbTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXBulbTilesLen
+		
+		bl dmaCopy
+
+		ldr r0,=lightningDelay		@ use this for length of time that light is on
+		mov r1,#0					@ if 0, turn off
+		str r1,[r0]
+		
+		@ need to display the sprites (turned off)
+		@ 12 sprites from 0-11(+24)
+		@ first at 80,XX
+		mov r0,#72+64
+		mov r1,#48+384
+		
+		mov r2,#0			@ sprite to use (also our counter)
+
+		bulbInitLoop:
+		
+			ldr r4,=spriteActive
+			mov r5,#0
+			str r5,[r4,r2,lsl#2]		@ sprite off
+			ldr r4,=spriteX
+			str r0,[r4,r2,lsl#2]
+			ldr r4,=spriteY
+			str r1,[r4,r2,lsl#2]
+			ldr r4,=spriteObj
+			add r5,r2,#24
+			str r5,[r4,r2,lsl#2]
+			ldr r4,=spritePriority
+			mov r5,#3
+			str r5,[r4,r2,lsl#2]
+			ldr r4,=spriteHFlip
+			mov r5,#0
+			str r5,[r4,r2,lsl#2]			
+			
+			add r0,#16
+			cmp r0,#(64+72)+64
+			moveq r0,#64+72
+			addeq r1,#16
+			
+			add r2,#1
+			cmp r2,#12
+			
+		bne bulbInitLoop
+
+	ldmfd sp!, {r0-r10, pc}	
+
+@------------------------------------ Update Bulb flash!
+
+bulbUpdate:
+	stmfd sp!, {r0-r10, lr}
 	
+	ldr r0,=lightningDelay
+	ldr r1,[r0]
+	cmp r1,#0
+	beq bulbCanFlash
+		subs r1,#1
+		movmi r1,#0
+		str r1,[r0]
+		bmi bulbCanFlash
+	
+	ldmfd sp!, {r0-r10, pc}		
+	
+	bulbCanFlash:
+		
+	bl getRandom
+	and r8,#0xff
+	cmp r8,#16
+	ble bulbOn
+	
+	@ turn Bulb off
+	
+	mov r3,#0
+	
+	bulbChange:
+	
+	mov r2,#11
+	ldr r4,=spriteActive
+	bulbChangeLoop:
+	
+		str r3,[r4,r2,lsl #2]
+		subs r2,#1
+	bpl bulbChangeLoop
+	
+	ldmfd sp!, {r0-r10, pc}		
+	
+	bulbOn:
+	
+	@ turn Bulb on
+	
+	mov r1,#10
+	str r1,[r0]				@ set on timer
+	mov r3,#1
+	
+	b bulbChange
+
+	ldmfd sp!, {r0-r10, pc}	
 
 	
+@------------------------------------ Init blinky eyes
+blinksInit:
+	stmfd sp!, {r0-r10, lr}
+
 	
+		ldr r0,=FXBlinksTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXBlinksTilesLen
+		
+		bl dmaCopy
+		
+		bl blinksUpdate
+
+	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ update blinky eyes
+blinksUpdate:
+	stmfd sp!, {r0-r10, lr}	
+
+	mov r10,#11
+	
+	blinksInitLoop:
+		
+			ldr r2,=spriteActive
+			ldr r2,[r2,r10,lsl#2]
+			cmp r2,#FX_BLINKS_ACTIVE
+			beq blinksInitFail
+	
+			bl getRandom
+			and r8,#0xff
+			cmp r8,#1
+			bne blinksInitFail
+	
+	
+			bl getRandom
+			and r8,#0xFF
+			mov r0,r8						@ r0=x=0-255
+			cmp r0,#16
+			movlt r0,#16
+			cmp r0,#232
+			movgt r0,#232
+			bl getRandom
+			and r8,#0xFF
+			lsr r8,#2
+			mov r3,#3
+			mul r8,r3
+			mov r1,r8						@ r1=y=0-191
+			
+			cmp r1,#56
+			movlt r1,#56
+			cmp r1,#176
+			movgt r1,#176
+	
+			ldr r2,=spriteActive
+			mov r3,#FX_BLINKS_ACTIVE
+			str r3,[r2,r10,lsl#2]
+	
+			add r0,#64
+			lsr r0,#3
+			lsl r0,#3
+			bl getRandom
+			and r8,#7
+			subs r8,#3
+			adds r0,r8
+			ldr r2,=spriteX
+			str r0,[r2,r10,lsl#2]
+			add r1,#384
+			lsr r1,#3
+			lsl r1,#3
+			sub r1,#6
+			bl getRandom
+			and r8,#7
+			subs r8,#3
+			adds r1,r8
+			ldr r2,=spriteY
+			str r1,[r2,r10,lsl#2]
+		
+			mov r8,#BLINKS_FRAME
+			ldr r2,=spriteObj
+			str r8,[r2,r10,lsl#2]
+		
+			ldr r2,=spritePriority
+			mov r0,#3
+			str r0,[r2,r10,lsl#2]
+		
+			mov r0,#BLINKS_ANIM
+			ldr r2,=spriteAnimDelay
+			bl getRandom
+			and r8,#0x15
+			add r0,r8
+			str r0,[r2,r10,lsl#2]
+
+	@	ldmfd sp!, {r0-r10, pc}
+	
+	blinksInitFail:
+	
+	subs r10,#1
+	bpl blinksInitLoop
+
+	ldmfd sp!, {r0-r10, pc}
+
 	.pool
 	.data
 	.align

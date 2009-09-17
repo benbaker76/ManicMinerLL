@@ -638,6 +638,10 @@ specialEffectStart:
 		bleq cStarsInit
 	cmp r0,#FX_BLOOD
 		bleq bloodInit
+	cmp r0,#FX_BULB
+		bleq bulbInit
+	cmp r0,#FX_BLINKS
+		bleq blinksInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

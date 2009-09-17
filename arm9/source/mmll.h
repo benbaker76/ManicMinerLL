@@ -118,6 +118,7 @@
 #include "../build/FXCasablanca.h"
 #include "../build/FXBlood.h"
 #include "../build/FXBulb.h"
+#include "../build/FXBlinks.h"
 
 @ death animations
 
@@ -295,6 +296,8 @@
 #define FX_MALLOW					8
 #define FX_CSTARS					9
 #define FX_BLOOD					10
+#define FX_BULB						11
+#define FX_BLINKS					12
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
@@ -312,6 +315,7 @@
 #define FX_MALLOW_ACTIVE			14
 #define FX_CSTARS_ACTIVE			15
 #define FX_CFLAG_ACTIVE				16
+#define FX_BLINKS_ACTIVE			17
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -364,6 +368,13 @@
 #define CFLAG_FRAME					24
 #define CFLAG_FRAME_END				31
 #define CFLAG_ANIM					10
+
+#define BULB_FRAME					24
+
+#define BLINKS_FRAME				24
+#define BLINKS_FRAME_END			31
+#define BLINKS_ANIM					8
+
 @ level defines
 
 #define EXIT_CLOSED					64

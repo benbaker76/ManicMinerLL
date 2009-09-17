@@ -16,7 +16,7 @@ levelData:
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
-@											8=mallow, 9=twinkle, 10=blood
+@											8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
 @ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -161,7 +161,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 12 / Oric - level xx - In a deep dark hole
-	.byte 8,72,67,136,168,1,11,11
+	.byte 8,72,67,136,168,25,11,11
 
 	.byte 152,48,1,16,1,12,48,168
 	.byte 0,0,0,0,0,0,0,0
@@ -294,7 +294,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 24 / gremlins
-	.byte 8,80,85,16,168,1,23,23
+	.byte 8,80,85,16,168,23,23,23
 
 	.byte 190,72,17,1,255,33,112,176
 	.byte 32,88,17,1,255,32,24,56
