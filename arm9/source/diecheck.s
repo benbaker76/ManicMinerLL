@@ -109,6 +109,9 @@ testingit:
 		ldreq r0,=DieSkeletonTiles
 		cmp r3,#8
 		ldreq r0,=DieRIPTiles
+		ldreq r4,=spriteHFlip+256
+		moveq r5,#0
+		streq r5,[r4]
 		cmp r3,#26
 		ldreq r0,=DieRIPTiles
 
