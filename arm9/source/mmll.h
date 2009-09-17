@@ -324,7 +324,7 @@
 
 #define KEY_FRAME					52
 #define KEY_FRAME_END				59
-#define KEY_ANIM					2
+#define KEY_ANIM					6
 
 #define DOOR_FRAME					16
 #define DOOR_FRAME_END				23
