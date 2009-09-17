@@ -55,6 +55,7 @@
 #include "../build/Background09.h"
 #include "../build/Background10.h"
 #include "../build/Background11.h"
+#include "../build/Background12.h"
 #include "../build/Background21.h"
 #include "../build/Background22.h"
 #include "../build/Background23.h"
@@ -70,6 +71,7 @@
 #include "../build/Exit06.h"
 #include "../build/Exit07.h"
 #include "../build/Exit08.h"
+#include "../build/Exit12.h"
 #include "../build/Exit21.h"
 #include "../build/Exit22.h"
 #include "../build/Exit23.h"
@@ -115,6 +117,7 @@
 #include "../build/FXMallow.h"
 #include "../build/FXCasablanca.h"
 #include "../build/FXBlood.h"
+#include "../build/FXBulb.h"
 
 @ death animations
 
