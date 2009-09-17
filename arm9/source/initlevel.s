@@ -552,7 +552,10 @@ generateMonsters:
 	ldreq r1, =Jungle_xm	
 	cmp r0,#9
 	ldreq r1, =Cavern_xm
-	
+	cmp r0,#10
+	ldreq r1, =Atmosphere_xm	
+	cmp r0,#11
+	ldreq r1, =Reggae_xm	
 	bl initMusic
 	
 	levelMusicFail:

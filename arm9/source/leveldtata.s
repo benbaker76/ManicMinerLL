@@ -11,8 +11,9 @@
 levelData:
 
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
-@ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play (0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
-@																			(6=Tocatta, 7=alleycat, 8=jungle, 9=cavern
+@ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
+@																			(6=Tocatta, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
+@																			(11=reggae, 12= )
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
@@ -95,7 +96,7 @@ levelData:
 	.byte 144,48,17,1,1,19,144,208
 	
 	@ 6 / Dragon - Level 21 - The dragon users bonus
-	.byte 232,136,5,6,168,13,5,4
+	.byte 232,136,181,6,168,13,5,4
 
 	.byte 172,152,17,17,1,6,148,196
 	.byte 48,144,17,1,1,3,32,88
@@ -154,14 +155,14 @@ levelData:
 
 	.byte 176,108,7,16,2,16,64,168
 	.byte 132,168,17,1,1,21,72,160
-	.byte 64,88,17,1,1,21,8,160
-	.byte 72,128,0,1,1,21,32,160
+	.byte 64,88,17,1,1,29,8,160
+	.byte 72,128,0,1,1,29,32,160
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 12 / Oric - level xx - In a deep dark hole
-	.byte 8,72,67,136,168,25,11,11
+	.byte 8,72,163,136,168,25,11,11
 
 	.byte 152,48,1,16,1,12,48,168
 	.byte 0,0,0,0,0,0,0,0
@@ -294,7 +295,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 24 / gremlins
-	.byte 8,80,85,16,168,23,23,23
+	.byte 8,80,5,16,168,23,23,23
 
 	.byte 190,72,17,1,255,33,112,176
 	.byte 32,88,17,1,255,32,24,56
