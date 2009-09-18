@@ -13,7 +13,7 @@ levelData:
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
 @ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @																			(6=Tocatta, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
-@																			(11=reggae, 12= )
+@																			(11=reggae, 12=Terminator )
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
@@ -132,7 +132,7 @@ levelData:
 	@ 9 / gba - level xx - metropolis bingo
 	.byte 232,168,21,24,168,15,8,7
 
-	.byte 24,116,1,16,255,9,48,168
+	.byte 24,116,1,16,255,34,48,168
 	.byte 156,88,17,1,255,0,156,196
 	.byte 188,136,0,1,255,0,156,188
 	.byte 0,0,0,0,0,0,0,0
@@ -176,8 +176,8 @@ levelData:
 	@ 13 / Oric - level 27 - the channel tunnel
 	.byte 232,104,5,6,136,27,12,1
 
-	.byte 136,152,17,1,1,0,136,222
-	.byte 80,128,17,1,1,0,80,144
+	.byte 136,152,17,1,1,37,136,222
+	.byte 80,128,17,1,1,37,80,144
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -362,7 +362,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 30 / Terminator
-	.byte 112,168,5,92,48,11,29,29
+	.byte 112,168,197,92,48,11,29,29
 
 	.byte 48,88,17,1,1,35,24,80
 	.byte 48,128,0,1,255,35,24,64

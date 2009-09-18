@@ -574,7 +574,9 @@ generateMonsters:
 	cmp r0,#10
 	ldreq r1, =Atmosphere_xm	
 	cmp r0,#11
-	ldreq r1, =Reggae_xm	
+	ldreq r1, =Reggae_xm
+	cmp r0,#12
+	ldreq r1, =Terminator_xm	
 	bl initMusic
 	
 	levelMusicFail:
