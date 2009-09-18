@@ -61,6 +61,8 @@
 	.global bulbInit
 	
 	.global blinksInit
+	
+	.global killersInit
 
 	.global specialFXStop
 
@@ -89,6 +91,8 @@ updateSpecialFX:
 	bleq bulbUpdate
 	cmp r0,#FX_BLINKS
 	bleq blinksUpdate
+	cmp r0,#FX_KILLERS
+	bleq killersUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -1429,10 +1433,98 @@ blinksUpdate:
 	bpl blinksInitLoop
 
 	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ Init killer anims
+killersInit:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r1,=killerDelay
+	mov r0,#8
+	str r0,[r1]
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Update killer anims
+killersUpdate:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r1,=killerDelay
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#8
+	str r0,[r1]
+	bpl killersUpdateDone
+	
+		@ Time to animate them!!
+	
+		mov r0,#0
+		ldr r1,=colMapStore
+		ldr r5,=killerFrame
+		
+		killerLoop:
+		
+			ldrb r2,[r1,r0]
+			cmp r2,#64
+			blt killerLoopSkip
+			
+			add r2,#1
+			cmp r2,#69
+			moveq r2,#64
+			strb r2,[r1,r0]					@ store back in colmap
+			sub r2,#64						@ r2=frame 0-4
+			ldr r6,[r5,r2,lsl#2]			@ r6=graphical frame
+			
+			@ now to update the screen with the frame, we need to grab the graphic first though
+			ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+			add r4, #1536					@ first tile of offscreen tiles
+			add r4, #58						@ add 29 chars (58th along for first frame)
+			sub r2, #24						@ make fram 0-7
+			add r4, r6, lsl #1				@ add this to the offset
+			ldrh r7,[r4]					@ r7 now=the graphic we need to display
+			ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+			add r4, r0, lsl #1
+			strh r7,[r4]
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			killerLoopSkip:
+		
+		
+		add r0,#1
+		cmp r0,#768
+		bne killerLoop
+	
+	
+	
+	
+	killersUpdateDone:
+	
+	ldmfd sp!, {r0-r10, pc}
 
 	.pool
 	.data
 	.align
+
+	killerDelay:
+	.word 0
+	killerFrame:
+	.word 0,1,2,1,0
+
 	
 	lightningFlash:
 	.word 0

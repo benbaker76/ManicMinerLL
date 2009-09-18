@@ -664,6 +664,8 @@ specialEffectStart:
 		bleq bulbInit
 	cmp r0,#FX_BLINKS
 		bleq blinksInit
+	cmp r0,#FX_KILLERS
+		bleq killersInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

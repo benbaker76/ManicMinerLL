@@ -307,6 +307,7 @@
 #define FX_BLOOD					10
 #define FX_BULB						11
 #define FX_BLINKS					12
+#define FX_KILLERS					13
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2

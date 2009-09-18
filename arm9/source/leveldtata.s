@@ -18,6 +18,7 @@ levelData:
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @											8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
+@											13=animate killer blocks
 @ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -173,7 +174,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 13 / Oric - level 27 - the channel tunnel
-	.byte 232,104,5,6,136,1,12,1
+	.byte 232,104,5,6,136,27,12,1
 
 	.byte 136,152,17,1,1,0,136,222
 	.byte 80,128,17,1,1,0,80,144
