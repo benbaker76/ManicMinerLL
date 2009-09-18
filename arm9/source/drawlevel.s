@@ -159,6 +159,36 @@ drawLevel:
 	ldreq r5,=Level27TilesLen
 	ldreq r6,=Level27Map
 	ldreq r7,=Level27MapLen	
+	cmp r3,#28
+	ldreq r4,=Level28Tiles
+	ldreq r5,=Level28TilesLen
+	ldreq r6,=Level28Map
+	ldreq r7,=Level28MapLen
+	cmp r3,#29
+	ldreq r4,=Level29Tiles
+	ldreq r5,=Level29TilesLen
+	ldreq r6,=Level29Map
+	ldreq r7,=Level29MapLen		
+	cmp r3,#30
+	ldreq r4,=Level30Tiles
+	ldreq r5,=Level30TilesLen
+	ldreq r6,=Level30Map
+	ldreq r7,=Level30MapLen
+	cmp r3,#31
+	ldreq r4,=Level31Tiles
+	ldreq r5,=Level31TilesLen
+	ldreq r6,=Level31Map
+	ldreq r7,=Level31MapLen
+	cmp r3,#32
+	ldreq r4,=Level32Tiles
+	ldreq r5,=Level32TilesLen
+	ldreq r6,=Level32Map
+	ldreq r7,=Level32MapLen
+	cmp r3,#41
+	ldreq r4,=Level41Tiles
+	ldreq r5,=Level41TilesLen
+	ldreq r6,=Level41Map
+	ldreq r7,=Level41MapLen	
 	
 	@ Draw main game map!
 	mov r0,r4

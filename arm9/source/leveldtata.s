@@ -339,10 +339,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 28 / ghostbusters					(MOVE HERE LATER)
-	.byte 0,0,0,0,0,0,0,0
+	.byte 112,168,3,8,168,17,21,21
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,56,17,1,1,26,8,232
+	.byte 104,120,17,1,1,27,104,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -350,7 +350,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 29 / King Kong
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,85,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -360,19 +360,19 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 30 / Rocky Horror
-	.byte 0,0,0,0,0,0,0,0
+	@ 30 / Terminator
+	.byte 112,168,5,92,48,11,29,29
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 48,88,17,1,1,35,24,80
+	.byte 48,128,0,1,255,35,24,64
+	.byte 128,168,17,1,2,35,8,232
+	.byte 208,112,1,16,255,36,48,112
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 		
-	@ 31
-	.byte 0,0,0,0,0,0,0,0
+	@ 31 / UNKNOWN
+	.byte 232,168,85,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -382,8 +382,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 32
-	.byte 0,0,0,0,0,0,0,0
+	@ 32 / Rocky Horror
+	.byte 232,168,85,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -393,8 +393,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 33
-	.byte 0,0,0,0,0,0,0,0
+	@ 33 
+	.byte 232,168,85,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -532,9 +532,9 @@ levelNames:
 	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU." @ HELLRAISER
 	.ascii "        HE SLIMED ME!!        " @ GHOSTBUSTERS
 	.ascii "BLONDES ARE SCARCE ROUND HERE!" @ KING KONG
-	.ascii " DO YOU KNOW HOW TO MADDISON? " @ ROCKY HORROR
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "         I'LL BE BACK         " @ TERMINATOR
+	.ascii "                              "	@ ?
+	.ascii " DO YOU KNOW HOW TO MADDISON? "	@ ROCKY HORROR
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -925,8 +925,8 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 30
-	.ascii "ROCKY HORROR              "
+	@ 30	/ TERMINATOR
+	.ascii "Terminator                "
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -951,8 +951,8 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 32
-	.ascii "                          "
+	@ 32	/ ROCKY HORROR
+	.ascii "ROCKY HORROR              "
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1107,16 +1107,18 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "                            "
 	.ascii "   LEVEL 01 - PSION3 1995   "
 	.ascii "    ORIGINAL - LOBO 2009    "
+	
+	@ Movies
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "   ORIGINAL - FLASH  2009   "
+	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "                            "
+	.ascii "     SPACE FRACTAL 2009     "
 	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
+	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "

@@ -41,11 +41,11 @@ levelNext:
 	ldr r0,=levelNum
 	ldr r1,[r0]
 	add r1,#1
-	cmp r1,#28
+	cmp r1,#33
 	moveq r1,#1
 	beq skippy
 	cmp r1,#LEVEL_COUNT+1
-	moveq r1,#21
+	moveq r1,#23
 skippy:
 	str r1,[r0]
 	

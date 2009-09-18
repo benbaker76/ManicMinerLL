@@ -383,6 +383,21 @@ checkFeet:
 	feetNotRConveyor:
 	
 	checkFeetFinish:
+	
+	push {r9,r10}
+	mov r2,r9
+	mov r11,#29							@ X Pos
+	mov r8,#23							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #0							@ 0 = Main, 1 = Sub
+	bl drawDigits
+	mov r10,r2
+	mov r11,#25							@ X Pos
+	mov r8,#23							@ Y Pos
+	mov r9,#2							@ Digits
+	mov r7, #0							@ 0 = Main, 1 = Sub
+	bl drawDigits	
+	pop {r9,r10}	
 
 	ldmfd sp!, {r0-r8, pc}
 	

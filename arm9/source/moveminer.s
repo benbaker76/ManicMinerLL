@@ -319,7 +319,8 @@ minerJump:
 	add r2,#1						@ add to the jump phase
 	cmp r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
 	blt minerJumpContinues
-		
+
+
 		mov r7,#MINER_FALL			@ if jump is over, return control (this will check a fall first though)
 		ldr r6,=minerAction
 		str r7,[r6]

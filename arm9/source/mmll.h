@@ -42,6 +42,11 @@
 #include "../build/Level25.h"
 #include "../build/Level26.h"
 #include "../build/Level27.h"
+#include "../build/Level28.h"
+#include "../build/Level29.h"
+#include "../build/Level30.h"
+#include "../build/Level31.h"
+#include "../build/Level32.h"
 #include "../build/Level41.h"
 
 #include "../build/Background01.h"
@@ -62,6 +67,7 @@
 #include "../build/Background23.h"
 #include "../build/Background24.h"
 #include "../build/Background27.h"
+#include "../build/Background30.h"
 #include "../build/Background41.h"
 
 #include "../build/Exit01.h"
@@ -78,6 +84,7 @@
 #include "../build/Exit23.h"
 #include "../build/Exit24.h"
 #include "../build/Exit27.h"
+#include "../build/Exit30.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
@@ -277,12 +284,12 @@
 #define MINER_FALL					2
 #define MINER_CONVEYOR				4
 
-#define MINER_MID_JUMP				22
-#define MINER_JUMPLEN				34
+#define MINER_MID_JUMP				20			@ 22
+#define MINER_JUMPLEN				34			@ 34
 
 #define LEFT_OFFSET					3
-#define RIGHT_OFFSET				13
-#define FEET_NIP					1		@ one or 2??? (1 works best)
+#define RIGHT_OFFSET				11
+#define FEET_NIP					0		@ one or 2??? (1 works best)
 #define FEET_DROP					0		@ This does not work :(
 
 @ Effect defines

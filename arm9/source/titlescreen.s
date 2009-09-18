@@ -270,7 +270,7 @@ titleNextScreen:
 	moveq r1,#0
 	beq skipMissLevels
 	cmp r1,#LEVEL_COUNT+1
-	moveq r1,#21
+	moveq r1,#23
 skipMissLevels:
 	str r1,[r0]
 
