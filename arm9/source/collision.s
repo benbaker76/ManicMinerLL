@@ -730,6 +730,11 @@ checkCollectDieFeet:
 
 initDeath:
 	stmfd sp!, {r0-r10, lr}
+	
+	ldr r1,=minerDied
+	ldr r1,[r1]
+	cmp r1,#1
+	beq initDeathFailed
 
 	ldr r1,=cheatMode
 	ldr r0,[r1]
@@ -748,6 +753,8 @@ initDeath:
 	str r2,[r1]
 
 	bl drawLives
+	
+	initDeathFailed:
 
 	ldmfd sp!, {r0-r10, pc}	
 

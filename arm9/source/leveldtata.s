@@ -140,7 +140,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 10 / Oric - Level 21 - at the centre of the earth
-	.byte 112,112,149,16,168,1,9,1
+	.byte 112,112,149,16,168,1,9,9
 
 	.byte 16,48,1,16,1,12,48,168
 	.byte 232,96,1,16,2,12,96,168
@@ -153,7 +153,7 @@ levelData:
 	@ 11 / Dragon 32 - eddies forest
 	.byte 232,72,132,128,72,7,10,3
 
-	.byte 176,108,7,16,2,16,64,168
+	.byte 176,108,1,16,2,16,64,160
 	.byte 132,168,17,1,1,21,72,160
 	.byte 64,88,17,1,1,29,8,160
 	.byte 72,128,0,1,1,29,32,160
@@ -172,11 +172,11 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 13 / Orice - level xx - the channel tunnel
-	.byte 232,104,3,6,136,1,12,1
+	@ 13 / Oric - level 27 - the channel tunnel
+	.byte 232,104,5,6,136,1,12,1
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 136,152,17,1,1,0,136,222
+	.byte 80,128,17,1,1,0,80,144
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -1096,7 +1096,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 21 - ORIC 1983    "
 	.ascii " LEVEL 22-ARCHIMEDES 19XX   "
-	.ascii "                            "
+	.ascii "    LEVEL 27 - ORIC 1985    "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "

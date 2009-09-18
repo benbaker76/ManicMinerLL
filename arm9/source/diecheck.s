@@ -52,6 +52,13 @@ dieChecker:
 
 		@ Bugger, we have died :(
 		
+		ldr r1,=gameMode
+		ldr r2,[r1]
+		cmp r2,#GAMEMODE_DIES_UPDATE
+		beq dieCheckFailed
+		cmp r2,#GAMEMODE_DIES_INIT
+		beq dieCheckFailed
+		
 		ldr r0,=minerLives
 		ldr r0,[r0]
 	@	cmp r0,#0

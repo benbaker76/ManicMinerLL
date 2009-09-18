@@ -78,6 +78,7 @@
 #include "../build/Exit06.h"
 #include "../build/Exit07.h"
 #include "../build/Exit08.h"
+#include "../build/Exit10.h"
 #include "../build/Exit12.h"
 #include "../build/Exit21.h"
 #include "../build/Exit22.h"
