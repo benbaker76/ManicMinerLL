@@ -394,6 +394,11 @@ getLevelBackground:
 	ldreq r5,=Background12TilesLen
 	ldreq r6,=Background12Map
 	ldreq r7,=Background12MapLen
+	cmp r0,#12
+	ldreq r4,=Background13Tiles
+	ldreq r5,=Background13TilesLen
+	ldreq r6,=Background13Map
+	ldreq r7,=Background13MapLen
 	cmp r0,#20
 	ldreq r4,=Background21Tiles
 	ldreq r5,=Background21TilesLen
