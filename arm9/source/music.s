@@ -54,7 +54,7 @@ initMusic:
 	bne initMusicContinue
 
 	bl stopMusic
-	bl swiWaitForVBlank
+@	bl swiWaitForVBlank
 	
 	ldr r0, =Module
 	bl XM7_UnloadXM
@@ -62,12 +62,16 @@ initMusic:
 initMusicContinue:
 
 	pop {r2-r3}
+
+@	bl DC_FlushAll								@ Flush
 	
 	ldr r0, =ZLibBuffer							@ Uncompress module
-	ldr r1, =ZLibBufferLen
+@	ldr r1, =ZLibBufferLen
+	mov r1,r3, lsl #2
+
 	bl uncompress
 	
-	bl DC_FlushAll
+@	bl DC_FlushAll
 	
 	ldr r0, =Module								@ Pointer to module data
 	ldr r1, =ZLibBuffer

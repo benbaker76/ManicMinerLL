@@ -570,8 +570,8 @@ generateMonsters:
 	ldreq r2, =Spectrum_xm_gz
 	ldreq r3, =Spectrum_xm_gz_size
 	cmp r0,#6
-	ldreq r2, =Toccata_xm_gz
-	ldreq r3, =Toccata_xm_gz_size
+	ldreq r2, =Casablanca_xm_gz
+	ldreq r3, =Casablanca_xm_gz_size
 	cmp r0,#7
 	ldreq r2, =Cat_xm_gz
 	ldreq r3, =Cat_xm_gz_size
@@ -590,6 +590,10 @@ generateMonsters:
 	cmp r0,#12
 	ldreq r2, =Terminator_xm_gz
 	ldreq r3, =Terminator_xm_gz_size
+	cmp r0,#13
+	ldreq r2, =Snug_xm_gz
+	ldreq r3, =Snug_xm_gz_size
+
 	bl initMusic
 	
 	levelMusicFail:
