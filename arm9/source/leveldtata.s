@@ -18,7 +18,7 @@ levelData:
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @											8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
-@											13=animate killer blocks
+@											13=animate killer blocks, 14=sparks
 @ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -318,7 +318,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 26 / back to the future
-	.byte 232,168,85,6,168,1,6,37
+	.byte 232,168,209,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -339,7 +339,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 28 / ghostbusters					(MOVE HERE LATER)
+	@ 28 / ghostbusters
 	.byte 112,168,3,8,168,17,21,21
 
 	.byte 232,56,17,1,1,26,8,232
@@ -362,7 +362,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 30 / Terminator
-	.byte 112,168,197,92,48,11,29,29
+	.byte 112,168,197,92,48,29,29,29
 
 	.byte 48,88,17,1,1,35,24,80
 	.byte 48,128,0,1,255,35,24,64

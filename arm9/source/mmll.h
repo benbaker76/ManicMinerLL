@@ -128,6 +128,7 @@
 #include "../build/FXBlood.h"
 #include "../build/FXBulb.h"
 #include "../build/FXBlinks.h"
+#include "../build/FXSpark.h"
 
 @ death animations
 
@@ -285,7 +286,7 @@
 #define MINER_FALL					2
 #define MINER_CONVEYOR				4
 
-#define MINER_MID_JUMP				20			@ 22
+#define MINER_MID_JUMP				22			@ 22
 #define MINER_JUMPLEN				34			@ 34
 
 #define LEFT_OFFSET					3
@@ -308,6 +309,7 @@
 #define FX_BULB						11
 #define FX_BLINKS					12
 #define FX_KILLERS					13
+#define FX_SPARK					14
 
 @ / these are sprite active values used by drawsprite
 #define DUST_ACTIVE					2
@@ -326,6 +328,7 @@
 #define FX_CSTARS_ACTIVE			15
 #define FX_CFLAG_ACTIVE				16
 #define FX_BLINKS_ACTIVE			17
+#define FX_SPARK_ACTIVE				18
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -384,6 +387,10 @@
 #define BLINKS_FRAME				24
 #define BLINKS_FRAME_END			31
 #define BLINKS_ANIM					8
+
+#define SPARK_FRAME					24
+#define SPARK_FRAME_END				37
+#define SPARK_ANIM					2
 
 @ level defines
 

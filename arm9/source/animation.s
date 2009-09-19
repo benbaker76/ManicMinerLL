@@ -314,7 +314,6 @@ collectKey:
 	
 	ldmfd sp!, {r0-r10, pc}
 
-	
 @---------------------------------------
 
 shardDust:
@@ -462,7 +461,6 @@ minerChange:
 		moveq r4,#0
 		movne r4,#2
 		
-		
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
 		
@@ -477,12 +475,29 @@ minerChange:
 
 flipSwitch:
 	@ a little bit to animate keys... Well, it works!!
-	@ ok, r0 = offset, r1=colmap, r2=frame
+	@ ok, r0 = offset, r1=colmap offset, r2=frame
 	stmfd sp!, {r0-r10, lr}
+
+	@ convert the offset r1 to x/y coord
+
+	mov r3,r1
+	lsr r3,#5			@ divide by 32, this is now the y area (0-23)
+	mov r4,r1
+	and r4,#31			@ r4 is now the x area (0-31)
+	lsl r4,#3			@ r4=x
+	sub r4,#4			@ centralise on X
+	lsl r3,#3			@ r3=y
+	add r4,#64
+	add r3,#384
 	
-	ldr r5,=switch
-	ldr r5,[r5]
-	cmp r5,#0
+	ldr r5,=switchX
+	str r4,[r5]
+	ldr r5,=switchY
+	str r3,[r5]
+	ldr r5,=switchOn				@ say that we are on a switch
+	mov r3,#1
+	str r3,[r5]
+
 	
 	@ now to erase from the screen
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
@@ -503,18 +518,18 @@ flipSwitch:
 		mov r2,#0
 		ldrb r1,[r4,r0]
 		cmp r1,#13
-		moveq r2,#18
+		moveq r2,#16
 		cmp r1,#14
 		moveq r2,#17
 		cmp r1,#15
-		moveq r2,#16
+		moveq r2,#18
 		
 		cmp r1,#16
-		moveq r2,#15
+		moveq r2,#13
 		cmp r1,#17
 		moveq r2,#14
 		cmp r1,#18
-		moveq r2,#13
+		moveq r2,#15
 		cmp r2,#0
 		beq notFlipSwitch
 		strb r2,[r4,r0]
@@ -522,8 +537,6 @@ flipSwitch:
 		add r0,#1
 		cmp r0,#768
 	bne flipSwitchLoop
-	
-
 	
 	ldmfd sp!, {r0-r10, pc}
 	

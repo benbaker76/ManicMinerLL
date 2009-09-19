@@ -57,7 +57,7 @@ initLevel:
 	mov r0,#0
 	ldr r1,=switch
 	str r0,[r1]
-	ldr r1,=onSwitch
+	ldr r1,=switchOn
 	str r0,[r1]
 	ldr r1,=minerDelay
 	str r0,[r1]
@@ -685,6 +685,9 @@ specialEffectStart:
 		bleq blinksInit
 	cmp r0,#FX_KILLERS
 		bleq killersInit
+	cmp r0,#FX_SPARK
+		bleq sparkInit
+
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

@@ -168,6 +168,8 @@ gameLoop:
 	bl levelCheat	
 
 	bl drawSprite
+	
+	bl switchClear
 
 @	bl debugText
 	

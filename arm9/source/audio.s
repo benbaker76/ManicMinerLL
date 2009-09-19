@@ -124,6 +124,8 @@ playJump:
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
 	ldr r2,=effectVolume
 	ldr r1,[r2]
+ldr r1,=40
+
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -220,6 +222,7 @@ playFall:
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
 	ldr r2,=effectVolume
 	ldr r1,[r2]
+ldr r1,=40
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan

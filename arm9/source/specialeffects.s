@@ -63,6 +63,8 @@
 	.global blinksInit
 	
 	.global killersInit
+	
+	.global sparkInit
 
 	.global specialFXStop
 
@@ -93,6 +95,8 @@ updateSpecialFX:
 	bleq blinksUpdate
 	cmp r0,#FX_KILLERS
 	bleq killersUpdate
+	cmp r0,#FX_SPARK
+	bleq sparkUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -350,6 +354,10 @@ specialFXStop:
 	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r10, pc}	
+	
+@-----------------
+
+.pool	
 	
 @------------------------------------ Init stars
 starsInit:
@@ -827,7 +835,7 @@ dripUpdate:
 		mov r0,#2
 		str r0,[r2,r10,lsl#2]
 		
-		mov r0,#GLINT_ANIM
+		mov r0,#DRIP_ANIM
 		ldr r2,=spriteAnimDelay
 		str r0,[r2,r10,lsl#2]
 	
@@ -1487,34 +1495,116 @@ killersUpdate:
 			add r4, r0, lsl #1
 			strh r7,[r4]
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 			killerLoopSkip:
-		
-		
+			
 		add r0,#1
 		cmp r0,#768
 		bne killerLoop
 	
-	
-	
-	
 	killersUpdateDone:
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ Init Drip
+sparkInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ Load the fxdrip sprites (FXDrip)
+
+		ldr r0,=FXSparkTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXSparkTilesLen
+		
+		bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Update Drip
+sparkUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ get a random x/y coord and check against level for 1 in colmap
+	@ all we want to glint is walls
+	
+	bl getRandom
+	and r8,#0xFF
+	mov r0,r8						@ r0=x=0-255
+	bl getRandom
+	and r8,#0xFF
+	lsr r8,#2
+	mov r3,#3
+	mul r8,r3
+	mov r1,r8						@ r1=y=0-191
+	
+	cmp r1,#191-8
+	bge sparkUpdateFail
+	
+	mov r3,r0,lsr #3				@ x=0-31 r3
+	mov r4,r1,lsr #3				@ y=0-23 r4
+	lsl r4,#5
+	add r6,r3,r4					@ r6=colmap offset
+	ldr r2,=colMapStore
+	ldrb r3,[r2,r6]
+	cmp r3,#0
+	beq sparkUpdateFail
+	cmp r3,#20
+	bge sparkUpdateFail
+	add r6,#32
+	ldrb r3,[r2,r6]
+	cmp r3,#0
+	bne sparkUpdateFail
+
+		@ ok, we have a hit, start at r0,r1 (both minus 4)
+		@ first find a spare sprite..
+		bl spareSpriteFX
+		cmp r10,#0
+		beq sparkUpdateFail
+
+		@ r10=sprite
+		ldr r2,=spriteActive
+		mov r3,#FX_SPARK_ACTIVE
+		str r3,[r2,r10,lsl#2]
+	
+		add r0,#64
+		ldr r2,=spriteX
+		lsr r0,#3
+		lsl r0,#3
+		bl getRandom
+		and r8,#3
+		subs r8,#2
+		adds r0,r8
+		sub r0,#4
+		str r0,[r2,r10,lsl#2]
+		lsr r1,#3
+		lsl r1,#3
+		add r1,#8
+		add r1,#384
+		ldr r2,=spriteY
+		str r1,[r2,r10,lsl#2]
+		
+		mov r0,#SPARK_FRAME
+		ldr r2,=spriteObj
+		str r0,[r2,r10,lsl#2]
+		
+		ldr r2,=spritePriority
+		mov r0,#2
+		str r0,[r2,r10,lsl#2]
+		
+		mov r0,#SPARK_ANIM
+		ldr r2,=spriteAnimDelay
+		str r0,[r2,r10,lsl#2]
+	
+		bl getRandom
+		and r8,#1
+		ldr r2,=spriteHFlip
+		str r8,[r2,r10,lsl#2]
+	
+	sparkUpdateFail:
+	
+	
+	ldmfd sp!, {r0-r10, pc}
+
 
 	.pool
 	.data

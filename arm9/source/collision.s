@@ -42,6 +42,7 @@
 	.global checkFall
 	.global checkExit
 	.global checkBlocked
+	.global switchClear
 	
 @----------------------- We are moving LEFT, we need to check what we collide into in colMapStore	
 @ detection functions should return a value in r9 and r10 to signal a result
@@ -353,13 +354,14 @@ checkFeet:
 	moveq r9,#13
 	beq r9OnConveyor
 	cmp r9,#3
-	moveq r9,#20
+	moveq r9,#17
 	beq r9OnConveyor
 
 	cmp r9,#13
 	blt feetNotLConveyor
 	cmp r9,#20
 	bgt feetNotLConveyor
+	
 	r9OnConveyor:
 	mov r4,r9
 	b feetOnConveyor
@@ -370,12 +372,13 @@ checkFeet:
 	moveq r10,#13
 	beq r10OnConveyor
 	cmp r10,#3
-	moveq r10,#20
+	moveq r10,#17
 	beq r10OnConveyor
 	cmp r10,#13
 	blt feetNotRConveyor
 	cmp r10,#20
 	bgt feetNotRConveyor
+	
 	r10OnConveyor:
 	mov r4,r10
 	b feetOnConveyor	
@@ -390,13 +393,13 @@ checkFeet:
 	mov r8,#23							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	mov r10,r2
 	mov r11,#25							@ X Pos
 	mov r8,#23							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits	
+@	bl drawDigits	
 	pop {r9,r10}	
 
 	ldmfd sp!, {r0-r8, pc}
@@ -651,11 +654,12 @@ checkCollectDie:
 	cmp r0,#32
 	bne notSwitchThing
 		@ ok, we need to change the state of the switch to on
-		ldr r4,=onSwitch
-		ldr r2,[r4]
-		cmp r2,#0
-		bne notSwitchThing
-		
+	
+		ldr r4,=switchOn			@ are we still over the switch?
+		ldr r4,[r4]
+		cmp r4,#0
+		bne checkCollectDieDone
+	
 		ldr r4,=switch 
 		ldr r2,[r4]
 		cmp r2,#1
@@ -666,21 +670,9 @@ checkCollectDie:
 		
 		bl flipSwitch
 		
-		ldr r4,=onSwitch
-		mov r2,#125
-		str r2,[r4]					@ set timer so it cannot flip in same contact
 		b checkCollectDieDone
 
 	notSwitchThing:
-	ldr r4,=onSwitch
-	ldr r2,[r4]
-	sub r2,#1
-	cmp r2,#0
-	movlt r2,#0
-	str r2,[r4]						@ reduce switch timer	
-
-
-
 
 	checkCollectDieDone:
 	ldmfd sp!, {r0-r10, pc}
@@ -894,6 +886,52 @@ checkBlocked:
 
 
 @--------------------------------------------
+
+switchClear:
+
+	stmfd sp!, {r0-r10, lr}	
+
+	ldr r0,=switchOn
+	ldr r1,[r0]
+	cmp r1,#0
+	beq switchClearDone
+	
+	ldr r2,=spriteX+256
+	ldr r2,[r2]
+	ldr r3,=switchX
+	ldr r3,[r3]
+	
+	add r2,#16
+	cmp r2,r3
+	blt switchClearAllow
+	sub r2,#16
+	add r3,#8
+	cmp r2,r3
+	bgt switchClearAllow
+
+	ldr r2,=spriteY+256
+	ldr r2,[r2]
+	ldr r3,=switchY
+	ldr r3,[r3]
+	
+	add r2,#16
+	cmp r2,r3
+	blt switchClearAllow
+	sub r2,#16
+	add r3,#8
+	cmp r2,r3
+	bgt switchClearAllow
+
+	switchClearDone:
+
+	ldmfd sp!, {r0-r10, pc}	
+	
+	switchClearAllow:
+	
+	mov r1,#0
+	str r1,[r0]
+	
+	ldmfd sp!, {r0-r10, pc}	
 	
 	crumbleWait:
 		.word 0

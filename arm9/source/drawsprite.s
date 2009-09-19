@@ -420,6 +420,26 @@ drawSprite:
 				ldr r1,=spriteActive
 				str r2,[r1,r10,lsl#2]
 		drawNotBlinks:
+		cmp r0,#FX_SPARK_ACTIVE
+		bne drawNotSpark
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#SPARK_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotSpark
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				str r2,[r1,r10,lsl #2]
+				cmp r2,#SPARK_FRAME_END+1
+				bne drawNotSpark
+				mov r2,#0
+				ldr r1,=spriteActive
+				str r2,[r1,r10,lsl#2]
+		drawNotSpark:
+
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

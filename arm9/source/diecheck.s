@@ -204,7 +204,7 @@ updateDeathAnim:
 				ldr r1,[r0]
 				add r1,#2
 				str r1,[r0]
-				b notDieFallFall
+			@	b notDieFallFall
 			notDieFall:
 				@ are we on a conveyor? If so, Our corpse must move also - LOL
 				ldr r0,=minerAction

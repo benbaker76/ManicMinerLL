@@ -81,7 +81,6 @@
 	.global monsterDelay
 	.global musicPlay
 	.global switch
-	.global onSwitch
 	.global minerJumpDelay
 	.global minerLives
 	.global controlMode
@@ -92,6 +91,9 @@
 	.global highScore
 	.global musicRestart
 	.global willySpriteType
+	.global switchX
+	.global switchY
+	.global switchOn
 	
 	.global specialEffect
 	
@@ -118,8 +120,6 @@ digits:
 	.space 32
 
 switch:
-	.word 0
-onSwitch:
 	.word 0
 minerJumpDelay:
 	.word 0
@@ -154,6 +154,12 @@ specialEffect:
 musicPlay:
 	.word 0
 willySpriteType:
+	.word 0
+switchX:
+	.word 0
+switchY:
+	.word 0
+switchOn:
 	.word 0
 	
 effectVolume:
@@ -215,11 +221,11 @@ spriteDataEnd:
 	.align
 
 willyJumpData:
-@	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
-@	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2
+	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
+	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2
 
-	.byte -3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
-	.byte 0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,3,3
+@	.byte -3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
+@	.byte 0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,3,3
 
 @	.byte -2,-2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,0,0,0,0
 @	.byte 0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2

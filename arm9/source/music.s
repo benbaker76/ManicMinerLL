@@ -68,10 +68,9 @@ initMusicContinue:
 	ldr r0, =ZLibBuffer							@ Uncompress module
 @	ldr r1, =ZLibBufferLen
 	mov r1,r3, lsl #2
-
 	bl uncompress
 	
-@	bl DC_FlushAll
+	bl DC_FlushAll
 	
 	ldr r0, =Module								@ Pointer to module data
 	ldr r1, =ZLibBuffer
