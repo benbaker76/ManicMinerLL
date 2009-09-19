@@ -534,7 +534,7 @@ levelNames:
 	.ascii "        HE SLIMED ME!!        " @ GHOSTBUSTERS
 	.ascii "BLONDES ARE SCARCE ROUND HERE!" @ KING KONG
 	.ascii "         I'LL BE BACK         " @ TERMINATOR
-	.ascii "                              "	@ ?
+	.ascii "        I HAD A HUNCH!        "	@ YOUNG FRANKENSTEIN
 	.ascii " DO YOU KNOW HOW TO MADDISON? "	@ ROCKY HORROR
 	.ascii "                              "
 	.ascii "                              "
