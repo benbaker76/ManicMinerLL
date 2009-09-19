@@ -38,7 +38,7 @@
 	#define XM7_STOP							-1
 	#define XM7_MOD_NOT_LOADED					0
 	#define XM7_MOD_LOADED						1
-	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(300*1024)
+	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(100*1024)
 	
 initMusic:
 
