@@ -552,31 +552,44 @@ generateMonsters:
 	ldr r0,[r0]
 	
 	cmp r0,#0
-	ldreq r1, =Miner_xm
+	ldreq r2, =Miner_xm_gz
+	ldreq r3, =Miner_xm_gz_size
 	cmp r0,#1
-	ldreq r1, =Dark_xm
+	ldreq r2, =Dark_xm_gz
+	ldreq r3, =Dark_xm_gz_size
 	cmp r0,#2
-	ldreq r1, =Space_xm
+	ldreq r2, =Space_xm_gz
+	ldreq r3, =Space_xm_gz_size
 	cmp r0,#3
-	ldreq r1, =Egyptian_xm
+	ldreq r2, =Egyptian_xm_gz
+	ldreq r3, =Egyptian_xm_gz_size
 	cmp r0,#4
-	ldreq r1, =Piano_xm
+	ldreq r2, =Piano_xm_gz
+	ldreq r3, =Piano_xm_gz_size
 	cmp r0,#5
-	ldreq r1, =Spectrum_xm
+	ldreq r2, =Spectrum_xm_gz
+	ldreq r3, =Spectrum_xm_gz_size
 	cmp r0,#6
-	ldreq r1, =Toccata_xm	
+	ldreq r2, =Toccata_xm_gz
+	ldreq r3, =Toccata_xm_gz_size
 	cmp r0,#7
-	ldreq r1, =Cat_xm	
+	ldreq r2, =Cat_xm_gz
+	ldreq r3, =Cat_xm_gz_size
 	cmp r0,#8
-	ldreq r1, =Jungle_xm	
+	ldreq r2, =Jungle_xm_gz
+	ldreq r3, =Jungle_xm_gz_size
 	cmp r0,#9
-	ldreq r1, =Cavern_xm
+	ldreq r2, =Cavern_xm_gz
+	ldreq r3, =Cavern_xm_gz_size
 	cmp r0,#10
-	ldreq r1, =Atmosphere_xm	
+	ldreq r2, =Atmosphere_xm_gz
+	ldreq r3, =Atmosphere_xm_gz_size
 	cmp r0,#11
-	ldreq r1, =Reggae_xm
+	ldreq r2, =Reggae_xm_gz
+	ldreq r3, =Reggae_xm_gz_size
 	cmp r0,#12
-	ldreq r1, =Terminator_xm	
+	ldreq r2, =Terminator_xm_gz
+	ldreq r3, =Terminator_xm_gz_size
 	bl initMusic
 	
 	levelMusicFail:

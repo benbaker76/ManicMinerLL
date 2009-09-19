@@ -106,7 +106,8 @@ initTitleScreen:
 	
 	bl titleBottomScreen
 	
-	ldr r1,=Title_xm
+	ldr r2, =Title_xm_gz
+	ldr r3, =Title_xm_gz_size
 	bl initMusic
 
 	bl initTitleSprites

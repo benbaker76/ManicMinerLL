@@ -38,6 +38,7 @@
 	#define XM7_STOP							-1
 	#define XM7_MOD_NOT_LOADED					0
 	#define XM7_MOD_LOADED						1
+	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(300*1024)
 	
 initMusic:
 
@@ -45,7 +46,7 @@ initMusic:
 	
 	@ set r1 to module to play and call
 	
-	push {r1}
+	push {r2-r3}
 	
 	ldr r0, =modLoaded
 	ldr r1, [r0]
@@ -59,10 +60,17 @@ initMusic:
 	bl XM7_UnloadXM
 	
 initMusicContinue:
+
+	pop {r2-r3}
 	
-	pop {r1}
+	ldr r0, =ZLibBuffer							@ Uncompress module
+	ldr r1, =ZLibBufferLen
+	bl uncompress
+	
+	bl DC_FlushAll
 	
 	ldr r0, =Module								@ Pointer to module data
+	ldr r1, =ZLibBuffer
 	bl XM7_LoadXM								@ Load module
 	
 	bl DC_FlushAll								@ Flush
@@ -97,8 +105,17 @@ stopMusic:
 modLoaded:
 	.word 0
 	
+	.align
 Module:
 	.space XM7_MODULEMANAGER_TYPE_SIZE
+
+	.align
+ZLibBuffer:
+	.space ZLIB_UNCOMPRESS_BUFFER_SIZE
+	
+	.align
+ZLibBufferLen:
+	.long ZLIB_UNCOMPRESS_BUFFER_SIZE
 	
 	.pool
 	.end
