@@ -80,7 +80,10 @@
 	.global exitY
 	.global monsterDelay
 	.global musicPlay
-	.global switch
+	.global switch1
+	.global switch2
+	.global switch3
+	.global switch4
 	.global minerJumpDelay
 	.global minerLives
 	.global controlMode
@@ -119,8 +122,17 @@ fxMode:
 digits:
 	.space 32
 
-switch:
+switch1:
 	.word 0
+switch2:
+	.word 0
+switch3:
+	.word 0
+switch4:
+	.word 0
+
+
+
 minerJumpDelay:
 	.word 0
 faller:

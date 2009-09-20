@@ -55,7 +55,13 @@ initLevel:
 	bl fxFadeIn
 
 	mov r0,#0
-	ldr r1,=switch
+	ldr r1,=switch1
+	str r0,[r1]
+	ldr r1,=switch2
+	str r0,[r1]
+	ldr r1,=switch3
+	str r0,[r1]
+	ldr r1,=switch4
 	str r0,[r1]
 	ldr r1,=switchOn
 	str r0,[r1]

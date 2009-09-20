@@ -336,6 +336,7 @@
 #define FX_CFLAG_ACTIVE				16
 #define FX_BLINKS_ACTIVE			17
 #define FX_SPARK_ACTIVE				18
+#define FX_EXPLODE_ACTIVE			19
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -398,6 +399,10 @@
 #define SPARK_FRAME					24
 #define SPARK_FRAME_END				37
 #define SPARK_ANIM					2
+
+#define EXPLODE_FRAME				48
+#define EXPLODE_FRAME_END			51
+#define EXPLODE_ANIM				4
 
 @ level defines
 

@@ -1524,9 +1524,6 @@ sparkInit:
 sparkUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
-	@ get a random x/y coord and check against level for 1 in colmap
-	@ all we want to glint is walls
-	
 	bl getRandom
 	and r8,#0xFF
 	mov r0,r8						@ r0=x=0-255

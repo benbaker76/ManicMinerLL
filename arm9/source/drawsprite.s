@@ -439,7 +439,27 @@ drawSprite:
 				ldr r1,=spriteActive
 				str r2,[r1,r10,lsl#2]
 		drawNotSpark:
-
+		cmp r0,#FX_EXPLODE_ACTIVE
+		bne drawNotExplode
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			str r2,[r1,r10,lsl #2]
+			bne drawNotExplode
+				ldr r2,=spriteSpeed
+				ldr r2,[r2,r10,lsl#2]
+				str r2,[r1,r10,lsl#2]
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				str r2,[r1,r10,lsl #2]
+				cmp r2,#EXPLODE_FRAME_END+1
+				bne drawNotExplode
+				mov r2,#0
+				ldr r1,=spriteActive
+				str r2,[r1,r10,lsl#2]
+		drawNotExplode:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

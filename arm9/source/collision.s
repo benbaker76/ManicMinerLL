@@ -652,7 +652,11 @@ checkCollectDie:
 	@ ok, is it a switch? (#switch=state 0=0ff 1=on)
 	
 	cmp r0,#32
+	beq SwitchThing
+	cmp r0,#33
 	bne notSwitchThing
+	SwitchThing:
+		@ 32= switch 1, 33=switch 2
 		@ ok, we need to change the state of the switch to on
 	
 		ldr r4,=switchOn			@ are we still over the switch?
@@ -660,7 +664,14 @@ checkCollectDie:
 		cmp r4,#0
 		bne checkCollectDieDone
 	
-		ldr r4,=switch 
+		cmp r0,#32
+		ldreq r4,=switch1
+		cmp r0,#33
+		ldreq r4,=switch2
+		cmp r0,#34
+		ldreq r4,=switch3
+		cmp r0,#35
+		ldreq r4,=switch4	
 		ldr r2,[r4]
 		cmp r2,#1
 		movne r2,#1					@ flip switch

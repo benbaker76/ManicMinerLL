@@ -108,7 +108,7 @@ minerFrame:
 	ldr r2,=spriteHFlip+256
 	ldr r2,[r2]
 	cmp r2,#0
-	addeq r0,#5
+@	addeq r0,#5
 	
 	and r0,#15
 	lsr r0,#2
@@ -476,7 +476,6 @@ minerChange:
 @---------------------------------------
 
 flipSwitch:
-	@ a little bit to animate keys... Well, it works!!
 	@ ok, r0 = offset, r1=colmap offset, r2=frame
 	stmfd sp!, {r0-r10, lr}
 
@@ -500,8 +499,20 @@ flipSwitch:
 	mov r3,#1
 	str r3,[r5]
 
+	cmp r0,#32
+	ldr r6,=switch1
+	cmp r0,#33
+	ldr r6,=switch2
+	cmp r0,#34
+	ldr r6,=switch3
+	cmp r0,#35
+	ldr r6,=switch4
 	
-	@ now to erase from the screen
+@	ldr r6,[r6]
+@	cmp r6,#0
+
+	cmp r2,#0
+
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, #1536					@ first tile of offscreen tiles
 	addeq r4, #58					@ add 29 chars (30th along is our off switch)	
@@ -511,7 +522,13 @@ flipSwitch:
 	add r4, r1, lsl #1
 	strh r5,[r4]
 	
-	@ now, flip the conveyors (ulp)
+	ldr r8,=levelNum
+	ldr r8,[r8]
+	cmp r8,#15
+	beq flipSwitchWallDestroy
+	
+	
+	@ now, flip the conveyors (ulp) (DEFAULT action)
 	
 	bl playClick
 	
@@ -542,7 +559,136 @@ flipSwitch:
 		cmp r0,#768
 	bne flipSwitchLoop
 	
+	flipSwitchDone:
+	
 	ldmfd sp!, {r0-r10, pc}
+	
+@-----------------------------------------------
+
+	flipSwitchWallDestroy:
+	
+	@ ok, act on 2 switches...
+	@ 32= remove 2s, 33=remove 3s
+	
+	cmp r0,#32
+	moveq r9,#2
+	movne r9,#3					@ r9 = colmap tile to search for
+	mov r8,#0					@ make 1 if explode sound needs to be played
+	
+	mov r0,#0
+	ldr r4,=colMapStore
+	wallDestroyLoop:
+		ldrb r1,[r4,r0]
+		cmp r1,r9
+		bne wallDestroySkip
+			mov r8,#1			@ we can explode!
+		
+			@ now remove the tile!!
+			
+			mov r7,#0
+			strb r7,[r4,r0]
+
+			ldr r5, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+			add r5, #1536					@ first tile of offscreen tiles
+			add r5, #16						@ add 8 chars (Our blank)
+			ldrh r5,[r5]					@ r5 now=the graphic we need to display
+			ldr r6, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+			add r6, r0, lsl #1
+			strh r5,[r6]
+
+			@ we now need to call an effect to put an animation at offset r0...?
+
+
+			bl r0Effect
+		
+		wallDestroySkip:
+	
+	
+		add r0,#1
+		cmp r0,#768
+	bne wallDestroyLoop
+	
+	
+	@ if r8<>0, make an explosion sound!!!!
+	
+	b flipSwitchDone
+	
+@------------------------------------------- Draw effect at offset r0
+
+	r0Effect:
+
+	stmfd sp!, {r0-r11, lr}
+	
+	@ First, make r0=x/y coord from offset r0..
+	
+	mov r3,r0
+	lsr r3,#5			@ divide by 32, this is now the y area (0-23)
+
+	mov r4,r0
+	and r4,#31			@ r4 is now the x area (0-31)
+	lsl r4,#3			@ r4=x
+	sub r4,#4			@ centralise on X
+	lsl r3,#3			@ r3=y
+	add r4,#64
+	add r3,#384
+	sub r3,#4
+	@ r3=y r4=x 
+	
+	@ now we need a free sprite?
+	mov r11,#3
+	
+	r0ExplodeAgain:
+	
+		bl spareSprite		@ returns r10.. 0=none spare
+	
+		mov r1,r3
+		mov r2,r4
+	
+		cmp r10,#0
+		beq r0EffectNoneSpare
+			@ generate an explosion at r2,r1 (=/- random)
+			
+			ldr r6,=spriteX
+			bl getRandom
+			and r8,#7
+			subs r8,#3
+			adds r2,r8
+			str r2,[r6,r10,lsl#2]
+			ldr r6,=spriteY
+			bl getRandom
+			and r8,#7
+			subs r8,#3
+			adds r1,r8
+			str r1,[r6,r10,lsl#2]
+			mov r7,#FX_EXPLODE_ACTIVE
+			ldr r6,=spriteActive
+			str r7,[r6,r10,lsl#2]
+			mov r7,#EXPLODE_FRAME
+			ldr r6,=spriteObj
+			str r7,[r6,r10,lsl#2]	
+			mov r7,#EXPLODE_ANIM
+			bl getRandom
+			and r8,#7
+			add r7,r8
+			ldr r6,=spriteAnimDelay
+			str r7,[r6,r10,lsl#2]
+			ldr r6,=spriteSpeed				@ delay backup
+			str r7,[r6,r10,lsl#2]
+			bl getRandom
+			and r8,#1
+			ldr r6,=spriteHFlip
+			str r8,[r6,r10,lsl#2]
+			mov r8,#1
+			ldr r6,=spritePriority
+			str r8,[r6,r10,lsl#2]
+	
+		subs r11,#1
+	bpl r0ExplodeAgain
+	
+	
+	r0EffectNoneSpare:
+
+	ldmfd sp!, {r0-r11, pc}	
 	
 	.align
 levelAnimDelay:
