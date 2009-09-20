@@ -184,8 +184,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 14
-	.byte 16,168,85,6,168,1,10,0
+	@ 14  / GBA - Tokyo Uh oh
+	.byte 16,168,5,6,168,1,13,13
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -195,8 +195,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 15
-	.byte 16,168,85,6,168,1,10,0
+	@ 15 / Oric - Space Shuttle
+	.byte 16,168,5,6,168,1,14,14
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -206,8 +206,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 16
-	.byte 16,168,85,6,168,1,10,0
+	@ 16 / Oric - Wheres the hyperspace button
+	.byte 16,168,5,6,168,5,15,15
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -218,7 +218,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 17
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -229,7 +229,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 18
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -240,7 +240,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 19
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -251,7 +251,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 20
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,168,85,6,168,1,10,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -498,6 +498,8 @@ levelData:
 
 levelNames:
 
+@	/ Original levels
+
 	.ascii "        HOME AT LAST??        "
 	.ascii "         THE  AIRLOCK         "
 	.ascii "       MUMMY!!, DADDY!!       "
@@ -518,9 +520,14 @@ levelNames:
 	.ascii "           THE END?           "
 	.ascii "      THE FINAL? BARRIER      "
 	.ascii "   THIS IS THE LAST CAVERN!   "
+	
+@	/ 2 mad levels based on horace?
+	
 	.ascii "       THE MYSTIC WOODS       "
 	.ascii "        HE SLIMED ME!!        "	@ GHOSTBUSTERS
 
+
+@	/ The movie levels
 	.ascii "  "
 	.byte 34
 	.ascii "I'M A DRUNKARD"

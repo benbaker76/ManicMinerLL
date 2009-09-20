@@ -122,7 +122,16 @@ drawLevel:
 	ldreq r5,=Level14TilesLen
 	ldreq r6,=Level14Map
 	ldreq r7,=Level14MapLen	
-
+	cmp r3,#15
+	ldreq r4,=Level15Tiles
+	ldreq r5,=Level15TilesLen
+	ldreq r6,=Level15Map
+	ldreq r7,=Level15MapLen	
+	cmp r3,#16
+	ldreq r4,=Level16Tiles
+	ldreq r5,=Level16TilesLen
+	ldreq r6,=Level16Map
+	ldreq r7,=Level16MapLen	
 
 	cmp r3,#21
 	ldreq r4,=Level21Tiles
