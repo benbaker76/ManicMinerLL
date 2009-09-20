@@ -266,6 +266,8 @@ collectKey:
 	mov r2,#0
 	strb r2,[r4,r1]					@ remove from ColMapStore
 	
+	bl playKey
+	
 	@ now to erase from the screen
 	ldr r4, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r4, #1536					@ first tile of offscreen tiles
@@ -510,6 +512,8 @@ flipSwitch:
 	strh r5,[r4]
 	
 	@ now, flip the conveyors (ulp)
+	
+	bl playClick
 	
 	mov r0,#0
 	ldr r4,=colMapStore
