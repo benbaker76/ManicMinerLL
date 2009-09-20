@@ -207,7 +207,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 16 / Oric - Wheres the hyperspace button
-	.byte 16,168,5,6,168,5,15,15
+	.byte 232,96,5,6,96,5,15,15
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
