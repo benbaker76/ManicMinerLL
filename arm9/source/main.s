@@ -116,6 +116,8 @@ mainLoop:
 	bleq initDeathAnim
 	cmp r1, #GAMEMODE_DIES_UPDATE
 	bleq updateDeathAnim
+	cmp r1, #GAMEMODE_SPOTLIGHT
+	beq gameLoop
 	
 	b mainLoop
 
@@ -162,8 +164,15 @@ gameLoop:
 	bl airDrain
 	bl drawAir
 	
+	ldr r0, =gameMode
+	ldr r1, [r0]
+	cmp r1, #GAMEMODE_SPOTLIGHT
+	beq dieCheckerSkip
+	
 	bl dieChecker
 	
+dieCheckerSkip:
+
 	bl screenSwapper
 	bl levelCheat	
 
@@ -177,22 +186,6 @@ mainLoopDone:
 
 
 	b mainLoop									@ our main loop
-	
-	@ ------------------- TIMER DEMO -----------------
-	
-displayTimerWorkingString:
-
-	stmfd sp!, {r0, lr}
-	
-	ldr r0, =timerWorkingString
-	bl drawDebugString
-	
-	ldmfd sp!, {r0, pc}
-
-timerWorkingString:
-	.asciz "Timer is verking!!!"
-	
-	@ ------------------- TIMER DEMO -----------------
 
 	.pool
 	.end

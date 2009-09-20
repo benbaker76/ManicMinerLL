@@ -160,10 +160,10 @@ testingit:
 		ldr r1,=dieFrame
 		str r2,[r1]
 		
-	@	bl fxFadeBlackLevelInit
-	@	bl fxFadeMax
-	@	bl fxFadeOut
-	@	bl fxSpotlightOut
+		@bl fxFadeBlackLevelInit
+		@bl fxFadeMax
+		@bl fxFadeOut
+		@bl fxSpotlightOut
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------------
@@ -242,22 +242,49 @@ updateDeathAnim:
 	diedNowStillPlay:
 	
 		@ return to the level (lives left)
-	
-		ldr r1,=gameMode
-		mov r0,#GAMEMODE_RUNNING
-		str r0,[r1]
-		bl initLevel
+		
+		ldr r0, =gameMode
+		mov r1, #GAMEMODE_SPOTLIGHT
+		str r1, [r0]
+			
+		bl fxSpotlightOut
+		
+		ldr r0, =fxSpotlightCallbackAddress
+		ldr r1, =updateDeathAnimSpotlightDone
+		str r1, [r0]
+		
 		b updateDeathAnimDone
 
 	@ go to game over (lives all gone)
 	diedNowGameOver:
-
-		bl initTitleScreen
-
-	updateDeathAnimDone:
+	
+		ldr r0, =gameMode
+		mov r1, #GAMEMODE_SPOTLIGHT
+		str r1, [r0]
+	
+		bl fxSpotlightOut
+		
+		ldr r0, =fxSpotlightCallbackAddress
+		ldr r1, =initTitleScreen
+		str r1, [r0]
+	
+updateDeathAnimDone:	
 	
 	ldmfd sp!, {r0-r10, pc}
 	
+@------------------------------------------------	
+	
+updateDeathAnimSpotlightDone:
+
+	stmfd sp!, {r0-r1, lr}
+
+	ldr r1, =gameMode
+	mov r0, #GAMEMODE_RUNNING
+	str r0, [r1]
+	
+	bl initLevel
+	
+	ldmfd sp!, {r0-r1, pc}
 
 @------------------------------------------------	
 	

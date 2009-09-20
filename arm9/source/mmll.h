@@ -212,6 +212,7 @@
 #define GAMEMODE_LEVEL_CLEAR		7
 #define GAMEMODE_DIES_INIT			8
 #define GAMEMODE_DIES_UPDATE		9
+#define GAMEMODE_SPOTLIGHT			10
 
 @ FX defines. These are bits so we can have multiple fx at once
 

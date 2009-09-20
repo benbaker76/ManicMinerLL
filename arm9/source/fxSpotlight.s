@@ -35,6 +35,7 @@
 	.global fxSpotlightOut
 	.global fxSpotlightInVBlank
 	.global fxSpotlightOutVBlank
+	.global fxSpotlightCallbackAddress
 
 fxSpotlightInit:
 
@@ -88,6 +89,10 @@ fxSpotlightInit:
 	ldr r1, =0							@ Reset value
 	str r1, [r0]
 	
+	ldr r0, =fxSpotlightCallbackAddress
+	mov r1, #0
+	str r1, [r0]
+	
 	ldmfd sp!, {r0-r3, pc}
 	
 	@ ---------------------------------------
@@ -101,23 +106,23 @@ fxSpotlightOff:
 	bic r1, #(FX_SPOTLIGHT_IN | FX_SPOTLIGHT_OUT)
 	str r1, [r0]
 
-	ldr r0, =REG_DISPCNT
-	ldr r1, [r0]
-	bic r1, #DISPLAY_WIN0_ON
-	str r1, [r0]
+	@ldr r0, =REG_DISPCNT
+	@ldr r1, [r0]
+	@bic r1, #DISPLAY_WIN0_ON
+	@str r1, [r0]
 	
 	ldr r0, =REG_DISPCNT_SUB
 	ldr r1, [r0]
 	bic r1, #DISPLAY_WIN0_ON
 	str r1, [r0]
 	
-	mov r0, #0
-	mov r1, #0
-	mov r2, #0
-	mov r3, #0
-	mov r4, #0
+	@mov r0, #0
+	@mov r1, #0
+	@mov r2, #0
+	@mov r3, #0
+	@mov r4, #0
 	
-	bl dmaTransfer
+	@bl dmaTransfer
 	
 	mov r0, #1
 	mov r1, #0
@@ -141,6 +146,8 @@ fxSpotlightIn:
 	ldr r1, [r0]
 	orr r1, #FX_SPOTLIGHT_IN
 	str r1, [r0]
+	
+	bl fxSpotlightInVBlank
 
 	ldmfd sp!, {r0-r1, pc}
 
@@ -156,6 +163,8 @@ fxSpotlightOut:
 	ldr r1, [r0]
 	orr r1, #FX_SPOTLIGHT_OUT
 	str r1, [r0]
+	
+	bl fxSpotlightOutVBlank
 
 	ldmfd sp!, {r0-r1, pc}
 
@@ -186,9 +195,10 @@ fxSpotlightInVBlank:
 	ldr r0,	=radius							@ radius
 	ldr r1, [r0]							@ Read radius value
 	add r1, #6								@ Add to radius
-	cmp r1, #164+128							@ Radius == 164?
-	blge fxSpotlightOff
 	str r1, [r0]							@ Write back radius
+	cmp r1, #164+128						@ Radius == 164?
+	blge fxSpotlightOff
+	blge fxSpotlightExecuteCallback
 	
 	ldmfd sp!, {r0-r2, pc}
 	
@@ -200,8 +210,17 @@ fxSpotlightOutVBlank:
 	
 	bl clearTable
 
-	mov r0, #128							@ x position
-	mov r1,	#96								@ y position
+	@mov r0, #128							@ x position
+	@mov r1, #96							@ y position
+	ldr r0,=spriteX+256
+	ldr r0,[r0]
+	sub r0,#64
+	add r0,#8
+	ldr r1,=spriteY+256
+	ldr r1,[r1]
+	sub r1,#384
+	add r1,#8
+	
 	ldr r2,	=radius							@ radius
 	ldr r2, [r2]
 	
@@ -215,9 +234,10 @@ fxSpotlightOutVBlank:
 	ldr r0,	=radius							@ radius
 	ldr r1, [r0]							@ Read radius value
 	add r1, #4								@ Add to radius
+	str r1, [r0]							@ Write back radius
 	cmp r1, #164							@ Radius == 164?
 	bleq fxSpotlightOff
-	str r1, [r0]							@ Write back radius
+	bleq fxSpotlightExecuteCallback
 	
 	ldmfd sp!, {r0-r3, pc}
 
@@ -242,6 +262,15 @@ clearTable:
 dmaCircle:
 
 	stmfd sp!, {r0-r4, lr}
+	
+	@bl DC_FlushAll							@ Flush the cache for the dma copy
+	
+	@mov r0, #0								@ Dma channel
+	@ldr r1, =winh							@ Table with our window values (source)
+	@add r1, #2								@ &winh[1]
+	@ldr r2, =REG_WIN0H						@ Horizontal window register (dest)
+	@mov r3, #1								@ Count
+	@ldr r4, =(DMA_ENABLE | DMA_REPEAT | DMA_START_HBL | DMA_DST_RESET)
 	
 	bl DC_FlushAll							@ Flush the cache for the dma copy
 	
@@ -464,7 +493,7 @@ clamp:
 	mov r3, #0								@ reset result
 	mov r4, #0								@ reset result
 	cmp r0, r2								@ if (value >= max)
-	subge r0, r2, #1						@ r3 = max - 1
+	subge r0, r2, #1						@ r0 = max - 1
 	bge clampDone							@ condition met so done
 	
 	cmp r0, r1
@@ -474,6 +503,30 @@ clamp:
 clampDone:
 
 	ldmfd sp!, {r3-r4, pc}
+	
+	@ ---------------------------------------
+	
+fxSpotlightExecuteCallback:
+
+	stmfd sp!, {r0-r1, lr}
+	
+	ldr r0, =fxSpotlightCallbackAddress
+	ldr r0, [r0]
+	cmp r0, #0
+	beq fxSpotlightExecuteCallbackReturn
+
+	ldr lr, =fxSpotlightExecuteCallbackReturn
+	bx r0
+	
+fxSpotlightExecuteCallbackReturn:
+
+	ldr r0, =fxSpotlightCallbackAddress
+	mov r1, #0
+	str r1, [r0]
+
+	ldmfd sp!, {r0-r1, pc}
+	
+	@ ---------------------------------------
 
 	.data
 	.align
@@ -482,6 +535,9 @@ count:
 	.word 0
 
 radius:
+	.word 0
+
+fxSpotlightCallbackAddress:
 	.word 0
 
 	.align
