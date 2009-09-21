@@ -54,7 +54,7 @@ initMusic:
 	bne initMusicContinue
 
 	bl stopMusic
-@	bl swiWaitForVBlank
+	bl swiWaitForVBlank
 	
 	ldr r0, =Module
 	bl XM7_UnloadXM
@@ -63,12 +63,14 @@ initMusicContinue:
 
 	pop {r2-r3}
 
-@	bl DC_FlushAll								@ Flush
-	
 	ldr r0, =ZLibBuffer							@ Uncompress module
-@	ldr r1, =ZLibBufferLen
-	mov r1,r3, lsl #2
+	ldr r1, =ZLibBufferLen
+	ldr r4, =ZLIB_UNCOMPRESS_BUFFER_SIZE		@ Need to give it this each time because it
+	str r4, [r1]								@ writes back the actual size of the uncompressed data
 	bl uncompress
+	
+	cmp r0, #0									@ Returning non-zero in r0 means failed to load
+	bne initMusicFailed
 	
 	bl DC_FlushAll
 	
@@ -85,6 +87,8 @@ initMusicContinue:
 	ldr r0, =modLoaded
 	ldr r1, =XM7_MOD_LOADED
 	str r1, [r0]
+
+initMusicFailed:
 
 	ldmfd sp!, {r0-r2, pc}
 	
