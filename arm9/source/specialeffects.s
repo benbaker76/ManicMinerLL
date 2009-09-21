@@ -1556,7 +1556,11 @@ sparkUpdate:
 	ldrb r3,[r2,r6]
 	cmp r3,#0
 	bne sparkUpdateFail
-
+	add r6,#32
+	ldrb r3,[r2,r6]
+	cmp r3,#0
+	bne sparkUpdateFail
+	
 		@ ok, we have a hit, start at r0,r1 (both minus 4)
 		@ first find a spare sprite..
 		bl spareSpriteFX

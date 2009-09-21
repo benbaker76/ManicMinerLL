@@ -404,7 +404,7 @@
 
 #define SPARK_FRAME					24
 #define SPARK_FRAME_END				37
-#define SPARK_ANIM					2
+#define SPARK_ANIM					4
 
 #define EXPLODE_FRAME				48
 #define EXPLODE_FRAME_END			51
