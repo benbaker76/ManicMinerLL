@@ -138,6 +138,7 @@
 #include "../build/FXSpark.h"
 #include "../build/FXKongL.h"
 #include "../build/FXKongR.h"
+#include "../build/FXKHead.h"
 
 @ death animations
 

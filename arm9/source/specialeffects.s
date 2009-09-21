@@ -1633,7 +1633,7 @@ kongInit:
 		add r2,r9,#24
 		str r2,[r1,r10,lsl#2]
 		ldr r1,=spritePriority
-		mov r2,#0
+		mov r2,#1
 		str r2,[r1,r10,lsl#2]
 		
 		add r10,#1
@@ -1662,7 +1662,7 @@ kongInit:
 		add r2,r9,#30
 		str r2,[r1,r10,lsl#2]
 		ldr r1,=spritePriority
-		mov r2,#0
+		mov r2,#1
 		str r2,[r1,r10,lsl#2]
 		
 		add r10,#1
@@ -1671,6 +1671,29 @@ kongInit:
 	bne kongRightInitLoop		
 	
 	bl kongDraw
+	
+	@ now the head
+	
+	mov r10,#84						@ sprite 84 is the head
+
+	ldr r1,=spriteActive
+	mov r2,#MONSTER_ACTIVE
+	str r2,[r1,r10,lsl#2]
+		
+	mov r6,#128+84
+	ldr r1,=spriteX
+	str r6,[r1,r10,lsl#2]
+	mov r6,#384
+	add r6,#69
+	ldr r1,=spriteY
+	str r6,[r1,r10,lsl#2]
+	
+	ldr r1,=spriteObj
+	mov r2,#39						@ 39 is the image
+	str r2,[r1,r10,lsl#2]
+	ldr r1,=spritePriority
+	mov r2,#0
+	str r2,[r1,r10,lsl#2]
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -1700,7 +1723,18 @@ kongDraw:
 		add r1,#30*256				@ dump at 24th sprite (6 sprites)
 		ldr r2,=4*256	
 		bl dmaCopy	
-	
+		
+		@ do head
+		
+		ldr r0,=kongHeadFrame
+		ldr r1,[r0]
+		ldr r0,=FXKHeadTiles
+@		lsl r1,#2
+		add r0,r1,lsl#8 			@ r0=source
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#39*256				@ dump at 24th sprite (6 sprites)
+		mov r2,#256	
+		bl dmaCopy		
 	@ need to draw head also... (say, 7 frames looking left right?)
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -1743,6 +1777,24 @@ kongUpdate:
 
 	kongNotRight:
 	
+	@ do head
+	
+	ldr r0,=kongDelayHead
+	ldr r1,[r0]
+	subs r1,#1
+	movmi r1,#16
+	str r1,[r0]
+	bpl kongNotHead
+	
+		ldr r0,=kongHeadFrame
+		ldr r1,[r0]
+		add r1,#1
+		cmp r1,#8
+		moveq r1,#0
+		str r1,[r0]
+
+	kongNotHead:	
+	
 	bl kongDraw
 
 	ldmfd sp!, {r0-r10, pc}
@@ -1783,7 +1835,11 @@ kongUpdate:
 	.word 0
 	kongRFrame:
 	.word 0
+	kongHeadFrame:
+	.word 0
 	kongLDelayL:
 	.word 0
 	kongLDelayR:
+	.word 0
+	kongDelayHead:
 	.word 0
