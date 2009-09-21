@@ -57,6 +57,7 @@
 	.global spriteMonsterMove
 	.global spriteMonsterFlips
 	.global spritePriority
+	.global spriteSize
 
 	.global cheatMode
 
@@ -226,6 +227,8 @@ spriteMonsterFlips:
 spritePriority:
 	.space 512
 monsterDelay:
+	.space 512
+spriteSize:
 	.space 512
 	
 spriteDataEnd:

@@ -13,12 +13,12 @@ levelData:
 @ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
 @ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @																			(6=Casablanca, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
-@																			(11=reggae, 12=Terminator, 13=Snug)
+@																			(11=reggae, 12=Terminator, 13=Snug, 14=ghostbusters)
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
 @											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @											8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
-@											13=animate killer blocks, 14=sparks
+@											13=animate killer blocks, 14=sparks 15=kong
 @ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -340,7 +340,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 28 / ghostbusters
-	.byte 112,168,3,8,168,17,21,21
+	.byte 112,168,227,8,168,17,21,21
 
 	.byte 232,56,17,1,1,26,8,232
 	.byte 104,120,17,1,1,27,104,232
@@ -351,11 +351,11 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 29 / King Kong
-	.byte 232,168,85,6,168,1,6,37
+	.byte 240,168,5,108,168,30,28,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 40,48,17,1,1,13,0,128
+	.byte 140,120,17,1,2,13,16,216
+	.byte 216,144,0,1,1,13,192,240
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -372,7 +372,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 		
-	@ 31 / UNKNOWN
+	@ 31 / Young Frankenstein
 	.byte 232,168,85,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
@@ -1104,11 +1104,11 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 21 - ORIC 1983    "
 	.ascii " LEVEL 22-ARCHIMEDES 19XX   "
+	.ascii "    LEVEL 26 - ORIC 1985    "	
 	.ascii "    LEVEL 27 - ORIC 1985    "
-	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
+	.ascii "    LEVEL XX - GBA  2002    "
+	.ascii "    LEVEL 23 - ORIC 1985    "
+	.ascii "    LEVEL 25 - ORIC 1985    "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "
@@ -1120,13 +1120,15 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "                            "
-	.ascii "                            "
+	.ascii "     SPACE FRACTAL 2009     "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "    ORIGINAL - LOBO 2009    "
-	.ascii "                            "
+	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "     SPACE FRACTAL 2009     "
 	.ascii "                            "
 	.ascii "   ORIGINAL - FLASH  2009   "
+	
+	@ Anything?
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "

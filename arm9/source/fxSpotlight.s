@@ -194,7 +194,7 @@ fxSpotlightInVBlank:
 	
 	ldr r0,	=radius							@ radius
 	ldr r1, [r0]							@ Read radius value
-	add r1, #6								@ Add to radius
+	add r1, #4								@ Add to radius
 	str r1, [r0]							@ Write back radius
 	cmp r1, #164+128						@ Radius == 164?
 	blge fxSpotlightOff

@@ -94,7 +94,13 @@ drawSprite:
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1_SUB		@
 		add r0,r10, lsl #3
+		
+@		ldr r4,=spriteSize
+@		ldr r4,[r4,r10, lsl #2]
+@		cmp r4,#0
 		ldr r2, =(ATTR1_SIZE_16)
+@		ldrne r2, =(ATTR1_SIZE_32)
+
 		and r1,r3
 		orr r2,r1
 		ldr r3,=spriteHFlip
@@ -471,7 +477,7 @@ drawSprite:
 spareSprite:
 	stmfd sp!, {r0-r9, lr}
 
-	mov r0,#96
+	mov r0,#85
 	ldr r1,=spriteActive
 	spareSpriteFind:
 	
@@ -489,7 +495,6 @@ spareSprite:
 	mov r10,r0
 
 	ldmfd sp!, {r0-r9, pc}
-
 	
 @--------------------------------------------
 

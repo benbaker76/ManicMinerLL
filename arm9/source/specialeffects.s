@@ -65,6 +65,8 @@
 	.global killersInit
 	
 	.global sparkInit
+	
+	.global kongInit
 
 	.global specialFXStop
 
@@ -97,6 +99,9 @@ updateSpecialFX:
 	bleq killersUpdate
 	cmp r0,#FX_SPARK
 	bleq sparkUpdate
+	cmp r0,#FX_KONG
+	bleq kongUpdate
+
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -1505,11 +1510,11 @@ killersUpdate:
 	
 	ldmfd sp!, {r0-r10, pc}
 	
-@------------------------------------ Init Drip
+@------------------------------------ Init Spark
 sparkInit:
 	stmfd sp!, {r0-r10, lr}
 	
-	@ Load the fxdrip sprites (FXDrip)
+	@ Load the fxSpark sprites
 
 		ldr r0,=FXSparkTiles
 		ldr r1,=SPRITE_GFX_SUB
@@ -1520,7 +1525,7 @@ sparkInit:
 
 	ldmfd sp!, {r0-r10, pc}
 
-@------------------------------------ Update Drip
+@------------------------------------ Update Spark
 sparkUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
@@ -1601,7 +1606,146 @@ sparkUpdate:
 	
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ Init kong sprites
+kongInit:
+	stmfd sp!, {r0-r10, lr}
 
+	@ draw the sprites to screen
+	mov r10,#72						@ sprite counter
+	mov r9,#0						@ coord pointer
+	
+	kongLeftInitLoop:
+	
+		ldr r1,=spriteActive
+		mov r2,#MONSTER_ACTIVE
+		str r2,[r1,r10,lsl#2]
+		ldr r5,=kongLX
+		ldr r6,[r5,r9,lsl#2]
+		ldr r1,=spriteX
+		str r6,[r1,r10,lsl#2]
+		ldr r4,=kongLY
+		ldr r6,[r4,r9,lsl#2]
+
+		ldr r1,=spriteY
+		str r6,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		add r2,r9,#24
+		str r2,[r1,r10,lsl#2]
+		ldr r1,=spritePriority
+		mov r2,#0
+		str r2,[r1,r10,lsl#2]
+		
+		add r10,#1
+		add r9,#1
+		cmp r9,#6
+	bne kongLeftInitLoop
+
+	mov r9,#0						@ coord pointer
+	
+	kongRightInitLoop:
+	
+		ldr r1,=spriteActive
+		mov r2,#MONSTER_ACTIVE
+		str r2,[r1,r10,lsl#2]
+		
+		ldr r5,=kongRX
+		ldr r6,[r5,r9,lsl#2]
+		ldr r1,=spriteX
+		str r6,[r1,r10,lsl#2]
+		ldr r4,=kongRY
+		ldr r6,[r4,r9,lsl#2]
+		ldr r1,=spriteY
+		str r6,[r1,r10,lsl#2]
+		
+		ldr r1,=spriteObj
+		add r2,r9,#30
+		str r2,[r1,r10,lsl#2]
+		ldr r1,=spritePriority
+		mov r2,#0
+		str r2,[r1,r10,lsl#2]
+		
+		add r10,#1
+		add r9,#1
+		cmp r9,#4
+	bne kongRightInitLoop		
+	
+	bl kongDraw
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Draw know based on frame
+kongDraw:
+
+	@ left arm first
+	stmfd sp!, {r0-r10, lr}
+	
+		ldr r0,=kongLFrame
+		ldr r1,[r0]
+		ldr r0,=FXKongLTiles
+		mov r2,#6
+		mul r1,r2
+		add r0,r1,lsl#8 			@ r0=source
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite (6 sprites)
+		ldr r2,=6*256	
+		bl dmaCopy
+
+		ldr r0,=kongRFrame
+		ldr r1,[r0]
+		ldr r0,=FXKongRTiles
+		lsl r1,#2
+		add r0,r1,lsl#8 			@ r0=source
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#30*256				@ dump at 24th sprite (6 sprites)
+		ldr r2,=4*256	
+		bl dmaCopy	
+	
+	@ need to draw head also... (say, 7 frames looking left right?)
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Update Kong
+kongUpdate:
+
+	@ left arm first
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r0,=kongLDelayL
+	ldr r1,[r0]
+	subs r1,#1
+	movmi r1,#48
+	str r1,[r0]
+	bpl kongNotLeft
+	
+		ldr r0,=kongLFrame
+		ldr r1,[r0]
+		add r1,#1
+		cmp r1,#2
+		moveq r1,#0
+		str r1,[r0]
+
+	kongNotLeft:
+
+	ldr r0,=kongLDelayR
+	ldr r1,[r0]
+	subs r1,#1
+	movmi r1,#40
+	str r1,[r0]
+	bpl kongNotRight
+	
+		ldr r0,=kongRFrame
+		ldr r1,[r0]
+		add r1,#1
+		cmp r1,#2
+		moveq r1,#0
+		str r1,[r0]
+
+	kongNotRight:
+	
+	bl kongDraw
+
+	ldmfd sp!, {r0-r10, pc}
 
 	.pool
 	.data
@@ -1625,3 +1769,21 @@ sparkUpdate:
 	leafFall:
 	.byte 20,20,20,20,14,14,14,14,10,10,8,4,0,0,0,0
 	.byte 0,0,0,0,4,8,10,10,14,14,14,14,20,20,20,20
+	.align
+	kongLX:
+	.word 192,208,192,208,192,208
+	kongLY:
+	.word 448,448,464,464,480,480
+	.align
+	kongRX:
+	.word 224,240,224,240
+	kongRY:
+	.word 434,434,448,448
+	kongLFrame:
+	.word 0
+	kongRFrame:
+	.word 0
+	kongLDelayL:
+	.word 0
+	kongLDelayR:
+	.word 0

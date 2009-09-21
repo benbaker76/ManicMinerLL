@@ -465,6 +465,11 @@ getLevelBackground:
 	ldreq r5,=Background27TilesLen
 	ldreq r6,=Background27Map
 	ldreq r7,=Background27MapLen
+	cmp r0,#28
+	ldreq r4,=Background29Tiles
+	ldreq r5,=Background29TilesLen
+	ldreq r6,=Background29Map
+	ldreq r7,=Background29MapLen
 	cmp r0,#29
 	ldreq r4,=Background30Tiles
 	ldreq r5,=Background30TilesLen
@@ -506,7 +511,7 @@ generateMonsters:
 		cmp r0,#0
 		beq generateMonstersDone
 		ldr r2,=spriteActive
-		mov r3,#1
+		mov r3,#MONSTER_ACTIVE
 		str r3,[r2,r9,lsl#2]	@ activate sprite
 		add r0,#64
 		ldr r2,=spriteX
@@ -625,6 +630,9 @@ generateMonsters:
 	cmp r0,#13
 	ldreq r2, =Snug_xm_gz
 	ldreq r3, =Snug_xm_gz_size
+	cmp r0,#14
+	ldreq r2, =Ghostbusters_xm_gz
+	ldreq r3, =Ghostbusters_xm_gz_size
 
 	bl initMusic
 	
@@ -719,7 +727,8 @@ specialEffectStart:
 		bleq killersInit
 	cmp r0,#FX_SPARK
 		bleq sparkInit
-
+	cmp r0,#FX_KONG
+		bleq kongInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

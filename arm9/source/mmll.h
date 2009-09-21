@@ -70,6 +70,7 @@
 #include "../build/Background23.h"
 #include "../build/Background24.h"
 #include "../build/Background27.h"
+#include "../build/Background29.h"
 #include "../build/Background30.h"
 #include "../build/Background41.h"
 
@@ -135,6 +136,8 @@
 #include "../build/FXBulb.h"
 #include "../build/FXBlinks.h"
 #include "../build/FXSpark.h"
+#include "../build/FXKongL.h"
+#include "../build/FXKongR.h"
 
 @ death animations
 
@@ -317,8 +320,10 @@
 #define FX_BLINKS					12
 #define FX_KILLERS					13
 #define FX_SPARK					14
+#define FX_KONG						15
 
 @ / these are sprite active values used by drawsprite
+#define MONSTER_ACTIVE				128
 #define DUST_ACTIVE					2
 #define KEY_ACTIVE					3
 #define FX_RAIN_ACTIVE				4

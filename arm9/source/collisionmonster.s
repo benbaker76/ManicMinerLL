@@ -57,6 +57,8 @@ collisionMonster:
 		ldr r2,[r2, r10, lsl#2]
 		cmp r2,#0
 		beq colMonFail
+		cmp r2,#MONSTER_ACTIVE
+		bne colMonFail
 
 			ldr r2,=spriteX
 			ldr r2,[r2,r10,lsl#2]
@@ -89,7 +91,7 @@ collisionMonster:
 
 		colMonFail:
 		add r10,#1
-		cmp r10,#72
+		cmp r10,#85
 	bne collisionMonsterCheckLoop
 	
 	ldmfd sp!, {r0-r10, pc}
