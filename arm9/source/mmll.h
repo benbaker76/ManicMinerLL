@@ -141,6 +141,7 @@
 #include "../build/FXKongL.h"
 #include "../build/FXKongR.h"
 #include "../build/FXKHead.h"
+#include "../build/FXScratch.h"
 
 @ death animations
 
@@ -346,7 +347,7 @@
 #define FX_SPARK_ACTIVE				18
 #define FX_EXPLODE_ACTIVE			19
 #define FX_STARBURST_ACTIVE			20
-
+#define FX_SCRATCH_ACTIVE			21
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)

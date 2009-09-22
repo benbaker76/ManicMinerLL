@@ -462,6 +462,9 @@ starsNew:
 		str r8,[r1,r0,lsl#2]	
 	b starsReturn
 	ldmfd sp!, {r0-r10, pc}
+@------------------------------------
+
+.pool
 	
 @------------------------------------ Init leaves
 leafInit:
@@ -1699,6 +1702,14 @@ kongInit:
 	mov r2,#0
 	str r2,[r1,r10,lsl#2]
 	
+	bl kongDraw
+	
+	ldr r0,=FXScratchTiles				@ tiles for dust effects
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#48*256						@ dump at 48th sprite
+	ldr r2,=FXScratchTilesLen
+	bl dmaCopy
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------------ Draw know based on frame
@@ -1733,10 +1744,9 @@ kongDraw:
 		ldr r0,=kongHeadFrame
 		ldr r1,[r0]
 		ldr r0,=FXKHeadTiles
-@		lsl r1,#2
 		add r0,r1,lsl#8 			@ r0=source
 		ldr r1,=SPRITE_GFX_SUB
-		add r1,#39*256				@ dump at 24th sprite (6 sprites)
+		add r1,#39*256				@ dump at 39th sprite (1 sprites)
 		mov r2,#256	
 		bl dmaCopy		
 	@ need to draw head also... (say, 7 frames looking left right?)
@@ -1800,8 +1810,84 @@ kongUpdate:
 	kongNotHead:	
 	
 	bl kongDraw
+	
+	@ now we need some kind of film effect?
+	
+	bl getRandom
+	and r8,#3
+	
+	ldr r2,=SUB_BLEND_Y
+	str r8,[r2]
+	ldr r0, =SUB_BLEND_CR
+	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
+	strh r1, [r0]	
+	
+	bl getRandom
+	and r8,#0xFF
+	cmp r8,#16
+	bpl skipKongMarks
+	
+		@ ok, generate a random mark on the screen
+		bl spareSpriteFX
+		cmp r10,#0
+		beq skipKongMarks
+		
+		bl	kongDust
+
+	
+	skipKongMarks:
 
 	ldmfd sp!, {r0-r10, pc}
+
+@---------------------------------
+
+kongDust:
+	stmfd sp!, {r0-r10, lr}
+	
+		@ Generate dust (frame is 24-27)
+		
+		bl getRandom
+		and r8,#3
+		add r9,r8,#48
+
+		ldr r1,=spriteActive
+		mov r2,#FX_SCRATCH_ACTIVE
+		str r2,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		str r9,[r1,r10,lsl#2]
+		
+		bl getRandom				@ r8 returned
+		ldr r7,=0x1FF
+		and r8,r7
+		add r8,#64
+		ldr r1,=spriteX
+		str r8,[r1,r10,lsl#2]		@ store X	0-255
+		
+		bl getRandom				@ r8 returned
+		and r8,#0xFF
+		lsr r8,#2
+		mov r3,#3
+		mul r8,r3
+		cmp r8,#48
+		addlt r8,#120
+		add r8,#384
+		ldr r1,=spriteY
+		str r8,[r1,r10,lsl#2]		@ store y	0-191
+		ldr r1,=spritePriority
+		mov r8,#1
+		str r8,[r1,r10,lsl#2]		
+	
+		bl getRandom
+		and r8,#1
+		ldr r1,=spriteHFlip
+		str r8,[r1,r10,lsl#2]
+	
+		mov r8,#8
+		ldr r1,=spriteAnimDelay
+		str r8,[r1,r10,lsl#2]
+	
+	
+	ldmfd sp!, {r0-r10, pc}	
 
 	.pool
 	.data

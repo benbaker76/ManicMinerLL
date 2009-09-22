@@ -466,6 +466,30 @@ drawSprite:
 				ldr r1,=spriteActive
 				str r2,[r1,r10,lsl#2]
 		drawNotExplode:
+		cmp r0,#FX_SCRATCH_ACTIVE
+		bne drawNotScratch
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			str r2,[r1,r10,lsl #2]
+			cmp r2,#0
+			beq drawScratch2
+			
+				ldr r1,=spriteY
+				ldr r2,[r1,r10,lsl #2]
+				bl getRandom
+				and r8,#1
+				add r2,r8
+			@	str r2,[r1,r10,lsl #2]
+			
+			
+			b drawNotScratch
+			drawScratch2:
+				@ kill it
+				mov r2,#0
+				ldr r1,=spriteActive
+				str r2,[r1,r10,lsl#2]
+		drawNotScratch:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
