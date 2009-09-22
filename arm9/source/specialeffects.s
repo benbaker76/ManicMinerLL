@@ -1759,7 +1759,7 @@ kongUpdate:
 		ldr r0,=kongLFrame
 		ldr r1,[r0]
 		add r1,#1
-		cmp r1,#2
+		cmp r1,#6
 		moveq r1,#0
 		str r1,[r0]
 
