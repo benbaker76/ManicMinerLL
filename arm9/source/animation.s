@@ -526,7 +526,8 @@ flipSwitch:
 	ldr r8,[r8]
 	cmp r8,#15
 	beq flipSwitchWallDestroy
-	
+	cmp r8,#25
+	beq flipSwitchWallDestroy
 	
 	@ now, flip the conveyors (ulp) (DEFAULT action)
 	

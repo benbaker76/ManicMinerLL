@@ -69,6 +69,7 @@
 #include "../build/Background22.h"
 #include "../build/Background23.h"
 #include "../build/Background24.h"
+#include "../build/Background25.h"
 #include "../build/Background27.h"
 #include "../build/Background29.h"
 #include "../build/Background30.h"
