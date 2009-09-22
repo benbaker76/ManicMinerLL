@@ -1762,7 +1762,7 @@ kongUpdate:
 	ldr r0,=kongLDelayL
 	ldr r1,[r0]
 	subs r1,#1
-	movmi r1,#40
+	movmi r1,#28
 	str r1,[r0]
 	bpl kongNotLeft
 	
@@ -1778,7 +1778,7 @@ kongUpdate:
 	ldr r0,=kongLDelayR
 	ldr r1,[r0]
 	subs r1,#1
-	movmi r1,#18
+	movmi r1,#14
 	str r1,[r0]
 	bpl kongNotRight
 	
@@ -1814,7 +1814,9 @@ kongUpdate:
 	@ now we need some kind of film effect?
 	
 	bl getRandom
-	and r8,#3
+	and r8,#7
+	cmp r8,#4
+	subge r8,#4
 	
 	ldr r2,=SUB_BLEND_Y
 	str r8,[r2]
@@ -1824,7 +1826,7 @@ kongUpdate:
 	
 	bl getRandom
 	and r8,#0xFF
-	cmp r8,#16
+	cmp r8,#24
 	bpl skipKongMarks
 	
 		@ ok, generate a random mark on the screen
@@ -1882,7 +1884,7 @@ kongDust:
 		ldr r1,=spriteHFlip
 		str r8,[r1,r10,lsl#2]
 	
-		mov r8,#8
+		mov r8,#10
 		ldr r1,=spriteAnimDelay
 		str r8,[r1,r10,lsl#2]
 	

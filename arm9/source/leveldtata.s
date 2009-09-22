@@ -307,12 +307,12 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 25 / goonies
-	.byte 232,168,3,158,48,0,24,24
+	.byte 232,136,4,158,48,0,24,24
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 24,80,0,17,1,40,24,104
+	.byte 24,168,0,1,1,39,8,128
+	.byte 152,108,16,16,255,38,72,132
+	.byte 184,72,0,16,255,38,72,108
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -1119,7 +1119,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	@ Movies
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "    ORIGINAL - LOBO 2009    "
-	.ascii "                            "
+	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "     SPACE FRACTAL 2009     "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "    ORIGINAL - LOBO 2009    "

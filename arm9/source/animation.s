@@ -612,6 +612,9 @@ flipSwitch:
 	
 	@ if r8<>0, make an explosion sound!!!!
 	
+	cmp r8,#0
+	blne playExplode
+	
 	b flipSwitchDone
 	
 @------------------------------------------- Draw effect at offset r0
