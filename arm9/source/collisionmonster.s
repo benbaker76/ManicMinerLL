@@ -55,8 +55,6 @@ collisionMonster:
 
 		ldr r2,=spriteActive
 		ldr r2,[r2, r10, lsl#2]
-		cmp r2,#0
-		beq colMonFail
 		cmp r2,#MONSTER_ACTIVE
 		bne colMonFail
 

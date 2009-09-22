@@ -91,7 +91,9 @@
 #include "../build/Exit22.h"
 #include "../build/Exit23.h"
 #include "../build/Exit24.h"
+#include "../build/Exit25.h"
 #include "../build/Exit27.h"
+#include "../build/Exit29.h"
 #include "../build/Exit30.h"
 
 #include "../build/TopMenu.h"
@@ -343,6 +345,8 @@
 #define FX_BLINKS_ACTIVE			17
 #define FX_SPARK_ACTIVE				18
 #define FX_EXPLODE_ACTIVE			19
+#define FX_STARBURST_ACTIVE			20
+
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)

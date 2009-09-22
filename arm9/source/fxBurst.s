@@ -46,18 +46,22 @@ fxStarburstInit:
 	ldr r0,=220
 	str r0,[r1]
 
-	ldr r4, =spriteX+324
-	ldr r5, =spriteY+324
-	ldr r6, =spriteSpeed+324
-	ldr r11, =spriteDir+324
-	ldr r9,=spriteActive+324
-	ldr r10,=spriteObj+324
-	ldr r12,=spritePriority+324
+	ldr r4, =spriteX+0
+	ldr r5, =spriteY+0
+	ldr r6, =spriteSpeed+0
+	ldr r11, =spriteDir+0
+	ldr r9,=spriteActive+0
+	ldr r10,=spriteObj+0
+	ldr r12,=spritePriority+0
 	ldr r7,=0x1ff
 	ldr r1,=0x8ff
 
-	mov r3,#46							@ amount of stars
+	mov r3,#127							@ amount of stars
 	starburstloopMulti:
+	
+		ldr r8,[r9, r3, lsl#2]
+		cmp r8,#0
+		bne starburstLoopSkip
 	
 		ldr r8,=exitX
 		ldr r8,[r8]
@@ -80,7 +84,7 @@ fxStarburstInit:
 		add r8,#2048
 		str r8, [r6, r3, lsl #2] 						@ Store Speed
 		
-		mov r8,#1										@ sprite active
+		mov r8,#FX_STARBURST_ACTIVE						@ sprite active
 		str r8, [r9, r3, lsl #2]
 		
 		bl getRandom
@@ -91,20 +95,22 @@ fxStarburstInit:
 		mov r8,#2										@ priority
 		str r8, [r12,r3, lsl #2]
 		
-		ldr r1,=spriteMax+324							@ time to live!
+		ldr r1,=spriteMax+0							@ time to live!
 		bl getRandom
 		lsr r8,#12
 		add r8,#0x20000
 		str r8,[r1, r3, lsl #2]
 
-		ldr r1,=spriteMin+324							@ time to live!
+		ldr r1,=spriteMin+0							@ time to live!
 		bl getRandom
 		and r8,#127
 		str r8,[r1, r3, lsl #2]
 
-		ldr r1,=spriteAnimDelay+324
+		ldr r1,=spriteAnimDelay+0
 		mov r8,#burstAnimDelay
 		str r8,[r1, r3, lsl #2]
+		
+		starburstLoopSkip:
 
 		subs r3, #1	
 	bpl starburstloopMulti
@@ -117,14 +123,19 @@ fxMoveStarburst:
 	stmfd sp!, {r0-r12, lr}
 
 
-	ldr r4, =spriteSpeed+324
-	ldr r2, =spriteX+324
-	ldr r3, =spriteY+324
+	ldr r4, =spriteSpeed+0
+	ldr r2, =spriteX+0
+	ldr r3, =spriteY+0
 	
-	mov r10,#46
+	mov r10,#127
 	
 moveStarburstLoop:
-	ldr r0,=spriteDir+324
+	ldr r0,=spriteActive+0
+	ldr r0,[r0, r10, lsl #2]
+	cmp r0,#FX_STARBURST_ACTIVE
+	bne burstSkip
+	
+	ldr r0,=spriteDir+0
 	ldr r0,[r0, r10, lsl #2]
 	lsl r0,#1
 	ldr r7,=COS_bin
@@ -151,7 +162,7 @@ moveStarburstLoop:
 	
 	@ now add gravity to y
 	
-	ldr r7,=spriteMin+324							@ add to gravity
+	ldr r7,=spriteMin+0							@ add to gravity
 	ldr r5,[r7, r10, lsl #2]
 @	ldr r8,=512
 @	sub r8,r6
@@ -170,7 +181,7 @@ moveStarburstLoop:
 
 	str r1, [r3, r10, lsl #2]						@ store y 20.12
 	
-	ldr r7,=spriteMax+324
+	ldr r7,=spriteMax+0
 	ldr r1,[r7, r10, lsl #2]
 	subs r1,r6
 	subs r1,r5
@@ -180,14 +191,14 @@ moveStarburstLoop:
 	burstOver:
 	
 	@ animate
-	ldr r7,=spriteAnimDelay+324
+	ldr r7,=spriteAnimDelay+0
 	ldr r6,[r7, r10, lsl #2]
 	subs r6,#1
 	movmi r6,#burstAnimDelay
 	str r6,[r7, r10, lsl #2]
 	bpl burstSkip
 	
-		ldr r7,=spriteObj+324
+		ldr r7,=spriteObj+0
 		ldr r6,[r7,r10,lsl#2]
 		add r6,#1
 		cmp r6,#burstFrameEnd+1
@@ -212,7 +223,7 @@ burstRegenerate:
 		ldr r8,=burstLength
 		ldr r8,[r8]
 		cmp r8,#0
-		ldreq r8,=spriteActive+324
+		ldreq r8,=spriteActive+0
 		moveq r7,#0
 		streq r7,[r8,r10,lsl#2]
 		beq burstOver
@@ -229,23 +240,23 @@ burstRegenerate:
 		bl getRandom									@ generate direction
 		and r8, #127
 		add r8, #320
-		ldr r0,=spriteDir+324
+		ldr r0,=spriteDir+0
 		str r8, [r0, r10, lsl #2]
 
 		bl getRandom									@ generate speed
 		ldr r6,=0x7ff
 		and r8, r6	
 		add r8,#2048
-		ldr r0,=spriteSpeed+324
+		ldr r0,=spriteSpeed+0
 		str r8, [r0, r10, lsl #2] 						@ Store Speed
 
-		ldr r0,=spriteMax+324							@ time to live!
+		ldr r0,=spriteMax+0							@ time to live!
 		bl getRandom
 		lsr r8,#12
 		add r8,#0x60000
 		str r8,[r0, r10, lsl #2]
 
-		ldr r0,=spriteMin+324							@ gravity
+		ldr r0,=spriteMin+0							@ gravity
 		bl getRandom
 		and r8,#127
 		str r8,[r0, r10, lsl #2]

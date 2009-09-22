@@ -1671,7 +1671,7 @@ kongInit:
 		
 		add r10,#1
 		add r9,#1
-		cmp r9,#4
+		cmp r9,#8
 	bne kongRightInitLoop		
 	
 	bl kongDraw
@@ -1721,11 +1721,11 @@ kongDraw:
 		ldr r0,=kongRFrame
 		ldr r1,[r0]
 		ldr r0,=FXKongRTiles
-		lsl r1,#2
+		lsl r1,#3
 		add r0,r1,lsl#8 			@ r0=source
 		ldr r1,=SPRITE_GFX_SUB
-		add r1,#30*256				@ dump at 24th sprite (6 sprites)
-		ldr r2,=4*256	
+		add r1,#30*256				@ dump at 30th sprite (8 sprites)
+		ldr r2,=8*256	
 		bl dmaCopy	
 		
 		@ do head
@@ -1752,7 +1752,7 @@ kongUpdate:
 	ldr r0,=kongLDelayL
 	ldr r1,[r0]
 	subs r1,#1
-	movmi r1,#48
+	movmi r1,#40
 	str r1,[r0]
 	bpl kongNotLeft
 	
@@ -1768,14 +1768,14 @@ kongUpdate:
 	ldr r0,=kongLDelayR
 	ldr r1,[r0]
 	subs r1,#1
-	movmi r1,#40
+	movmi r1,#18
 	str r1,[r0]
 	bpl kongNotRight
 	
 		ldr r0,=kongRFrame
 		ldr r1,[r0]
 		add r1,#1
-		cmp r1,#2
+		cmp r1,#6
 		moveq r1,#0
 		str r1,[r0]
 
@@ -1832,9 +1832,9 @@ kongUpdate:
 	.word 448,448,464,464,480,480
 	.align
 	kongRX:
-	.word 224,240,224,240
+	.word 224,240,224,240,224,240,224,240
 	kongRY:
-	.word 434,434,448,448
+	.word 434,434,448,448,464,464,480,480
 	kongLFrame:
 	.word 0
 	kongRFrame:
