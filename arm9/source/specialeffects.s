@@ -1618,6 +1618,22 @@ sparkUpdate:
 kongInit:
 	stmfd sp!, {r0-r10, lr}
 
+	mov r0,#0
+	ldr r1,=flickerDelay
+	str r0,[r1]
+	ldr r1,=kongLFrame
+	str r0,[r1]
+	ldr r1,=kongRFrame
+	str r0,[r1]
+	ldr r1,=kongHeadFrame
+	str r0,[r1]
+	ldr r1,=kongLDelayL
+	str r0,[r1]
+	ldr r1,=kongLDelayR
+	str r0,[r1]
+	ldr r1,=kongDelayHead
+	str r0,[r1]
+
 	@ draw the sprites to screen
 	mov r10,#72						@ sprite counter
 	mov r9,#0						@ coord pointer
@@ -1813,6 +1829,13 @@ kongUpdate:
 	
 	@ now we need some kind of film effect?
 	
+	ldr r1,=flickerDelay
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#3
+	str r0,[r1]
+	bpl skipKongFlicker
+	
 	bl getRandom
 	and r8,#7
 	cmp r8,#4
@@ -1824,9 +1847,11 @@ kongUpdate:
 	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
 	strh r1, [r0]	
 	
+	skipKongFlicker:
+	
 	bl getRandom
 	and r8,#0xFF
-	cmp r8,#24
+	cmp r8,#48
 	bpl skipKongMarks
 	
 		@ ok, generate a random mark on the screen
@@ -1884,7 +1909,9 @@ kongDust:
 		ldr r1,=spriteHFlip
 		str r8,[r1,r10,lsl#2]
 	
-		mov r8,#10
+		bl getRandom
+		and r8,#7
+		add r8,#6
 		ldr r1,=spriteAnimDelay
 		str r8,[r1,r10,lsl#2]
 	
@@ -1934,4 +1961,6 @@ kongDust:
 	kongLDelayR:
 	.word 0
 	kongDelayHead:
+	.word 0
+	flickerDelay:
 	.word 0
