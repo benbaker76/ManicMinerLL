@@ -310,7 +310,9 @@ getDoorSprite:
 	cmp r0,#24
 	ldreq r0, =Exit25Tiles
 	ldreq r2, =Exit25TilesLen
-	
+	cmp r0,#25
+	ldreq r0, =Exit26Tiles
+	ldreq r2, =Exit26TilesLen
 	cmp r0,#26
 	ldreq r0, =Exit27Tiles
 	ldreq r2, =Exit27TilesLen
@@ -356,6 +358,13 @@ getDoorSprite:
 	mov r3,#4
 	ldr r1,=spriteAnimDelay
 	str r3,[r1,r0,lsl#2]
+	
+	ldr r8,=levelNum
+	ldr r9,[r8]
+	cmp r9,#26
+	ldreq r1,=spritePriority
+	moveq r3,#3
+	streq r3,[r1,r0,lsl#2]
 	
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -470,6 +479,11 @@ getLevelBackground:
 	ldreq r5,=Background25TilesLen
 	ldreq r6,=Background25Map
 	ldreq r7,=Background25MapLen
+	cmp r0,#25
+	ldreq r4,=Background26Tiles
+	ldreq r5,=Background26TilesLen
+	ldreq r6,=Background26Map
+	ldreq r7,=Background26MapLen
 	cmp r0,#26
 	ldreq r4,=Background27Tiles
 	ldreq r5,=Background27TilesLen
