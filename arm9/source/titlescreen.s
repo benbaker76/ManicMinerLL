@@ -267,12 +267,12 @@ titleNextScreen:
 	ldr r0,=levelNum
 	ldr r1,[r0]
 	add r1,#1
-	cmp r1,#33
-	moveq r1,#0
-	beq skipMissLevels
+@	cmp r1,#33
+@	moveq r1,#0
+@	beq skipMissLevels
 		cmp r1,#LEVEL_COUNT+1
-		moveq r1,#23
-	skipMissLevels:
+		moveq r1,#0
+@	skipMissLevels:
 	str r1,[r0]
 
 		cmp r1,#0				@ level 0 is used to title screen graphic

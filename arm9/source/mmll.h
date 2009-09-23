@@ -38,6 +38,7 @@
 #include "../build/Level17.h"
 #include "../build/Level18.h"
 #include "../build/Level19.h"
+#include "../build/Level20.h"
 #include "../build/Level21.h"
 #include "../build/Level22.h"
 #include "../build/Level23.h"
@@ -273,7 +274,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					19
+#define LEVEL_COUNT					32
 
 @ Fade values
 

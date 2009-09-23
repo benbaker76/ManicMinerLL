@@ -41,12 +41,12 @@ levelNext:
 	ldr r0,=levelNum
 	ldr r1,[r0]
 	add r1,#1
-	cmp r1,#33
-	moveq r1,#1
-	beq skippy
+@	cmp r1,#33
+@	moveq r1,#1
+@	beq skippy
 	cmp r1,#LEVEL_COUNT+1
-	moveq r1,#23
-skippy:
+	moveq r1,#1
+@skippy:
 	str r1,[r0]
 	
 	bl initSprites
