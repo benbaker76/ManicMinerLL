@@ -490,6 +490,119 @@ drawSprite:
 				ldr r1,=spriteActive
 				str r2,[r1,r10,lsl#2]
 		drawNotScratch:
+		cmp r0,#FX_METEOR_ACTIVE
+		bne drawNotMeteor
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			subs r2,#1
+			movmi r2,#METEOR_ANIM
+			str r2,[r1,r10,lsl #2]
+			bpl drawNotMeteorAnim
+			
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#METEOR_FRAME_END+1
+				moveq r2,#METEOR_FRAME
+				str r2,[r1,r10,lsl #2]
+			
+			drawNotMeteorAnim:
+
+			@ move meteor
+			
+			ldr r1,=spriteY
+			ldr r2,[r1,r10,lsl #2]
+			add r2,#1
+			str r2,[r1,r10,lsl #2]
+			
+			@check colmap
+			@ now check for a platform (not 0, and <24) r2=y
+			ldr r1,=spriteX
+			ldr r1,[r1,r10,lsl #2]
+			sub r1,#64
+			add r1,#4
+			lsr r1,#3
+			
+			sub r2,#384
+			lsr r2,#3
+			lsl r2,#5
+			add r2,r1				@ r2=offset
+			add r2,#64
+			ldr r1,=colMapStore
+			ldrb r0,[r1,r2]
+			cmp r0,#0
+			beq drawNotMeteor
+			cmp r0,#64
+			bge meteorHitFloor
+			cmp r0,#24
+			bge drawNotMeteor
+				
+				meteorHitFloor:
+				@	ok, we have hit a platform, convert to explosion
+				ldr r1,=spriteY
+				ldr r2,[r1,r10,lsl#2]
+				lsr r2,#3
+				lsl r2,#3
+				str r2,[r1,r10,lsl#2]
+				
+				ldr r1,=spriteObj
+				mov r2,#METEOREXP_FRAME
+				str r2,[r1,r10,lsl#2]
+				ldr r1,=spriteActive
+				mov r2,#FX_METEORCRASH_ACTIVE
+				str r2,[r1,r10,lsl#2]
+				ldr r1,=spriteAnimDelay
+				mov r2,#METEOREXP_ANIM
+				str r2,[r1,r10,lsl#2]
+				
+			@	bl playExplode
+		drawNotMeteor:
+		cmp r0,#FX_METEORCRASH_ACTIVE
+		bne drawNotMCrash
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			subs r2,#1
+			movmi r2,#METEOREXP_ANIM
+			str r2,[r1,r10,lsl #2]
+			bpl drawNotMCrash
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				str r2,[r1,r10,lsl #2]
+				cmp r2,#METEOREXP_FRAME_END+1
+				bne drawNotMCrash
+				
+					@ get next pos and init another meteor
+					
+					mov r2,#METEOR_FRAME				@ reset image
+					str r2,[r1,r10,lsl#2]
+
+					ldr r1,=spriteActive
+					mov r0,#FX_METEOR_ACTIVE
+					str r0,[r1,r10,lsl#2]
+		
+					ldr r1,=meteorPhase
+					ldr r0,[r1]
+					add r0,#1
+					cmp r0,#16
+					moveq r0,#0
+					str r0,[r1]
+					ldr r1,=meteorDrops
+					ldr r2,[r1,r0, lsl #2]
+					lsl r2,#3
+					add r2,#60
+					ldr r1,=spriteX
+					str r2,[r1,r10,lsl#2]
+		
+					ldr r1,=spriteY
+					mov r0,#28+384
+					str r0,[r1,r10,lsl#2]
+		
+					ldr r1,=spriteAnimDelay
+					mov r0,#METEOR_ANIM
+					str r0,[r1,r10,lsl#2]
+		drawNotMCrash:
+
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

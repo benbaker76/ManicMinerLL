@@ -263,15 +263,6 @@ dmaCircle:
 
 	stmfd sp!, {r0-r4, lr}
 	
-	@bl DC_FlushAll							@ Flush the cache for the dma copy
-	
-	@mov r0, #0								@ Dma channel
-	@ldr r1, =winh							@ Table with our window values (source)
-	@add r1, #2								@ &winh[1]
-	@ldr r2, =REG_WIN0H						@ Horizontal window register (dest)
-	@mov r3, #1								@ Count
-	@ldr r4, =(DMA_ENABLE | DMA_REPEAT | DMA_START_HBL | DMA_DST_RESET)
-	
 	bl DC_FlushAll							@ Flush the cache for the dma copy
 	
 	mov r0, #1								@ Dma channel

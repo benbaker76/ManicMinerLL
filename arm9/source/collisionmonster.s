@@ -49,14 +49,20 @@ collisionMonster:
 	ldr r1,=spriteY+256
 	ldr r1,[r1]					@ player y
 	
-	mov r10,#65					@ monster number (65-71)
+	mov r10,#65					@ monster number (65-84)
 	
 	collisionMonsterCheckLoop:
 
 		ldr r2,=spriteActive
 		ldr r2,[r2, r10, lsl#2]
 		cmp r2,#MONSTER_ACTIVE
+		beq colMonPass
+		cmp r2,#FX_METEOR_ACTIVE
 		bne colMonFail
+	@	cmp r2,#FX_METEORCRASH_ACTIVE
+	@	bne colMonFail
+		
+		colMonPass:
 
 			ldr r2,=spriteX
 			ldr r2,[r2,r10,lsl#2]

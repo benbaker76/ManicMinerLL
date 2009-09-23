@@ -643,7 +643,9 @@ generateMonsters:
 	cmp r0,#14
 	ldreq r2, =Ghostbusters_xm_gz
 	ldreq r3, =Ghostbusters_xm_gz_size
-
+	cmp r0,#15
+	ldreq r2, =Goonies_xm_gz
+	ldreq r3, =Goonies_xm_gz_size
 	bl initMusic
 	
 	levelMusicFail:
@@ -739,6 +741,8 @@ specialEffectStart:
 		bleq sparkInit
 	cmp r0,#FX_KONG
 		bleq kongInit
+	cmp r0,#FX_METEOR
+		bleq meteorInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

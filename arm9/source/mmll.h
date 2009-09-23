@@ -35,6 +35,9 @@
 #include "../build/Level14.h"
 #include "../build/Level15.h"
 #include "../build/Level16.h"
+#include "../build/Level17.h"
+#include "../build/Level18.h"
+#include "../build/Level19.h"
 #include "../build/Level21.h"
 #include "../build/Level22.h"
 #include "../build/Level23.h"
@@ -143,6 +146,7 @@
 #include "../build/FXKongR.h"
 #include "../build/FXKHead.h"
 #include "../build/FXScratch.h"
+#include "../build/FXMeteor.h"
 
 @ death animations
 
@@ -269,7 +273,7 @@
 
 @ Levels
 
-#define LEVEL_COUNT					16
+#define LEVEL_COUNT					19
 
 @ Fade values
 
@@ -326,6 +330,7 @@
 #define FX_KILLERS					13
 #define FX_SPARK					14
 #define FX_KONG						15
+#define FX_METEOR					16
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128
@@ -349,6 +354,9 @@
 #define FX_EXPLODE_ACTIVE			19
 #define FX_STARBURST_ACTIVE			20
 #define FX_SCRATCH_ACTIVE			21
+#define FX_METEOR_ACTIVE			22
+#define FX_METEORCRASH_ACTIVE		23
+#define FX_STARDUST_ACTIVE			24
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -415,6 +423,18 @@
 #define EXPLODE_FRAME				48
 #define EXPLODE_FRAME_END			51
 #define EXPLODE_ANIM				4
+
+#define METEOR_FRAME				24
+#define METEOR_FRAME_END			27
+#define METEOR_ANIM					8
+#define METEOREXP_FRAME				28
+#define METEOREXP_FRAME_END			35
+#define METEOREXP_ANIM				4
+#define FORCEF_FRAME				36
+#define FORCEF_FRAME_END			39
+#define FORCEF_ANIM					2
+#define FORCEF_DELAY				75
+#define STARDUST_FRAME				40
 
 @ level defines
 

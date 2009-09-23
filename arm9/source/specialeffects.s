@@ -67,6 +67,10 @@
 	.global sparkInit
 	
 	.global kongInit
+	
+	.global meteorInit
+	.global meteorPhase
+	.global meteorDrops
 
 	.global specialFXStop
 
@@ -101,6 +105,8 @@ updateSpecialFX:
 	bleq sparkUpdate
 	cmp r0,#FX_KONG
 	bleq kongUpdate
+	cmp r0,#FX_METEOR
+	bleq meteorUpdate
 
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -756,7 +762,7 @@ glintUpdate:
 	ldmfd sp!, {r0-r10, pc}
 	
 	
-	
+.pool	
 @------------------------------------ Init Drip
 dripInit:
 	stmfd sp!, {r0-r10, lr}
@@ -1484,6 +1490,8 @@ killersUpdate:
 			ldrb r2,[r1,r0]
 			cmp r2,#64
 			blt killerLoopSkip
+			cmp r2,#69
+			bgt killerLoopSkip
 			
 			add r2,#1
 			cmp r2,#69
@@ -1527,6 +1535,8 @@ sparkInit:
 		bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
+	
+.pool
 
 @------------------------------------ Update Spark
 sparkUpdate:
@@ -1851,7 +1861,7 @@ kongUpdate:
 	
 	bl getRandom
 	and r8,#0xFF
-	cmp r8,#48
+	cmp r8,#64
 	bpl skipKongMarks
 	
 		@ ok, generate a random mark on the screen
@@ -1918,6 +1928,291 @@ kongDust:
 	
 	ldmfd sp!, {r0-r10, pc}	
 
+@------------------------------------ Meteor Init
+meteorInit:
+	stmfd sp!, {r0-r10, lr}
+	
+	@ Load the eyes sprites (FXEyes)
+
+	
+		ldr r0,=FXMeteorTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXMeteorTilesLen
+		bl dmaCopy
+		
+		ldr r1,=meteorPhase
+		mov r0,#0
+		str r0,[r1]
+		ldr r1,=forcefState
+		mov r0,#1
+		str r0,[r1]
+		ldr r1,=forcefDelay
+		ldr r0,=FORCEF_DELAY
+		str r0,[r1]
+		
+		mov r10,#84					@ 84th sprite is our meteor
+		
+		ldr r1,=spriteActive
+		mov r0,#FX_METEOR_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		
+		ldr r1,=meteorDrops
+		ldr r0,[r1]
+		lsl r0,#3
+		add r0,#60
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		
+		ldr r1,=spriteY
+		mov r0,#28+384
+		str r0,[r1,r10,lsl#2]
+		
+		ldr r1,=spriteObj
+		mov r0,#METEOR_FRAME
+		str r0,[r1,r10,lsl#2]
+		
+		ldr r1,=spriteAnimDelay
+		mov r0,#METEOR_ANIM
+		str r0,[r1,r10,lsl#2]
+
+		ldr r1,=spritePriority
+		mov r0,#2
+		str r0,[r1,r10,lsl#2]
+		
+		@ now init 4 force fields
+
+		mov r10,#80					@ 80th sprite is our force field
+		
+		ldr r1,=spriteActive
+		mov r0,#MONSTER_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		mov r0,#128+24
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteY
+		mov r0,#96+384
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		mov r0,#FORCEF_FRAME
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		add r10,#1
+		ldr r1,=spriteActive
+		mov r0,#MONSTER_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		mov r0,#128+96
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteY
+		mov r0,#96+384
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		mov r0,#FORCEF_FRAME
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		add r10,#1
+		ldr r1,=spriteActive
+		mov r0,#MONSTER_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		mov r0,#128+24
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteY
+		mov r0,#128+384
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		mov r0,#FORCEF_FRAME
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		add r10,#1
+		ldr r1,=spriteActive
+		mov r0,#MONSTER_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		mov r0,#128+96
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteY
+		mov r0,#128+384
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		mov r0,#FORCEF_FRAME
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		
+		@ ok, now we need some star dust
+		
+	mov r0,#62
+	starDInitLoop:
+		ldr r1,=spriteActive
+		mov r2,#FX_STARDUST_ACTIVE
+		str r2,[r1,r0,lsl#2]
+		ldr r1,=spriteObj
+		mov r2,#STARDUST_FRAME			@ object for stars
+		str r2,[r1,r0,lsl#2]
+		
+		bl getRandom				@ r8 returned
+		ldr r7,=0x1FF				@ and with 256
+		and r8,r7
+		add r8,#64
+		lsl r8,#12
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		bl getRandom				@ r8 returned
+		and r8,#0xFF
+		lsr r8,#2
+		mov r3,#3
+		mul r8,r3
+		add r8,#384+48
+		lsl r8,#12
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store y	0-191
+		bl getRandom
+		lsr r8,#20
+		add r8,#1024
+		ldr r1,=spriteSpeed
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]
+
+	subs r0,#1
+	bpl starDInitLoop
+
+
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Meteor Update
+meteorUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	mov r10,#80
+	
+	meteorUpdateLoop:				@ animate force field
+		
+		ldr r1,=spriteAnimDelay
+		ldr r0,[r1,r10,lsl#2]
+		subs r0,#1
+		movmi r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		bpl meteorPass
+			ldr r1,=spriteObj
+			ldr r0,[r1,r10,lsl#2]
+			add r0,#1
+			cmp r0,#FORCEF_FRAME_END+1
+			moveq r0,#FORCEF_FRAME
+			str r0,[r1,r10,lsl#2]
+		meteorPass:
+		add r10,#1
+		cmp r10,#84
+	bne meteorUpdateLoop
+	
+	ldr r1,=forcefDelay
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#FORCEF_DELAY
+	str r0,[r1]
+	bpl meteorUpdateDone
+	
+		ldr r1,=forcefState
+		ldr r0,[r1]
+		cmp r0,#0
+		moveq r0,#1
+		movne r0,#0
+		str r0,[r1]
+		
+		beq forcefOn
+		
+		@ force off
+		
+			mov r10,#80
+			mov r0,#0
+			ldr r1,=spriteActive
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]		
+			b meteorUpdateDone
+		
+		forcefOn:
+	
+		@ force on
+			mov r10,#80
+			mov r0,#MONSTER_ACTIVE
+			ldr r1,=spriteActive
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]	
+	
+	meteorUpdateDone:
+	
+	@ now update them stars
+
+	mov r0,#62
+	starDUpdateLoop:
+		ldr r1,=spriteActive
+		ldr r2,[r1,r0,lsl#2]
+		cmp r2,#FX_STARDUST_ACTIVE
+		bne starDReturn
+		
+		ldr r1,=spriteSpeed
+		ldr r2,[r1,r0,lsl#2]			@ r3=speed
+		
+		ldr r1,=spriteY
+		ldr r3,[r1,r0,lsl#2]			@ y coord
+		add r3,r2
+		mov r4,#192+384
+		lsl r4,#12
+		cmp r3,r4
+		bge starDNew
+		str r3,[r1,r0,lsl#2]
+
+
+		starDReturn:
+	subs r0,#1
+	bpl starDUpdateLoop
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+starDNew:
+		ldr r8,=32+384
+		lsl r8,#12
+		ldr r1,=spriteY
+		str r8,[r1,r0,lsl#2]		@ store Y	32
+		bl getRandom				@ r8 returned
+		and r8,#0xFF
+		add r8,#64
+		lsl r8,#12
+		ldr r1,=spriteX
+		str r8,[r1,r0,lsl#2]		@ store X	0-255
+		bl getRandom
+		lsr r8,#20
+		add r8,#1024
+		ldr r1,=spriteSpeed
+		str r8,[r1,r0,lsl#2]
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1,r0,lsl#2]	
+	b starDReturn
+	ldmfd sp!, {r0-r10, pc}
+	
+@--------------
+
 	.pool
 	.data
 	.align
@@ -1926,7 +2221,14 @@ kongDust:
 	.word 0
 	killerFrame:
 	.word 0,1,2,1,0
-
+	meteorPhase:
+	.word 0
+	meteorDrops:
+	.word 4,27,8,10,22,29,2,24,5,23,7,25,11,28,21,3
+	forcefState:
+	.word 0					@ 0=off 1=on
+	forcefDelay:
+	.word 0
 	
 	lightningFlash:
 	.word 0
