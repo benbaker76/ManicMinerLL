@@ -2224,7 +2224,7 @@ starDNew:
 	meteorPhase:
 	.word 0
 	meteorDrops:
-	.word 4,27,8,10,22,29,2,24,5,23,7,25,11,28,21,3
+	.word 4,27,8,9,22,29,2,24,5,23,7,25,10,28,21,3
 	forcefState:
 	.word 0					@ 0=off 1=on
 	forcefDelay:
