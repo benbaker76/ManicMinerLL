@@ -98,6 +98,7 @@
 	.global switchX
 	.global switchY
 	.global switchOn
+	.global levelWraps
 	
 	.global specialEffect
 	
@@ -112,6 +113,8 @@ air:
 airDelay:
 	.word 0
 musicRestart:
+	.word 0
+levelWraps:
 	.word 0
 	
 cheatMode:

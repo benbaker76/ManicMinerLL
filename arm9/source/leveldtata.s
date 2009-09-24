@@ -10,16 +10,19 @@
 	
 levelData:
 
-@ 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
-@ 3 then, number of keys to collect 1-15 LOW 4, high 4 = 0-15 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
-@																			(6=Casablanca, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
-@																			(11=reggae, 12=Terminator, 13=Snug, 14=ghostbusters)
+@ XX 1,2 ok, the first 2 bytes are the x/y of the exit (as x/y strict coord - not +384 and 64)
+@ 1 x/y of exit LO=X HI=Y as characters
+@ 2 Tune to play 
+@ 3 0-127 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
+@	(low)					(6=Casablanca, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
+@						(11=reggae, 12=Terminator, 13=Snug, 14=ghostbusters, 15=horror)
+@	high = 0-1 = Wraparound level? 0=no / 1=yes
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
-@											1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
-@											8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
-@											13=animate killer blocks, 14=sparks 15=kong
-@ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=, 2=, 3= )
+@						1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
+@						8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
+@						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
+@ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=exploder, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
 @ "this section is for the monsters only..."
@@ -42,7 +45,7 @@ levelData:
 levelData:
 
 	# 1 / Oric - level 17 - Home at last?
-	.byte 80,144,19,8,168,3,0,0
+	.byte 80,144,1,8,168,3,0,0
 
 	.byte 72,88,17,1,1,17,8,144
 	.byte 104,104,1,1,255,17,104,216
@@ -53,7 +56,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 2 / Oric - Level xx - Airlock
-	.byte 128,104,35,8,104,5,1,1
+	.byte 128,104,2,8,104,5,1,1
 	
 	.byte 16,160,17,1,1,0,16,104
 	.byte 144,168,17,1,1,7,144,232
@@ -64,7 +67,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 3 / GBA - Level xx - Mummy Daddy
-	.byte 224,80,53,218,168,8,2,2
+	.byte 224,80,3,218,168,8,2,2
 	
 	.byte 104,108,1,16,1,16,108,168
 	.byte 56,64,1,16,255,16,64,112
@@ -75,7 +78,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 4 / Oric - level 24 - Hall of the mountain kong
-	.byte 232,168,132,8,168,7,3,3
+	.byte 232,168,8,8,168,7,3,3
 
 	.byte 120,56,1,16,1,18,56,104
 	.byte 50,142,17,17,255,6,8,56
@@ -86,7 +89,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 
 	@ 5 / Oric - level 18 - back to work
-	.byte 232,168,67,6,168,11,4,0
+	.byte 232,168,4,6,168,11,4,0
 
 	.byte 104,168,17,1,255,0,104,144
 	.byte 32,168,17,1,1,0,16,72
@@ -97,7 +100,7 @@ levelData:
 	.byte 144,48,17,1,1,19,144,208
 	
 	@ 6 / Dragon - Level 21 - The dragon users bonus
-	.byte 232,136,181,6,168,13,5,4
+	.byte 232,136,11,6,168,13,5,4
 
 	.byte 172,152,17,17,1,6,148,196
 	.byte 48,144,17,1,1,3,32,88
@@ -108,7 +111,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 7 / Oric - level 28 - not the central cavern
-	.byte 232,168,85,6,168,1,6,37
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 96,112,17,1,1,22,96,138+32
 	.byte 160,168,17,1,2,23,48,232
@@ -119,7 +122,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 8 / oric - level - down the pit
-	.byte 232,168,116,232,56,8,7,6
+	.byte 232,168,7,232,56,8,7,6
 
 	.byte 56,96,1,16,1,24,96,140
 	.byte 136,96,1,16,255,24,96,140
@@ -130,7 +133,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 9 / gba - level xx - metropolis bingo
-	.byte 232,168,21,24,168,15,8,7
+	.byte 232,168,1,24,168,15,8,7
 
 	.byte 24,116,1,16,255,34,48,168
 	.byte 156,88,17,1,255,0,156,196
@@ -141,7 +144,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 10 / Oric - Level 21 - at the centre of the earth
-	.byte 112,112,149,16,168,1,9,9
+	.byte 112,112,9,16,168,1,9,9
 
 	.byte 16,48,1,16,1,12,48,168
 	.byte 232,96,1,16,2,12,96,168
@@ -152,7 +155,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 11 / Dragon 32 - eddies forest
-	.byte 232,72,132,128,72,7,10,3
+	.byte 232,72,8,128,72,7,10,3
 
 	.byte 176,108,1,16,2,16,64,160
 	.byte 132,168,17,1,1,21,72,160
@@ -163,7 +166,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 12 / Oric - level xx - In a deep dark hole
-	.byte 8,72,163,136,168,25,11,11
+	.byte 8,72,10,136,168,25,11,11
 
 	.byte 152,48,1,16,1,12,48,168
 	.byte 0,0,0,0,0,0,0,0
@@ -173,7 +176,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 13 / Oric - level 27 - the channel tunnel
+	@ 13 / Oric - level 27 - the channel tunnel		@ music
 	.byte 232,104,5,6,136,27,12,1
 
 	.byte 136,152,17,1,1,37,136,222
@@ -184,7 +187,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 14  / GBA - Tokyo Uh oh
+	@ 14  / GBA - Tokyo Uh oh						@ music
 	.byte 232,80,5,6,168,1,13,13
 
 	.byte 32,72,1,16,255,2,72,168
@@ -195,7 +198,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 15 / Oric - Space Shuttle
+	@ 15 / Oric - Space Shuttle						@ music
 	.byte 232,112,5,104,80,1,14,14
 
 	.byte 48,104,1,16,255,5,104,168
@@ -207,7 +210,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 16 / Oric - Wheres the hyperspace button
-	.byte 162,168,35,6,96,5,15,79
+	.byte 162,168,2,6,96,5,15,79
 
 	.byte 24,96,17,1,1,11,8,112
 	.byte 112,120,17,1,1,11,112,176
@@ -217,8 +220,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 17 / Dragon - Meteor Storm
-	.byte 120,96,5,6,168,33,16,16
+	@ 17 / BBC - Meteor Storm
+	.byte 120,96,5,6,168,33,16,16					@ music
 
 	.byte 56,168,17,1,1,19,16,56
 	.byte 224,168,17,1,1,19,184,224
@@ -228,41 +231,41 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 18
-	.byte 16,168,85,6,168,1,10,0
+	@ 18	/ Dragon32 - The end
+	.byte 232,64,133,120,48,0,6,0					@ music
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 44,160,0,1,1,22,32,72
+	.byte 224,152,0,1,1,22,172,232
+	.byte 232,120,0,1,1,22,196,240
+	.byte 184,88,0,16,255,22,48,120
+	.byte 120,152,0,16,1,22,88,152
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 19
-	.byte 16,168,85,6,168,1,10,0
+	@ 19	/ BBC - Final Barrier
+	.byte 232,72,5,12,168,35,6,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 80,136,0,1,255,22,16,80
+	.byte 96,88,0,1,1,22,64,96
+	.byte 148,72,0,1,255,22,104,148
+	.byte 16,48,0,16,255,12,48,112
+	.byte 208,96,0,16,1,12,96,168
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 20
-	.byte 16,168,85,6,168,1,10,0
+	@ 20	/ CPC464 - thats all folks lev20
+	.byte 152,104,5,216,168,0,6,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 56,168,0,1,1,22,56,176
+	.byte 128,96,0,1,1,22,8,128
+	.byte 8,80,0,1,1,22,8,232
+	.byte 192,120,0,16,255,12,104,168
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 21 / Horace
-	.byte 240,80,8,8,168,7,20,116
+	.byte 240,80,5,8,168,7,20,116						@ music
 	
 	.byte 60,128,17,1,1,25,32,192
 	.byte 122,96,17,1,2,25,0,192
@@ -273,19 +276,22 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	
-	@ 22 / Lobo Ghostbusters
-	.byte 112,168,3,8,168,17,21,21
+	@ 22 / BLANK
+	.byte 232,168,0,6,168,1,6,37
 
-	.byte 232,56,17,1,1,26,8,232
-	.byte 104,120,17,1,1,27,104,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+
+
+@ movie Levels
 	
 	@ 23 / casablanca
-	.byte 184,80,100,8,168,19,22,150
+	.byte 184,80,6,8,168,19,22,150
 
 	.byte 190,120,17,1,1,29,144,216
 	.byte 56,120,17,1,1,29,16,120
@@ -296,7 +302,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 24 / gremlins
-	.byte 8,80,5,16,168,23,23,23
+	.byte 8,80,5,16,168,23,23,23					@ music
 
 	.byte 190,72,17,1,255,33,112,176
 	.byte 32,88,17,1,255,32,24,56
@@ -307,7 +313,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 25 / goonies
-	.byte 232,136,244,158,48,0,24,24
+	.byte 232,136,15,158,48,0,24,24
 
 	.byte 24,80,0,17,1,40,24,104
 	.byte 24,168,0,1,1,39,8,128
@@ -318,7 +324,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 26 / back to the future
-	.byte 200,56,212,8,168,27,25,25
+	.byte 200,56,13,8,168,27,25,25
 
 	.byte 128,120,17,16,1,43,72,168
 	.byte 160,56,17,17,2,41,8,232
@@ -329,7 +335,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 27 / hellraiser
-	.byte 208,168,5,232,64,20,26,26
+	.byte 208,168,16,232,64,20,26,26
 
 	.byte 168,120,1,16,255,30,48,168
 	.byte 160,168,17,1,1,31,8,184
@@ -340,7 +346,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 28 / ghostbusters
-	.byte 112,168,227,8,168,17,21,21
+	.byte 112,168,14,8,168,17,21,21
 
 	.byte 232,56,17,1,1,26,8,232
 	.byte 104,120,17,1,1,27,104,232
@@ -351,7 +357,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 29 / King Kong
-	.byte 240,168,5,108,168,30,28,28
+	.byte 240,168,5,108,168,30,28,28			@ music
 
 	.byte 40,48,17,1,1,13,0,128
 	.byte 140,120,17,1,2,13,16,216
@@ -362,7 +368,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 30 / Terminator
-	.byte 112,168,197,92,48,29,29,29
+	.byte 112,168,12,92,48,29,29,29
 
 	.byte 48,88,17,1,1,35,24,80
 	.byte 48,128,0,1,255,35,24,64
@@ -373,7 +379,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 		
 	@ 31 / Young Frankenstein
-	.byte 232,168,85,6,168,1,6,37
+	.byte 232,168,0,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -384,7 +390,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 32 / Rocky Horror
-	.byte 232,168,85,6,168,1,6,37
+	.byte 232,168,0,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -524,7 +530,7 @@ levelNames:
 @	/ 2 mad levels based on horace?
 	
 	.ascii "       THE MYSTIC WOODS       "
-	.ascii "        HE SLIMED ME!!        "	@ GHOSTBUSTERS
+	.ascii "   THE BLANKNESS OF BEING!!   "
 
 
 @	/ The movie levels
@@ -830,18 +836,18 @@ levelNames:
 	.ascii "  HE REALISED THAT HE WAS "
 	.ascii "HORACE, AT LAST! HURRAH!  "	
 	@ 22	/GB TEST
-	.ascii "  ALAS, THE PLANE SWERVED "
-	.ascii "THROUGH ANOTHER CELLULOID "
-	.ascii "HOLE IN TIME! MADNESS! AS "
-	.ascii "WILLY TRIES TO CLEAN HIS  "
-	.ascii "PANTS FROM ODDLY SLIME, HE" 
-	.ascii "NOTICES THAT THE PLACE IS "
-	.ascii "OVERTAKEN BY THE GHASTLY  "
-	.ascii "APPARITIONS! HE NEEDS TO  "
-	.ascii "GET TO THAT DOOR AS SOON  "
-	.ascii "AS POSSIBLE, OTHERWISE HE "
-	.ascii "ENDS UP TASTING THAT ZOOL "
-	.ascii "FLAVORED MARSHMALLOW!     "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
 	@ 23	/CASABLANCA
 	.ascii "  FALLING THROUGH THE VOID"
 	.ascii "OF CELLULOID, WILLY VISITS"
@@ -1103,18 +1109,20 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    LEVEL 19 - ORIC 1985    "
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 21 - ORIC 1983    "
-	.ascii " LEVEL 22-ARCHIMEDES 19XX   "
+	.ascii "  LEVEL 22-ARCHIMEDES 19XX  "
 	.ascii "    LEVEL 26 - ORIC 1985    "	
 	.ascii "    LEVEL 27 - ORIC 1985    "
 	.ascii "    LEVEL XX - GBA  2002    "
 	.ascii "    LEVEL 23 - ORIC 1985    "
-	.ascii "    LEVEL 25 - ORIC 1985    "
-	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
+	.ascii "  I HAVE COCKED UP HERE ??  "
+	.ascii "    LEVEL XX - BBC  198X    "
+	.ascii "  LEVEL 22 - DRAGON32 1983  "
+	.ascii "    LEVEL XX - BBC  198X    "
+	.ascii "  LEVEL 20 - AMSTRAD  198X  "
+	
+	@ Bonus?
 	.ascii "   LEVEL 01 - PSION3 1995   "
-	.ascii "    ORIGINAL - LOBO 2009    "
+	.ascii "BLANKBLANKBLANKBLANKBLANKY  "
 	
 	@ Movies
 	.ascii "    ORIGINAL - LOBO 2009    "
@@ -1125,7 +1133,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "     SPACE FRACTAL 2009     "
-	.ascii "                            "
+	.ascii "       SOMEONE - 2009       "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
 	@ Anything?

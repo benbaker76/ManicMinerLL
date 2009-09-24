@@ -63,7 +63,6 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
-	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -83,7 +82,6 @@ checkLeft:
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDie
-	@
 	
 	checkLeftTNot:				@ now bottom section	
 	@ make r0=x and r1=y
@@ -91,7 +89,6 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
-	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -111,7 +108,6 @@ checkLeft:
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDie
-	@
 	
 	checkLeftBNot:
 	
@@ -120,14 +116,14 @@ checkLeft:
 	mov r11,#26							@ X Pos
 	mov r8,#5							@ Y Pos
 	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits
+	mov r7, #0							@ 0 = Main, 1 = Sub
+	bl drawDigits
 	mov r10,r2
 	mov r11,#26							@ X Pos
 	mov r8,#3							@ Y Pos
 	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits	
+	mov r7, #0							@ 0 = Main, 1 = Sub
+	bl drawDigits	
 	pop {r9,r10}
 	
 	
@@ -151,6 +147,7 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
+	and r0,#31
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
@@ -168,7 +165,6 @@ checkRight:
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDie
-	@
 	
 	checkRightTNot:				@ now bottom section
 	@ make r0=x and r1=y
@@ -178,6 +174,7 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
+	and r0,#31
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset

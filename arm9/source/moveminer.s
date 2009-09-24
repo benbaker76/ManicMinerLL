@@ -185,15 +185,29 @@ moveMiner:
 	ldr r0,[r0]
 	cmp r0,#0
 	beq moveMinerFail
+
+	ldr r4,=levelWraps
+	ldr r4,[r4]
 	
 	cmp r0,#MINER_LEFT
 	bne moveMinerRight
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
 		sub r1,#1
+		cmp r4,#1
+		bne notL18
+		
+			cmp r1,#56
+			movlt r1,#240+72
+			str r1,[r2]
+			b l18Done
+		
+		notL18:
 		cmp r1,#64
 		movlt r1,#64
 		str r1,[r2]
+		
+		l18Done:		
 		
 		bl checkLeft
 		bl checkBlocked
@@ -209,12 +223,24 @@ moveMiner:
 		b moveMinerFail
 
 	moveMinerRight:
+	
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
 		add r1,#1
+		cmp r4,#1
+		bne notR18
+		
+			cmp r1,#240+72
+			movgt r1,#56
+			str r1,[r2]
+			b r18Done
+		
+		notR18:
 		cmp r1,#240+64
 		movgt r1,#240+64
 		str r1,[r2]
+		
+		r18Done:
 		
 		bl checkRight
 		bl checkBlocked
@@ -466,6 +492,8 @@ minerFall:
 		ldr r1,=spriteY+256
 		ldr r2,[r1]
 		add r2,#2					@ add 2 to y coord (should we accelerate?)
+		cmp r2,#192+384
+		movpl r2,#192+384	
 		str r2,[r1]
 
 		bl checkFeet				@ lets have a look below us
@@ -513,7 +541,6 @@ minerFall:
 		
 			bl initDeath
 		
-		
 		fallNotDeadly:
 		
 		cmp r2, #16					@ if we have fallen a little bit, create dust
@@ -523,26 +550,9 @@ minerFall:
 
 		fallShardNot:
 	
-	
 	b minerFallFail
 	
 @-------------------------------
-
-minerPause:
-	
-	stmfd sp!, {r0-r8,r10, lr}
-	
-	mov r9,#0
-	ldr r0,=minerDelay
-	ldr r1,[r0]
-	add r1,#1
-	cmp r1,#2
-	moveq r1,#0
-	moveq r9,#1
-	str r1,[r0]
-	
-	
-	ldmfd sp!, {r0-r8,r10, pc}
 
 	.pool
 	.end

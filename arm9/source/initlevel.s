@@ -127,12 +127,13 @@ initLevel:
 
 	ldrb r0,[r1],#1
 	mov r3,r0
-	and r3,#15
-	ldr r2,=keyCounter
+	and r3,#127
+	ldr r2,=musicPlay				@ jingle 0-127
 	str r3,[r2]
-	ldr r2,=musicPlay
-	lsr r0,#4
+	lsr r0,#7
+	ldr r2,=levelWraps				@ does the edges wrap? 0-1
 	str r0,[r2]
+
 
 	ldrb r0,[r1],#1
 	add r0,#64
@@ -243,9 +244,36 @@ generateColMap:
 	ldr r0,=colMapLevels
 	add r0,r5
 	ldr r1,=colMapStore
-	mov r2,#768
-	@ r0,=src, r1=dst, r2=len
-	bl dmaCopy
+@	mov r2,#768
+@	@ r0,=src, r1=dst, r2=len
+@	bl dmaCopy
+	
+	ldr r10,=keyCounter
+	mov r9,#0
+	str r9,[r10]
+	@ r0=source, r1=destination
+	
+	
+	mov r3,#768
+	colMapLoop:
+		ldrb r2,[r0],#1
+		cmp r2,#24
+		blt notColMapKey
+		cmp r2,#31
+		bgt notColMapKey
+		
+		add r9,#1
+		
+		notColMapKey:
+		
+		
+		
+		strb r2,[r1],#1
+		
+		subs r3,#1
+	bpl colMapLoop
+	
+	str r9,[r10]
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -769,6 +797,8 @@ specialEffectStart:
 		bleq kongInit
 	cmp r0,#FX_METEOR
 		bleq meteorInit
+	cmp r0,#FX_FORCEFIELD
+		bleq forceFieldInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

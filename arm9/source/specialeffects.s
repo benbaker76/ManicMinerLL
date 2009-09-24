@@ -71,6 +71,7 @@
 	.global meteorInit
 	.global meteorPhase
 	.global meteorDrops
+	.global forceFieldInit
 
 	.global specialFXStop
 
@@ -107,6 +108,8 @@ updateSpecialFX:
 	bleq kongUpdate
 	cmp r0,#FX_METEOR
 	bleq meteorUpdate
+	cmp r0,#FX_FORCEFIELD
+	bleq forceFieldUpdate
 
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -2210,8 +2213,132 @@ starDNew:
 		str r8,[r1,r0,lsl#2]	
 	b starDReturn
 	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ Force Field Init
+forceFieldInit:
+	stmfd sp!, {r0-r10, lr}
+
+		ldr r0,=FXForceFieldTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256				@ dump at 24th sprite
+		ldr r2,=FXForceFieldTilesLen
+		bl dmaCopy
+
+		ldr r1,=forcefState
+		mov r0,#1
+		str r0,[r1]
+		ldr r1,=forcefDelay
+		ldr r0,=FORCEF_DELAY
+		str r0,[r1]
+
+		mov r10,#80					@ 80th sprite is our force field
+		
+		ldr r1,=spriteActive
+		mov r0,#MONSTER_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		mov r0,#128+64
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteY
+		mov r0,#144+384
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		mov r0,#FORCEFIELD_FRAME
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r0,#FORCEFIELD_ANIM
+		str r0,[r1,r10,lsl#2]
+		add r10,#1
+		ldr r1,=spriteActive
+		mov r0,#MONSTER_ACTIVE
+		str r0,[r1,r10,lsl#2]
+		mov r0,#128+96+32
+		ldr r1,=spriteX
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteY
+		mov r0,#72+384
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		mov r0,#FORCEFIELD_FRAME
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteAnimDelay
+		mov r0,#FORCEFIELD_ANIM
+		str r0,[r1,r10,lsl#2]
+
+
+	ldmfd sp!, {r0-r10, pc}	
 	
+
+
+@------------------------------------ Force Field Update
+forceFieldUpdate:	
+	stmfd sp!, {r0-r10, lr}	
+
+	mov r10,#80
+	
+	forceFUpdateLoop:				@ animate force field
+		
+		ldr r1,=spriteAnimDelay
+		ldr r0,[r1,r10,lsl#2]
+		subs r0,#1
+		movmi r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		bpl forceFPass
+			ldr r1,=spriteObj
+			ldr r0,[r1,r10,lsl#2]
+			add r0,#1
+			cmp r0,#FORCEFIELD_FRAME_END+1
+			moveq r0,#FORCEFIELD_FRAME
+			str r0,[r1,r10,lsl#2]
+		forceFPass:
+		add r10,#1
+		cmp r10,#84
+	bne forceFUpdateLoop
+	
+	ldr r1,=forcefDelay
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#FORCEF_DELAY
+	str r0,[r1]
+	bpl forceFUpdateDone
+	
+		ldr r1,=forcefState
+		ldr r0,[r1]
+		cmp r0,#0
+		moveq r0,#1
+		movne r0,#0
+		str r0,[r1]
+		
+		beq forceFieldOn
+		
+		@ force off
+		
+			mov r10,#80
+			mov r0,#0
+			ldr r1,=spriteActive
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]	
+			b forceFUpdateDone
+		
+		forceFieldOn:
+	
+		@ force on
+			mov r10,#80
+			mov r0,#MONSTER_ACTIVE
+			ldr r1,=spriteActive
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+			str r0,[r1,r10,lsl#2]
+			add r10,#1
+	
+	forceFUpdateDone:
+
+
+	ldmfd sp!, {r0-r10, pc}		
 @--------------
+
+
 
 	.pool
 	.data

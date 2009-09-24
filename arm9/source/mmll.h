@@ -152,6 +152,7 @@
 #include "../build/FXKHead.h"
 #include "../build/FXScratch.h"
 #include "../build/FXMeteor.h"
+#include "../build/FXForceField.h"
 
 @ death animations
 
@@ -336,6 +337,7 @@
 #define FX_SPARK					14
 #define FX_KONG						15
 #define FX_METEOR					16
+#define FX_FORCEFIELD				17
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128
@@ -440,6 +442,10 @@
 #define FORCEF_ANIM					2
 #define FORCEF_DELAY				75
 #define STARDUST_FRAME				40
+
+#define FORCEFIELD_FRAME			24
+#define FORCEFIELD_FRAME_END		27
+#define FORCEFIELD_ANIM				2
 
 @ level defines
 
