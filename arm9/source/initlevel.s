@@ -700,6 +700,9 @@ generateMonsters:
 	cmp r0,#16
 	ldreq r2, =Horror_xm_gz
 	ldreq r3, =Horror_xm_gz_size
+	cmp r0,#17
+	ldreq r2, =Frankenstein_xm_gz
+	ldreq r3, =Frankenstein_xm_gz_size
 	bl initMusic
 	
 	levelMusicFail:
