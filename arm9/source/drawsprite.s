@@ -473,22 +473,10 @@ drawSprite:
 			sub r2,#1
 			str r2,[r1,r10,lsl #2]
 			cmp r2,#0
-			beq drawScratch2
-			
-				ldr r1,=spriteY
-				ldr r2,[r1,r10,lsl #2]
-				bl getRandom
-				and r8,#1
-				add r2,r8
-			@	str r2,[r1,r10,lsl #2]
-			
-			
-			b drawNotScratch
-			drawScratch2:
 				@ kill it
-				mov r2,#0
-				ldr r1,=spriteActive
-				str r2,[r1,r10,lsl#2]
+				moveq r2,#0
+				ldreq r1,=spriteActive
+				streq r2,[r1,r10,lsl#2]
 		drawNotScratch:
 		cmp r0,#FX_METEOR_ACTIVE
 		bne drawNotMeteor
@@ -507,12 +495,10 @@ drawSprite:
 				str r2,[r1,r10,lsl #2]
 			
 			drawNotMeteorAnim:
-
-			@ move meteor
 			
-			ldr r1,=spriteY
+			ldr r1,=spriteY					@ update Y coord
 			ldr r2,[r1,r10,lsl #2]
-			add r2,#1
+			add r2,#2
 			str r2,[r1,r10,lsl #2]
 			
 			@check colmap
@@ -576,11 +562,9 @@ drawSprite:
 					
 					mov r2,#METEOR_FRAME				@ reset image
 					str r2,[r1,r10,lsl#2]
-
 					ldr r1,=spriteActive
 					mov r0,#FX_METEOR_ACTIVE
 					str r0,[r1,r10,lsl#2]
-		
 					ldr r1,=meteorPhase
 					ldr r0,[r1]
 					add r0,#1

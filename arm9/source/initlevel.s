@@ -294,6 +294,9 @@ getDoorSprite:
 	cmp r0,#15
 	ldreq r0, =Exit16Tiles
 	ldreq r2, =Exit16TilesLen
+	cmp r0,#16
+	ldreq r0, =Exit17Tiles
+	ldreq r2, =Exit17TilesLen
 
 	cmp r0,#20
 	ldreq r0, =Exit21Tiles
@@ -454,6 +457,12 @@ getLevelBackground:
 	ldreq r5,=Background16TilesLen
 	ldreq r6,=Background16Map
 	ldreq r7,=Background16MapLen
+	cmp r0,#16
+	ldreq r4,=Background17Tiles
+	ldreq r5,=Background17TilesLen
+	ldreq r6,=Background17Map
+	ldreq r7,=Background17MapLen
+
 	cmp r0,#20
 	ldreq r4,=Background21Tiles
 	ldreq r5,=Background21TilesLen
@@ -660,6 +669,9 @@ generateMonsters:
 	cmp r0,#15
 	ldreq r2, =Goonies_xm_gz
 	ldreq r3, =Goonies_xm_gz_size
+	cmp r0,#16
+	ldreq r2, =Horror_xm_gz
+	ldreq r3, =Horror_xm_gz_size
 	bl initMusic
 	
 	levelMusicFail:
