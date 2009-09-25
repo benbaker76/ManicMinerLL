@@ -2407,6 +2407,17 @@ antonInit:
 		ldr r1,=spritePriority+8
 		mov r8,#3
 		str r8,[r1]	
+		
+		@ copy new effect for level complete
+		
+		ldr r0,=FXAntonTiles
+		add r0,#24*256
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#40*256				@ dump at 24th sprite
+		ldr r2,=8*256
+		bl dmaCopy
+		
+		
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ update Anton
