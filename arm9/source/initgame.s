@@ -12,15 +12,13 @@
 	.text
 
 	.global initGame
-	
-	
 
 initGame:
 stmfd sp!, {r0-r10, lr}
 
 	bl setScreens
 
-	mov r0,#20				@ set level to 1 for start of game
+	mov r0,#17				@ set level to 1 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
 	mov r0,#3				@ set level to 3 for lives
@@ -70,9 +68,9 @@ stmfd sp!, {r0-r10, lr}
 	bl initSprites
 
 	bl initLevel
-	bl drawSprite
+	bl drawSprite	@ move
 
-	bl monsterMove
+	bl monsterMove	@ move (and add miner frame display)
 	
 	ldr r0, =gameMode							@ set to play time!!
 	mov r1, #GAMEMODE_RUNNING

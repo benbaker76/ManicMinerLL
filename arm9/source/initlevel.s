@@ -325,6 +325,9 @@ getDoorSprite:
 	cmp r0,#16
 	ldreq r0, =Exit17Tiles
 	ldreq r2, =Exit17TilesLen
+	cmp r0,#17
+	ldreq r0, =Exit18Tiles
+	ldreq r2, =Exit18TilesLen
 
 	cmp r0,#20
 	ldreq r0, =Exit21Tiles
@@ -490,7 +493,21 @@ getLevelBackground:
 	ldreq r5,=Background17TilesLen
 	ldreq r6,=Background17Map
 	ldreq r7,=Background17MapLen
-
+	cmp r0,#17
+	ldreq r4,=Background18Tiles
+	ldreq r5,=Background18TilesLen
+	ldreq r6,=Background18Map
+	ldreq r7,=Background18MapLen
+	cmp r0,#18
+	ldreq r4,=Background19Tiles
+	ldreq r5,=Background19TilesLen
+	ldreq r6,=Background19Map
+	ldreq r7,=Background19MapLen
+	cmp r0,#19
+	ldreq r4,=Background20Tiles
+	ldreq r5,=Background20TilesLen
+	ldreq r6,=Background20Map
+	ldreq r7,=Background20MapLen
 	cmp r0,#20
 	ldreq r4,=Background21Tiles
 	ldreq r5,=Background21TilesLen
