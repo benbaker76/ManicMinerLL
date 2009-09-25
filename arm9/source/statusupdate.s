@@ -138,6 +138,7 @@ airDrain:
 	moveq r5,#1
 	movne r5,#0
 
+mov r5,#1				@ comment for infinite air
 
 	ldr r1,=air
 	ldr r2,[r1]
