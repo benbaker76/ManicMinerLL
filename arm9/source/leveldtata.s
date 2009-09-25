@@ -22,6 +22,7 @@ levelData:
 @						1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @						8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
 @						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
+@						17=forcefield, 18=anton
 @ 7 =background number (0-?)		@ *ADD* low 6 bits (0-31=bg num) / high 2= switch effect (0=conveyor, 1=exploder, 2=, 3= )
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -254,7 +255,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 20	/ CPC464 - thats all folks lev20
-	.byte 152,104,5,216,168,0,19,19
+	.byte 152,104,5,216,168,36,19,19
 
 	.byte 56,168,0,1,1,44,56,176
 	.byte 128,96,0,1,1,44,8,128

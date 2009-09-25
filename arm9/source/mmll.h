@@ -159,6 +159,7 @@
 #include "../build/FXScratch.h"
 #include "../build/FXMeteor.h"
 #include "../build/FXForceField.h"
+#include "../build/FXAnton.h"
 
 @ death animations
 
@@ -344,6 +345,7 @@
 #define FX_KONG						15
 #define FX_METEOR					16
 #define FX_FORCEFIELD				17
+#define FX_ANTON					18
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128

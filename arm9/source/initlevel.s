@@ -328,7 +328,12 @@ getDoorSprite:
 	cmp r0,#17
 	ldreq r0, =Exit18Tiles
 	ldreq r2, =Exit18TilesLen
-
+	cmp r0,#18
+	ldreq r0, =Exit19Tiles
+	ldreq r2, =Exit19TilesLen
+	cmp r0,#19
+	ldreq r0, =Exit20Tiles
+	ldreq r2, =Exit20TilesLen
 	cmp r0,#20
 	ldreq r0, =Exit21Tiles
 	ldreq r2, =Exit21TilesLen
@@ -819,6 +824,8 @@ specialEffectStart:
 		bleq meteorInit
 	cmp r0,#FX_FORCEFIELD
 		bleq forceFieldInit
+	cmp r0,#FX_ANTON
+		bleq antonInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

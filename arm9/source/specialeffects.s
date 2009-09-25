@@ -72,6 +72,8 @@
 	.global meteorPhase
 	.global meteorDrops
 	.global forceFieldInit
+	
+	.global antonInit
 
 	.global specialFXStop
 
@@ -110,7 +112,8 @@ updateSpecialFX:
 	bleq meteorUpdate
 	cmp r0,#FX_FORCEFIELD
 	bleq forceFieldUpdate
-
+	cmp r0,#FX_ANTON
+	bleq antonUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -2334,16 +2337,206 @@ forceFieldUpdate:
 	
 	forceFUpdateDone:
 
-
 	ldmfd sp!, {r0-r10, pc}		
+
+@------------------------------------ Init Anton
+antonInit:
+	stmfd sp!, {r0-r10, lr}
+
+		mov r1,#0
+		ldr r0,=antonFrame
+		str r1,[r0]
+
+				
+		@ display L eye
+		
+		ldr r1,=spriteActive
+		mov r2,#FX_MALLOW_ACTIVE
+		str r2,[r1]
+		ldr r1,=spriteObj
+		mov r2,#24		
+		str r2,[r1]
+		mov r8,#188+7
+		add r8,#64
+		ldr r1,=spriteX
+		str r8,[r1]		@ store X	0-255
+		mov r8,#96+32
+		add r8,#384
+		ldr r1,=spriteY
+		str r8,[r1]		@ store y	0-191
+		ldr r1,=spritePriority
+		mov r8,#3
+		str r8,[r1]
+
+		@ display R eye
+		
+		ldr r1,=spriteActive+4
+		mov r2,#FX_MALLOW_ACTIVE
+		str r2,[r1]
+		ldr r1,=spriteObj+4
+		mov r2,#25		
+		str r2,[r1]
+		mov r8,#198+16+4
+		add r8,#64
+		ldr r1,=spriteX+4
+		str r8,[r1]		@ store X	0-255
+		mov r8,#96+33
+		add r8,#384
+		ldr r1,=spriteY+4
+		str r8,[r1]		@ store y	0-191
+		ldr r1,=spritePriority+4
+		mov r8,#3
+		str r8,[r1]		
+		
+		@ display mouth
+		
+		ldr r1,=spriteActive+8
+		mov r2,#FX_MALLOW_ACTIVE
+		str r2,[r1]
+		ldr r1,=spriteObj+8
+		mov r2,#26		
+		str r2,[r1]
+		mov r8,#196+5
+		add r8,#64
+		ldr r1,=spriteX+8
+		str r8,[r1]		@ store X	0-255
+		mov r8,#96+48+10
+		add r8,#384
+		ldr r1,=spriteY+8
+		str r8,[r1]		@ store y	0-191
+		ldr r1,=spritePriority+8
+		mov r8,#3
+		str r8,[r1]	
+	ldmfd sp!, {r0-r10, pc}
+	
+@------------------------------------ update Anton
+antonUpdate:
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r2,=antonFrame
+	ldr r0,[r2]
+	cmp r0,#0
+	bne antonWinkDone
+		ldr r0,=antonBlinkDelay
+		ldr r1,[r0]
+		subs r1,#1
+		movmi r1,#0
+		str r1,[r0]
+		bpl antonWinkDone
+	
+		ldr r9,=0xfff
+		bl getRandom
+		and r8,r9
+		cmp r8,#25
+		movle r0,#13
+		strle r0,[r2]
+		ldrle r0,=antonBlinkDelay
+		movle r1,#128
+		strle r1,[r0]
+
+	antonWinkDone:
+	
+	ldr r9,=0xfff
+	ldr r2,=antonMouthFrame
+	bl getRandom
+	and r8,#0xff
+	cmp r8,#1
+	movle r0,#14
+	strle r0,[r2]
+
+	b antonAnimate
+	
+	antonUpdateDone:
+	
+	ldmfd sp!, {r0-r10, pc}
+
 @--------------
 
+antonAnimate:
+
+	ldr r10,=antonFrame
+	ldr r9,[r10]
+	cmp r9,#0
+	beq antonLeftFail
+	
+		ldr r1,=antonEyeDelay
+		ldr r2,[r1]
+		subs r2,#1
+		movmi r2,#2
+		str r2,[r1]
+	
+		submi r9,#1
+		str r9,[r10]
+	antonLeftFail:
+	
+	ldr r2,=antonLeft
+	ldr r3,[r2,r9,lsl#2]		@ r3=frame to copy to sprite 24
+	
+	ldr r0,=FXAntonTiles
+	add r0,r3,lsl#8				@ add 256*sprite image
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ 24th sprite image
+	mov r2,#256
+	bl dmaCopy
+
+	ldr r2,=antonRight
+	ldr r3,[r2,r9,lsl#2]		@ r3=frame to copy to sprite 25
+	
+	ldr r0,=FXAntonTiles
+	add r0,r3,lsl#8				@ add 256*sprite image
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#25*256				@ 25th sprite image
+	mov r2,#256
+	bl dmaCopy
+
+	ldr r5,=antonMouthFrame
+	ldr r6,[r5]
+	cmp r6,#0
+	beq antonMouthSkip
+		ldr r1,=antonMouthDelay
+		ldr r2,[r1]
+		subs r2,#1
+		movmi r2,#10
+		str r2,[r1]
+		bpl antonMouthSkip
+
+			sub r6,#1
+			str r6,[r5]
+	
+	antonMouthSkip:
+	ldr r5,=antonMouth
+	ldr r3,[r5,r6,lsl#2]		@ r3=frame to copy to sprite 26
+	ldr r0,=FXAntonTiles
+	add r0,r3,lsl#8				@ add 256*sprite image
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#26*256				@ 24th sprite image
+	mov r2,#256
+	bl dmaCopy
+
+b antonUpdateDone
+
+@---------------
 
 
 	.pool
 	.data
 	.align
-
+	antonLeft:
+	.word 7,6,5,4,3,2,1,0,1,2,3,4,5,6
+	antonRight:
+	.word 15,14,13,12,11,10,9,8,9,10,11,12,13,14
+	antonMouth:
+	.word 16,17,18,19,20,21,22,23,22,21,20,19,18,17,16
+	antonFrame:
+	.word 0
+	antonMouthFrame:
+	.word 0
+	antonMouthDelay:
+	.word 0
+	antonBlinkDelay:
+	.word 0
+	antonEyeDelay:
+	.word 0
 	killerDelay:
 	.word 0
 	killerFrame:
