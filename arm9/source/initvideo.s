@@ -265,9 +265,6 @@ initVideoTitle:
  	ldr r0, =REG_BG0CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
 	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE_SUB) | BG_TILE_BASE(BG0_TILE_BASE_SUB) | BG_PRIORITY(BG0_PRIORITY))
 	strh r1, [r0]
-@	ldr r0, =REG_BG0CNT			@ Set sub screen BG0 format to be 32x32 tiles at base address
-@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE) | BG_TILE_BASE(BG0_TILE_BASE) | BG_PRIORITY(BG0_PRIORITY))
-@	strh r1, [r0]
 	ldr r0, =REG_BG1CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
 	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG1_MAP_BASE_SUB) | BG_TILE_BASE(BG1_TILE_BASE_SUB) | BG_PRIORITY(BG1_PRIORITY))
 	strh r1, [r0]
@@ -281,8 +278,12 @@ initVideoTitle:
 	ldr r1,=levelNum
 	ldr r1,[r1]
 	cmp r1,#0
-	bne notTitleStart
+	beq titleStart
+	cmp r1,#128
+	ble notTitleStart
 
+
+	titleStart:
 		mov r0, #0
 		ldr r2, =32*32*2
 		ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)

@@ -60,7 +60,8 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r1,=tScrollerOn
 	str r0,[r1]
-
+	ldr r1,=tDemoPos
+	str r0,[r1]
 	ldr r1,=tScrollPix
 	str r0,[r1]
 	ldr r1,=tScrollSegment
@@ -87,11 +88,15 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r1,=tGorillaDelay
 	str r0,[r1]
-
+	ldr r1,=tCreditFrame
+	str r0,[r1]
 	add r0,#1
 	ldr r1,=tArms
 	str r0,[r1]
-
+	
+	ldr r1,=tTimer				@ store initial timer
+	ldr r0,=500
+	str r0,[r1]
 
 	bl initVideoTitle
 
@@ -195,6 +200,38 @@ titleGameScreen:
 	ldmfd sp!, {r0-r10, pc}	
 
 @----------------------------
+titleCredit1Screen:
+
+	stmfd sp!, {r0-r10, lr}	
+	
+	bl initVideoTitle
+	
+	bl specialFXStop	
+	
+	bl fxFadeBlackLevelInit
+	bl fxFadeMax
+	bl fxFadeIn
+
+	@ draw our credits to sub
+	
+	ldr r0,=CreditPageTiles							@ copy the tiles used for title
+	ldr r1,=BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
+	ldr r2,=CreditPageTilesLen
+	bl decompressToVRAM	
+	ldr r0, =CreditPageMap
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
+	ldr r2, =CreditPageMapLen
+	bl dmaCopy
+	ldr r0, =CreditPagePal
+	ldr r1, =BG_PALETTE_SUB
+	ldr r2, =CreditPagePalLen
+	bl dmaCopy
+	
+	bl clearSpriteData
+
+	ldmfd sp!, {r0-r10, pc}	
+
+@----------------------------
 
 updateTitleScreen:
 
@@ -205,9 +242,8 @@ updateTitleScreen:
 	ldr r10,=levelNum
 	ldr r10,[r10]
 
-	cmp r10,#0				@ set timer, 0=title, 1+= ingame
-	ldreq r8,=500
-	ldrne r8,=150
+	ldr r1,=tTimer
+	ldr r8,[r1]
 
 	titleScreenLoop:
 	
@@ -217,6 +253,8 @@ updateTitleScreen:
 		ldr r10,[r10]	
 		cmp r10,#0						@ level 0 is out title bitmap
 		beq titleIsBitmap
+		cmp r10,#128
+		bpl titleIsBitmap
 	
 		ldr r0,=minerDelay
 		ldr r1,[r0]
@@ -236,9 +274,7 @@ updateTitleScreen:
 		titleIsBitmap:
 
 		bl drawSprite
-		
-	@	bl titleScroller
-		
+
 		bl drawTitleSprites
 		
 		bl updateCheatCheck
@@ -248,14 +284,7 @@ updateTitleScreen:
 		ldr r2, =REG_KEYINPUT						@ Read key input register
 		ldr r3, [r2]								@ Read key value
 		tst r3,#BUTTON_START
-		beq titleGameStart
-		
-		
-		cmp r8,#19
-@		bleq fxFadeBlackLevelInit
-@		bleq fxFadeMax
-@		bleq fxFadeOut
-		
+		beq titleGameStart		
 
 	subs r8,#1
 	
@@ -264,21 +293,32 @@ updateTitleScreen:
 titleNextScreen:
 	
 
-	ldr r0,=levelNum
-	ldr r1,[r0]
-	add r1,#1
-@	cmp r1,#33
+@	ldr r0,=levelNum
+@	ldr r1,[r0]
+@	add r1,#1
+@	cmp r1,#LEVEL_COUNT+1
 @	moveq r1,#0
-@	beq skipMissLevels
-		cmp r1,#LEVEL_COUNT+1
-		moveq r1,#0
-@	skipMissLevels:
-	str r1,[r0]
+@	str r1,[r0]
+@
+@		cmp r1,#0				@ level 0 is used to title screen graphic
+@		blne titleGameScreen
+@		bleq titleMainScreen
 
-		cmp r1,#0				@ level 0 is used to title screen graphic
-		blne titleGameScreen
-		bleq titleMainScreen
-		
+
+	ldr r0,=tDemoSequence		@ our demo sequence
+	ldr r1,=tDemoPos			@ pos in sequence
+	ldr r2,[r1]					@ r2=position
+	add r2,#1
+	ldr r3,[r0,r2,lsl#2]		@ read next part in sequence
+	cmp r3,#4096				@ 4096=end of sequence
+	moveq r2,#0					@ if so, reset to 0
+	moveq r3,#0					@ and set data to 0 for display
+	str r2,[r1]					@ store new pos
+	
+	@ r3= what to show!!!
+	
+	bl drawTitleThings			@ jump to the code that initialises the image (r3=image)
+	
 	b titleScreenTimer
 
 titleGameStart:
@@ -356,7 +396,7 @@ titleScrollerRefresh:
 
 b titleScrollerDone
 
-@---------------------------
+@---------------------------			@ animation for base screen
 
 drawTitleSprites:
 
@@ -660,12 +700,77 @@ b gorillaReturn
 
 @---------------------------------------------
 
+drawTitleThings:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	@ r3= what to show!!
+	@ 0=title
+	@ 1-128 = level
+	@ 512= credit 1
+	@ 1024=credit 2
+	@ 2048=highscores
+	
+	ldr r1,=levelNum
+	str r3,[r1]
+
+	cmp r3,#0
+	bne titleThings1
+		@ draw title
+	
+		bl titleMainScreen
+		ldr r9,=400
+		b titleThingsDone
+	
+	titleThings1:
+	cmp r3,#128
+	bpl titleThings2
+		@ display level
+	
+		bl titleGameScreen
+		ldr r9,=150
+		b titleThingsDone
+	
+	titleThings2:
+	cmp r3,#512
+	bne titleThings3
+	
+		bl titleCredit1Screen
+		ldr r9,=400
+		ldr r1,=tCreditFrame
+		ldr r10,[r1]
+		add r10,#1
+		cmp r10,#4
+		moveq r10,#0
+		str r10,[r1]
+		bl drawCreditFrame
+		b titleThingsDone
+	
+	
+	titleThings3:
+
+
+	titleThingsDone:
+	
+	@ r9 should = the timer value for the screen
+	
+	ldr r1,=tTimer
+	str r9,[r1]
+
+	ldmfd sp!, {r0-r10, pc}
+
+
+
 	.pool
 	.data
+tCreditFrame:
+	.word 0
+tTimer:
+	.word 0
 tScrollerOn:
 	.word 0
 tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
-	.word 0,1,2,3,4,5,6,7,8,9,10,4096
+	.word 0,1,2,3,4,512,5,6,7,8,512,9,10,11,12,512,13,14,15,16,512,17,18,19,20,4096
 tDemoPos:
 	.word 0
 tScrollPix:

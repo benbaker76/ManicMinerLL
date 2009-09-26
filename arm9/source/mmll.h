@@ -122,6 +122,7 @@
 #include "../build/BigFont.h"
 #include "../build/ScrollFont.h"
 #include "../build/Status.h"
+#include "../build/CreditPage.h"
 
 @ intro graphics
 

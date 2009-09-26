@@ -46,6 +46,7 @@
 	.global monsterAnimate
 	.global minerChange
 	.global flipSwitch
+	.global drawCreditFrame
 	
 crumbler:
 	@
@@ -739,7 +740,43 @@ flipSwithLiftThing:
 
 b switchStandardReturn	
 
+@------------------------------------------- Draw Credits side image
+
+	drawCreditFrame:
+	stmfd sp!, {r0-r11, lr}
+	
+	@ r10 is passed as the frame to dump - from 0-3 to BG3 SUB
+	@ ok, the frames start from the map at the 25th y char
+	
+	ldr r0,=BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
+	add r0,#(24*32)*2							@ r1= bottom left source
+	lsl r10,#3									@ 8 chars across
+	lsl r10,#1									@ 2 bytes per char
+	add r0,r10									@ r0=source
+	
+	ldr r1,=BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ r1=dest
+	
+	mov r2,#16
+	
+	mov r3,#24
+	
+	creditFrameLoop:
+	
+	bl dmaCopy
+	
+	add r0,#32*2
+	add r1,#32*2
+	
+	subs r3,#1
+	bpl creditFrameLoop
+
+	
+
+	ldmfd sp!, {r0-r11, pc}
+
 @------------------------------
+
+
 
 	.align
 levelAnimDelay:
