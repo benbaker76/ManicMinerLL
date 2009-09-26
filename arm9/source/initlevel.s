@@ -725,6 +725,9 @@ generateMonsters:
 	cmp r0,#17
 	ldreq r2, =Frankenstein_xm_gz
 	ldreq r3, =Frankenstein_xm_gz_size
+	cmp r0,#18
+	ldreq r2, =Gremlins_xm_gz
+	ldreq r3, =Gremlins_xm_gz_size
 	bl initMusic
 	
 	levelMusicFail:

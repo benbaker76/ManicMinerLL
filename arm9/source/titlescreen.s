@@ -327,19 +327,6 @@ updateTitleScreen:
 	bne titleScreenLoop
 	
 titleNextScreen:
-	
-
-@	ldr r0,=levelNum
-@	ldr r1,[r0]
-@	add r1,#1
-@	cmp r1,#LEVEL_COUNT+1
-@	moveq r1,#0
-@	str r1,[r0]
-@
-@		cmp r1,#0				@ level 0 is used to title screen graphic
-@		blne titleGameScreen
-@		bleq titleMainScreen
-
 
 	ldr r0,=tDemoSequence		@ our demo sequence
 	ldr r1,=tDemoPos			@ pos in sequence
@@ -359,14 +346,14 @@ titleNextScreen:
 
 titleGameStart:
 
+@---------------------------------------- Start has been pressed
+
 	mov r1, #GAMEMODE_RUNNING
 	ldr r2, =gameMode
 	str r1,[r2]
 	mov r1, #0
 	ldr r2,=tScrollerOn
 	str r1,[r2]
-	
-@	bl stopMusic
 	
 	bl clearBG0
 	bl clearBG1
@@ -394,7 +381,7 @@ titleScroller:
 
 	ldr r6,=tScrollPix
 	ldr r7,[r6]
-	add r7,#1
+	add r7,#2
 	cmp r7,#8
 	moveq r7,#0
 	str r7,[r6]

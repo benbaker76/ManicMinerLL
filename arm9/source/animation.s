@@ -536,8 +536,6 @@ flipSwitch:
 
 	switchStandardReturn:
 	
-	bl playClick
-	
 	mov r0,#0
 	ldr r4,=colMapStore
 	flipSwitchLoop:
@@ -566,6 +564,8 @@ flipSwitch:
 	bne flipSwitchLoop
 	
 	flipSwitchDone:
+	
+	bl playClick
 	
 	ldmfd sp!, {r0-r10, pc}
 	

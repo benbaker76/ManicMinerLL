@@ -14,7 +14,7 @@ levelData:
 @ 3 0-127 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @	(low 7)					(6=Casablanca, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
 @						(11=reggae, 12=Terminator, 13=Snug, 14=ghostbusters, 15=goonies)
-@						(16= horror, 17=frankenstein, 18=
+@						(16= horror, 17=frankenstein, 18=Gremlins
 @	high 1 = 0-1 = Wraparound level? 0=no / 1=yes
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
@@ -302,7 +302,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 24 / gremlins
-	.byte 8,80,5,16,168,23,23,23					@ music
+	.byte 8,80,18,16,168,23,23,23					@ music
 
 	.byte 190,72,17,1,255,33,112,176
 	.byte 32,88,17,1,255,32,24,56
