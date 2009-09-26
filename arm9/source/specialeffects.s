@@ -2413,7 +2413,16 @@ antonInit:
 		ldr r0,=FXAntonTiles
 		add r0,#24*256
 		ldr r1,=SPRITE_GFX_SUB
-		add r1,#40*256				@ dump at 24th sprite
+		add r1,#40*256				@ dump at 40th sprite onwards
+		ldr r2,=8*256
+		bl dmaCopy
+
+		@ copy blood ripples
+
+		ldr r0,=FXAntonTiles
+		add r0,#31*256				@ 31st tile
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#27*256				@ dump at 27th sprite onwards
 		ldr r2,=8*256
 		bl dmaCopy
 		
@@ -2450,14 +2459,99 @@ antonUpdate:
 	ldr r9,=0xfff
 	ldr r2,=antonMouthFrame
 	bl getRandom
-	and r8,#0xff
-	cmp r8,#1
+	and r8,r9
+	cmp r8,#35
 	movle r0,#14
 	strle r0,[r2]
 
 	b antonAnimate
 	
 	antonUpdateDone:
+	
+	@ ok, now blood
+	
+	
+	@ get a random x/y coord and check against level for 1 in colmap
+	@ all we want to splat above platforms
+	
+	mov r9,#8
+	
+	bloodTry:
+	
+	bl getRandom
+	and r8,#0xFF
+	mov r0,r8						@ r0=x=0-255
+	bl getRandom
+	and r8,#0xFF
+	lsr r8,#2
+	mov r3,#3
+	mul r8,r3
+	mov r1,r8						@ r1=y=0-191
+	
+@	cmp r1,#191-8
+@	bge bloodUpdateFail
+	
+	mov r3,r0,lsr #3				@ x=0-31 r3
+	mov r4,r1,lsr #3				@ y=0-23 r4
+	lsl r4,#5
+	add r6,r3,r4					@ r6=colmap offset
+	ldr r2,=colMapStore
+	ldrb r3,[r2,r6]
+	cmp r3,#0
+	beq bloodUpdateFail
+	cmp r3,#21
+	bge bloodUpdateFail
+
+	sub r6,#32
+	ldrb r3,[r2,r6]
+	cmp r3,#0
+	bne bloodUpdateFail
+
+		@ ok, we have a hit, start at r0,r1
+		@ first find a spare sprite..
+		bl spareSpriteFX
+		cmp r10,#0
+		beq bloodUpdateFail
+
+		@ r10=sprite
+		ldr r2,=spriteActive
+		mov r3,#FX_BLOOD_ACTIVE
+		str r3,[r2,r10,lsl#2]
+	
+		add r0,#64
+		ldr r2,=spriteX
+		lsr r0,#3
+		lsl r0,#3
+
+		str r0,[r2,r10,lsl#2]
+		lsr r1,#3
+		lsl r1,#3
+		sub r1,#16
+		add r1,#384
+		ldr r2,=spriteY
+		str r1,[r2,r10,lsl#2]
+		
+		mov r0,#BLOOD_FRAME
+		ldr r2,=spriteObj
+		str r0,[r2,r10,lsl#2]
+		
+		ldr r2,=spritePriority
+		mov r0,#2
+		str r0,[r2,r10,lsl#2]
+		
+		mov r0,#BLOOD_ANIM
+		ldr r2,=spriteAnimDelay
+		str r0,[r2,r10,lsl#2]
+		
+		beq bloodPassed
+
+	bloodUpdateFail:	
+	
+	subs r9,#1
+	bpl bloodTry
+	
+	bloodPassed:
+	
 	
 	ldmfd sp!, {r0-r10, pc}
 

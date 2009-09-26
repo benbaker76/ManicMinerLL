@@ -586,7 +586,24 @@ drawSprite:
 					mov r0,#METEOR_ANIM
 					str r0,[r1,r10,lsl#2]
 		drawNotMCrash:
-
+		cmp r0,#FX_BLOOD_ACTIVE
+		bne drawNotBlood
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			subs r2,#1
+			movmi r2,#BLOOD_ANIM
+			str r2,[r1,r10,lsl #2]
+			bpl drawNotBlood
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				str r2,[r1,r10,lsl #2]
+				cmp r2,#BLOOD_FRAME_END+1
+				bne drawNotBlood
+				mov r2,#0
+				ldr r1,=spriteActive
+				str r2,[r1,r10,lsl#2]
+		drawNotBlood:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

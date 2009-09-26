@@ -372,6 +372,7 @@
 #define FX_METEOR_ACTIVE			22
 #define FX_METEORCRASH_ACTIVE		23
 #define FX_STARDUST_ACTIVE			24
+#define FX_BLOOD_ACTIVE				25
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -454,6 +455,10 @@
 #define FORCEFIELD_FRAME			24
 #define FORCEFIELD_FRAME_END		27
 #define FORCEFIELD_ANIM				2
+
+#define BLOOD_FRAME					27
+#define BLOOD_FRAME_END				34
+#define BLOOD_ANIM				 	8
 
 @ level defines
 
