@@ -29,11 +29,12 @@
 #include "ipc.h"
 #include "audio.h"
 
+	#define	BitmapPause			300
+	#define	LevelPause			110
 	.arm
 	.align
 	.text
-
-
+	
 	.global initTitleScreen
 	.global updateTitleScreen
 	.global tScrollChar
@@ -95,7 +96,7 @@ initTitleScreen:
 	str r0,[r1]
 	
 	ldr r1,=tTimer				@ store initial timer
-	ldr r0,=500
+	ldr r0,=BitmapPause
 	str r0,[r1]
 
 	bl initVideoTitle
@@ -228,6 +229,41 @@ titleCredit1Screen:
 	bl dmaCopy
 	
 	bl clearSpriteData
+
+	ldmfd sp!, {r0-r10, pc}	
+	
+
+@----------------------------
+highScoreScreen:
+
+	stmfd sp!, {r0-r10, lr}	
+	
+	bl initVideoTitle
+	
+	bl specialFXStop	
+	
+	bl fxFadeBlackLevelInit
+	bl fxFadeMax
+	bl fxFadeIn
+
+	@ draw our Highs to sub
+	
+	ldr r0,=HighScoreTiles							@ copy the tiles used for title
+	ldr r1,=BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
+	ldr r2,=HighScoreTilesLen
+	bl decompressToVRAM	
+	ldr r0, =HighScoreMap
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
+	ldr r2, =HighScoreMapLen
+	bl dmaCopy
+	ldr r0, =HighScorePal
+	ldr r1, =BG_PALETTE_SUB
+	ldr r2, =HighScorePalLen
+	bl dmaCopy
+	
+	bl clearSpriteData
+	
+	@ now draw the scores on BG1?
 
 	ldmfd sp!, {r0-r10, pc}	
 
@@ -719,7 +755,7 @@ drawTitleThings:
 		@ draw title
 	
 		bl titleMainScreen
-		ldr r9,=400
+		ldr r9,=BitmapPause
 		b titleThingsDone
 	
 	titleThings1:
@@ -728,7 +764,7 @@ drawTitleThings:
 		@ display level
 	
 		bl titleGameScreen
-		ldr r9,=150
+		ldr r9,=LevelPause
 		b titleThingsDone
 	
 	titleThings2:
@@ -736,7 +772,7 @@ drawTitleThings:
 	bne titleThings3
 	
 		bl titleCredit1Screen
-		ldr r9,=400
+		ldr r9,=BitmapPause
 		ldr r1,=tCreditFrame
 		ldr r10,[r1]
 		add r10,#1
@@ -748,6 +784,14 @@ drawTitleThings:
 	
 	
 	titleThings3:
+	cmp r3,#2048
+	bne titleThings4
+	
+		bl highScoreScreen
+		ldr r9,=BitmapPause
+		b titleThingsDone
+		
+	titleThings4:
 
 
 	titleThingsDone:
@@ -770,7 +814,7 @@ tTimer:
 tScrollerOn:
 	.word 0
 tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
-	.word 0,1,2,3,4,512,5,6,7,8,512,9,10,11,12,512,13,14,15,16,512,17,18,19,20,4096
+	.word 0,1,2,3,4,512,5,6,7,8,2048,9,10,11,12,512,13,14,15,16,2048,17,18,19,20,4096
 tDemoPos:
 	.word 0
 tScrollPix:

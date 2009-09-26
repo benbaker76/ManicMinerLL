@@ -123,6 +123,7 @@
 #include "../build/ScrollFont.h"
 #include "../build/Status.h"
 #include "../build/CreditPage.h"
+#include "../build/HighScore.h"
 
 @ intro graphics
 

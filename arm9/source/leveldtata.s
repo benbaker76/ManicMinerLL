@@ -1133,7 +1133,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "     SPACE FRACTAL 2009     "
-	.ascii "       SOMEONE - 2009       "
+	.ascii "ORIGNAL LEVEL - SVERX 2009  "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
 	@ Anything?
