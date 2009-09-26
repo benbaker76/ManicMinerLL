@@ -826,6 +826,9 @@ specialEffectStart:
 		bleq forceFieldInit
 	cmp r0,#FX_ANTON
 		bleq antonInit
+	cmp r0,#FX_LIFT
+		bleq liftInit
+
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

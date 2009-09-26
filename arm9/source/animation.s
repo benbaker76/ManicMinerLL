@@ -528,8 +528,12 @@ flipSwitch:
 	beq flipSwitchWallDestroy
 	cmp r8,#25
 	beq flipSwitchWallDestroy
+	cmp r8,#31
+	beq flipSwithLiftThing
 	
 	@ now, flip the conveyors (ulp) (DEFAULT action)
+
+	switchStandardReturn:
 	
 	bl playClick
 	
@@ -688,12 +692,55 @@ flipSwitch:
 	
 		subs r11,#1
 	bpl r0ExplodeAgain
-	
-	
+
 	r0EffectNoneSpare:
 
 	ldmfd sp!, {r0-r11, pc}	
 	
+@-----------------------------
+
+flipSwithLiftThing:
+
+	@ only activate lift if liftmotion is 0
+	
+	ldr r1,=liftMotion
+	ldr r2,[r1]
+	cmp r2,#0
+	moveq r2,#1
+	str r2,[r1]
+
+	bne flipSwitchDone
+	
+	@ ok, now remove 2 and 3 from colmap
+
+	mov r0,#0
+	ldr r4,=colMapStore
+	liftClearLoop:
+		ldrb r1,[r4,r0]
+		cmp r1,#2
+		beq liftClearPass
+		cmp r1,#3
+		bne liftClearFail
+		
+		liftClearPass:
+
+			mov r7,#0
+			strb r7,[r4,r0]
+		
+		liftClearFail:
+	
+		add r0,#1
+		cmp r0,#768
+	bne liftClearLoop
+
+	@ and reverse the conveyors
+	
+
+
+b switchStandardReturn	
+
+@------------------------------
+
 	.align
 levelAnimDelay:
 	.word 0

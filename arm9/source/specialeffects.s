@@ -74,6 +74,8 @@
 	.global forceFieldInit
 	
 	.global antonInit
+	
+	.global liftInit
 
 	.global specialFXStop
 
@@ -114,6 +116,8 @@ updateSpecialFX:
 	bleq forceFieldUpdate
 	cmp r0,#FX_ANTON
 	bleq antonUpdate
+	cmp r0,#FX_LIFT
+	bleq liftUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -2620,12 +2624,169 @@ antonAnimate:
 
 b antonUpdateDone
 
+@------------------------------------ lift Init
+liftInit:
+	stmfd sp!, {r0-r10, lr}
+
+		ldr r0,=FXLiftTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256
+		ldr r2,=FXLiftTilesLen
+		bl dmaCopy
+
+
+		mov r10,#0				@ sprite number
+		mov r9,#0				@ Y coord
+		mov r8,#0				@ X coord
+
+		liftInitLoop:
+
+			ldr r1,=spriteActive
+			mov r0,#FX_LIFT_ACTIVE
+			str r0,[r1,r10,lsl#2]
+		
+			ldr r1,=spriteX
+			mov r3,r8,lsl#4
+			add r3,#64+96+40
+			str r3,[r1,r10,lsl#2]
+		
+			ldr r1,=spriteY
+			mov r3,r9,lsl#4
+			add r3,#384+96+40
+			str r3,[r1,r10,lsl#2]
+			ldr r1,=spriteObj
+			add r11,r10,#24
+
+			str r11,[r1,r10,lsl#2]
+			ldr r1,=spritePriority
+			mov r0,#2
+			str r0,[r1,r10,lsl#2]
+
+			add r8,#1
+			cmp r8,#3
+			moveq r8,#0
+			addeq r9,#1
+		
+			add r10,#1
+			cmp r10,#9
+		bne liftInitLoop
+		
+		ldr r1,=liftMotion
+		mov r0,#0
+		str r0,[r1]
+
+
+	ldmfd sp!, {r0-r10, pc}
 @---------------
+
+liftUpdate:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r0,=liftMotion
+	ldr r0,[r0]
+	cmp r0,#1
+	bne liftMoveNot
+	
+		@ we need to move the lift upwards to destination here,
+		@ remembering to remove the rope LOL
+	
+	
+		ldr r1,=spriteY
+		ldr r0,[r1]
+		cmp r0,#(6*8)+384+24
+		ldreq r1,=liftMotion
+		moveq r0,#2
+		streq r0,[r1]
+		beq liftMoveFail
+		
+		
+			@ move lift (sprites 0-8)
+			ldr r2,=liftDelay
+			ldr r3,[r2]
+			subs r3,#1
+			movmi r3,#2
+			str r3,[r2]
+		@	bpl liftMoveNot
+			
+			mov r10,#0
+			
+			liftUpdateLoop:
+			
+				ldr r0,[r1,r10,lsl#2]
+				sub r0,#1
+				str r0,[r1,r10,lsl#2]
+				
+			add r10,#1
+			cmp r10,#9
+			bne liftUpdateLoop
+
+			@ now we need to remove the rope!!
+			
+			ldr r5, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+			add r5, #1536					@ first tile of offscreen tiles
+			add r5, #16						@ add 8 chars (Our blank)
+			ldrh r5,[r5]					@ r5 now=the graphic we need to display
+			
+			@ r5=tile to plot at y+(x+2)
+			
+			ldr r1,[r1]						@ r1=y
+			ldr r0,=spriteX
+			ldr r0,[r0]						@ r0=x
+			
+			sub r1,#384
+			lsr r1,#3
+			sub r0,#64
+			lsr r0,#3
+			
+			ldr r3, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+			
+			add r1,#1
+			lsl r1,#5
+			add r1,r0
+			add r1,#2
+			add r3,r1,lsl #1 
+			
+			
+			strh r5,[r3]
+			add r3,#2
+			strh r5,[r3]	
+	
+			b liftMoveNot
+	
+		liftMoveFail:
+		
+		@ lift is at destination, so we need to make it solid
+		
+		mov r0,#0
+		ldr r4,=colMapStore
+		liftSolidLoop:
+			ldrb r1,[r4,r0]
+			mov r5,#0
+			cmp r1,#61
+			moveq r5,#2
+			cmp r1,#62
+			moveq r5,#3
+			cmp r5,#0
+			beq liftSolidSkip
+			strb r5,[r4,r0]
+			liftSolidSkip:
+			add r0,#1
+			cmp r0,#768
+		bne liftSolidLoop
+
+	
+	liftMoveNot:
+	
+	ldmfd sp!, {r0-r10, pc}
 
 
 	.pool
 	.data
 	.align
+	liftDelay:
+	.word 0
+	
 	antonLeft:
 	.word 7,6,5,4,3,2,1,0,1,2,3,4,5,6
 	antonRight:

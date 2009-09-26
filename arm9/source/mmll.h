@@ -160,6 +160,8 @@
 #include "../build/FXMeteor.h"
 #include "../build/FXForceField.h"
 #include "../build/FXAnton.h"
+#include "../build/FXLift.h"
+
 
 @ death animations
 
@@ -346,6 +348,7 @@
 #define FX_METEOR					16
 #define FX_FORCEFIELD				17
 #define FX_ANTON					18
+#define FX_LIFT						19
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128
@@ -373,6 +376,7 @@
 #define FX_METEORCRASH_ACTIVE		23
 #define FX_STARDUST_ACTIVE			24
 #define FX_BLOOD_ACTIVE				25
+#define FX_LIFT_ACTIVE				26
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)

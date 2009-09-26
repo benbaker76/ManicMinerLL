@@ -99,6 +99,7 @@
 	.global switchY
 	.global switchOn
 	.global levelWraps
+	.global liftMotion
 	
 	.global specialEffect
 	
@@ -135,6 +136,8 @@ switch3:
 switch4:
 	.word 0
 
+liftMotion:
+	.word 0
 
 
 minerJumpDelay:
