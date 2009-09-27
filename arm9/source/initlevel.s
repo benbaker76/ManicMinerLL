@@ -362,7 +362,9 @@ getDoorSprite:
 	cmp r0,#29
 	ldreq r0, =Exit30Tiles
 	ldreq r2, =Exit30TilesLen
-	
+	cmp r0,#30
+	ldreq r0, =Exit31Tiles
+	ldreq r2, =Exit31TilesLen	
 	
 	cmp r2,#0
 	beq skipExit
@@ -558,6 +560,12 @@ getLevelBackground:
 	ldreq r5,=Background30TilesLen
 	ldreq r6,=Background30Map
 	ldreq r7,=Background30MapLen
+	cmp r0,#30
+	ldreq r4,=Background31Tiles
+	ldreq r5,=Background31TilesLen
+	ldreq r6,=Background31Map
+	ldreq r7,=Background31MapLen
+
 	@ Draw main game map!
 	mov r0,r4
 	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)

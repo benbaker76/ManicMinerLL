@@ -82,6 +82,7 @@
 #include "../build/Background27.h"
 #include "../build/Background29.h"
 #include "../build/Background30.h"
+#include "../build/Background31.h"
 #include "../build/Background41.h"
 
 #include "../build/Exit01.h"
@@ -110,6 +111,7 @@
 #include "../build/Exit27.h"
 #include "../build/Exit29.h"
 #include "../build/Exit30.h"
+#include "../build/Exit31.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
