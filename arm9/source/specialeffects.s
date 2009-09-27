@@ -77,6 +77,8 @@
 	
 	.global liftInit
 
+	.global rockyInit
+
 	.global specialFXStop
 
 @------------------------------------ Special Effect Update
@@ -118,6 +120,8 @@ updateSpecialFX:
 	bleq antonUpdate
 	cmp r0,#FX_LIFT
 	bleq liftUpdate
+	cmp r0,#FX_ROCKY
+	bleq rockyUpdate
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -2780,7 +2784,36 @@ liftUpdate:
 	
 	ldmfd sp!, {r0-r10, pc}
 
+@------------------------------------ rocky Init
+rockyInit:
+	stmfd sp!, {r0-r10, lr}
 
+		ldr r0,=FXRockyTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#40*256
+		ldr r2,=8*256
+		bl dmaCopy
+	
+	ldr r1,=killerDelay
+	mov r0,#8
+	str r0,[r1]
+
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ rocky Update
+rockyUpdate:
+	stmfd sp!, {r0-r10, lr}
+
+	bl killersUpdate
+
+
+
+	bl fxMoveSplashburst
+
+
+
+	ldmfd sp!, {r0-r10, pc}
+	
 	.pool
 	.data
 	.align

@@ -496,6 +496,38 @@ minerFall:
 		movpl r2,#192+384	
 		str r2,[r1]
 
+@------------- level 32 mod
+
+		ldr r3,=levelNum
+		ldr r3,[r3]
+		cmp r3,#32
+		bne level32FallFail
+		
+		cmp r2,#172+384
+		blt level32FallFail
+		
+		@ make exit our coord
+
+		ldr r6,=exitY
+		sub r2,#6
+		str r2,[r6]
+		ldr r6,=spriteX+256
+		ldr r6,[r6]
+		ldr r5,=exitX
+		str r6,[r5]
+
+		mov r6,#63					@ activate the door..
+		mov r5,#EXIT_OPEN
+		ldr r4,=spriteActive
+		str r5,[r4,r6,lsl#2]
+		
+		b minerFallFail
+		
+		level32FallFail:
+
+
+@-------------
+
 		bl checkFeet				@ lets have a look below us
 		
 		bl checkFall

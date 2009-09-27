@@ -21,7 +21,7 @@ levelData:
 @						1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @						8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
 @						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
-@						17=forcefield, 18=anton, 19=lift
+@						17=forcefield, 18=anton, 19=lift,20=rocky
 @ 7 =background number (0-?)
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -390,12 +390,12 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 32 / Rocky Horror
-	.byte 232,168,0,6,168,1,6,37
+	.byte 255,255,0,232,160,40,31,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,160,17,1,1,14,0,60
+	.byte 216,112,0,16,2,10,48,158
+	.byte 90,144,17,1,255,14,84,120
+	.byte 20,112,1,16,1,10,48,128
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -966,18 +966,18 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	@ 32	/ ROCKY HORROR
-	.ascii "ROCKY HORROR              "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  SOMEHOW, WILLY KNEW THAT"
+	.ascii "THIS CELLULOID NIGHTMARE  "
+	.ascii "WAS COMING TO AN END.     "
+	.ascii "  HE REALLY HAD SEEN IT   "
+	.ascii "ALL ON HIS TRAVELS. SUCH  "
+	.ascii "SIGHTS, SUCH JOURNEYS,    "
+	.ascii "SUCH, ER.. THINGS.        "
+	.ascii "  HE KNEW THAT ALL HE HAD "
+	.ascii "TO DO WAS COLLECT THE     "
+	.ascii "LIGHTNING GUNS, BUT...    "
+	.ascii "THEN WHAT? WILLY COULD SEE"
+	.ascii "NO EXIT THIS TIME......   "
 	@ 33
 	.ascii "                          "
 	.ascii "                          "

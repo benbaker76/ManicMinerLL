@@ -83,6 +83,7 @@
 #include "../build/Background29.h"
 #include "../build/Background30.h"
 #include "../build/Background31.h"
+#include "../build/Background32.h"
 #include "../build/Background41.h"
 
 #include "../build/Exit01.h"
@@ -125,7 +126,9 @@
 #include "../build/ScrollFont.h"
 #include "../build/Status.h"
 #include "../build/CreditPage.h"
+#include "../build/CreditPageTop.h"
 #include "../build/CreditPage2.h"
+#include "../build/CreditPageTop2.h"
 #include "../build/HighScore.h"
 
 @ intro graphics
@@ -166,6 +169,7 @@
 #include "../build/FXForceField.h"
 #include "../build/FXAnton.h"
 #include "../build/FXLift.h"
+#include "../build/FXRocky.h"
 
 
 @ death animations
@@ -354,6 +358,7 @@
 #define FX_FORCEFIELD				17
 #define FX_ANTON					18
 #define FX_LIFT						19
+#define FX_ROCKY					20
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128

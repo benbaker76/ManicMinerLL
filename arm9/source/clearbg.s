@@ -37,6 +37,7 @@
 	.global clearBG1
 	.global clearBG2
 	.global clearBG3
+	.global clearBG0SubPart
 
 clearBG0:
 
@@ -75,6 +76,20 @@ clearBG0Sub:
 	mov r0, #0
 	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
 	ldr r2, =32*32*2
+	bl dmaFillWords
+
+	ldmfd sp!, {r0-r2, pc}
+	
+	@---------------------------------
+	
+clearBG0SubPart:
+
+	stmfd sp!, {r0-r2, lr}	
+
+	mov r0, #0
+	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+	add r1,#32*4*2
+	ldr r2, =32*28*2
 	bl dmaFillWords
 
 	ldmfd sp!, {r0-r2, pc}

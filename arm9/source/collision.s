@@ -697,7 +697,20 @@ checkCollectDieFeet:
 	
 	cmp r0,#64							@ check for DEATH first!
 	blt notDieThingFeet
+@-----------
+		@ special mod for level 32
+		ldr r3,=levelNum
+		ldr r3,[r3]
+		cmp r3,#32
+		bne level32Die
+		
+		ldr r3,=keyCounter
+		ldr r3,[r3]
+		cmp r3,#0
+		beq notDieThingFeet
 
+		level32Die:
+@-----------
 		ldr r3,=spriteX+256
 		ldr r3,[r3]
 		and r3,#7

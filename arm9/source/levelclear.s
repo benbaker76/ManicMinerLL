@@ -104,15 +104,7 @@ levelClear:											@ do the level clear stuff
 	
 	subs r10,#1
 	bpl levelClearLoop
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	bl levelNext
 	

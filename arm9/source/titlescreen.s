@@ -185,6 +185,8 @@ titleGameScreen:
 
 	stmfd sp!, {r0-r10, lr}	
 	
+	bl clearBG0SubPart
+	
 	ldr r0,=StatusTiles							@ copy the tiles used for status and air
 	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
 	ldr r2,=StatusTilesLen
@@ -225,6 +227,16 @@ titleCredit1Screen:
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
 	ldr r2, =CreditPageMapLen
 	bl dmaCopy
+	ldr r0,=CreditPageTopTiles							@ copy the tiles used for title
+	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
+	ldr r2,=CreditPageTopTilesLen
+	bl decompressToVRAM	
+	ldr r0, =CreditPageTopMap
+	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)	@ destination
+	ldr r2, =CreditPageTopMapLen
+	bl dmaCopy
+
+
 	ldr r0, =CreditPagePal
 	ldr r1, =BG_PALETTE_SUB
 	ldr r2, =CreditPagePalLen
@@ -256,6 +268,14 @@ titleCredit2Screen:
 	ldr r0, =CreditPage2Map
 	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
 	ldr r2, =CreditPage2MapLen
+	bl dmaCopy
+	ldr r0,=CreditPageTop2Tiles							@ copy the tiles used for title
+	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
+	ldr r2,=CreditPageTop2TilesLen
+	bl decompressToVRAM	
+	ldr r0, =CreditPageTop2Map
+	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)	@ destination
+	ldr r2, =CreditPageTop2MapLen
 	bl dmaCopy
 	ldr r0, =CreditPage2Pal
 	ldr r1, =BG_PALETTE_SUB

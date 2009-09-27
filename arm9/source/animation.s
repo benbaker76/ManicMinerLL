@@ -305,6 +305,18 @@ collectKey:
 		str r3,[r2,r4,lsl#2]
 	
 		@ perhaps a sound effect??
+		
+@------------- level 32 mod
+
+	ldr r1,=levelNum
+	ldr r1,[r1]
+	cmp r1,#32
+	bne stillKeysLeft
+	
+	bl fxSplashburstInit
+	
+	
+@--------------	
 	
 	stillKeysLeft:
 	

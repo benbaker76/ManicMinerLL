@@ -565,6 +565,11 @@ getLevelBackground:
 	ldreq r5,=Background31TilesLen
 	ldreq r6,=Background31Map
 	ldreq r7,=Background31MapLen
+	cmp r0,#31
+	ldreq r4,=Background32Tiles
+	ldreq r5,=Background32TilesLen
+	ldreq r6,=Background32Map
+	ldreq r7,=Background32MapLen
 
 	@ Draw main game map!
 	mov r0,r4
@@ -839,7 +844,8 @@ specialEffectStart:
 		bleq antonInit
 	cmp r0,#FX_LIFT
 		bleq liftInit
-
+	cmp r0,#FX_ROCKY
+		bleq rockyInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 
