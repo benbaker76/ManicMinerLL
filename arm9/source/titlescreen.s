@@ -96,6 +96,8 @@ initTitleScreen:
 	add r0,#1
 	ldr r1,=tArms
 	str r0,[r1]
+	ldr r1,=trapStart
+	str r0,[r1]
 	
 	ldr r1,=tTimer				@ store initial timer
 	ldr r0,=BitmapPause
@@ -375,6 +377,12 @@ updateTitleScreen:
 		tst r3,#BUTTON_START
 		beq titleGameStart		
 
+		ldr r1,=trapStart
+		mov r0,#0
+		str r0,[r1]
+		
+		titleStartReturn:
+
 	subs r8,#1
 	
 	bne titleScreenLoop
@@ -401,11 +409,20 @@ titleGameStart:
 
 @---------------------------------------- Start has been pressed
 
+	ldr r1,=trapStart
+	ldr r0,[r1]
+	cmp r0,#1
+	beq titleStartReturn
+
 	mov r1, #GAMEMODE_RUNNING
 	ldr r2, =gameMode
 	str r1,[r2]
 	mov r1, #0
 	ldr r2,=tScrollerOn
+	str r1,[r2]
+	
+	mov r1, #1
+	ldr r2, =trapStart
 	str r1,[r2]
 	
 	bl clearBG0

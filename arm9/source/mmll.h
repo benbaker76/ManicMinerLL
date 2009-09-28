@@ -130,6 +130,8 @@
 #include "../build/CreditPage2.h"
 #include "../build/CreditPageTop2.h"
 #include "../build/HighScore.h"
+#include "../build/EndBottom.h"
+#include "../build/EndTop.h"
 
 @ intro graphics
 
@@ -249,6 +251,7 @@
 #define GAMEMODE_DIES_INIT			8
 #define GAMEMODE_DIES_UPDATE		9
 #define GAMEMODE_SPOTLIGHT			10
+#define GAMEMODE_GAMEOVER			11
 
 @ FX defines. These are bits so we can have multiple fx at once
 
@@ -359,6 +362,7 @@
 #define FX_ANTON					18
 #define FX_LIFT						19
 #define FX_ROCKY					20
+#define FX_FFLAG					21
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128

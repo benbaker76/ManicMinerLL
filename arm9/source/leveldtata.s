@@ -21,7 +21,7 @@ levelData:
 @						1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @						8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
 @						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
-@						17=forcefield, 18=anton, 19=lift,20=rocky
+@						17=forcefield, 18=anton, 19=lift,20=rocky, 21=BTTF flag
 @ 7 =background number (0-?)
 @ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
 
@@ -324,7 +324,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 26 / back to the future
-	.byte 200,56,13,8,168,27,25,25
+	.byte 200,56,13,8,168,43,25,25
 
 	.byte 128,120,17,16,1,43,72,168
 	.byte 160,56,17,17,2,41,8,232

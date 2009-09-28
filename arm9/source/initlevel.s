@@ -846,6 +846,8 @@ specialEffectStart:
 		bleq liftInit
 	cmp r0,#FX_ROCKY
 		bleq rockyInit
+	cmp r0,#FX_FFLAG
+		bleq fFlagInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

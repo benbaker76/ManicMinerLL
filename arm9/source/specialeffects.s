@@ -33,51 +33,35 @@
 	.text
 	
 	.global updateSpecialFX
+	
 	.global rainInit
 	.global rainUpdate
-
 	.global starsInit
 	.global starsUpdate
-
 	.global leafInit
 	.global leafUpdate
-
 	.global glintInit
 	.global glintUpdate
-
 	.global dripInit
 	.global dripUpdate
-	
 	.global eyesInit
-	
 	.global fliesInit
-
 	.global mallowInit
-
 	.global cStarsInit
-	
 	.global bloodInit
-	
 	.global bulbInit
-	
 	.global blinksInit
-	
 	.global killersInit
-	
 	.global sparkInit
-	
 	.global kongInit
-	
 	.global meteorInit
 	.global meteorPhase
 	.global meteorDrops
 	.global forceFieldInit
-	
 	.global antonInit
-	
 	.global liftInit
-
 	.global rockyInit
+	.global fFlagInit
 
 	.global specialFXStop
 
@@ -122,6 +106,9 @@ updateSpecialFX:
 	bleq liftUpdate
 	cmp r0,#FX_ROCKY
 	bleq rockyUpdate
+	cmp r0,#FX_FFLAG
+	bleq fFlagUpdate
+
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -2806,11 +2793,57 @@ rockyUpdate:
 
 	bl killersUpdate
 
-
-
 	bl fxMoveSplashburst
 
+	ldmfd sp!, {r0-r10, pc}
 
+@------------------------------------ flag Init
+fFlagInit:
+	stmfd sp!, {r0-r10, lr}
+
+		ldr r0,=FXBackFlagTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#24*256
+		ldr r2,=8*256
+		bl dmaCopy
+	
+	ldr r1,=killerDelay
+	mov r0,#8
+	str r0,[r1]
+
+	mov r10,#62
+	ldr r2,=spriteActive
+	mov r3,#FX_CFLAG_ACTIVE
+	str r3,[r2,r10,lsl#2]
+	
+	mov r0,#128
+	add r0,#64
+	ldr r2,=spriteX
+	str r0,[r2,r10,lsl#2]
+	mov r0,#112
+	add r0,#384
+	ldr r2,=spriteY
+	str r0,[r2,r10,lsl#2]
+		
+	mov r0,#CFLAG_FRAME
+	ldr r2,=spriteObj
+	str r0,[r2,r10,lsl#2]
+		
+	ldr r2,=spritePriority
+	mov r0,#2
+	str r0,[r2,r10,lsl#2]
+		
+	mov r0,#CFLAG_ANIM
+	ldr r2,=spriteAnimDelay
+	str r0,[r2,r10,lsl#2]
+
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------ flag Update
+fFlagUpdate:
+	stmfd sp!, {r0-r10, lr}
+
+	bl killersUpdate
 
 	ldmfd sp!, {r0-r10, pc}
 	

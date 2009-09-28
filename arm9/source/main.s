@@ -82,11 +82,11 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
 @	bl initLevelClear
 	
@@ -118,6 +118,10 @@ mainLoop:
 	bleq updateDeathAnim
 	cmp r1, #GAMEMODE_SPOTLIGHT
 	beq spotlightLoop
+	cmp r1, #GAMEMODE_PAUSED
+	bleq gamePaused
+	cmp r1, #GAMEMODE_GAMEOVER
+	bleq updateGameOver
 	
 	b mainLoop
 
@@ -172,6 +176,8 @@ gameLoop:
 	bl drawSprite
 	
 	bl switchClear
+	
+	bl pauseCheck
 
 @	bl debugText
 	

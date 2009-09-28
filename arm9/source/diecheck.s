@@ -265,7 +265,7 @@ updateDeathAnim:
 		bl fxSpotlightOut
 		
 		ldr r0, =fxSpotlightCallbackAddress
-		ldr r1, =initTitleScreen
+		ldr r1, =initGameOver
 		str r1, [r0]
 	
 updateDeathAnimDone:	

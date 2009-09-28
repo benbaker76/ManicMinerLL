@@ -101,6 +101,8 @@
 	.global levelWraps
 	.global liftMotion
 	
+	.global trapStart
+	
 	.global specialEffect
 	
 gameMode:
@@ -137,6 +139,9 @@ switch4:
 	.word 0
 
 liftMotion:
+	.word 0
+	
+trapStart:
 	.word 0
 
 

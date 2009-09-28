@@ -33,12 +33,18 @@
 	.text
 	.global clearBG0
 	.global clearBG0Partial
+	.global clearBG1Partial
 	.global clearBG0Sub
 	.global clearBG1
 	.global clearBG2
 	.global clearBG3
 	.global clearBG0SubPart
-
+	.global clearBG1SubPart
+	.global clearBG0SubPartGame
+	.global clearBG1SubPartGame
+	
+	
+	
 clearBG0:
 
 	stmfd sp!, {r0-r2, lr} 
@@ -63,6 +69,21 @@ clearBG0Partial:								@ this stops the flicker when pause/unpause is repeated 
 	ldr r2, =32*20*2
 	bl dmaFillWords
 	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+	bl dmaFillWords
+
+	ldmfd sp!, {r0-r2, pc}
+
+	@---------------------------------
+	
+clearBG1Partial:								@ this stops the flicker when pause/unpause is repeated on the score etc
+
+	stmfd sp!, {r0-r2, lr} 
+
+	mov r0, #0
+	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)
+	ldr r2, =32*20*2
+	bl dmaFillWords
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
 	bl dmaFillWords
 
 	ldmfd sp!, {r0-r2, pc}
@@ -93,6 +114,49 @@ clearBG0SubPart:
 	bl dmaFillWords
 
 	ldmfd sp!, {r0-r2, pc}
+
+	@---------------------------------
+	
+clearBG1SubPart:
+
+	stmfd sp!, {r0-r2, lr}	
+
+	mov r0, #0
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+	add r1,#32*4*2
+	ldr r2, =32*28*2
+	bl dmaFillWords
+
+	ldmfd sp!, {r0-r2, pc}
+
+	@---------------------------------
+	
+clearBG0SubPartGame:
+
+	stmfd sp!, {r0-r2, lr}	
+
+	mov r0, #0
+	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+	add r1,#32*7*2
+	ldr r2, =32*25*2
+	bl dmaFillWords
+
+	ldmfd sp!, {r0-r2, pc}
+
+	@---------------------------------
+	
+clearBG1SubPartGame:
+
+	stmfd sp!, {r0-r2, lr}	
+
+	mov r0, #0
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+	add r1,#32*7*2
+	ldr r2, =32*25*2
+	bl dmaFillWords
+
+	ldmfd sp!, {r0-r2, pc}
+
 	
 	@---------------------------------
 	
