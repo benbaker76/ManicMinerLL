@@ -72,6 +72,12 @@ updateGameOver:
 
 	stmfd sp!, {r0-r10, lr}
 	
+	
+	
+	
+	
+	@ Check for start or A pressed
+	
 	ldr r2, =REG_KEYINPUT
 	ldr r10,[r2]
 	
@@ -83,6 +89,8 @@ updateGameOver:
 	ldmfd sp!, {r0-r10, pc}
 
 	gOverEnd:
+	
+	@ return to title screen (or highscore at some point)
 	
 	ldr r1,=trapStart
 	mov r0,#1
