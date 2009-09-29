@@ -14,7 +14,7 @@ levelData:
 @ 3 0-127 tune to play 	(0=default, 1=creepy, 2=space, 3=egypt 4=piano 5=speccy)
 @	(low 7)					(6=Casablanca, 7=alleycat, 8=jungle, 9=cavern, 10=atmosphere)
 @						(11=reggae, 12=Terminator, 13=Snug, 14=ghostbusters, 15=goonies)
-@						(16= horror, 17=frankenstein, 18=Gremlins
+@						(16= horror, 17=frankenstein, 18=Gremlins, 19=kingkong
 @	high 1 = 0-1 = Wraparound level? 0=no / 1=yes
 @ 4,5 willies start position
 @ 6 =willies init dir (0=l 1=r) LOW BYTE / HIGH 7=Special effect (ie. rain) (0=none)
@@ -357,7 +357,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 29 / King Kong
-	.byte 240,168,5,108,168,30,28,28			@ music
+	.byte 240,168,19,108,168,30,28,28			@ music
 
 	.byte 40,48,17,1,1,13,0,128
 	.byte 140,120,17,1,2,13,16,216

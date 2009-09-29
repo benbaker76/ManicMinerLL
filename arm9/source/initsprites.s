@@ -12,6 +12,7 @@
 	.text
 	.global initSprites
 	.global initTitleSprites
+	.global initTitlePointer
 	.global clearOAM
 	
 initSprites:
@@ -79,7 +80,44 @@ initTitleSprites:
 	strh r2,[r0]
 
 	ldmfd sp!, {r0-r10, pc}
+	
+	@ --------------------------------------
+	
+initTitlePointer:
 
+	@ use pointerFrame to frame to display
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r1,=gameMode
+	ldr r1,[r1]
+	cmp r1,#GAMEMODE_TITLE_SCREEN
+	bne noPointerUpdate
+	
+	ldr r0,=OBJ_ATTRIBUTE0(2)
+	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+	ldr r1,=pointerY
+	ldr r1,[r1]
+	lsl r1,#4
+	add r1,#41
+	orr r2,r1					@y
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE1(2)
+	ldr r2, =(ATTR1_SIZE_16)
+	orr r2,#12					@ x
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE2(2)
+	ldr r2,=pointerFrame
+	ldr r2,[r2]
+	add r2,#2					@ object
+	lsl r2,#3
+	strh r2,[r0]
+	
+	noPointerUpdate:
+
+
+	ldmfd sp!, {r0-r10, pc}
+	
 	@ --------------------------------------
 	
 clearOAM:

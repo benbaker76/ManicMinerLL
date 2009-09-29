@@ -41,6 +41,8 @@
 	.global tScrollSegment
 	.global tScrollText
 	.global titleScroller
+	.global pointerFrame
+	.global pointerY
 
 @----------------------------
 
@@ -96,6 +98,8 @@ initTitleScreen:
 	ldr r1,=titleMenu
 	str r0,[r1]
 	ldr r1,=gameReturn
+	str r0,[r1]
+	ldr r1,=moveTrap
 	str r0,[r1]
 	add r0,#1
 	ldr r1,=tArms
@@ -939,9 +943,13 @@ drawTitleThings:
 	mov r2,#13
 	bl drawTextBigMain
 	
+	@ ok, add sprite for the pointer (3rd sprite+8 in titleSprites)
+	
+	bl initTitlePointer
+	
 	ldmfd sp!, {r0-r10, pc}
 
-@------------------------------------------------------
+@------------------------------------------------------				This is for UPDATING the title screen
 
 	titleMenuControl:
 
@@ -950,16 +958,23 @@ drawTitleThings:
 	ldr r1,=titleMenu
 	ldr r0,[r1]
 	cmp r0,#0
-	beq titleStartDone
+	beq titleStartSkip
 
-	ldr r0, =REG_KEYINPUT						@ Read key input register
-	ldr r10, [r0]								@ Read key value
+	ldr r0,=REG_KEYINPUT						@ Read key input register
+	ldr r10,[r0]								@ Read key value
 	tst r10,#BUTTON_START						@ start=Start game/activate highlight optio
 	beq titleStart1		
 	tst r10,#BUTTON_B
 	beq titleRemoveOptions						@ B=back to normal title
+	tst r10,#BUTTON_UP
+	beq movePointer
+	tst r10,#BUTTON_DOWN
+	beq movePointer
 	
 		ldr r1,=trapStart	
+		mov r0,#0
+		str r0,[r1]
+		ldr r1,=moveTrap	
 		mov r0,#0
 		str r0,[r1]
 		b titleStartDone
@@ -979,6 +994,23 @@ drawTitleThings:
 		b titleStartDone
 	
 	titleStartDone:
+	
+	@ update and animate the pointer
+	
+	bl	initTitlePointer
+	
+	ldr r1,=pointerDelay
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#8
+	str r0,[r1]
+	ldrmi r1,=pointerFrame
+	ldrmi r2,[r1]
+	addmi r2,#1
+	andmi r2,#7
+	strmi r2,[r1]
+	
+	titleStartSkip:
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -992,6 +1024,10 @@ gameStartNormal:
 	ldr r2, =gameMode
 	str r1,[r2]
 
+	mov r1, #ATTR0_DISABLED			@ this should destroy the willy pointer
+	ldr r0,=OBJ_ATTRIBUTE0(2)
+	strh r1,[r0]
+
 	mov r1, #0
 	ldr r2,=tScrollerOn
 	str r1,[r2]
@@ -1001,7 +1037,6 @@ gameStartNormal:
 	str r1,[r2]
 	ldr r2, =gameReturn
 	str r1,[r2]
-	
 	
 	bl clearBG0
 	bl clearBG1
@@ -1032,12 +1067,62 @@ titleRemoveOptions:
 
 	bl clearBGTitle
 	
+	@ now remover the sprite
+	
+	mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
+	ldr r0,=OBJ_ATTRIBUTE0(2)
+	strh r1,[r0]
+	
 	ldmfd sp!, {r0-r10, pc}
+	
+@--------------------------	Move pointer up or down
+
+movePointer:
+
+	ldr r0,=moveTrap
+	ldr r1,[r0]
+	cmp r1,#1
+	beq movePointerDone
+	
+		mov r1,#1
+		str r1,[r0]
+		
+		ldr r0,=pointerY
+		ldr r1,[r0]
+		
+		tst r10,#BUTTON_UP
+		bne pointerDown
+		
+			subs r1,#1
+			movmi r1,#0
+			b pointerMoveStore
+		
+		pointerDown:
+	
+			add r1,#1
+			cmp r1,#4
+			movpl r1,#4
+	
+		pointerMoveStore:
+		
+		str r1,[r0]
+
+	movePointerDone:
+	
+	b titleStartDone
 
 @--------------------------
 
 	.pool
 	.data
+pointerY:
+	.word 0
+pointerFrame:
+	.word 0
+pointerDelay:
+	.word 0
+moveTrap:
+	.word 0
 titleMenu:
 	.word 0
 gameReturn:

@@ -181,9 +181,7 @@ initLevel:
 	bl specialEffectStart
 	
 	bl levelName
-	
-@	bl levelMusic
-	
+
 	@UNCOMMENT TO OPEN EXIT
 @	ldr r1,=spriteActive
 @	mov r0,#63				@ use the 63rd sprite
@@ -741,8 +739,10 @@ generateMonsters:
 	cmp r0,#18
 	ldreq r2, =Gremlins_xm_gz
 	ldreq r3, =Gremlins_xm_gz_size
+	cmp r0,#19
+	ldreq r2, =KingKong_xm_gz
+	ldreq r3, =KingKong_xm_gz_size
 	bl initMusic
-	
 	levelMusicFail:
 	
 	ldmfd sp!, {r0-r10, pc}
