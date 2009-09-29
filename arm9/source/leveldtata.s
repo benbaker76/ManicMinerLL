@@ -381,8 +381,8 @@ levelData:
 	@ 31 / Young Frankenstein
 	.byte 112,96,17,100,80,39,30,30
 
-	.byte 48,152,17,1,1,55,24,56
-	.byte 48,168,17,1,1,56,24,56
+	.byte 48,153,17,1,255,55,24,56
+	.byte 48,168,17,1,255,56,24,56
 	.byte 24,56,17,1,1,52,24,128
 	.byte 192,168,17,1,1,51,192,232
 	.byte 196,112,1,16,255,53,96,120
@@ -895,7 +895,7 @@ levelNames:
 	.ascii "ANOTHER DOORWAY LEADING TO"
 	.ascii "THE RETRO PLACE LOST IN   "
 	.ascii "1985. WALKMAN, NIKE, PINK "
-	.ascii "HEADBANDS, BENNETTON...   "
+	.ascii "HEADBANDS, BENETTON....   "
 	.ascii "IT IS TOO MUCH FOR WILLY, "
 	.ascii "HE SHIELDS HIS EYES WITH  "
 	.ascii "RAYBAN SHADES AND TIGHTENS"

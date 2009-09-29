@@ -90,8 +90,6 @@ initVideo:
 	ldrne r1, =BG_TILE_RAM(BG0_TILE_BASE)
 	ldrne r2, =FontTilesLen
 	blne dmaCopy
-@	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-@	bl dmaCopy
 	
 	ldmfd sp!, {r0-r1, pc}
 	
@@ -255,7 +253,7 @@ initVideoTitle:
 	bl initVideoMain
 	
 	mov r0, #REG_DISPCNT			@ Main screen to Mode 0 with BG0-3 active
-	ldr r1, =(MODE_0_2D | DISPLAY_SPR_ACTIVE | DISPLAY_SPR_1D_LAYOUT | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE)
+	ldr r1, =(MODE_0_2D | DISPLAY_SPR_ACTIVE | DISPLAY_SPR_1D_LAYOUT | DISPLAY_BG0_ACTIVE | DISPLAY_BG1_ACTIVE | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE)
 	str r1, [r0]
 	
 	ldr r0, =REG_DISPCNT_SUB		@ Sub screen to Mode 0 with BG0-3 active
@@ -275,13 +273,19 @@ initVideoTitle:
 	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG3_MAP_BASE_SUB) | BG_TILE_BASE(BG3_TILE_BASE_SUB) | BG_PRIORITY(BG3_PRIORITY))
 	strh r1, [r0]
 
+	ldr r0, =REG_BG1CNT			@ Set sub screen BG0 format to be 32x32 tiles at base address
+	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG1_MAP_BASE) | BG_TILE_BASE(BG1_TILE_BASE) | BG_PRIORITY(BG1_PRIORITY))
+	strh r1, [r0]
+	ldr r0, =REG_BG0CNT			@ Set sub screen BG0 format to be 32x32 tiles at base address
+	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE) | BG_TILE_BASE(BG0_TILE_BASE) | BG_PRIORITY(BG0_PRIORITY))
+	strh r1, [r0]
+	
 	ldr r1,=levelNum
 	ldr r1,[r1]
 	cmp r1,#0
 	beq titleStart
 	cmp r1,#128
 	ble notTitleStart
-
 
 	titleStart:
 		mov r0, #0
@@ -300,14 +304,12 @@ initVideoTitle:
 
 	notTitleStart:
 
-	ldr r0, =gameMode
-	ldr r1,[r0]
-	cmp r1,#GAMEMODE_TITLE_SCREEN
-
-@	ldrne r0, =FontTiles
-@	ldrne r1, =BG_TILE_RAM(BG0_TILE_BASE)
-@	ldrne r2, =FontTilesLen
-@	blne dmaCopy
+	ldr r0,=BigFontTiles							@ copy the tiles used for large font to main
+	ldr r1,=BG_TILE_RAM(BG0_TILE_BASE)
+@	add r1,#BigFontOffset
+	ldr r2,=BigFontTilesLen
+	bl decompressToVRAM
+	
 	ldr r0, =ScrollFontTiles
 	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
 	ldr r2, =ScrollFontTilesLen

@@ -132,6 +132,7 @@
 #include "../build/HighScore.h"
 #include "../build/EndBottom.h"
 #include "../build/EndTop.h"
+#include "../build/GameStart.h"
 
 @ intro graphics
 

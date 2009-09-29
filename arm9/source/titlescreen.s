@@ -93,6 +93,10 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r1,=tCreditFrame2
 	str r0,[r1]
+	ldr r1,=titleMenu
+	str r0,[r1]
+	ldr r1,=gameReturn
+	str r0,[r1]
 	add r0,#1
 	ldr r1,=tArms
 	str r0,[r1]
@@ -105,20 +109,17 @@ initTitleScreen:
 
 	bl initVideoTitle
 
-
 	mov r1, #GAMEMODE_TITLE_SCREEN
 	ldr r2, =gameMode
 	str r1,[r2]
 	
 	bl titleMainScreen					@ draw our title top screen	
-
-	@ now, what for the bottom screen??????
 	
 	bl titleBottomScreen
 	
 	ldr r2, =Title_xm_gz
 	ldr r3, =Title_xm_gz_size
-	bl initMusic
+	bl initMusic						@ play title music
 
 	bl initTitleSprites
 	
@@ -370,6 +371,13 @@ updateTitleScreen:
 		
 		bl updateCheatCheck
 		
+		bl titleMenuControl
+		
+		ldr r2,=titleMenu
+		ldr r2,[r2]
+		cmp r2,#1
+		beq titleStartReturn
+		
 		@ check for fire
 		
 		ldr r2, =REG_KEYINPUT						@ Read key input register
@@ -382,6 +390,11 @@ updateTitleScreen:
 		str r0,[r1]
 		
 		titleStartReturn:
+		
+		ldr r1,=gameReturn
+		ldr r1,[r1]
+		cmp r1,#0
+		bne returnToGameLoop
 
 	subs r8,#1
 	
@@ -405,39 +418,38 @@ titleNextScreen:
 	
 	b titleScreenTimer
 
-titleGameStart:
+@---------------------------------------
 
+	returnToGameLoop:
+
+	ldmfd sp!, {r0-r10, pc}	
+	
 @---------------------------------------- Start has been pressed
+
+titleGameStart:
 
 	ldr r1,=trapStart
 	ldr r0,[r1]
 	cmp r0,#1
 	beq titleStartReturn
 
-	mov r1, #GAMEMODE_RUNNING
-	ldr r2, =gameMode
-	str r1,[r2]
-	mov r1, #0
-	ldr r2,=tScrollerOn
-	str r1,[r2]
+	@ display menu
 	
-	mov r1, #1
+	ldr r1,=titleMenu		@ if the menu is already shown, do nothing
+	ldr r0,[r1]
+	cmp r0,#1
+	beq titleStartReturn
+
+	mov r0,#1				@ turn on menu
+	str r0,[r1]
+	
+	bl titleMenuDraw
+	
+	mov r1, #1				@ trap the start key again
 	ldr r2, =trapStart
 	str r1,[r2]
-	
-	bl clearBG0
-	bl clearBG1
-	bl clearBG2
-	bl clearBG3
-
-	bl initVideo
-	bl initSprites
-
-	bl specialFXStop
-
-	bl initGame
-	
-	ldmfd sp!, {r0-r10, pc}
+		
+	b titleStartReturn
 	
 @-------------------------
 
@@ -876,9 +888,160 @@ drawTitleThings:
 	ldmfd sp!, {r0-r10, pc}
 
 
+@------------------------------------------------------
+
+	titleMenuDraw:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	@ display the menu for us on bg1 main
+
+	ldr r0,=GameStartTiles							@ copy the tiles used for title
+	ldr r1,=BG_TILE_RAM(BG1_TILE_BASE)
+	ldr r2,=GameStartTilesLen
+	bl decompressToVRAM	
+	ldr r0, =GameStartMap
+	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)	@ destination
+	add r1,#(32*3)*2
+	add r1,#(1*2)
+	ldr r2, =(30*2)
+
+	mov r10,#14
+	
+	titleMenuDrawLoop:
+	
+		bl dmaCopy
+		add r1,#(32*2)				@ down 1 line
+		add r0,#(30*2)				@ down 1 line in the map
+		
+	
+	subs r10,#1
+	bpl titleMenuDrawLoop
+
+	ldr r1,=titleMenu
+	mov r0,#1
+	str r0,[r1]
+	
+	ldr r0,=titleGS
+	mov r1,#4
+	mov r2,#5
+	bl drawTextBigMain
+	ldr r0,=titleGM
+	mov r2,#7
+	bl drawTextBigMain
+	ldr r0,=titleSL
+	mov r2,#9
+	bl drawTextBigMain
+	ldr r0,=titleBL
+	mov r2,#11
+	bl drawTextBigMain
+	ldr r0,=titleJB
+	mov r2,#13
+	bl drawTextBigMain
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------------------------
+
+	titleMenuControl:
+
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r1,=titleMenu
+	ldr r0,[r1]
+	cmp r0,#0
+	beq titleStartDone
+
+	ldr r0, =REG_KEYINPUT						@ Read key input register
+	ldr r10, [r0]								@ Read key value
+	tst r10,#BUTTON_START						@ start=Start game/activate highlight optio
+	beq titleStart1		
+	tst r10,#BUTTON_B
+	beq titleRemoveOptions						@ B=back to normal title
+	
+		ldr r1,=trapStart	
+		mov r0,#0
+		str r0,[r1]
+		b titleStartDone
+	
+	titleStart1:
+	
+		ldr r1,=trapStart
+		ldr r0,[r1]
+		cmp r0,#1
+		beq titleStartDone
+	
+		@ start has been pressed
+		@ call SOMETHING to see what is to be done!! (based on highlighted option)
+		@ for now - start game
+		
+		bl gameStartNormal
+		b titleStartDone
+	
+	titleStartDone:
+
+	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------	Game start!
+
+gameStartNormal:
+
+	stmfd sp!, {r0-r10, lr}
+
+	mov r1, #GAMEMODE_RUNNING
+	ldr r2, =gameMode
+	str r1,[r2]
+
+	mov r1, #0
+	ldr r2,=tScrollerOn
+	str r1,[r2]
+	
+	mov r1, #1				@ trap the start key again
+	ldr r2, =trapStart
+	str r1,[r2]
+	ldr r2, =gameReturn
+	str r1,[r2]
+	
+	
+	bl clearBG0
+	bl clearBG1
+	bl clearBG2
+	bl clearBG3
+
+	bl initVideo
+	bl initSprites
+	bl specialFXStop
+
+	bl initGame
+
+	ldmfd sp!, {r0-r10, pc}
+	
+@--------------------------	Return to normal title screen
+
+titleRemoveOptions:
+
+	ldr r1,=trapStart	
+	mov r0,#0
+	str r0,[r1]
+
+	ldr r1,=titleMenu
+	mov r0,#0
+	str r0,[r1]
+	
+	@ now clear the bg0 and bg1 on main
+
+	bl clearBGTitle
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@--------------------------
 
 	.pool
 	.data
+titleMenu:
+	.word 0
+gameReturn:
+	.word 0
 tCreditFrame:
 	.word 0
 tCreditFrame2:
@@ -926,9 +1089,20 @@ tGorillaFrames:
 tScrollText:
 	.ascii	"    HELLO AND WELCOME TO 'MANIC MINER THE LOST LEVELS'...      THIS IS NOT YOUR USUAL "
 	.ascii	"'MANIC MINER' REMAKE AND IS CONSTRUCTED FROM A SELECTION OF THE LEVELS YOU MAY NOT HAVE "
-	.ascii	"SEEN. THESE ARE SOURCED FROM THE NON-SPECTUM VERSIONS OF THE GAME, AND COLLATED AND DESCRIBED "
+	.ascii	"SEEN. THESE ARE SOURCED FROM THE NON-SPECTRUM VERSIONS OF THE GAME, AND COLLATED AND DESCRIBED "
 	.ascii	"BY STUART CAMPBELL. THE BOTTOM SCREEN SHOWS WHERE THESE LEVELS CAME FROM AND "
 	.ascii	"THE YEAR OF RELEASE.   SEVERAL OF THE LEVELS HAVE HAD TO BE 'SLIGHTLY' MODIFIED TO KEEP THEM "
 	.ascii	"CORRECT USING THE ORIGINAL ZX SPECTRUM GAME MECHANICS (OTHER VERSIONS PLAYED SLIGHTLY "
 	.ascii	"DIFFERENTLY). "
 	.byte 0
+	.align
+titleGS:
+	.asciz	"START GAME"
+titleGM:
+	.asciz	"GAME MODE: THE LOST LEVELS"
+titleSL:
+	.asciz	"START AT LEVEL: 01"
+titleBL:
+	.asciz	"PLAY BONUS LEVEL: LOCKED"
+titleJB:
+	.asciz	"PLAY JUKEBOX"

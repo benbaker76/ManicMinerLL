@@ -42,7 +42,7 @@
 	.global clearBG1SubPart
 	.global clearBG0SubPartGame
 	.global clearBG1SubPartGame
-	
+	.global clearBGTitle
 	
 	
 clearBG0:
@@ -54,6 +54,21 @@ clearBG0:
 	ldr r2, =32*32*2
 	bl dmaFillWords
 	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+	bl dmaFillWords
+
+	ldmfd sp!, {r0-r2, pc}
+
+	@---------------------------------
+	
+clearBGTitle:								
+
+	stmfd sp!, {r0-r2, lr} 
+
+	mov r0, #0
+	ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+	ldr r2, =32*24*2
+	bl dmaFillWords
+	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)
 	bl dmaFillWords
 
 	ldmfd sp!, {r0-r2, pc}
