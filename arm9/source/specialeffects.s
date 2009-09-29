@@ -1885,7 +1885,7 @@ kongDust:
 		@ Generate dust (frame is 24-27)
 		
 		bl getRandom
-		and r8,#3
+		and r8,#7
 		add r9,r8,#48
 
 		ldr r1,=spriteActive
