@@ -158,10 +158,10 @@ drawPauseWindow:
 	ldr r0,=StatusMap
 	add r0,#(32*8)*2
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB) 	@ r3=location of draw area
-	add r1,#(32*9)*2							@ down 7 chars
-	add r1,#14									@ move across 4 chars
-	mov r2,#36									@ chars to draw
-	mov r3,#9	
+	add r1,#(32*10)*2							@ down 10 chars
+	add r1,#16									@ move across 8 chars
+	mov r2,#32									@ chars to draw
+	mov r3,#8	
 	pauseWindowLoop:
 		
 		bl dmaCopy
