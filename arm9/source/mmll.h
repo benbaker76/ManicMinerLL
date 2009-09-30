@@ -186,6 +186,13 @@
 #include "../build/DieRick.h"
 #include "../build/DieHorace.h"
 #include "../build/DieRIP.h"
+#include "../build/DieCasket.h"
+#include "../build/DieEatSelf.h"
+#include "../build/DieEye.h"
+#include "../build/DieRaven.h"
+#include "../build/DieTravolta.h"
+#include "../build/DieVanish.h"
+
 @ tile offset for the status font
 
 #define BigFontOffset				8192

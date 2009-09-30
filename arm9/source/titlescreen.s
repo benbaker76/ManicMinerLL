@@ -322,8 +322,20 @@ highScoreScreen:
 	bl dmaCopy
 	
 	bl clearSpriteData
+
+	ldr r0,=BigFontTiles							@ copy the tiles used for large font to main
+	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
+	ldr r2,=BigFontTilesLen
+	bl decompressToVRAM
 	
-	@ now draw the scores on BG1?
+	@ now draw the scores on BG0, using drawHighText draw!
+	
+	ldr r0,=highScoreScore
+	mov r1,#4
+	mov r2,#4
+	mov r3,#6
+	mov r9,#1
+	bl drawHighText
 
 	ldmfd sp!, {r0-r10, pc}	
 
@@ -1136,7 +1148,7 @@ tTimer:
 tScrollerOn:
 	.word 0
 tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
-	.word 0,1,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,4096
+	.word 0,2048,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,4096
 tDemoPos:
 	.word 0
 tScrollPix:

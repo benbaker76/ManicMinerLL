@@ -66,7 +66,7 @@ drawScore:
 	add r4,#22*32*2
 	add r4,#20+(6*2)
 	mov r0, #5
-	ldr r5, =highScore
+	ldr r5, =highScoreScore
 	drawHighSubLoop:
 		ldrb r1,[r5,r0]
 		add r1,#16

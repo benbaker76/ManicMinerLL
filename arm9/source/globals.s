@@ -105,6 +105,9 @@
 	
 	.global specialEffect
 	
+	.global highScoreScore
+	.global highScoreName
+	
 gameMode:
 	.word 0
 controlMode:
@@ -272,12 +275,25 @@ score:
 	.byte 0,0,0,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
-highScore:
+@highScore:
 	.byte 0,0,0,0,0,0,0,0
 	
 minerLives:
 	.word 0
-
+	
+	.align
+highScoreScore:
+	.byte 0,0,5,1,2,0
+	.byte 0,0,4,0,9,6
+	.byte 0,0,3,2,0,4
+	.byte 0,0,2,0,0,0
+	.byte 0,0,1,0,2,4
+highScoreName:
+	.ascii "FLASHY"
+	.ascii "FLASH "
+	.ascii "FLASH "
+	.ascii "FLASH "
+	.ascii "FLASH "
 	
 	.pool
 	.end
