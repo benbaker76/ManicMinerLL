@@ -330,12 +330,30 @@ highScoreScreen:
 	
 	@ now draw the scores on BG0, using drawHighText draw!
 	
+	ldr r0,=highScoreName
+	mov r8,#5					@ number of lines to draw-1
+	mov r1,#6					@ x coord
+	mov r2,#7					@ y coord
+	mov r3,#HIGH_NAME_LEN		@ length
+	mov r9,#0					@ drawing chars
+	titleHighNameLoop:
+		bl drawHighText
+		add r0,#HIGH_NAME_LEN
+		add r2,#2
+		subs r8,#1
+	bpl titleHighNameLoop
 	ldr r0,=highScoreScore
-	mov r1,#4
-	mov r2,#4
-	mov r3,#6
-	mov r9,#1
-	bl drawHighText
+	mov r8,#5					@ number of lines to draw-1
+	mov r1,#17					@ x coord
+	mov r2,#7					@ y coord
+	mov r3,#HIGH_SCORE_LEN		@ length
+	mov r9,#1					@ drawing digits
+	titleHighScoreLoop:
+		bl drawHighText
+		add r0,#HIGH_SCORE_LEN
+		add r2,#2
+		subs r8,#1
+	bpl titleHighScoreLoop
 
 	ldmfd sp!, {r0-r10, pc}	
 
@@ -417,10 +435,15 @@ updateTitleScreen:
 	bne titleScreenLoop
 	
 titleNextScreen:
+	ldr r6,=unlockedHW
+	ldr r6,[r6]
+	cmp r6,#1
 
-	ldr r0,=tDemoSequence		@ our demo sequence
-	ldr r1,=tDemoPos			@ pos in sequence
-	ldr r2,[r1]					@ r2=position
+
+	ldrne r0,=tDemoSequence				@ our demo sequence (normal)
+	ldreq r0,=tDemoSequenceFull			@ our demo sequence (With Holywood)
+	ldr r1,=tDemoPos					@ pos in sequence
+	ldr r2,[r1]							@ r2=position
 	add r2,#1
 	ldr r3,[r0,r2,lsl#2]		@ read next part in sequence
 	cmp r3,#4096				@ 4096=end of sequence
@@ -938,26 +961,69 @@ drawTitleThings:
 	mov r0,#1
 	str r0,[r1]
 	
-	ldr r0,=titleGS
-	mov r1,#4
-	mov r2,#5
-	bl drawTextBigMain
-	ldr r0,=titleGM
-	mov r2,#7
-	bl drawTextBigMain
-	ldr r0,=titleSL
-	mov r2,#9
-	bl drawTextBigMain
-	ldr r0,=titleBL
-	mov r2,#11
-	bl drawTextBigMain
-	ldr r0,=titleJB
-	mov r2,#13
-	bl drawTextBigMain
+	bl optionDraw
 	
 	@ ok, add sprite for the pointer (3rd sprite+8 in titleSprites)
 	
 	bl initTitlePointer
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------------------------- Draw the option text
+
+optionDraw:
+
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r0,=titleGS						@ start game
+	mov r1,#4
+	mov r2,#5
+	bl drawTextBigMain
+	
+	ldr r0,=titleGM						@ game mode
+	ldr r3,=unlockedSelected
+	ldr r3,[r3]
+	cmp r3,#1
+	addeq r0,#27
+	mov r2,#7
+	bl drawTextBigMain
+
+	@ read unlockedSelected and display digits based on that
+
+	ldr r0,=titleSL						@ level select (add the 2 digits to the end)
+	mov r2,#9
+	bl drawTextBigMain
+	ldr r6,=unlockedSelected
+	ldr r6,[r6]
+	cmp r6,#0
+	ldreq r0,=levelLLSelected
+	ldrne r0,=levelHWSelected
+	ldr r0,[r0]
+	mov r1,#20
+	bl drawTextBigDigits
+	
+	@ display selected bonus level (27 chars for each string)
+	
+	ldr r3,=unlockedBonusesSelected
+	ldr r3,[r3]
+	mov r4,#27
+	mul r3,r4
+	ldr r4,=unlockedBonuses
+	ldr r4,[r4]
+	cmp r4,#255
+	moveq r3,#0
+	mov r1,#4
+	ldr r0,=titleBL						@ bonus level select
+	add r0,r3
+	mov r2,#11
+	bl drawTextBigMain
+
+
+	@ draw 'jukebox' text
+
+	ldr r0,=titleJB						@ jukebox
+	mov r2,#13
+	bl drawTextBigMain
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -982,6 +1048,10 @@ drawTitleThings:
 	beq movePointer
 	tst r10,#BUTTON_DOWN
 	beq movePointer
+	tst r10,#BUTTON_LEFT
+	beq moveAlter
+	tst r10,#BUTTON_RIGHT
+	beq moveAlter
 	
 		ldr r1,=trapStart	
 		mov r0,#0
@@ -1002,6 +1072,25 @@ drawTitleThings:
 		@ call SOMETHING to see what is to be done!! (based on highlighted option)
 		@ for now - start game
 		
+		ldr r1,=pointerY
+		ldr r1,[r1]
+		cmp r1,#0			@ normal start
+		beq goToStart
+		cmp r1,#3
+		bne checkForJukebox
+			ldr r1,=unlockedBonuses
+			ldr r1,[r1]
+			cmp r1,#255
+			beq titleStartDone
+			b goToStart
+		
+		checkForJukebox:
+		cmp r1,#5
+		bne titleStartDone
+		@ 'add jukebox init' here
+
+		b titleStartDone
+		goToStart:
 		bl gameStartNormal
 		b titleStartDone
 	
@@ -1030,6 +1119,8 @@ drawTitleThings:
 
 gameStartNormal:
 
+	@ check pointerY to set the starting level (amd the gamemode/level selected)
+
 	stmfd sp!, {r0-r10, lr}
 
 	mov r1, #GAMEMODE_RUNNING
@@ -1044,7 +1135,7 @@ gameStartNormal:
 	ldr r2,=tScrollerOn
 	str r1,[r2]
 	
-	mov r1, #1				@ trap the start key again
+	mov r1, #1						@ trap the start key again
 	ldr r2, =trapStart
 	str r1,[r2]
 	ldr r2, =gameReturn
@@ -1058,6 +1149,33 @@ gameStartNormal:
 	bl initVideo
 	bl initSprites
 	bl specialFXStop
+	
+	@ we need to pass initGame the level to play!!
+	@ we pass that in "R12"
+	
+	ldr r0,=unlockedSelected
+	ldr r0,[r0]
+	ldr r1,=pointerY
+	ldr r1,[r1]
+	cmp r1,#2						@ 'Start game'
+	bgt notSelectedStart		
+		cmp r0,#0
+		ldreq r12,=levelLLSelected
+		ldrne r12,=levelHWSelected
+		ldr r12,[r12]
+		cmp r0,#1
+		addeq r12,#22
+		b timeToPlay
+	
+	notSelectedStart:
+	@ option can only be 			'bonus level start'
+	@ so, we need to set r12 based on unlockedBonusesSelected
+		ldr r1,=unlockedBonusesSelected
+		ldr r1,[r1]
+		ldr r2,=bonusLevelsAre
+		ldr r12,[r2,r1,lsl#2]
+	
+	timeToPlay:						@ 'activate game start'
 
 	bl initGame
 
@@ -1122,11 +1240,147 @@ movePointer:
 	movePointerDone:
 	
 	b titleStartDone
+	
+@--------------------------	Alter selected area
+
+moveAlter:
+	ldr r0,=pointerY				@ first and last cannot be altered
+	ldr r8,[r0]
+	cmp r8,#0
+	beq moveAlterDone
+	cmp r8,#4
+	beq moveAlterDone	
+
+	ldr r0,=moveTrap				@ check trap
+	ldr r1,[r0]
+	cmp r1,#1
+	beq moveAlterDone
+	
+		mov r1,#1
+		str r1,[r0]					@ set trap
+		
+		tst r10,#BUTTON_LEFT
+		bne pointerRight
+		
+			cmp r8,#1				@ left on mode
+			bne notLeftMode
+				ldr r4,=unlockedHW
+				ldr r4,[r4]
+				cmp r4,#1
+				bne moveAlterDone			
+				ldr r4,=unlockedSelected
+				ldr r5,[r4]
+				subs r5,#1
+				movmi r5,#0
+				str r5,[r4]
+				bl optionDraw
+
+				b moveAlterDone
+		
+			notLeftMode:
+			cmp r8,#2				@ are we on the level select
+			bne notLeftLevel
+				ldr r4,=unlockedSelected
+				ldr r4,[r4]
+				cmp r4,#0
+				ldreq r6,=levelLLSelected		@ current value
+				ldrne r6,=levelHWSelected		
+
+				ldr r4,[r6]
+				sub r4,#1
+				cmp r4,#0
+				moveq r4,#1
+				str r4,[r6]
+				bl optionDraw	
+		
+				b moveAlterDone
+			notLeftLevel:
+			cmp r8,#3				@ are we on the level select
+			bne notLeftBonus
+				ldr r4,=unlockedBonuses
+				ldr r4,[r4]
+				cmp r4,#255
+				beq moveAlterDone
+				ldr r5,=unlockedBonusesSelected
+				ldr r6,[r5]
+				sub r6,#1
+				cmp r6,#0
+				moveq r6,#1
+				str r6,[r5]
+				bl optionDraw	
+				b moveAlterDone
+			
+			notLeftBonus:			
+			b moveAlterDone
+		
+		pointerRight:
+	
+			cmp r8,#1				@ Right on mode
+			bne notRightMode
+				ldr r4,=unlockedHW
+				ldr r4,[r4]
+				cmp r4,#1
+				bne moveAlterDone
+				ldr r4,=unlockedSelected
+				ldr r5,[r4]
+				add r5,#1
+				cmp r5,#2
+				moveq r5,#1
+				str r5,[r4]
+				bl optionDraw
+				b moveAlterDone
+				
+			notRightMode:
+			cmp r8,#2				@ are we on the level select
+			bne notRightLevel
+				ldr r4,=unlockedSelected
+				ldr r4,[r4]
+				cmp r4,#0
+				ldreq r5,=levelLLReached		@ max value
+				ldrne r5,=levelHWReached
+				ldreq r6,=levelLLSelected		@ current value
+				ldrne r6,=levelHWSelected		
+
+				ldr r4,[r6]
+				add r4,#1
+				ldr r7,[r5]
+				cmp r4,r7
+				movgt r4,r7
+				str r4,[r6]
+				bl optionDraw	
+		
+				b moveAlterDone
+		
+			notRightLevel:
+			cmp r8,#3				@ are we on the level select
+			bne notRightBonus
+				ldr r4,=unlockedBonuses
+				ldr r4,[r4]
+				cmp r4,#255
+				beq moveAlterDone
+				ldr r5,=unlockedBonusesSelected
+				ldr r6,[r5]
+				add r6,#1
+				cmp r6,r4
+				movpl r6,r4
+				str r6,[r5]
+				bl optionDraw	
+				b moveAlterDone
+			
+			notRightBonus:
+			
+			b moveAlterDone
+	
+
+	moveAlterDone:
+	
+	b titleStartDone
 
 @--------------------------
 
 	.pool
 	.data
+	.align
 pointerY:
 	.word 0
 pointerFrame:
@@ -1148,7 +1402,9 @@ tTimer:
 tScrollerOn:
 	.word 0
 tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
-	.word 0,2048,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,4096
+	.word 0,1,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,4096
+tDemoSequenceFull:		@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
+	.word 0,1,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,0,23,24,25,26,27,2048,28,29,30,31,32,4096	
 tDemoPos:
 	.word 0
 tScrollPix:
@@ -1183,6 +1439,9 @@ tGorillaDelay:
 	.word 0
 tGorillaFrames:
 	.byte 2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,1,2
+	.align
+bonusLevelsAre:					@ these are the bonus level indexes
+	.word 0,21,22,41
 tScrollText:
 	.ascii	"    HELLO AND WELCOME TO 'MANIC MINER THE LOST LEVELS'...      THIS IS NOT YOUR USUAL "
 	.ascii	"'MANIC MINER' REMAKE AND IS CONSTRUCTED FROM A SELECTION OF THE LEVELS YOU MAY NOT HAVE "
@@ -1192,14 +1451,18 @@ tScrollText:
 	.ascii	"CORRECT USING THE ORIGINAL ZX SPECTRUM GAME MECHANICS (OTHER VERSIONS PLAYED SLIGHTLY "
 	.ascii	"DIFFERENTLY). "
 	.byte 0
-	.align
+	.align	
 titleGS:
-	.asciz	"START GAME"
+	.asciz	"PLAY GAME"
 titleGM:
 	.asciz	"GAME MODE: THE LOST LEVELS"
+	.asciz	"GAME MODE: HOLLYWOOD WILLY"
 titleSL:
-	.asciz	"START AT LEVEL: 01"
-titleBL:
-	.asciz	"PLAY BONUS LEVEL: LOCKED"
+	.asciz	"START AT LEVEL:"
+titleBL:			@ 26 chars each
+	.asciz	"PLAY SPECIAL: LOCKED      "
+	.asciz	"PLAY SPECIAL: HORACE      "
+	.asciz	"PLAY SPECIAL: BLAGGER     "
+	.asciz	"PLAY SPECIAL: REAL CENTRAL"
 titleJB:
 	.asciz	"PLAY JUKEBOX"

@@ -345,7 +345,7 @@
 
 #define LEFT_OFFSET					3
 #define RIGHT_OFFSET				11
-#define FEET_NIP					0		@ one or 2??? (1 works best)
+#define FEET_NIP					0		@ one or 2??? (0 works best)
 #define FEET_DROP					0		@ This does not work :(
 
 @ Effect defines
@@ -490,4 +490,10 @@
 
 #define EXIT_CLOSED					64
 #define EXIT_OPEN					65
+
+@ other defines
+
+#define HIGH_NAME_LEN				8
+#define HIGH_SCORE_LEN				6
+#define SECRET_MAX					3			@ use this to make sure that we don't unlock more than we have
 

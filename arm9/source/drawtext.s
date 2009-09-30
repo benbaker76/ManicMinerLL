@@ -38,7 +38,9 @@
 	.global drawTextBlack
 	.global drawTextScroller
 	.global drawTextBigMain
-	.global drawHighText	
+	.global drawHighText
+	.global drawTextBigDigits
+	
 drawText:
 	
 	@ r0 = pointer to null terminated text
@@ -342,17 +344,18 @@ drawHighText:
 	@ r3 = len
 	@ r9 = 0=text 1=digits (0-9)
 
-	stmfd sp!, {r4-r8, lr} 
+	stmfd sp!, {r0-r8, lr} 
 	
 	ldr r4, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB) @ Pointer to sub
 	add r4, r1, lsl #1				@ Add x position
 	add r4, r2, lsl #6				@ Add y multiplied by 64
 	add r6, r4, #64
 	sub r3,#1
+	mov r7,r0
 	
 drawHighTextLoop:
 
-	ldrb r5, [r0], #1				@ Read r1 [text] and add 1 to [text] offset
+	ldrb r5, [r7], #1				@ Read r1 [text] and add 1 to [text] offset
 
 	@ our tiles are in pairs (one above another)
 
@@ -368,9 +371,66 @@ drawHighTextLoop:
 	subs r3,#1	
 	bpl drawHighTextLoop
 
+	ldmfd sp!, {r0-r8, pc}
+	
+	@ ---------------------------------------------
+
+drawTextBigDigits:
+
+	@ draws 2 digits starting from r1
+	
+	@ r0 = digits to draw (0-99)
+	@ r1 = x pos
+	@ r2 = y pos
+
+	stmfd sp!, {r4-r8, lr} 
+	
+	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE) @ Pointer to sub
+	add r4, r1, lsl #1				@ Add x position
+	add r4, r2, lsl #6				@ Add y multiplied by 64
+	add r6, r4, #64
+
+	cmp r0,#9
+	bgt bigDigitsBoth
+	
+	mov r5,#32						@ draw 0
+	strh r5, [r4], #2
+	add r5,#1
+	strh r5, [r6], #2
+	mov r5,r0						@ draw single digit
+	lsl r5,#1
+	add r5,#32
+	strh r5, [r4], #2
+	add r5,#1
+	strh r5, [r6], #2
+	
 	ldmfd sp!, {r4-r8, pc}
 	
-
+	bigDigitsBoth:
+	
+	push {r0-r3}
+	mov r1,r0
+	mov r2,#10
+	bl divideNumber
+	mov r5,r0
+	mov r7,r0
+	lsl r5,#1
+	add r5,#32	
+	strh r5, [r4], #2
+	add r5,#1
+	strh r5, [r6], #2
+	pop {r0-r3}
+	
+	mov r1,#10
+	mul r7,r1
+	sub r0,r7
+	mov r5,r0
+	lsl r5,#1
+	add r5,#32
+	strh r5, [r4], #2
+	add r5,#1
+	strh r5, [r6], #2
+	ldmfd sp!, {r4-r8, pc}
 	
 	.pool
 	.end

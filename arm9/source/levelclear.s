@@ -65,9 +65,6 @@ initLevelClear:										@ set up the level clear dat
 	
 	bl playLevelEnd
 	
-@	ldreq r1, =Piano_xm
-@	bl initMusic
-	
 	ldmfd sp!, {r0-r10, pc}	
 @-----------------------------------------------
 
@@ -104,7 +101,6 @@ levelClear:											@ do the level clear stuff
 	
 	subs r10,#1
 	bpl levelClearLoop
-
 	
 	bl levelNext
 	
@@ -128,11 +124,6 @@ scoreAir:											@ reduce Air and score it
 		strb r4,[r5]
 		bl addScore
 
-@		ldr r7,=jumpCount
-@		mov r4,r2, lsl#1
-@		str r4,[r7]
-@
-@		bl playJump
 	scoreAirDone:
 
 	ldmfd sp!, {r0-r10, pc}

@@ -64,6 +64,13 @@ initGameOver:
 	ldr r1, =BG_PALETTE_SUB
 	ldr r2, =EndTopPalLen
 	bl dmaCopy	
+	
+	mov r0,#-1
+	ldr r1,=skullFrameOver
+	str r0,[r1]
+	ldr r1,=skullDelayOver
+	str r0,[r1]
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 @---------------------------
@@ -73,8 +80,7 @@ updateGameOver:
 	stmfd sp!, {r0-r10, lr}
 	
 	
-	
-	
+	bl animateGameOverSkull
 	
 	@ Check for start or A pressed
 	
@@ -102,6 +108,52 @@ updateGameOver:
 
 @--------------------------
 
+animateGameOverSkull:	
+	
+	stmfd sp!, {r0-r10, lr}	
+	
+	ldr r0,=skullDelayOver
+	ldr r1,[r0]
+	subs r1,#1
+	movmi r1,#8
+	str r1,[r0]
+	bpl animateGameOverSkullDone
+	
+	ldr r0,=skullFrameOver
+	ldr r8,[r0]
+	add r8,#1
+	cmp r8,#10
+	moveq r8,#0
+	str r8,[r0]
+	
+	@ r8=frame
+
+	mov r1,#3
+	mul r8,r1						@ banks of 3
+	lsl r8,#1
+
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)
+	add r0, #1536					@ first tile of offscreen tiles (bottom left)
+	add r0, r8						@ add 8 chars (8th along is our blank)
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
+	add r1,#(32*4)*2
+	add r1,#15*2
+	mov r2,#6
+	
+	mov r8,#2
+	overSkullLoop:
+	
+	bl dmaCopy
+	add r0,#64
+	add r1,#64
+	subs r8,#1
+	bpl overSkullLoop
+	
+	animateGameOverSkullDone:
+	ldmfd sp!, {r0-r10, pc}
+
+@--------------------------
+
 animateGameOver:	
 	
 	stmfd sp!, {r0-r10, lr}	
@@ -111,3 +163,8 @@ animateGameOver:
 	
 .pool
 .data
+
+skullFrameOver:
+.word 0
+skullDelayOver:
+.word 0

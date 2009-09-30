@@ -40,15 +40,28 @@ levelNext:
 	
 	ldr r0,=levelNum
 	ldr r1,[r0]
+
+	ldr r8,=levelTypes-4
+	ldr r7,[r8,r1,lsl#2]				@ r8=type of level (0=norm, 1=completion, 2=bonus)
+
+cmp r7,#0
+beq levelNextNormal
+cmp r7,#1
+beq levelNextCompletion
+cmp r7,#2
+beq levelNextBonus
+
+@ if none of them - crash
+
+ohcock:
+b ohcock
+
+@------------------------
+
+levelNextNormal:
 	add r1,#1
-@	cmp r1,#33
-@	moveq r1,#1
-@	beq skippy
-	cmp r1,#LEVEL_COUNT+1
-	moveq r1,#1
-@skippy:
 	str r1,[r0]
-	
+
 	bl initSprites
 
 	bl initLevel
@@ -59,6 +72,24 @@ levelNext:
 	str r1,[r0]
 	
 	ldmfd sp!, {r0-r10, pc}	
+
+@-------------------------
+	
+levelNextCompletion:
+
+	bl initGameOver
+
+	ldmfd sp!, {r0-r10, pc}	
+
+@-------------------------
+
+levelNextBonus:
+
+	bl initGameOver
+
+	ldmfd sp!, {r0-r10, pc}		
+	
+@-------------------------------------	
 	
 levelCheat:
 

@@ -112,10 +112,12 @@ testingit:
 		ldreq r0,=DieExplodeTiles
 		cmp r3,#2
 		ldreq r0,=DieCrumbleTiles
+		cmp r3,#4
+		ldreq r0,=DieCasketTiles
 		cmp r3,#5
 		ldreq r0,=DieCrumbleTiles
 		cmp r3,#7
-		ldreq r0,=DieSkeletonTiles
+		ldreq r0,=DieTravoltaTiles
 		cmp r3,#8
 		ldreq r0,=DieRIPTiles
 		ldreq r4,=spriteHFlip+256
@@ -124,6 +126,8 @@ testingit:
 		cmp r3,#9
 		ldreq r0,=DieCrumbleTiles
 		cmp r3,#11
+		ldreq r0,=DieVanishTiles
+		cmp r3,#12
 		ldreq r0,=DieRIPTiles
 		ldreq r4,=spriteHFlip+256
 		moveq r5,#0
@@ -131,13 +135,15 @@ testingit:
 		cmp r3,#13
 		ldreq r0,=DieExplodeTiles
 		cmp r3,#14
-		ldreq r0,=DieExplodeTiles
+		ldreq r0,=DieEyeTiles
 		cmp r3,#16
 		ldreq r0,=DieSkeletonTiles
 		cmp r3,#17
 		ldreq r0,=DieCrumbleTiles
+		cmp r3,#18
+		ldreq r0,=DieEatSelfTiles
 		cmp r3,#19
-		ldreq r0,=DieChickenTiles
+		ldreq r0,=DieRavenTiles
 		cmp r3,#26
 		ldreq r0,=DieRIPTiles
 		ldreq r4,=spriteHFlip+256

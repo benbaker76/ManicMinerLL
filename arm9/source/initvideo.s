@@ -306,16 +306,10 @@ initVideoTitle:
 
 	ldr r0,=BigFontTiles							@ copy the tiles used for large font to main
 	ldr r1,=BG_TILE_RAM(BG0_TILE_BASE)
-@	add r1,#BigFontOffset
-	ldr r2,=BigFontTilesLen
-	bl decompressToVRAM
-	ldr r0,=BigFontTiles							@ copy the tiles used for large font to main
-	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-	add r1,#BigFontOffset
 	ldr r2,=BigFontTilesLen
 	bl decompressToVRAM
 	
-	ldr r0, =ScrollFontTiles
+	ldr r0, =ScrollFontTiles						@ copy out nice wide font to bottom screem
 	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
 	ldr r2, =ScrollFontTilesLen
 	bl decompressToVRAM	

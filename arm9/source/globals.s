@@ -107,12 +107,19 @@
 	
 	.global highScoreScore
 	.global highScoreName
+	.global levelLLReached
+	.global levelHWReached
+	.global levelLLSelected
+	.global levelHWSelected
+	.global unlockedHW
+	.global unlockedSelected
+	.global levelTypes
+	.global unlockedBonusesSelected
+	.global unlockedBonuses
 	
 gameMode:
 	.word 0
 controlMode:
-	.word 0
-screenOrder:
 	.word 0
 air:
 	.word 160
@@ -275,11 +282,18 @@ score:
 	.byte 0,0,0,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
-@highScore:
-	.byte 0,0,0,0,0,0,0,0
-	
+
 minerLives:
 	.word 0
+	
+levelTypes:						@ a word for each level. 0=normal, 1=last level, 2=bonus
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,1
+	.word 2,2
+	.word 0,0,0,0,0,0,0,0,0,1
+	.word 0,0,0,0,0,0,0,0,1,0
+
+@ THESE NEED TO BE SAVED AND LOADED
 	
 	.align
 highScoreScore:
@@ -288,12 +302,33 @@ highScoreScore:
 	.byte 0,0,3,2,0,4
 	.byte 0,0,2,0,0,0
 	.byte 0,0,1,0,2,4
+	.byte 0,0,0,9,0,9
 highScoreName:
-	.ascii "FLASHY"
-	.ascii "FLASH "
-	.ascii "FLASH "
-	.ascii "FLASH "
-	.ascii "FLASH "
+	.ascii "FLASHMAN"
+	.ascii " -LOBO- "
+	.ascii "HEADKAZE"
+	.ascii "COCKRASH"
+	.ascii "NADSITCH"
+	.ascii "ARSEWOMP"
 	
+	.align
+levelLLReached:					@ Lost max
+	.word 20
+levelLLSelected:				@ Lost level
+	.word 1
+levelHWReached:					@ hollywood max
+	.word 10
+levelHWSelected:				@ hollywood level
+	.word 1
+unlockedHW:						@ is hollywood unlocked yet?
+	.word 1
+unlockedSelected:				@ what is selected (0=lost, 1=holly)
+	.word 0
+screenOrder:					@ preference of the screen order	
+	.word 0
+unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
+	.word 3
+unlockedBonusesSelected:		@ current selected bonus level
+	.word 1						
 	.pool
 	.end

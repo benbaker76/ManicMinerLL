@@ -520,9 +520,6 @@ flipSwitch:
 	ldr r6,=switch3
 	cmp r0,#35
 	ldr r6,=switch4
-	
-@	ldr r6,[r6]
-@	cmp r6,#0
 
 	cmp r2,#0
 
@@ -748,8 +745,6 @@ flipSwithLiftThing:
 
 	@ and reverse the conveyors
 	
-
-
 b switchStandardReturn	
 
 @------------------------------------------- Draw Credits side image
@@ -769,15 +764,14 @@ b switchStandardReturn
 	ldr r1,=BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ r1=dest
 	
 	mov r2,#16
-	
 	mov r3,#24
 	
 	creditFrameLoop:
 	
-	bl dmaCopy
+		bl dmaCopy
 	
-	add r0,#32*2
-	add r1,#32*2
+		add r0,#32*2
+		add r1,#32*2
 	
 	subs r3,#1
 	bpl creditFrameLoop

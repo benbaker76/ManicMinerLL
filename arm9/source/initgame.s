@@ -17,10 +17,11 @@ initGame:
 stmfd sp!, {r0-r10, lr}
 
 	bl setScreens
-
-	mov r0,#1				@ set level to 1 for start of game
+	@
+	@ r12 MUST be sent here so that the game starts where it should
+	@
 	ldr r1,=levelNum
-	str r0,[r1]
+	str r12,[r1]
 	mov r0,#3				@ set level to 3 for lives
 	ldr r1,=minerLives
 	str r0,[r1]	
