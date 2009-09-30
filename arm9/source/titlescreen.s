@@ -1465,4 +1465,4 @@ titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: BLAGGER     "
 	.asciz	"PLAY SPECIAL: REAL CENTRAL"
 titleJB:
-	.asciz	"PLAY JUKEBOX"
+	.asciz	"PLAY JUKEBOX (WIP)"

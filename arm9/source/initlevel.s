@@ -188,6 +188,35 @@ initLevel:
 @	mov r2,#EXIT_OPEN
 @	str r2,[r1,r0,lsl#2]
 
+	@ ok, now are we greater than the last level we could select?
+
+	ldr r1,=levelBank		@ 1=lost, 2=hollywood
+	ldr r2,=levelNum
+	ldr r2,[r2]
+	ldr r1,[r1,r2,lsl#2]	@ r2=level type
+	cmp r1,#1
+	bne highestLevelHollyWood
+	
+		ldr r1,=levelLLReached
+		ldr r0,[r1]
+		cmp r2,r0
+		ble highestLevelDone
+		str r2,[r1]
+		b highestLevelDone
+	
+	highestLevelHollyWood:
+	cmp r1,#2
+	bne highestLevelDone
+
+		ldr r1,=levelHWReached
+		ldr r0,[r1]
+		cmp r2,r0
+		ble highestLevelDone
+		str r2,[r1]
+		b highestLevelDone	
+	
+	highestLevelDone:
+
 	ldmfd sp!, {r0-r12, pc}
 
 @-------------------------------------------------
@@ -568,6 +597,13 @@ getLevelBackground:
 	ldreq r5,=Background32TilesLen
 	ldreq r6,=Background32Map
 	ldreq r7,=Background32MapLen
+
+
+	cmp r0,#40
+	ldreq r4,=Background41Tiles
+	ldreq r5,=Background41TilesLen
+	ldreq r6,=Background41Map
+	ldreq r7,=Background41MapLen
 
 	@ Draw main game map!
 	mov r0,r4

@@ -116,6 +116,7 @@
 	.global levelTypes
 	.global unlockedBonusesSelected
 	.global unlockedBonuses
+	.global levelBank
 	
 gameMode:
 	.word 0
@@ -291,6 +292,12 @@ levelTypes:						@ a word for each level. 0=normal, 1=last level, 2=bonus
 	.word 0,0,0,0,0,0,0,0,0,1
 	.word 2,2
 	.word 0,0,0,0,0,0,0,0,0,1
+	.word 0,0,0,0,0,0,0,0,1,0
+levelBank:						@ 1=lost, 2=hollywood, 0=forget it
+	.word 1,1,1,1,1,1,1,1,1,1
+	.word 1,1,1,1,1,1,1,1,1,1
+	.word 0,0
+	.word 2,2,2,2,2,2,2,2,2,2
 	.word 0,0,0,0,0,0,0,0,1,0
 
 @ THESE NEED TO BE SAVED AND LOADED
