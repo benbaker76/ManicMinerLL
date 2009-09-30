@@ -1059,7 +1059,7 @@ optionDraw:
 		ldr r1,=moveTrap	
 		mov r0,#0
 		str r0,[r1]
-		b titleStartDone
+		b titleStartDone1
 	
 	titleStart1:
 	
@@ -1095,6 +1095,10 @@ optionDraw:
 		b titleStartDone
 	
 	titleStartDone:
+	
+		bl moveTimer
+	
+	titleStartDone1:
 	
 	@ update and animate the pointer
 	
@@ -1204,6 +1208,21 @@ titleRemoveOptions:
 	strh r1,[r0]
 	
 	ldmfd sp!, {r0-r10, pc}
+
+@--------------------------	update Move Timer
+
+moveTimer:
+
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r1,=moveTrap	
+	ldr r0,[r1]
+	add r0,#1
+	cmp r0,#20
+	moveq r0,#0
+	str r0,[r1]
+
+	ldmfd sp!, {r0-r10, pc}
 	
 @--------------------------	Move pointer up or down
 
@@ -1211,8 +1230,8 @@ movePointer:
 
 	ldr r0,=moveTrap
 	ldr r1,[r0]
-	cmp r1,#1
-	beq movePointerDone
+	cmp r1,#0
+	bne movePointerDone
 	
 		mov r1,#1
 		str r1,[r0]
@@ -1253,8 +1272,8 @@ moveAlter:
 
 	ldr r0,=moveTrap				@ check trap
 	ldr r1,[r0]
-	cmp r1,#1
-	beq moveAlterDone
+	cmp r1,#0
+	bne moveAlterDone
 	
 		mov r1,#1
 		str r1,[r0]					@ set trap
