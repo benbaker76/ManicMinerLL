@@ -71,6 +71,10 @@ initGameOver:
 	ldr r1,=skullDelayOver
 	str r0,[r1]
 	
+	ldreq r2, =GameOver_xm_gz
+	ldreq r3, =GameOver_xm_gz_size
+	bl initMusic
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 @---------------------------

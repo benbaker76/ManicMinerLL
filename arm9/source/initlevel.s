@@ -789,6 +789,22 @@ generateMonsters:
 	cmp r0,#19
 	ldreq r2, =KingKong_xm_gz
 	ldreq r3, =KingKong_xm_gz_size
+	
+	
+	
+	cmp r0,#64
+	ldreq r2, =GameOver_xm_gz
+	ldreq r3, =GameOver_xm_gz_size
+@	cmp r0,#65
+@	ldreq r2, =KingKong_xm_gz
+@	ldreq r3, =KingKong_xm_gz_size
+@	cmp r0,#66
+@	ldreq r2, =KingKong_xm_gz
+@	ldreq r3, =KingKong_xm_gz_size
+@	cmp r0,#67
+@	ldreq r2, =KingKong_xm_gz
+@	ldreq r3, =KingKong_xm_gz_size	
+	
 	bl initMusic
 	levelMusicFail:
 	

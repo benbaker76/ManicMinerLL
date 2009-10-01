@@ -97,7 +97,7 @@ initAudio:
 	ldr r1,=audioPointer
 	str r0,[r1]
 	ldr r1,=audioPlaying
-	str r0,[r1]	
+@	str r0,[r1]	
 	ldr r1,=audioPointerDelay
 	str r0,[r1]	
 	ldr r1,=audioPointerFrame
@@ -118,7 +118,7 @@ updateAudio:
 	
 	bl swiWaitForVBlank
 	
-	
+	@ er, do stuff here!
 	
 	
 	
@@ -144,7 +144,7 @@ drawAudioText:
 	mov r1,#7
 	bl drawTextBigMain	
 
-	add r2,#4
+	add r2,#2
 	ldr r0,=audioPT						@ now playing
 	mov r1,#8
 	bl drawTextBigMain	
@@ -159,6 +159,11 @@ drawAudioText:
 	ldr r0,=audioNames
 	add r0,r4
 	mov r1,#3
+	bl drawTextBigMain	
+	
+	add r2,#2
+	ldr r0,=audioET						@ exit
+	mov r1,#7
 	bl drawTextBigMain	
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -197,8 +202,6 @@ updateAudioPointer:
 	mov r1,#0
 	orr r1,r4, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
 	strh r1, [r0]					@ store it all back
-
-
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -215,7 +218,6 @@ playSelectedAudio:
 	
 	bl levelMusicPlayEasy
 	
-	
 	ldmfd sp!, {r0-r10, pc}
 
 @-------------------------------------------------
@@ -224,7 +226,7 @@ playSelectedAudio:
 .pool
 .data
 .align
-audioPointer:					@ pointer value 0-2
+audioPointer:					@ pointer value 0-3
 	.word 0
 audioPointerFrame:
 	.word 0
@@ -234,11 +236,11 @@ audioPlaying:					@ what tune?
 	.word 0	
 .align
 audioPointerY:					@ pointer Y values
-	.byte 81,97,129
+	.byte 81,97,109,141
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
-	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,255
+	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,64,255
 audioVT:
-	.asciz	"SFX GAME VOLUME: XXXXXXX"		@ 24
+	.asciz	"SFX GAME VOLUME: ADDBARS"		@ 24
 audioMT:
 	.asciZ	"IN GAME MUSIC: ON "			@ 18
 	.asciz	"IN GAME MUSIC: OFF"
@@ -275,5 +277,8 @@ audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	"                          "
 	.asciz	"                          "
 	.asciz	"                          "	
+
+audioET:
+	.asciz "EXIT AUDIO OPTIONS"				@ 18
 
 @ call levelMusicPlayEasy with r0 to set to the tune to play	
