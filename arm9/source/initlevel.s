@@ -33,6 +33,7 @@
 	.text
 
 	.global initLevel
+	.global levelMusicPlayEasy
 	.global clearSpriteData
 
 initLevel:
@@ -701,6 +702,13 @@ generateMonsters:
 	generateMonstersDone:
 
 	ldmfd sp!, {r0-r10, pc}
+	
+@-------------------------------------
+	levelMusicPlayEasy:
+	
+	stmfd sp!, {r0-r10, lr}	
+	
+	b levelMusicJumpIn
 
 @-------------------------------------------------
 
@@ -718,6 +726,8 @@ generateMonsters:
 
 	ldr r0,=musicPlay
 	ldr r0,[r0]
+	
+	levelMusicJumpIn:
 	
 	cmp r0,#0
 	ldreq r2, =Miner_xm_gz

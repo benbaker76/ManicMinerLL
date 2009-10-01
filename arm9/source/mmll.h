@@ -135,6 +135,7 @@
 #include "../build/GameStart.h"
 #include "../build/AudioBottom.h"
 #include "../build/AudioTop.h"
+#include "../build/AudioSprites.h"
 
 @ intro graphics
 

@@ -13,6 +13,7 @@
 	.global initSprites
 	.global initTitleSprites
 	.global initTitlePointer
+	.global initAudioSprites
 	.global clearOAM
 	
 initSprites:
@@ -138,6 +139,46 @@ clearOAM:
 	bl dmaFillWords
 
 	ldmfd sp!, {r0-r6, pc}
+
+	@ --------------------------------------
+	
+initAudioSprites:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r1,=gameMode
+	ldr r1,[r1]
+	cmp r1,#GAMEMODE_AUDIO
+	bne noPointerAUpdate
+	
+	ldr r0,=OBJ_ATTRIBUTE0(0)
+	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE1(0)
+	ldr r2, =(ATTR1_SIZE_16)
+	orr r2,#14					@ x
+	mov r3,#1
+	lsl r3,#12
+	orr r2,r3
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE2(0)
+	ldr r2,=2					@ sprite Used + frame
+	lsl r2,#3
+	strh r2,[r0]
+	
+	ldr r0, =AudioSpritesPal
+	ldr r1, =SPRITE_PALETTE
+	ldr r2, =512
+	bl dmaCopy
+	ldr r0, =AudioSpritesTiles
+	ldr r1, =SPRITE_GFX
+	ldr r2, =AudioSpritesTilesLen
+	bl dmaCopy	
+	
+	noPointerAUpdate:
+
+	ldmfd sp!, {r0-r10, pc}
+
 
 	.pool
 	.end
