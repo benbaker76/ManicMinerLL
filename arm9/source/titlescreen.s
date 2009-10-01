@@ -1475,7 +1475,7 @@ titleGS:
 	.asciz	"PLAY GAME"
 titleGM:
 	.asciz	"GAME MODE: THE LOST LEVELS"
-	.asciz	"GAME MODE: HOLLYWOOD WILLY"
+	.asciz	"GAME MODE: WILLYWOOD      "
 titleSL:
 	.asciz	"START AT LEVEL:"
 titleBL:			@ 26 chars each
