@@ -29,8 +29,9 @@
 #include "ipc.h"
 #include "audio.h"
 
-	#define	BitmapPause			300
-	#define	LevelPause			110
+	#define	BitmapPause			400
+	#define	LevelPause			125
+
 	.arm
 	.align
 	.text
@@ -123,7 +124,7 @@ initTitleScreen:
 	
 	ldr r2, =Title_xm_gz
 	ldr r3, =Title_xm_gz_size
-	bl initMusic						@ play title music
+	bl initMusicForced					@ play title music
 
 	bl initTitleSprites
 	
@@ -1085,14 +1086,16 @@ optionDraw:
 			b goToStart
 		
 		checkForJukebox:
-		cmp r1,#5
+		cmp r1,#4
 		bne titleStartDone
-		@ 'add jukebox init' here
 
+		@ jukebox
+		bl startAudio
 		b titleStartDone
+		
 		goToStart:
+		@ game start
 		bl gameStartNormal
-		b titleStartDone
 	
 	titleStartDone:
 	
@@ -1119,6 +1122,22 @@ optionDraw:
 
 	ldmfd sp!, {r0-r10, pc}
 
+@-------------------------	Audio Init
+startAudio:
+
+	mov r1, #1						@ trap the start key again
+	ldr r2, =trapStart
+	str r1,[r2]
+	ldr r2, =gameReturn
+	str r1,[r2]
+	mov r1, #0
+	ldr r2,=tScrollerOn
+	str r1,[r2]
+	
+	bl initAudio
+
+	ldmfd sp!, {r0-r10, pc}
+	
 @-------------------------	Game start!
 
 gameStartNormal:
@@ -1180,6 +1199,8 @@ gameStartNormal:
 		ldr r12,[r2,r1,lsl#2]
 	
 	timeToPlay:						@ 'activate game start'
+	
+	bl stopMusic
 
 	bl initGame
 
@@ -1484,4 +1505,4 @@ titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: BLAGGER     "
 	.asciz	"PLAY SPECIAL: REAL CENTRAL"
 titleJB:
-	.asciz	"PLAY JUKEBOX (WIP)"
+	.asciz	"AUDIO OPTIONS"

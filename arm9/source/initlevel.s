@@ -193,7 +193,8 @@ initLevel:
 	ldr r1,=levelBank		@ 1=lost, 2=hollywood
 	ldr r2,=levelNum
 	ldr r2,[r2]
-	ldr r1,[r1,r2,lsl#2]	@ r2=level type
+	sub r3,r2,#1
+	ldr r1,[r1,r3,lsl#2]	@ r2=level type
 	cmp r1,#1
 	bne highestLevelHollyWood
 	

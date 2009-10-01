@@ -60,6 +60,8 @@ stopSound:
 
 playDead:
 
+	@ 'CHANNEL 0'
+
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
@@ -71,8 +73,10 @@ playDead:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r2,=effectVolume
+	ldr r2,=audioSFXVol
 	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -80,7 +84,7 @@ playDead:
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
-	ldrb r1, =FIND_FREE_CHANNEL
+	ldrb r1, =0
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
@@ -101,7 +105,9 @@ playDead:
 	
 	@ ---------------------------------------------
 	
-playJump:
+playJump:					
+
+	@ 'CHANNEL 0'
 
 	stmfd sp!, {r0-r2, lr}
 	
@@ -125,9 +131,11 @@ playJump:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r2,=effectVolume
+	ldr r2,=audioSFXVol
 	ldr r1,[r2]
-ldr r1,=40
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
+	strb r1, [r0]
 
 	strb r1, [r0]
 	
@@ -170,8 +178,10 @@ playTone:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r2,=effectVolume
+	ldr r2,=audioSFXVol
 	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -202,6 +212,8 @@ playTone:
 
 playFall:
 
+	@ 'CHANNEL 0'
+	
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
@@ -223,9 +235,10 @@ playFall:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r2,=effectVolume
+	ldr r2,=audioSFXVol
 	ldr r1,[r2]
-ldr r1,=40
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -257,6 +270,8 @@ ldr r1,=40
 
 playLevelEnd:
 
+	@ 'CHANNEL - FIND FREE'
+
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
@@ -268,8 +283,10 @@ playLevelEnd:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r1,=127
-@	ldr r1,[r2]
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -301,6 +318,9 @@ playLevelEnd:
 
 playClick:
 
+	@ 'CHANNEL - FIND FREE'
+
+
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
@@ -312,8 +332,10 @@ playClick:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r1,=127
-@	ldr r1,[r2]
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -345,6 +367,9 @@ playClick:
 
 playKey:
 
+	@ 'CHANNEL - FIND FREE'
+
+
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
@@ -356,8 +381,10 @@ playKey:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r1,=127
-@	ldr r1,[r2]
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
@@ -389,6 +416,9 @@ playKey:
 
 playExplode:
 
+	@ 'CHANNEL - FIND FREE'
+
+
 	stmfd sp!, {r0-r2, lr}
 	
 	ldr r0, =IPC_SOUND_DATA(1)
@@ -400,8 +430,10 @@ playExplode:
 	str r1, [r0]
 	
 	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
-	ldr r1,=127
-@	ldr r1,[r2]
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_PAN(1)							@ Pan

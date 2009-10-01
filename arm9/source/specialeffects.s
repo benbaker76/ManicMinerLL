@@ -2004,7 +2004,7 @@ meteorInit:
 		ldr r1,=spriteActive
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
-		mov r0,#128+96
+		mov r0,#128+88
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY
@@ -2015,6 +2015,9 @@ meteorInit:
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteAnimDelay
 		mov r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteHFlip
+		mov r0,#1
 		str r0,[r1,r10,lsl#2]
 		add r10,#1
 		ldr r1,=spriteActive
@@ -2036,7 +2039,7 @@ meteorInit:
 		ldr r1,=spriteActive
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
-		mov r0,#128+96
+		mov r0,#128+88
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY
@@ -2047,6 +2050,9 @@ meteorInit:
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteAnimDelay
 		mov r0,#FORCEF_ANIM
+		str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteHFlip
+		mov r0,#1
 		str r0,[r1,r10,lsl#2]
 		
 		@ ok, now we need some star dust

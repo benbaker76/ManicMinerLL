@@ -122,6 +122,8 @@ mainLoop:
 	bleq gamePaused
 	cmp r1, #GAMEMODE_GAMEOVER
 	bleq updateGameOver
+	cmp r1, #GAMEMODE_AUDIO
+	bleq updateAudio
 	
 	b mainLoop
 

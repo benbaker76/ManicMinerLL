@@ -133,6 +133,8 @@
 #include "../build/EndBottom.h"
 #include "../build/EndTop.h"
 #include "../build/GameStart.h"
+#include "../build/AudioBottom.h"
+#include "../build/AudioTop.h"
 
 @ intro graphics
 
@@ -260,6 +262,7 @@
 #define GAMEMODE_DIES_UPDATE		9
 #define GAMEMODE_SPOTLIGHT			10
 #define GAMEMODE_GAMEOVER			11
+#define GAMEMODE_AUDIO				12
 
 @ FX defines. These are bits so we can have multiple fx at once
 

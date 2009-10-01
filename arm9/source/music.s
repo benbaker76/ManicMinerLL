@@ -31,6 +31,7 @@
 	.align
 	.text
 	.global initMusic
+	.global initMusicForced
 	.global stopMusic
 
 	#define XM7_MODULEMANAGER_TYPE_SIZE			0xCE8
@@ -39,14 +40,28 @@
 	#define XM7_MOD_NOT_LOADED					0
 	#define XM7_MOD_LOADED						1
 	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(100*1024)
+
+initMusicForced:
+	stmfd sp!, {r0-r2, lr}
+	
+	b initMusicForcedPlay
+	
 	
 initMusic:
 
 	stmfd sp!, {r0-r2, lr}
 	
 	@ set r1 to module to play and call
+
+	ldr r12,=audioMusic
+	ldr r12,[r12]
+	cmp r12,#1
+	bne initMusicFailed
 	
+	initMusicForcedPlay:
+
 	push {r2-r3}
+
 	
 	ldr r0, =modLoaded
 	ldr r1, [r0]

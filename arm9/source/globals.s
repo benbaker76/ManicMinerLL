@@ -37,8 +37,6 @@
 	.global gameMode
 	.global fxMode
 	.global digits
-	.global effectVolume
-	.global musicVolume
 	.global screenOrder
 	
 	.global spriteActive
@@ -117,6 +115,10 @@
 	.global unlockedBonusesSelected
 	.global unlockedBonuses
 	.global levelBank
+	
+	.global audioMusic
+	.global audioSFXVol
+	.global sfxValues
 	
 gameMode:
 	.word 0
@@ -197,10 +199,6 @@ switchY:
 switchOn:
 	.word 0
 	
-effectVolume:
-	.word 64
-musicVolume:
-	.word 127
 	@ Text values
 	
 	.align
@@ -276,6 +274,9 @@ willyJumpData:
 
 levelNum:
 	.word 1
+	
+sfxValues:						@ values for sfx volume from 0-7 (0=off)
+	.byte 0,10,30,50,70,90,110,127
 
 
 	.align
@@ -299,8 +300,16 @@ levelBank:						@ 1=lost, 2=hollywood, 0=forget it
 	.word 0,0
 	.word 2,2,2,2,2,2,2,2,2,2
 	.word 0,0,0,0,0,0,0,0,1,0
+levelSpecialTime:				@ time needed to unlock a special
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,0
 
 @ THESE NEED TO BE SAVED AND LOADED
+startOfSaveData:
+
 	
 	.align
 highScoreScore:
@@ -319,23 +328,39 @@ highScoreName:
 	.ascii "ARSEWOMP"
 	
 	.align
+levelSpecialFound:				@ 0=not found 1=found
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+	
+	.align
 levelLLReached:					@ Lost max
-	.word 20
+	.word 1
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 10
+	.word 1
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 1
+	.word 0
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
 	.word 0
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 3
+	.word 255
 unlockedBonusesSelected:		@ current selected bonus level
-	.word 1						
+	.word 1	
+
+audioMusic:						@ play Music?
+	.word 1	
+audioSFXVol:					@ audio Volume
+	.word 7
+
+
+endOfSaveData:					
 	.pool
 	.end
