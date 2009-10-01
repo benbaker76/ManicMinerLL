@@ -1239,7 +1239,7 @@ moveTimer:
 	ldr r1,=moveTrap	
 	ldr r0,[r1]
 	add r0,#1
-	cmp r0,#20
+	cmp r0,#POINTER_DELAY
 	moveq r0,#0
 	str r0,[r1]
 

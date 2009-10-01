@@ -190,6 +190,11 @@ initLevel:
 @	str r2,[r1,r0,lsl#2]
 
 	@ ok, now are we greater than the last level we could select?
+	
+	ldr r1,=gameMode
+	ldr r1,[r1]
+	cmp r1,#GAMEMODE_TITLE_SCREEN
+	beq highestLevelDone
 
 	ldr r1,=levelBank		@ 1=lost, 2=hollywood
 	ldr r2,=levelNum

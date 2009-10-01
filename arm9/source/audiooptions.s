@@ -97,11 +97,16 @@ initAudio:
 	ldr r1,=audioPointer
 	str r0,[r1]
 	ldr r1,=audioPlaying
-@	str r0,[r1]	
+	str r0,[r1]	
 	ldr r1,=audioPointerDelay
 	str r0,[r1]	
 	ldr r1,=audioPointerFrame
 	str r0,[r1]	
+
+	mov r0,#1
+	ldr r1,=moveTrap
+	str r0,[r1]
+
 	
 	bl drawAudioText
 	bl initAudioSprites
@@ -121,11 +126,49 @@ updateAudio:
 	@ er, do stuff here!
 	
 	
-	
+	bl moveAudioPointer
 	bl drawAudioText
 	bl drawSprite
 	bl updateAudioPointer
+
+	ldr r0,=REG_KEYINPUT						@ Read key input register
+	ldr r10,[r0]								@ Read key value
+	tst r10,#BUTTON_START
+	beq audioStartPressed
+	tst r10,#BUTTON_A
+	beq audioStartPressed	
 	
+	audioStartReturn:
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------------------
+audioStartPressed:
+
+	ldr r0,=audioPointer
+	ldr r0,[r0]
+	cmp r0,#3
+	bne audioStartReturn
+
+	mov r0,#1
+	ldr r1,=moveTrap
+	str r0,[r1]
+	ldr r1,=trapStart
+	str r0,[r1]
+	
+	bl clearOAM	
+	bl initVideoTitle
+	bl initSprites
+	bl clearSpriteData
+	
+	bl stopMusic
+	
+	bl fxFadeBlackLevelInit
+	bl fxFadeMax
+	bl fxFadeIn
+
+	bl initTitleScreen
+
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------------------------
@@ -146,7 +189,7 @@ drawAudioText:
 
 	add r2,#2
 	ldr r0,=audioPT						@ now playing
-	mov r1,#8
+	mov r1,#10
 	bl drawTextBigMain	
 
 	@ diplay name of tune, use audioPlaying for offset
@@ -221,11 +264,148 @@ playSelectedAudio:
 	ldmfd sp!, {r0-r10, pc}
 
 @-------------------------------------------------
+moveAudioPointer:
 
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r0,=REG_KEYINPUT						@ Read key input register
+	ldr r10,[r0]								@ Read key value
+	tst r10,#BUTTON_UP
+	beq movePointerUD
+	tst r10,#BUTTON_DOWN
+	beq movePointerUD	
+	tst r10,#BUTTON_LEFT
+	beq moveAlter
+	tst r10,#BUTTON_RIGHT
+	beq moveAlter
+
+		ldr r1,=trapStart	
+		mov r0,#0
+		str r0,[r1]
+		ldr r1,=moveTrap	
+		mov r0,#0
+		str r0,[r1]
+		b moveAPointerDone1	
+	
+	moveAPointerDone:
+	
+	bl moveTimer
+	
+	moveAPointerDone1:
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------------------------------
+
+movePointerUD:
+	ldr r0,=moveTrap
+	ldr r1,[r0]
+	cmp r1,#0
+	bne moveAPointerDone
+	
+	tst r10,#BUTTON_UP
+	bne movePointerD
+		@up
+		ldr r1,=audioPointer
+		ldr r2,[r1]
+		subs r2,#1
+		movmi r2,#0
+		str r2,[r1]
+		b moveAPointerDone
+	
+	movePointerD:
+		@dn
+		ldr r1,=audioPointer
+		ldr r2,[r1]
+		add r2,#1
+		cmp r2,#4
+		moveq r2,#3
+		str r2,[r1]
+		b moveAPointerDone
+
+@-------------------------------------------------
+
+moveTimer:
+
+	stmfd sp!, {r0-r10, lr}
+
+	ldr r1,=moveTrap	
+	ldr r0,[r1]
+	add r0,#1
+	cmp r0,#POINTER_DELAY
+	moveq r0,#0
+	str r0,[r1]
+
+	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------------------------------
+
+moveAlter:
+	ldr r0,=moveTrap
+	ldr r1,[r0]
+	cmp r1,#0
+	bne moveAPointerDone
+
+	ldr r0,=audioPointer
+	ldr r0,[r0]
+	cmp r0,#2
+	bne notTune
+	
+		@ alter Music playing
+	
+		tst r10,#BUTTON_RIGHT
+		bne movePointerL
+		
+			@R
+			ldr r0,=audioPlaying
+			ldr r1,[r0]
+			add r1,#1
+			ldr r2,=audioTuneList
+			ldrb r3,[r2,r1]
+			cmp r3,#255
+			beq moveAPointerDone
+			str r1,[r0]
+			mov r0,r3
+			bl levelMusicPlayEasy
+			b moveAPointerDone
+	
+		movePointerL:
+			@L
+			ldr r0,=audioPlaying
+			ldr r1,[r0]
+			subs r1,#1
+			bmi moveAPointerDone
+			ldr r2,=audioTuneList
+			ldrb r3,[r2,r1]
+			str r1,[r0]
+			mov r0,r3
+			bl levelMusicPlayEasy
+			b moveAPointerDone	
+	notTune:
+	cmp r0,#0
+	bne notVol
+		@ alter SFX Volume
+	
+	
+	b moveAPointerDone
+	notVol:
+	cmp r0,#1
+	bne notMusicOn
+		@ turn on/off ingame musc
+	
+	
+	b moveAPointerDone	
+	notMusicOn:
+	
+	
+	b moveAPointerDone
+@-------------------------------------------------
 
 .pool
 .data
 .align
+moveTrap:
+	.word 0
 audioPointer:					@ pointer value 0-3
 	.word 0
 audioPointerFrame:
@@ -236,7 +416,7 @@ audioPlaying:					@ what tune?
 	.word 0	
 .align
 audioPointerY:					@ pointer Y values
-	.byte 81,97,109,141
+	.byte 81,97,113,145
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
 	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,64,255
 audioVT:
@@ -245,7 +425,7 @@ audioMT:
 	.asciZ	"IN GAME MUSIC: ON "			@ 18
 	.asciz	"IN GAME MUSIC: OFF"
 audioPT:
-	.asciz	"- NOW  PLAYING -"				@ 16
+	.asciz	"SELECT  TUNE"				@ 12
 audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	"MINER WILLY'S MINING SONG!"	@ 26+1
 	.asciz	"  ON A DARK MINING NIGHT  "
