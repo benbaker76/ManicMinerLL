@@ -53,6 +53,11 @@ initMusic:
 	
 	@ set r1 to module to play and call
 
+	ldr r12,=gameMode
+	ldr r12,[r12]
+	cmp r12,#GAMEMODE_AUDIO
+	beq initMusicForcedPlay
+
 	ldr r12,=audioMusic
 	ldr r12,[r12]
 	cmp r12,#1

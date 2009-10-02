@@ -84,9 +84,9 @@ main:
 
 @	bl initGame
 
-	bl initTitleScreen
+@	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 @	bl initLevelClear
 	
@@ -124,6 +124,8 @@ mainLoop:
 	bleq updateGameOver
 	cmp r1, #GAMEMODE_AUDIO
 	bleq updateAudio
+	cmp r1, #GAMEMODE_COMPLETION
+	bleq updateCompletion
 	
 	b mainLoop
 

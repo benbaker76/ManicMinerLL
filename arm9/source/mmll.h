@@ -140,6 +140,8 @@
 #include "../build/AudioTop.h"
 #include "../build/AudioSprites.h"
 #include "../build/AudioBars.h"
+#include "../build/VictoryTop.h"
+#include "../build/VictoryBottom.h"
 
 @ intro graphics
 
@@ -269,6 +271,7 @@
 #define GAMEMODE_SPOTLIGHT			10
 #define GAMEMODE_GAMEOVER			11
 #define GAMEMODE_AUDIO				12
+#define GAMEMODE_COMPLETION			13
 
 @ FX defines. These are bits so we can have multiple fx at once
 

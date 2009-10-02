@@ -804,7 +804,9 @@ generateMonsters:
 	cmp r0,#20
 	ldreq r2, =Toccata_xm_gz
 	ldreq r3, =Toccata_xm_gz_size	
-	
+	cmp r0,#21
+	ldreq r2, =Shuttle_xm_gz
+	ldreq r3, =Shuttle_xm_gz_size	
 	
 	cmp r0,#64
 	ldreq r2, =GameOver_xm_gz

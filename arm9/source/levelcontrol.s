@@ -77,7 +77,7 @@ levelNextNormal:
 	
 levelNextCompletion:
 
-	bl initGameOver
+	bl initCompletion
 
 	ldmfd sp!, {r0-r10, pc}	
 

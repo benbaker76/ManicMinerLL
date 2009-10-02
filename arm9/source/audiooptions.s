@@ -197,7 +197,7 @@ drawAudioText:
 
 	add r2,#2
 	ldr r0,=audioPT						@ now playing
-	mov r1,#10
+	mov r1,#8
 	bl drawTextBigMain	
 
 	@ diplay name of tune, use audioPlaying for offset
@@ -480,14 +480,14 @@ audioPlaying:					@ what tune?
 audioPointerY:					@ pointer Y values
 	.byte 81,97,113,145
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
-	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,64,255
+	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,64,255
 audioVT:
 	.asciz	"SFX GAME VOLUME:"		@ 24
 audioMT:
 	.asciz	"IN GAME MUSIC: OFF"
 	.asciZ	"IN GAME MUSIC: ON "	@ 18
 audioPT:
-	.asciz	"SELECT  TUNE"			@ 12
+	.asciz	"- SELECT  TUNE -"			@ 16
 audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	"MINER WILLY'S MINING SONG!"	@ 26+1
 	.asciz	"  ON A DARK MINING NIGHT  "
@@ -510,8 +510,8 @@ audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	" THE MICROWAVE GOES 'POP' "
 	.asciz	"   TOP OF THE WORLD MA!   "
 	.asciz	"AND SOMEONE MENTIONED YES!"
+	.asciz	"  SEEN MY SHUTTLE, COCK?  "
 	.asciz	"     A SOMBRE MOMENT.     "
-	.asciz	"                          "
 	.asciz	"                          "
 	.asciz	"                          "
 	.asciz	"                          "

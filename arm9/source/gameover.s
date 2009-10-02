@@ -22,6 +22,8 @@ initGameOver:
 
 	stmfd sp!, {r0-r10, lr}
 	
+	lcdMainOnBottom
+	
 	bl clearBG0
 	bl clearBG1
 	bl clearBG2

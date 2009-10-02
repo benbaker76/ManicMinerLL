@@ -250,6 +250,8 @@ initVideoTitle:
 
 	stmfd sp!, {r0-r2, lr}
 	
+	lcdMainOnBottom
+	
 	bl initVideoMain
 	
 	mov r0, #REG_DISPCNT			@ Main screen to Mode 0 with BG0-3 active
