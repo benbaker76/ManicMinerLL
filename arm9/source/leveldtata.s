@@ -23,10 +23,9 @@ levelData:
 @						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
 @						17=forcefield, 18=anton, 19=lift,20=rocky, 21=BTTF flag
 @ 7 =background number (0-?)
-@ 8 =door bank number - LOW 5 BITS.. 0-31 HIGH 3 BITS= Willy sprite to use 0-7 (0=normal 1=spectrum 2=space 3=horace 4=Rick)
+@ 8 =door bank number (0-?)
 
 @ "this section is for the monsters only..."
-
 @ alien data (if initial X and y is 0 = blank alien)
 @ 1=initial X,
 @ 2=initial y (offsets added at level construct)
@@ -276,10 +275,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	
-	@ 22 / BLANK
-	.byte 232,168,0,6,168,1,6,37
+	@ 22 / Blagger
+	.byte 208,96,0,192,56,0,6,41
 
-	.byte 0,0,0,0,0,0,0,0
+	.byte 104,168,17,1,1,57,88,174
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -530,7 +529,7 @@ levelNames:
 @	/ 2 mad levels based on horace?
 	
 	.ascii "       THE MYSTIC WOODS       "
-	.ascii "   THE BLANKNESS OF BEING!!   "
+	.ascii "  BLAGGER COULD SMELL A RATT  "
 
 
 @	/ The movie levels
@@ -822,7 +821,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 21
+	@ 21	/ HORACE
 	.ascii "  WILLY SUDDENLY BECAME   "
 	.ascii "SOMEONE ELSE, 'WHAT!' HE  "
 	.ascii "THOUGHT.                  "
@@ -835,19 +834,19 @@ levelNames:
 	.ascii "A HORRIFIC CONDITION..    "
 	.ascii "  HE REALISED THAT HE WAS "
 	.ascii "HORACE, AT LAST! HURRAH!  "	
-	@ 22	/GB TEST
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	@ 22	/ BLAGGER
+	.ascii "  SO, IT LOOKS LIKE WILLY "
+	.ascii "HAS TAKEN TO A LIFE OF    "
+	.ascii "CRIME... ROBBING BANKS IS "
+	.ascii "NOT A VENTURE FOR A WELL  "
+	.ascii "EDUCATED MAN? WHY WOULD HE"
+	.ascii "DO SUCH A THING?          "
+	.ascii "  BEST HE GRABS THE KEYS  "
+	.ascii "TO THE SAFE AND MAKES A   "
+	.ascii "QUICK EXIT.               "
+	.ascii "  I DON'T THINK WILLY     "
+	.ascii "WOULD BE ABLE TO HANDLE   "
+	.ascii "DOING A BIT OF 'BIRD'.    "
 	@ 23	/CASABLANCA
 	.ascii "  FALLING THROUGH THE VOID"
 	.ascii "OF CELLULOID, WILLY VISITS"
@@ -927,44 +926,44 @@ levelNames:
 	.ascii "ENDS UP TASTING THAT ZOOL "
 	.ascii "FLAVORED MARSHMALLOW!     "
 	@ 29	/ KING KONG
-	.ascii "KING KONG                 "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  NOT ONLY WAS WILLY BEING"
+	.ascii "THROWN THOUGH CELLULOID   "
+	.ascii "SPACE, HE WAS ALSO SLIDING"
+	.ascii "THROUGH CELLULOID TIME.   "
+	.ascii "  IT WOULD APPEAR TO BE   "
+	.ascii "1933, THERE IS A KILLER   "
+	.ascii "APE ON THE LOOSE, AND A   "
+	.ascii "SCANTILY CLAD FAY WRAY IS "
+	.ascii "NOWHERE TO BE SEEN, SADLY."
+	.ascii "  SURELY THE EXIT MUST    "
+	.ascii "TAKE POOR WILLY SOMEWHERE "
+	.ascii "SAFER AND CLOSER TO HOME? "
 	@ 30	/ TERMINATOR
-	.ascii "Terminator                "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 31
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  'OH NO' CRIED WILLY, NOW"
+	.ascii "HE HAD PASSED INTO THE    "
+	.ascii "FUTURE.                   "
+	.ascii "  WILLY WONDERED WHY ANY  "
+	.ascii "IMAGE OF THE FUTURE WAS   "
+	.ascii "ACCOMPANIED BY SPARKS AND "
+	.ascii "METALIC SURFACES?, 'I     "
+	.ascii "WONDER', THOUGH WILLY.    "
+	.ascii "  SO, NOW WITH THE WORRY  "
+	.ascii "OF MACHINES OF ULTIMATE   "
+	.ascii "DESTRUCTION, AGAIN WILLY  "
+	.ascii "MUST FIND A WAY TO ESCAPE."
+	@ 31 	/ YOUNG FRANK
+	.ascii "  'I REALLY FEEL LIKE A   "
+	.ascii "LITTLE DANCE', THOUGHT    "
+	.ascii "WILLY.                    "
+	.ascii "  THINKING SERIOUSLY FOR A"
+	.ascii "MOMENT, WILLY REALISED    "
+	.ascii "THAT THIS COULD BE A      "
+	.ascii "DIFFICULT TASK TO FIND HIS"
+	.ascii "WAY TO THE EXIT.          "
+	.ascii "  'THAT LIFT LOOKS RATHER "
+	.ascii "PROMISING', HE THOUGHT.   "
+	.ascii "  AND TO BE FAIR, IT DID  "
+	.ascii "LOOK RATHER PROMISING.    "
 	@ 32	/ ROCKY HORROR
 	.ascii "  SOMEHOW, WILLY KNEW THAT"
 	.ascii "THIS CELLULOID NIGHTMARE  "
@@ -978,6 +977,9 @@ levelNames:
 	.ascii "LIGHTNING GUNS, BUT...    "
 	.ascii "THEN WHAT? WILLY COULD SEE"
 	.ascii "NO EXIT THIS TIME......   "
+	
+	@ BONUS LEVELS
+	
 	@ 33
 	.ascii "                          "
 	.ascii "                          "
@@ -1082,7 +1084,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 41
+	@ 41	/ CENTRAL CAVERN
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1120,9 +1122,9 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    LEVEL XX - BBC  198X    "
 	.ascii "  LEVEL 20 - AMSTRAD  198X  "
 	
-	@ Bonus?
-	.ascii "   LEVEL 01 - PSION3 1995   "
-	.ascii "BLANKBLANKBLANKBLANKBLANKY  "
+	@ Bonus 2 LEVELS (HORACE AND BLAGGER
+	.ascii "    HORACE - PSION3 1995    "
+	.ascii "     BLAGGER - C64 1983     "
 	
 	@ Movies
 	.ascii "    ORIGINAL - LOBO 2009    "
@@ -1136,8 +1138,9 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "ORIGNAL LEVEL - SVERX 2009  "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
-	@ Anything?
+	@ 33
 	.ascii "                            "
+	@ 34
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "

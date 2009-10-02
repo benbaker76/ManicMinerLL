@@ -165,8 +165,8 @@ initLevel:
 	bl getLevelBackground
 
 	ldrb r0,[r1],#1			@ Door number
-	mov r3,r0,lsr #5		@ high 3 bits = willy sprite 0-7
-	and r0,#31				@ low 8 bits = door banck 0-31
+@	mov r3,r0,lsr #5		@ high 3 bits = willy sprite 0-7
+@	and r0,#31				@ low 8 bits = door banck 0-31
 	bl getDoorSprite
 	bl getWillySprite
 
@@ -399,7 +399,14 @@ getDoorSprite:
 	cmp r0,#30
 	ldreq r0, =Exit31Tiles
 	ldreq r2, =Exit31TilesLen	
-	
+
+
+	cmp r0,#40
+	ldreq r0, =Exit41Tiles
+	ldreq r2, =Exit41TilesLen
+	cmp r0,#41
+	ldreq r0, =Exit42Tiles
+	ldreq r2, =Exit42TilesLen	
 	cmp r2,#0
 	beq skipExit
 	
@@ -846,6 +853,12 @@ getWillySprite:
 
 		@ r3=sprite (0=normal 1=spectrum 2=space 3=horace, 4=dirk )
 
+		ldr r0,=levelNum
+		ldr r0,[r0]
+		sub r0,#1
+		ldr r1,=levelWilly
+		ldrb r3,[r1,r0]
+
 		cmp r3,#0
 		ldreq r0,=MinerNormalTiles
 		ldreq r2,=MinerNormalTilesLen
@@ -861,6 +874,11 @@ getWillySprite:
 		cmp r3,#4
 		ldreq r0,=MinerCasablancaTiles
 		ldreq r2,=MinerCasablancaTilesLen		
+		cmp r3,#5
+		ldreq r0,=MinerBlaggerTiles
+		ldreq r2,=MinerBlaggerTilesLen
+		
+
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
 		
@@ -868,6 +886,16 @@ getWillySprite:
 		str r3,[r0]
 
 	ldmfd sp!, {r0-r10, pc}
+
+.align
+levelWilly:
+	.byte 0,0,0,0,0,0,1,0,0,0
+	.byte 0,0,0,0,0,2,0,0,0,0
+	.byte 3,5,4,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0	
 
 @-------------------------------------------------
 	

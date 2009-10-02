@@ -20,6 +20,9 @@ stmfd sp!, {r0-r10, lr}
 	@
 	@ r12 MUST be sent here so that the game starts where it should
 	@
+
+@mov r12,#22
+
 	ldr r1,=levelNum
 	str r12,[r1]
 	mov r0,#3				@ set level to 3 for lives

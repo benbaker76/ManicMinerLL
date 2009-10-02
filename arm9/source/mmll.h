@@ -114,6 +114,9 @@
 #include "../build/Exit30.h"
 #include "../build/Exit31.h"
 
+#include "../build/Exit41.h"
+#include "../build/Exit42.h"
+
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
 
@@ -154,6 +157,7 @@
 #include "../build/MinerSpectrum.h"
 #include "../build/MinerHorace.h"
 #include "../build/MinerCasablanca.h"
+#include "../build/MinerBlagger.h"
 
 #include "../build/SpriteBank1.h"
 
