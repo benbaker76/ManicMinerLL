@@ -91,6 +91,11 @@ initAudio:
 	ldr r1, =BG_PALETTE
 	ldr r2, =AudioBottomPalLen
 	bl dmaCopy
+
+	ldr r0,=AudioBarsTiles							@ copy the tiles used for audio bars
+	ldr r1,=BG_TILE_RAM(BG1_TILE_BASE)
+	ldr r2,=AudioBarsTilesLen
+	bl decompressToVRAM	
 	
 	@ set vars first
 	mov r0,#0
@@ -109,6 +114,7 @@ initAudio:
 
 	
 	bl drawAudioText
+	bl drawAudioBars
 	bl initAudioSprites
 	bl updateAudioPointer
 	bl playSelectedAudio
@@ -401,6 +407,32 @@ moveAlter:
 	b moveAPointerDone
 @-------------------------------------------------
 
+drawAudioBars:
+
+	@ draw bars based on audioSFXVol 0-7
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r4,=audioSFXVol
+	ldr r4,[r4]							@ r4=volume
+	mov r3,#14							@ 14 tiles per bar
+	mul r4,r3
+	lsl r4,#1							@ 2 bytes per char
+	
+	ldr r0, =BG_MAP_RAM(BG1_MAP_BASE)
+	add r0,r4							@ r0 = source
+
+	ldr r1, =BG_TILE_RAM(BG1_TILE_BASE)	@ r1 = destination
+
+@	ldr r0, =AudioBarsMap
+@	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)	@ destination
+@	ldr r2, =AudioBottomMapLen
+@	bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------------------------------
+
 .pool
 .data
 .align
@@ -418,7 +450,7 @@ audioPlaying:					@ what tune?
 audioPointerY:					@ pointer Y values
 	.byte 81,97,113,145
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
-	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,64,255
+	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,64,255
 audioVT:
 	.asciz	"SFX GAME VOLUME: ADDBARS"		@ 24
 audioMT:
@@ -431,24 +463,24 @@ audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	"  ON A DARK MINING NIGHT  "
 	.asciz	"MINER WILLY, SPACE EXPORER"
 	.asciz	" THE PHARAOH'S LITTLE JIG "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
-	.asciz	"                          "
+	.asciz	"    WILLY'S LITTLE RAG    "
+	.asciz	"    SMITHS EAR BLEEDER    "
+	.asciz	"     AS TIME GOES BY.     "
+	.asciz	"      DOWN THE ALLEY      "
+	.asciz	" THE MIGHTY JUNGLE BEASTS "
+	.asciz	"PLAYING LIVE A THE CAVERN!"
+	.asciz	"   THE ODDNESS OF BEING   "
+	.asciz	"   REGGIE LIKE'S REGGAE   "
+	.asciz	"    TIME TO TERMINATE!    "
+	.asciz	" THE 80'S WILL NEVER DIE! "
+	.asciz	"   SIT DOWN RAY PARKER!   "
+	.asciz	"THERE'S A CHUNK IN MY EYE!"
+	.asciz	" SCREAM AND SCREAM AGAIN! "
+	.asciz	"HOBNAIL BOOTS, AND TOP HAT"
+	.asciz	" THE MICROWAVE GOES 'POP' "
+	.asciz	"   TOP OF THE WORLD MA!   "
+	.asciz	"AND SOMEONE MENTIONED YES!"
+	.asciz	"     A SOMBRE MOMENT.     "
 	.asciz	"                          "
 	.asciz	"                          "
 	.asciz	"                          "

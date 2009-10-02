@@ -794,7 +794,9 @@ generateMonsters:
 	cmp r0,#19
 	ldreq r2, =KingKong_xm_gz
 	ldreq r3, =KingKong_xm_gz_size
-	
+	cmp r0,#20
+	ldreq r2, =Toccata_xm_gz
+	ldreq r3, =Toccata_xm_gz_size	
 	
 	
 	cmp r0,#64

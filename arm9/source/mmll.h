@@ -136,6 +136,7 @@
 #include "../build/AudioBottom.h"
 #include "../build/AudioTop.h"
 #include "../build/AudioSprites.h"
+#include "../build/AudioBars.h"
 
 @ intro graphics
 
