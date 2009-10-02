@@ -91,11 +91,6 @@ initAudio:
 	ldr r1, =BG_PALETTE
 	ldr r2, =AudioBottomPalLen
 	bl dmaCopy
-
-	ldr r0,=AudioBarsTiles							@ copy the tiles used for audio bars
-	ldr r1,=BG_TILE_RAM(BG1_TILE_BASE)
-	ldr r2,=AudioBarsTilesLen
-	bl decompressToVRAM	
 	
 	@ set vars first
 	mov r0,#0
@@ -112,7 +107,6 @@ initAudio:
 	ldr r1,=moveTrap
 	str r0,[r1]
 
-	
 	bl drawAudioText
 	bl drawAudioBars
 	bl initAudioSprites
@@ -131,7 +125,6 @@ updateAudio:
 	
 	@ er, do stuff here!
 	
-	
 	bl moveAudioPointer
 	bl drawAudioText
 	bl drawSprite
@@ -142,7 +135,9 @@ updateAudio:
 	tst r10,#BUTTON_START
 	beq audioStartPressed
 	tst r10,#BUTTON_A
-	beq audioStartPressed	
+	beq audioStartPressed
+	tst r10,#BUTTON_B
+	beq instantExit
 	
 	audioStartReturn:
 	
@@ -155,6 +150,8 @@ audioStartPressed:
 	ldr r0,[r0]
 	cmp r0,#3
 	bne audioStartReturn
+
+	instantExit:
 
 	mov r0,#1
 	ldr r1,=moveTrap
@@ -190,6 +187,11 @@ drawAudioText:
 
 	add r2,#2
 	ldr r0,=audioMT						@ music on off
+	ldr r3,=audioMusic
+	ldr r4,[r3]
+	mov r3,#19
+	mul r4,r3
+	add r0,r4
 	mov r1,#7
 	bl drawTextBigMain	
 
@@ -391,16 +393,39 @@ moveAlter:
 	cmp r0,#0
 	bne notVol
 		@ alter SFX Volume
-	
-	
-	b moveAPointerDone
+		tst r10,#BUTTON_RIGHT
+		bne movePointerAL
+		@vol up
+			ldr r1,=audioSFXVol
+			ldr r2,[r1]
+			add r2,#1
+			cmp r2,#8
+			moveq r2,#7
+			str r2,[r1]
+			blne playKey
+			bl drawAudioBars
+			b moveAPointerDone			
+		movePointerAL:
+		@VolDown
+			ldr r1,=audioSFXVol
+			ldr r2,[r1]
+			subs r2,#1
+			movmi r2,#0
+			str r2,[r1]
+			bl drawAudioBars
+			bl playKey
+			b moveAPointerDone			
 	notVol:
 	cmp r0,#1
 	bne notMusicOn
 		@ turn on/off ingame musc
-	
-	
-	b moveAPointerDone	
+		tst r10,#BUTTON_RIGHT
+		ldr r1,=audioMusic
+		moveq r2,#1
+		movne r2,#0
+		str r2,[r1]
+		
+		b moveAPointerDone	
 	notMusicOn:
 	
 	
@@ -415,19 +440,24 @@ drawAudioBars:
 	
 	ldr r4,=audioSFXVol
 	ldr r4,[r4]							@ r4=volume
-	mov r3,#14							@ 14 tiles per bar
-	mul r4,r3
-	lsl r4,#1							@ 2 bytes per char
+	lsl r4,#7
 	
-	ldr r0, =BG_MAP_RAM(BG1_MAP_BASE)
+	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)
+	add r0, #1536						@ first tile of offscreen tiles
 	add r0,r4							@ r0 = source
 
-	ldr r1, =BG_TILE_RAM(BG1_TILE_BASE)	@ r1 = destination
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ r1 = destination
+	add r1,#(32*10)*2
+	add r1,#21*2
 
-@	ldr r0, =AudioBarsMap
-@	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)	@ destination
-@	ldr r2, =AudioBottomMapLen
-@	bl dmaCopy
+	mov r2,#14
+	
+	bl dmaCopy
+
+	add r0,#64
+	add r1,#64
+	
+	bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -452,12 +482,12 @@ audioPointerY:					@ pointer Y values
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
 	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,64,255
 audioVT:
-	.asciz	"SFX GAME VOLUME: ADDBARS"		@ 24
+	.asciz	"SFX GAME VOLUME:"		@ 24
 audioMT:
-	.asciZ	"IN GAME MUSIC: ON "			@ 18
 	.asciz	"IN GAME MUSIC: OFF"
+	.asciZ	"IN GAME MUSIC: ON "	@ 18
 audioPT:
-	.asciz	"SELECT  TUNE"				@ 12
+	.asciz	"SELECT  TUNE"			@ 12
 audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	"MINER WILLY'S MINING SONG!"	@ 26+1
 	.asciz	"  ON A DARK MINING NIGHT  "
