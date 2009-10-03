@@ -311,6 +311,11 @@ updateGameOver:
 	
 	subs r10,#1
 	bpl updateGameOverLoop
+
+
+	mov r1,#0
+	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
+	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB		
 	
 	bl initGameOverScreen
 	
