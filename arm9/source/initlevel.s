@@ -807,6 +807,12 @@ generateMonsters:
 	cmp r0,#21
 	ldreq r2, =Shuttle_xm_gz
 	ldreq r3, =Shuttle_xm_gz_size	
+	cmp r0,#22
+	ldreq r2, =Underground_xm_gz
+	ldreq r3, =Underground_xm_gz_size
+	cmp r0,#23
+	ldreq r2, =Cold_xm_gz
+	ldreq r3, =Cold_xm_gz_size
 	
 	cmp r0,#64
 	ldreq r2, =GameOver_xm_gz

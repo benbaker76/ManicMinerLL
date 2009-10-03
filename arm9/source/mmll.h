@@ -133,8 +133,12 @@
 #include "../build/CreditPage2.h"
 #include "../build/CreditPageTop2.h"
 #include "../build/HighScore.h"
+
 #include "../build/EndBottom.h"
 #include "../build/EndTop.h"
+#include "../build/EndBoot.h"
+#include "../build/EndTopSplat.h"
+
 #include "../build/GameStart.h"
 #include "../build/AudioBottom.h"
 #include "../build/AudioTop.h"
@@ -142,6 +146,10 @@
 #include "../build/AudioBars.h"
 #include "../build/VictoryTop.h"
 #include "../build/VictoryBottom.h"
+#include "../build/VictoryWWTop.h"
+#include "../build/VictoryWWBottom.h"
+#include "../build/VictoryBonusTop.h"
+#include "../build/VictoryBonusBottom.h"
 
 @ intro graphics
 
@@ -202,6 +210,7 @@
 #include "../build/DieRaven.h"
 #include "../build/DieTravolta.h"
 #include "../build/DieVanish.h"
+#include "../build/DieGameOver.h"
 
 @ tile offset for the status font
 
@@ -272,6 +281,9 @@
 #define GAMEMODE_GAMEOVER			11
 #define GAMEMODE_AUDIO				12
 #define GAMEMODE_COMPLETION			13
+#define GAMEMODE_COMPLETION_BONUS	14
+#define GAMEMODE_COMPLETION_WILLYW	15
+#define GAMEMODE_GAMEOVER_SCREEN	16
 
 @ FX defines. These are bits so we can have multiple fx at once
 

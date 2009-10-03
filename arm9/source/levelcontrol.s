@@ -50,6 +50,8 @@ cmp r7,#1
 beq levelNextCompletion
 cmp r7,#2
 beq levelNextBonus
+cmp r7,#3
+beq levelNextCompletionWW
 
 @ if none of them - crash
 
@@ -82,10 +84,18 @@ levelNextCompletion:
 	ldmfd sp!, {r0-r10, pc}	
 
 @-------------------------
+	
+levelNextCompletionWW:
+
+	bl initCompletionWillyWood
+
+	ldmfd sp!, {r0-r10, pc}	
+
+@-------------------------
 
 levelNextBonus:
 
-	bl initGameOver
+	bl initCompletionBonus
 
 	ldmfd sp!, {r0-r10, pc}		
 	

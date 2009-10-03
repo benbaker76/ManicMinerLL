@@ -23,8 +23,6 @@ stmfd sp!, {r0-r10, lr}
 
 @mov r12,#22
 
-	bl setScreens
-
 	ldr r1,=levelNum
 	str r12,[r1]
 	mov r0,#3				@ set level to 3 for lives

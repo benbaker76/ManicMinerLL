@@ -13,8 +13,10 @@
 
 	.global initCompletion
 	.global updateCompletion
-
-@---------------------------
+	.global initCompletionBonus
+	.global updateCompletionBonus
+	
+@---------------------------			LOST LEVEL COMPLETION INIT
 
 initCompletion:
 
@@ -37,8 +39,6 @@ initCompletion:
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
 	bl fxFadeIn	
-	
-	@ draw 2 screens - Later we will do an animation before this!!
 	
 	ldr r0,=VictoryBottomTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
@@ -63,7 +63,7 @@ initCompletion:
 	bl dmaCopy
 	ldr r0, =VictoryTopPal
 	ldr r1, =BG_PALETTE_SUB
-	ldr r2, =EndTopPalLen
+	ldr r2, =VictoryTopPalLen
 	bl dmaCopy	
 	
 @	ldreq r2, =GameOver_xm_gz
@@ -71,8 +71,8 @@ initCompletion:
 @	bl initMusic
 	
 	ldmfd sp!, {r0-r10, pc}
-	
-@---------------------------
+
+@---------------------------			LOST LEVEL COMPLETION
 
 updateCompletion:
 
