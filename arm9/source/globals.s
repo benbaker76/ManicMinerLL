@@ -120,6 +120,11 @@
 	.global audioSFXVol
 	.global sfxValues
 	
+	.global fadeCheck
+
+fadeCheck:
+	.word 0
+	
 gameMode:
 	.word 0
 controlMode:

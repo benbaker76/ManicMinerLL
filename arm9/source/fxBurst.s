@@ -623,10 +623,24 @@ moveBloodburstLoop:
 		moveq r6,#burstFrameEnd
 		str r6,[r7,r10,lsl#2]
 		beq  bloodBurstRegenerate
-@		moveq r6,#burstFrameStart
-@		str r6,[r7,r10,lsl#2]
 	
 	bloodBurstSkip:
+	
+	ldr r0,=spriteActive+0
+	ldr r0,[r0, r10, lsl #2]
+	cmp r0,#255
+	bne bloodBurstSkip2
+
+		@ make drips fall
+		
+		ldr r0,=spriteY
+		ldr r1,[r0,r10,lsl#2]
+		ldr r5,=spriteMonster
+		ldr r6,[r5,r10,lsl#2]
+		add r1,r6
+		str r1,[r0,r10,lsl#2]
+
+	bloodBurstSkip2:
 
 	subs r10, #1									@ count down the number of starSpeed
 	bpl moveBloodburstLoop
@@ -642,54 +656,18 @@ moveBloodburstLoop:
 bloodBurstRegenerate:
 
 ldr r8,=spriteActive
+ldr r7,[r8,r10,lsl#2]
+cmp r7,#255
+beq bloodBurstSkip
 mov r7,#255
 str r7,[r8,r10,lsl#2]
+
+ldr r7,=spriteMonster
+bl getRandom
+and r8,#0xff
+add r8,#512
+str r8,[r7,r10,lsl#2]
 b bloodBurstSkip
-
-
-		ldr r8,=burstLength
-		ldr r8,[r8]
-		cmp r8,#0
-		ldreq r8,=spriteActive+0
-		moveq r7,#0
-		streq r7,[r8,r10,lsl#2]
-		beq bloodBurstOver
-
-		ldr r8,=exitX
-		ldr r8,[r8]
-		lsl r8,#12
-		str r8, [r2, r10, lsl #2]						@ Store X
-		ldr r8,=exitY
-		ldr r8,[r8]
-		lsl r8,#12
-		str r8, [r3, r10, lsl #2] 						@ Store Y
-
-		bl getRandom									@ generate direction
-		and r8, #127
-		add r8, #320
-		ldr r0,=spriteDir+0
-		str r8, [r0, r10, lsl #2]
-
-		bl getRandom									@ generate speed
-		ldr r6,=0x7ff
-		and r8, r6	
-		add r8,#2048
-		ldr r0,=spriteSpeed+0
-		str r8, [r0, r10, lsl #2] 						@ Store Speed
-
-		ldr r0,=spriteMax+0							@ time to live!
-		bl getRandom
-		lsr r8,#12
-		add r8,#0x60000
-		str r8,[r0, r10, lsl #2]
-
-		ldr r0,=spriteMin+0							@ gravity
-		bl getRandom
-		and r8,#127
-		str r8,[r0, r10, lsl #2]
-	
-	b bloodBurstSkip
-
 
 	.data
 	.pool

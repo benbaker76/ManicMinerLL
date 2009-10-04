@@ -12,7 +12,7 @@
 	.text
 
 #define KILLDROP			#200
-
+#define KILLSOUND			#240
 	.global initGameOver
 	.global updateGameOverScreen
 	.global updateGameOver
@@ -25,10 +25,14 @@ initGameOverScreen:
 	
 	lcdMainOnBottom
 	
-	bl clearBG0
+	bl fxFadeBlackInit
+	bl fxFadeMax
+
+
+@	bl clearBG0
 	bl clearBG1
-	bl clearBG2
-	bl clearBG3
+@	bl clearBG2
+@	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
 
@@ -36,9 +40,6 @@ initGameOverScreen:
 	mov r0,#GAMEMODE_GAMEOVER_SCREEN			@ this is our "wait and music" screen
 	str r0,[r1]
 
-	bl fxFadeBlackLevelInit
-	bl fxFadeMax
-	bl fxFadeIn	
 	
 	ldr r0,=EndBottomTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
@@ -74,10 +75,8 @@ initGameOverScreen:
 	mov r0,#1
 	ldr r1,=trapStart
 	str r0,[r1]
-	
-@	ldreq r2, =GameOver_xm_gz
-@	ldreq r3, =GameOver_xm_gz_size
-@	bl initMusic
+
+	bl fxFadeIn	
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -109,7 +108,26 @@ updateGameOverScreen:
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
+
+ldr r1,=fadeCheck
+mov r0,#0
+str r0,[r1]
+
+bl fxFadeBlackInit
+bl fxFadeMin
+bl fxFadeOut
+
+justWait2:
+ldr r1,=fadeCheck
+ldr r1,[r1]
+cmp r1,#16
+beq fade2Title
+
+b justWait2	
 	
+	fade2Title:
+
+	bl fxFadeOff	
 	bl initTitleScreen
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -355,7 +373,7 @@ updateGameOver:
 	
 	stmfd sp!, {r0-r10, lr}
 
-	ldr r10,=280
+	ldr r10,=400
 	
 	updateGameOverLoop:
 	
@@ -363,6 +381,8 @@ updateGameOver:
 		ldreq r1,=killMotion
 		moveq r2,#1
 		streq r2,[r1]
+		cmp r10,KILLSOUND
+		bleq playFallThing
 	
 		bl swiWaitForVBlank	
 
@@ -397,7 +417,28 @@ updateGameOver:
 	subs r10,#1
 	bpl updateGameOverLoop
 	
+	@ fade out for next screen
+ldr r1,=fadeCheck
+mov r0,#0
+str r0,[r1]	
+
+bl fxFadeBlackInit
+bl fxFadeMin
+bl fxFadeOut
+
+justWait:
+ldr r1,=fadeCheck
+ldr r1,[r1]
+cmp r1,#16
+beq fadeGameOver
+
+
+b justWait
+
+	
 	@------------------------- ok, jump to gameover screens
+	
+	fadeGameOver:
 
 	ldr r1,=trapStart
 	mov r0,#1
@@ -408,7 +449,7 @@ updateGameOver:
 	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB		
 	ldr r5, =REG_BG3VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
 	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB			
-	
+bl fxFadeOff	
 	bl initGameOverScreen
 
 	ldmfd sp!, {r0-r10, pc}
@@ -422,6 +463,24 @@ updateGameOver:
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
+
+ldr r1,=fadeCheck
+mov r0,#0
+str r0,[r1]
+
+bl fxFadeBlackInit
+bl fxFadeMin
+bl fxFadeOut
+
+justWait3:
+ldr r1,=fadeCheck
+ldr r1,[r1]
+cmp r1,#16
+beq jumpGameOver
+
+b justWait3
+
+	jumpGameOver:
 
 	mov r1,#0
 	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
@@ -456,7 +515,7 @@ moveKiller:
 	
 		cmp r1,#14
 		bne moveKillerDone
-	
+			bl playSplat	
 			ldr r0,=killMotion
 			mov r1,#0
 			str r1,[r0]
@@ -478,7 +537,7 @@ moveKiller:
 			
 			@ play a splat sound
 			
-			@ bl playSplat
+			bl playSplat
 	
 	moveKillerDone:
 	
@@ -494,6 +553,8 @@ moveKillerMiner:
 	ldr r0,[r0]
 	cmp r0,#0
 	beq moveMinerDone
+	cmp r10,#320
+	bpl moveMinerDone
 	
 		ldr r0,=killMinerX
 		ldr r1,[r0]

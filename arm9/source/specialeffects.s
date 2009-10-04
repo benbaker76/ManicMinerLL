@@ -356,14 +356,21 @@ specialFXStop:
 	bpl rainStopLoop
 	
 	ldr r2,=specialEffect
+	ldr r4,[r2]
 	str r3,[r2]
-	
+	cmp r4,#FX_RAIN
+	beq sFXStop
+	cmp r4,#FX_KONG
+	beq sFXStop
+		
 	mov r0,#0
 	ldr r2,=SUB_BLEND_Y
 	str r0,[r2]
 	ldr r0, =SUB_BLEND_CR
 	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
 	strh r1, [r0]
+	
+	sFXStop:
 	
 	ldmfd sp!, {r0-r10, pc}	
 	

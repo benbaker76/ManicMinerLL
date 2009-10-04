@@ -292,18 +292,18 @@ initVideoTitle:
 
 	titleStart:
 		mov r0, #0
-		ldr r2, =32*32*2
-		ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
-		bl dmaFillWords
-		ldr r2, =32*32*2
-		ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
-		bl dmaFillWords
-		ldr r2, =32*32*2
-		ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
-		bl dmaFillWords
-		ldr r2, =32*32*2
-		ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
-		bl dmaFillWords
+	@	ldr r2, =32*32*2
+	@	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+	@	bl dmaFillWords
+	@	ldr r2, =32*32*2
+	@	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+	@	bl dmaFillWords
+	@	ldr r2, =32*32*2
+	@	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	@	bl dmaFillWords
+	@	ldr r2, =32*32*2
+	@	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
+	@	bl dmaFillWords
 
 	notTitleStart:
 

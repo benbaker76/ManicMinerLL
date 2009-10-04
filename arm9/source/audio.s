@@ -41,6 +41,8 @@
 	.global playClick
 	.global playKey
 	.global playExplode
+	.global playSplat
+	.global playFallThing
 
 stopSound:
 
@@ -459,7 +461,102 @@ playExplode:
 	str r1, [r0]										@ Write the value
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
-	.pool
+
+	@ ---------------------------------------------
+
+playFallThing:
+
+	@ 'CHANNEL 0'
+
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0, =IPC_SOUND_DATA(1)
+	ldr r1, =0x10
+	bl DC_FlushRange
+	
+	ldr r0, =IPC_SOUND_RATE(1)							@ Frequency
+	ldr r1, =22050
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
+	ldrb r1, =0
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
+	ldrb r1, =0
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
+	ldr r1, =fallthing_raw_end								@ Get the sample end
+	ldr r2, =fallthing_raw									@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
+	ldr r1, =fallthing_raw									@ Get the sample address
+	str r1, [r0]										@ Write the value
+	
+	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
+	
+	@ ---------------------------------------------
+
+playSplat:
+
+	@ 'CHANNEL 0'
+
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0, =IPC_SOUND_DATA(1)
+	ldr r1, =0x10
+	bl DC_FlushRange
+	
+	ldr r0, =IPC_SOUND_RATE(1)							@ Frequency
+	ldr r1, =22050
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(1)							@ Volume
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(1)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
+	ldrb r1, =1
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
+	ldrb r1, =0
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
+	ldr r1, =splat_raw_end								@ Get the sample end
+	ldr r2, =splat_raw									@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
+	ldr r1, =splat_raw									@ Get the sample address
+	str r1, [r0]										@ Write the value
+	
+	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
+	
+	@ ---------------------------------------------
 
 	.pool
 	.end

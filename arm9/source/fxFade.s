@@ -66,7 +66,7 @@ fxFadeBlackInit:
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =0							@ Reset value
 	str r1, [r0]
-	
+
 	ldmfd sp!, {r0-r1, pc}
 
 	@ ---------------------------------------
@@ -383,6 +383,8 @@ fxFadeOutVBlank:
 	add r1, #1							@ Add 1 to fadeValue
 	str r1, [r0]						@ Write fadeValue back
 	cmp r1, #16							@ Is our fadeValue greater than 16?
+	ldr r4,=fadeCheck
+	str r1,[r4]
 	blgt fxFadeOff						@ Yes turn off effect
 	blgt fxFadeExecuteCallback			@ Execute callback
 	

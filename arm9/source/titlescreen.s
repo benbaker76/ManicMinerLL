@@ -49,15 +49,17 @@
 
 initTitleScreen:
 	stmfd sp!, {r0-r10, lr}
-	
+
 	bl fxOff
+	bl fxFadeBlackInit	
 	
 	bl clearBG0									@ Clear bgs
 	bl clearBG1
 	bl clearBG2
-	bl clearBG3
-	
+@	bl clearBG3
+	bl initVideoTitle
 	bl initCheat
+	bl clearOAM
 
 	mov r0,#0							@ set level to 0 for start of game
 	ldr r1,=levelNum
@@ -112,15 +114,9 @@ initTitleScreen:
 	ldr r0,=BitmapPause
 	str r0,[r1]
 
-	bl initVideoTitle
-
 	mov r1, #GAMEMODE_TITLE_SCREEN
 	ldr r2, =gameMode
 	str r1,[r2]
-	
-	bl titleMainScreen					@ draw our title top screen	
-	
-	bl titleBottomScreen
 	
 	ldr r2, =Title_xm_gz
 	ldr r3, =Title_xm_gz_size
@@ -132,6 +128,10 @@ initTitleScreen:
 	ldr r2,=tScrollerOn
 	str r1,[r2]
 
+	bl titleMainScreenFirst			@ draw our title top screen	
+	
+	bl titleBottomScreen
+bl drawSprite
 	ldmfd sp!, {r0-r10, pc}
 
 @----------------------------
@@ -157,17 +157,26 @@ titleBottomScreen:
 	ldmfd sp!, {r0-r10, pc}	
 
 @----------------------------
+titleMainScreenFirst:
+	stmfd sp!, {r0-r10, lr}
+	
+b titleMainScreenJump
+
 titleMainScreen:
 
 	stmfd sp!, {r0-r10, lr}
 
-	bl initVideoTitle
-	
-	bl specialFXStop	
-	
 	bl fxFadeBlackLevelInit
+
+	titleMainScreenJump:
+
 	bl fxFadeMax
+	bl specialFXStop	
+
 	bl fxFadeIn
+	
+	bl initVideoTitle
+		
 
 	@ draw our title to sub
 	
@@ -373,7 +382,7 @@ updateTitleScreen:
 	ldr r8,[r1]
 
 	titleScreenLoop:
-	
+
 		bl swiWaitForVBlank
 
 		ldr r10,=levelNum
