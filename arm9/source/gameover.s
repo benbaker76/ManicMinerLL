@@ -415,6 +415,7 @@ updateGameOver:
 		updateGO2:
 
 	subs r10,#1
+	cmp r10,#-70
 	bpl updateGameOverLoop
 	
 	@ fade out for next screen
