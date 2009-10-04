@@ -30,7 +30,7 @@
 	#define burstFrameStart		40
 	#define burstFrameEnd		47
 	#define burstAnimDelay		4
-	
+	#define bloodAnimDelay		12	
 	.arm
 	.align
 	.text
@@ -39,6 +39,8 @@
 	.global fxMoveStarburst
 	.global fxSplashburstInit
 	.global fxMoveSplashburst
+	.global fxBloodburstInit
+	.global fxMoveBloodburst
 	
 fxStarburstInit:
 
@@ -332,7 +334,7 @@ fxSplashburstInit:
 		str r8,[r1, r3, lsl #2]
 
 		ldr r1,=spriteAnimDelay+0
-		mov r8,#burstAnimDelay
+		add r8,#burstAnimDelay
 		str r8,[r1, r3, lsl #2]
 		
 		splashburstLoopSkip:
@@ -438,7 +440,255 @@ splashRegenerate:
 		mov r7,#0
 		str r7,[r8,r10,lsl#2]
 	b splashSkip
+	
+@------------------------------------------------------- blood splats	
 
+fxBloodburstInit:
+
+	stmfd sp!, {r0-r11, lr}
+
+	ldr r1,=burstLength
+	ldr r0,=220
+	str r0,[r1]
+
+	ldr r4, =spriteX+0
+	ldr r5, =spriteY+0
+	ldr r6, =spriteSpeed+0
+	ldr r11, =spriteDir+0
+	ldr r9,=spriteActive+0
+	ldr r10,=spriteObj+0
+	ldr r12,=spritePriority+0
+	ldr r7,=0x1ff
+	ldr r1,=0x8ff
+
+	mov r3,#127							@ amount of stars
+	bloodburstloopMulti:
+	
+		ldr r8,[r9, r3, lsl#2]
+		cmp r8,#0
+		bne bloodburstLoopSkip
+	
+		ldr r7,=exitX
+		ldr r7,[r7]
+		bl getRandom
+		and r8,#7
+		subs r8,#4
+		adds r8,r7
+
+		lsl r8,#12
+		str r8, [r4, r3, lsl #2]						@ Store X
+		ldr r8,=exitY
+		ldr r8,[r8]
+		lsl r8,#12
+		str r8, [r5, r3, lsl #2] 						@ Store Y
+
+		bl getRandom									@ generate direction (we need from a range that only goes up)
+		and r8, #127										@ 320-448 (
+		add r8,#320
+@and r8,#255
+@add r8,#256
+		str r8, [r11, r3, lsl #2]
+
+		bl getRandom									@ generate speed
+		ldr r1,=0xfff
+		and r8, r1	
+		add r8,#2048
+		str r8, [r6, r3, lsl #2] 						@ Store Speed
+		
+		mov r8,#FX_STARBURST_ACTIVE						@ sprite active
+		str r8, [r9, r3, lsl #2]
+		
+@		bl getRandom
+@		and r8,#0x7
+@		add r8,#burstFrameStart							@ obj
+mov r8,#burstFrameStart
+		str r8, [r10,r3, lsl #2]
+		
+		mov r8,#2										@ priority
+		str r8, [r12,r3, lsl #2]
+		
+		ldr r1,=spriteMax+0							@ time to live!
+		bl getRandom
+		and r8,#127
+		add r8,#16
+		str r8,[r1, r3, lsl #2]
+
+		ldr r1,=spriteMin+0							@ gravity!
+		bl getRandom
+		and r8,#127
+		str r8,[r1, r3, lsl #2]
+
+		ldr r1,=spriteAnimDelay+0
+		bl getRandom
+		and r8,#15		
+		add r8,#bloodAnimDelay
+		str r8,[r1, r3, lsl #2]
+
+		ldr r1,=spriteHFlip
+		bl getRandom
+		and r8,#1
+		str r8,[r1, r3, lsl #2]
+
+		ldr r1,=spritePriority
+		mov r8,#1
+		str r8,[r1, r3, lsl #2]
+		
+		bloodburstLoopSkip:
+
+		subs r3, #1	
+	bpl bloodburstloopMulti
+
+	ldmfd sp!, {r0-r11, pc}
+	
+	@ ---------------------------------------
+
+fxMoveBloodburst:
+	stmfd sp!, {r0-r12, lr}
+
+
+	ldr r4, =spriteSpeed+0
+	ldr r2, =spriteX+0
+	ldr r3, =spriteY+0
+	
+	mov r10,#127
+	
+moveBloodburstLoop:
+	ldr r0,=spriteActive+0
+	ldr r0,[r0, r10, lsl #2]
+	cmp r0,#FX_STARBURST_ACTIVE
+	bne bloodBurstSkip
+	
+	ldr r0,=spriteDir+0
+	ldr r0,[r0, r10, lsl #2]
+	lsl r0,#1
+	ldr r7,=COS_bin
+	ldrsh r7, [r7,r0]								@ r7= 16bit signed cos
+	ldr r8,=SIN_bin
+	ldrsh r8, [r8,r0]								@ r8= 16bit signed sin
+
+	ldr r6, [r4, r10, lsl #2] 						@ R6 now holds the speed of the star
+
+	ldr r0, [r2, r10, lsl #2]						@ r0 is now X coord value					MOVE X
+	muls r9,r6,r7									@ mul cos by speed
+	add r0,r9, asr #12								@ add to x
+
+	cmp r0,#(32<<12)
+	blt bloodBurstRegenerate
+	cmp r0,#(320<<12)
+	bge bloodBurstRegenerate
+	
+	str r0, [r2,r10, lsl #2]
+			
+	ldr r1, [r3, r10, lsl #2]						@ r1 now holds the Y coord of the star		MOVE Y
+	muls r9,r6,r8
+	add r1,r9, asr #12								@ add to Y coord (signed)
+	
+	@ now add gravity to y
+	
+	ldr r7,=spriteMin+0							@ add to gravity
+	ldr r5,[r7, r10, lsl #2]
+	add r5,#64
+
+	str r5,[r7, r10, lsl #2]
+	add r1,r5
+	
+	cmp r1,#(400<<12)
+	blt bloodBurstRegenerate
+	cmp r1,#(576<<12)
+	movge r1,#(576<<12)
+
+	str r1, [r3, r10, lsl #2]						@ store y 20.12
+	
+	ldr r7,=spriteMax+0
+	ldr r1,[r7, r10, lsl #2]
+	subs r1,#1
+	str r1,[r7, r10, lsl #2]
+	bmi bloodBurstRegenerate
+	
+	bloodBurstOver:
+	
+	@ animate
+	ldr r7,=spriteAnimDelay+0
+	ldr r6,[r7, r10, lsl #2]
+	subs r6,#1
+	movmi r6,#bloodAnimDelay
+	str r6,[r7, r10, lsl #2]
+	bpl bloodBurstSkip
+	
+		ldr r7,=spriteObj+0
+		ldr r6,[r7,r10,lsl#2]
+		add r6,#1
+		str r6,[r7,r10,lsl#2]
+		cmp r6,#burstFrameEnd+1
+		moveq r6,#burstFrameEnd
+		str r6,[r7,r10,lsl#2]
+		beq  bloodBurstRegenerate
+@		moveq r6,#burstFrameStart
+@		str r6,[r7,r10,lsl#2]
+	
+	bloodBurstSkip:
+
+	subs r10, #1									@ count down the number of starSpeed
+	bpl moveBloodburstLoop
+	
+	ldr r1,=burstLength
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#0
+	str r0,[r1]
+
+	ldmfd sp!, {r0-r12, pc}
+
+bloodBurstRegenerate:
+
+ldr r8,=spriteActive
+mov r7,#255
+str r7,[r8,r10,lsl#2]
+b bloodBurstSkip
+
+
+		ldr r8,=burstLength
+		ldr r8,[r8]
+		cmp r8,#0
+		ldreq r8,=spriteActive+0
+		moveq r7,#0
+		streq r7,[r8,r10,lsl#2]
+		beq bloodBurstOver
+
+		ldr r8,=exitX
+		ldr r8,[r8]
+		lsl r8,#12
+		str r8, [r2, r10, lsl #2]						@ Store X
+		ldr r8,=exitY
+		ldr r8,[r8]
+		lsl r8,#12
+		str r8, [r3, r10, lsl #2] 						@ Store Y
+
+		bl getRandom									@ generate direction
+		and r8, #127
+		add r8, #320
+		ldr r0,=spriteDir+0
+		str r8, [r0, r10, lsl #2]
+
+		bl getRandom									@ generate speed
+		ldr r6,=0x7ff
+		and r8, r6	
+		add r8,#2048
+		ldr r0,=spriteSpeed+0
+		str r8, [r0, r10, lsl #2] 						@ Store Speed
+
+		ldr r0,=spriteMax+0							@ time to live!
+		bl getRandom
+		lsr r8,#12
+		add r8,#0x60000
+		str r8,[r0, r10, lsl #2]
+
+		ldr r0,=spriteMin+0							@ gravity
+		bl getRandom
+		and r8,#127
+		str r8,[r0, r10, lsl #2]
+	
+	b bloodBurstSkip
 
 
 	.data
