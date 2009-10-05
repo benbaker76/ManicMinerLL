@@ -255,7 +255,7 @@ showIntro3:
 	
 showIntro3FadeOut:
 
-	stmfd sp!, {r0-r1, lr}
+	stmfd sp!, {r0-r2, lr}
 	
 	bl fxFadeBlackInit
 	
@@ -265,7 +265,7 @@ showIntro3FadeOut:
 	
 	bl fxFadeOut
 	
-	ldmfd sp!, {r0-r1, pc} 					@ restore registers and return
+	ldmfd sp!, {r0-r2, pc} 					@ restore registers and return
 	
 	@---------------------------------
 	
@@ -285,7 +285,7 @@ updateIntro:
 	@---------------------------------
 	
 	skipIntro:
-	
+
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
@@ -299,16 +299,15 @@ updateIntro:
 	bl fxFadeOut
 
 	introWait2:
-	ldr r1,=fadeCheck
-	ldr r1,[r1]
-	cmp r1,#16
-	beq fadeIntro2Title
-
+		ldr r1,=fadeCheck
+		ldr r1,[r1]
+		cmp r1,#16
+		beq fadeIntro2Title
 	b introWait2	
 	
 	fadeIntro2Title:
 
-	bl fxFadeOff		
+@	bl fxFadeOff		
 
 	bl stopTimer
 	bl initTitleScreen

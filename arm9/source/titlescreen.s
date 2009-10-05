@@ -131,7 +131,8 @@ initTitleScreen:
 	bl titleMainScreenFirst			@ draw our title top screen	
 	
 	bl titleBottomScreen
-bl drawSprite
+	bl drawSprite
+
 	ldmfd sp!, {r0-r10, pc}
 
 @----------------------------
