@@ -14,6 +14,7 @@
 	.global initTitleSprites
 	.global initTitlePointer
 	.global initAudioSprites
+	.global initBonusSprites
 	.global clearOAM
 	
 initSprites:
@@ -176,6 +177,55 @@ initAudioSprites:
 	bl dmaCopy	
 	
 	noPointerAUpdate:
+
+	ldmfd sp!, {r0-r10, pc}
+	
+	@ --------------------------------------
+	
+initBonusSprites:
+
+	stmfd sp!, {r0-r10, lr}
+	
+
+	ldr r0, =ATTR0_DISABLED			@ Set OBJ_ATTRIBUTE0 to ATTR0_DISABLED
+	ldr r1, =OAM
+	ldr r2, =1024					@ 3 x 16bit attributes + 16 bit filler = 8 bytes x 128 entries in OAM
+	bl dmaFillWords
+	
+	ldr r0, =SpritesPal
+	ldr r1, =SPRITE_PALETTE
+	ldr r2, =512
+	bl dmaCopy
+	ldr r0, =BonusSpriteTiles
+	ldr r1, =SPRITE_GFX
+	ldr r2, =BonusSpriteTilesLen
+	bl dmaCopy
+	
+	ldr r0,=OBJ_ATTRIBUTE0(0)
+	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+	orr r2,#8					@ y
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE1(0)
+	ldr r2, =(ATTR1_SIZE_16)
+	orr r2,#224				@ x
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE2(0)
+	mov r2,#0
+	strh r2,[r0]
+	
+	
+	ldr r0,=OBJ_ATTRIBUTE0(1)
+	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+	orr r2,#8+16					@ y
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE1(1)
+	ldr r2, =(ATTR1_SIZE_16)
+	orr r2,#224			@ x
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE2(1)
+	mov r2,#1
+	lsl r2,#3
+	strh r2,[r0]
 
 	ldmfd sp!, {r0-r10, pc}
 

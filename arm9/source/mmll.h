@@ -134,6 +134,8 @@
 #include "../build/CreditPage2.h"
 #include "../build/CreditPageTop2.h"
 #include "../build/HighScore.h"
+#include "../build/BonusSprite.h"
+
 
 #include "../build/EndBottom.h"
 #include "../build/EndTop.h"
@@ -431,6 +433,7 @@
 #define FX_STARDUST_ACTIVE			24
 #define FX_BLOOD_ACTIVE				25
 #define FX_LIFT_ACTIVE				26
+#define FX_BONUS					27
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -517,6 +520,8 @@
 #define BLOOD_FRAME					27
 #define BLOOD_FRAME_END				34
 #define BLOOD_ANIM				 	8
+
+#define BONUS_ANIM					16
 
 @ level defines
 

@@ -122,6 +122,7 @@
 	.global sfxValues
 	
 	.global fadeCheck
+	.global specialDelay
 
 fadeCheck:
 	.word 0

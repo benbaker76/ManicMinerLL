@@ -94,12 +94,7 @@ drawSprite:
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		ldr r0,=BUF_ATTRIBUTE1_SUB		@
 		add r0,r10, lsl #3
-		
-@		ldr r4,=spriteSize
-@		ldr r4,[r4,r10, lsl #2]
-@		cmp r4,#0
 		ldr r2, =(ATTR1_SIZE_16)
-@		ldrne r2, =(ATTR1_SIZE_32)
 
 		and r1,r3
 		orr r2,r1
@@ -604,6 +599,13 @@ drawSprite:
 				ldr r1,=spriteActive
 				str r2,[r1,r10,lsl#2]
 		drawNotBlood:
+		cmp r0,#FX_BONUS
+		bne notBonusSpray
+		
+			bl fxBonusSpray
+			b endDrawSprite
+		
+		notBonusSpray:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop

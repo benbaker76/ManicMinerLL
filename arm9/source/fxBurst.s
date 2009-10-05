@@ -41,6 +41,8 @@
 	.global fxMoveSplashburst
 	.global fxBloodburstInit
 	.global fxMoveBloodburst
+	.global fxBonusburstInit
+	.global fxBonusSpray
 	
 fxStarburstInit:
 
@@ -485,8 +487,6 @@ fxBloodburstInit:
 		bl getRandom									@ generate direction (we need from a range that only goes up)
 		and r8, #127										@ 320-448 (
 		add r8,#320
-@and r8,#255
-@add r8,#256
 		str r8, [r11, r3, lsl #2]
 
 		bl getRandom									@ generate speed
@@ -498,10 +498,7 @@ fxBloodburstInit:
 		mov r8,#FX_STARBURST_ACTIVE						@ sprite active
 		str r8, [r9, r3, lsl #2]
 		
-@		bl getRandom
-@		and r8,#0x7
-@		add r8,#burstFrameStart							@ obj
-mov r8,#burstFrameStart
+		mov r8,#burstFrameStart
 		str r8, [r10,r3, lsl #2]
 		
 		mov r8,#2										@ priority
@@ -668,6 +665,154 @@ and r8,#0xff
 add r8,#512
 str r8,[r7,r10,lsl#2]
 b bloodBurstSkip
+
+@------------------------------------------------------- bonusSplay	
+
+fxBonusburstInit:
+
+	stmfd sp!, {r0-r12, lr}
+
+	mov r3,r1
+	lsr r3,#5			@ divide by 32, this is now the y area (0-23)
+	
+	mov r4,r1
+	and r4,#31			@ r4 is now the x area (0-31)
+	lsl r4,#3			@ r4=x
+	lsl r3,#3			@ r3=y
+
+	@ r4=x r3=y
+
+	mov r1,r4
+	mov r2,r3
+	add r1,#64-4
+	add r2,#384-4
+	lsl r1,#12
+	lsl r2,#12
+
+	ldr r4, =spriteX+0
+	ldr r5, =spriteY+0
+	ldr r6, =spriteSpeed+0
+	ldr r9,=spriteActive+0
+	ldr r10,=spriteObj+0
+	ldr r11, =spriteDir+0
+	ldr r12,=spritePriority+0
+
+	mov r3,#127							@ amount of sprays
+	bonusburstloopMulti:
+	
+		ldr r8,[r9, r3, lsl#2]
+		cmp r8,#0
+		bne bonusburstLoopSkip
+	
+		str r1, [r4, r3, lsl #2]						@ Store X
+		str r2, [r5, r3, lsl #2] 						@ Store Y
+
+		bl getRandom									@ generate direction
+		ldr r7,=0x1ff
+		and r8, r7									
+		str r8, [r11, r3, lsl #2]
+
+		bl getRandom									@ generate speed
+		ldr r7,=0x7ff
+		and r8, r7	
+		add r8,#1024
+		str r8, [r6, r3, lsl #2] 						@ Store Speed
+		
+		mov r8,#FX_BONUS								@ sprite active
+		str r8, [r9, r3, lsl #2]
+		
+		mov r8,#burstFrameStart
+		str r8, [r10,r3, lsl #2]
+		
+		mov r8,#2										@ priority
+		str r8, [r12,r3, lsl #2]
+
+		ldr r7,=spriteAnimDelay+0
+		add r8,#BONUS_ANIM
+		str r8,[r7, r3, lsl #2]
+
+		ldr r7,=spriteHFlip
+		bl getRandom
+		and r8,#1
+		str r8,[r7, r3, lsl #2]
+		
+		bonusburstLoopSkip:
+
+		subs r3, #1	
+	bpl bonusburstloopMulti
+
+	ldmfd sp!, {r0-r12, pc}
+
+@------------------------------------------------------- update bonusSplay	
+
+fxBonusSpray:
+
+	stmfd sp!, {r0-r12, lr}
+	
+	@ r10 = offset
+
+	ldr r4, =spriteSpeed
+	ldr r2, =spriteX
+	ldr r3, =spriteY
+		
+	ldr r0,=spriteDir
+	ldr r0,[r0, r10, lsl #2]
+	lsl r0,#1
+	ldr r7,=COS_bin
+	ldrsh r7, [r7,r0]								@ r7= 16bit signed cos
+	ldr r8,=SIN_bin
+	ldrsh r8, [r8,r0]								@ r8= 16bit signed sin
+
+	ldr r6, [r4, r10, lsl #2] 						@ R6 now holds the speed of the star
+
+	ldr r0, [r2, r10, lsl #2]						@ r0 is now X coord value					MOVE X
+	muls r9,r6,r7									@ mul cos by speed
+	add r0,r9, asr #12								@ add to x
+
+	cmp r0,#(32<<12)
+	blt bonusBurstRegenerate
+	cmp r0,#(320<<12)
+	bge bonusBurstRegenerate
+	
+	str r0, [r2,r10, lsl #2]
+			
+	ldr r1, [r3, r10, lsl #2]						@ r1 now holds the Y coord of the star		MOVE Y
+	muls r9,r6,r8
+	add r1,r9, asr #12								@ add to Y coord (signed)
+	
+	cmp r1,#(400<<12)
+	blt bonusBurstRegenerate
+	cmp r1,#(576<<12)
+	movge r1,#(576<<12)
+
+	str r1, [r3, r10, lsl #2]						@ store y 20.12
+	
+	@ animate
+	ldr r7,=spriteAnimDelay+0
+	ldr r6,[r7, r10, lsl #2]
+	subs r6,#1
+	movmi r6,#BONUS_ANIM
+	str r6,[r7, r10, lsl #2]
+	bpl bonusBurstSkip
+	
+		ldr r7,=spriteObj+0
+		ldr r6,[r7,r10,lsl#2]
+		add r6,#1
+		str r6,[r7,r10,lsl#2]
+		cmp r6,#burstFrameEnd+1
+		beq  bonusBurstRegenerate
+	
+	bonusBurstSkip:
+	
+	ldmfd sp!, {r0-r12, pc}
+
+bonusBurstRegenerate:
+
+ldr r8,=spriteActive
+mov r7,#0
+str r7,[r8,r10,lsl#2]
+
+ldmfd sp!, {r0-r12, pc}
 
 	.data
 	.pool

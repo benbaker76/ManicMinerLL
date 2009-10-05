@@ -33,6 +33,26 @@
 	.text
 	
 	.global bonusLevelUnlocked
+	.global bonusAward
+	
+bonusAward:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	ldr r2,=levelNum
+	ldr r2,[r2]
+	sub r2,#1
+	
+	ldr r1,=levelSpecialFound
+	ldr r1,[r1,r2,lsl#2]
+	cmp r1,#1
+	bne bonusAwardDone
+	
+	bl initBonusSprites
+	
+	bonusAwardDone:
+
+	ldmfd sp!, {r0-r10, pc}
 
 bonusLevelUnlocked:
 
@@ -40,17 +60,10 @@ bonusLevelUnlocked:
 	
 	@ ok, init starburst thing at location of collection
 	@ ok, r0 = offset, r1=colmap
-	@ use fxBonusBurst for effect, but we need new sprites first (bonus.png)
+	@ use fxBonusBurst for effect, but we need new sprites first (bonus.png)	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	bl fxBonusburstInit
+
+	@ play a special sound effect for the opening of a bonus level
+
 	ldmfd sp!, {r0-r10, pc}

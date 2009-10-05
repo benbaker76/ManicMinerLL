@@ -165,8 +165,6 @@ initLevel:
 	bl getLevelBackground
 
 	ldrb r0,[r1],#1			@ Door number
-@	mov r3,r0,lsr #5		@ high 3 bits = willy sprite 0-7
-@	and r0,#31				@ low 8 bits = door banck 0-31
 	bl getDoorSprite
 	bl getWillySprite
 
@@ -223,6 +221,8 @@ initLevel:
 		b highestLevelDone	
 	
 	highestLevelDone:
+	
+	bl bonusAward										@ display award if level has a bonus level in it
 
 	ldmfd sp!, {r0-r12, pc}
 
@@ -278,9 +278,6 @@ generateColMap:
 	ldr r0,=colMapLevels
 	add r0,r5
 	ldr r1,=colMapStore
-@	mov r2,#768
-@	@ r0,=src, r1=dst, r2=len
-@	bl dmaCopy
 	
 	ldr r10,=keyCounter
 	mov r9,#0
