@@ -291,19 +291,42 @@ initVideoTitle:
 	ble notTitleStart
 
 	titleStart:
+	
+		ldr r0, =BG_PALETTE
+		mov r1, #0
+		strh r1, [r0]
+		
+		ldr r0, =BG_PALETTE_SUB
+		mov r1, #0
+		strh r1, [r0]
+		
 		mov r0, #0
-	@	ldr r2, =32*32*2
-	@	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
-	@	bl dmaFillWords
-	@	ldr r2, =32*32*2
-	@	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
-	@	bl dmaFillWords
-	@	ldr r2, =32*32*2
-	@	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
-	@	bl dmaFillWords
-	@	ldr r2, =32*32*2
-	@	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
-	@	bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM(BG2_MAP_BASE)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
+		bl dmaFillWords
+		
+		mov r0, #0
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+		bl dmaFillWords
+		ldr r2, =32*32*2
+		ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
+		bl dmaFillWords
 
 	notTitleStart:
 
