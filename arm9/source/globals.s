@@ -115,6 +115,7 @@
 	.global unlockedBonusesSelected
 	.global unlockedBonuses
 	.global levelBank
+	.global levelSpecialFound
 	
 	.global audioMusic
 	.global audioSFXVol
@@ -298,14 +299,14 @@ levelTypes:						@ a word for each level. 0=normal, 1=last level LL, 3=last leve
 	.word 0,0,0,0,0,0,0,0,0,1
 	.word 2,2
 	.word 0,0,0,0,0,0,0,0,0,3
-	.word 0,0,0,0,0,0,0,0,2,0
+	.word 2,2,2,2,2,2,2,2,2,0
 levelBank:						@ 1=lost, 2=hollywood, 0=forget it
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 0,0
 	.word 2,2,2,2,2,2,2,2,2,2
 	.word 0,0,0,0,0,0,0,0,1,0
-levelSpecialTime:				@ time needed to unlock a special
+levelSpecialTime:				@ time needed to unlock a special?
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
@@ -333,8 +334,8 @@ highScoreName:
 	.ascii "ARSEWOMP"
 	
 	.align
-levelSpecialFound:				@ 0=not found 1=found
-	.word 0,0,0,0,0,0,0,0,0,0
+levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
+	.word 0,1,0,1,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
@@ -356,7 +357,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 3
+	.word 255
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 

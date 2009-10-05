@@ -1491,7 +1491,7 @@ tGorillaFrames:
 	.byte 2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,1,2
 	.align
 bonusLevelsAre:					@ these are the bonus level indexes
-	.word 0,21,22,41
+	.word 0,21,22,41,33,34,35,36,37,38,39,40
 tScrollText:
 	.ascii	"    HELLO AND WELCOME TO 'MANIC MINER THE LOST LEVELS'...      THIS IS NOT YOUR USUAL "
 	.ascii	"'MANIC MINER' REMAKE AND IS CONSTRUCTED FROM A SELECTION OF THE LEVELS YOU MAY NOT HAVE "
@@ -1514,5 +1514,6 @@ titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: HORACE      "
 	.asciz	"PLAY SPECIAL: BLAGGER     "
 	.asciz	"PLAY SPECIAL: REAL CENTRAL"
+	.asciz	"PLAY SPECIAL: COUPE 01    "
 titleJB:
 	.asciz	"AUDIO OPTIONS"

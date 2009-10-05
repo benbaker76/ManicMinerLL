@@ -398,9 +398,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
+@ / bonus levels
 	
-	@ 33 
-	.byte 232,168,85,6,168,1,6,37
+	@ 33 / cheese plant
+	.byte 8,64,5,212,168,0,6,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -411,7 +412,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 34
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -422,7 +423,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 35
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -433,7 +434,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 36
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -444,7 +445,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 37
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -455,7 +456,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 38
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -466,7 +467,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 39
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -477,7 +478,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 40
-	.byte 0,0,0,0,0,0,0,0
+	.byte 232,168,5,6,168,1,6,37
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -548,7 +549,9 @@ levelNames:
 	.ascii "         I'LL BE BACK         " @ TERMINATOR
 	.ascii "        I HAD A HUNCH!        "	@ YOUNG FRANKENSTEIN
 	.ascii " DO YOU KNOW HOW TO MADDISON? "	@ ROCKY HORROR
-	.ascii "                              "
+	
+@ bonus levels (from 33)
+	.ascii "         CHEESE-PLANT         "
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -980,7 +983,7 @@ levelNames:
 	
 	@ BONUS LEVELS
 	
-	@ 33
+	@ 33	/ coupe Cheese-Plant
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1139,7 +1142,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
 	@ 33
-	.ascii "                            "
+	.ascii "       SAM COUPE 1990       "
 	@ 34
 	.ascii "                            "
 	.ascii "                            "

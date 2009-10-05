@@ -51,6 +51,7 @@
 #include "../build/Level30.h"
 #include "../build/Level31.h"
 #include "../build/Level32.h"
+#include "../build/Level33.h"
 #include "../build/Level41.h"
 
 #include "../build/Background01.h"
@@ -526,6 +527,6 @@
 
 #define HIGH_NAME_LEN				8
 #define HIGH_SCORE_LEN				6
-#define SECRET_MAX					3			@ use this to make sure that we don't unlock more than we have
+#define SECRET_MAX					4			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
 

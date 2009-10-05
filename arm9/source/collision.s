@@ -649,9 +649,9 @@ checkCollectDie:
 	@ ok, is it a switch? (#switch=state 0=0ff 1=on)
 	
 	cmp r0,#32
-	beq SwitchThing
-	cmp r0,#33
-	bne notSwitchThing
+	blt notSwitchThing
+	cmp r0,#35
+	bgt notSwitchThing
 	SwitchThing:
 		@ 32= switch 1, 33=switch 2
 		@ ok, we need to change the state of the switch to on
@@ -681,6 +681,43 @@ checkCollectDie:
 		b checkCollectDieDone
 
 	notSwitchThing:
+	
+	cmp r0,#38
+	bne notBonusThing
+		@ This is a bonus activator
+		
+		ldr r3,=levelSpecialFound
+		ldr r4,=levelNum
+		ldr r4,[r4]
+		sub r4,#1
+		ldr r5,[r3,r4,lsl#2]		@ r4=1 ok, 2=already activated
+		cmp r5,#2
+		beq notBonusThing
+		
+		mov r5,#2					@ set bonus as found
+		str r5,[r3,r4,lsl#2]
+		
+		@ Activate bonus unlock display of some kind???
+		
+		ldr r5,=unlockedBonuses
+		ldr r6,[r5]
+		cmp r6,#255
+		moveq r6,#0
+		beq unlockBonus
+		
+		cmp r6,#SECRET_MAX			@ no more to unlock
+		bge notBonusThing
+	
+		unlockBonus:
+		
+		add r6,#1
+		str r6,[r5]
+		
+		bl bonusLevelUnlocked
+		b checkCollectDieDone
+		
+	notBonusThing:
+	
 
 	checkCollectDieDone:
 	ldmfd sp!, {r0-r10, pc}
