@@ -276,38 +276,48 @@ updateIntro:
 	ldr r1, =REG_KEYINPUT
 	ldr r2, [r1]
 	tst r2, #BUTTON_START
-	
-	ldr r1,=introMonkey
-	
-	bne introSkipper
-		mov r2,#1
-		str r2,[r1]
-		b introSkipper2
-		
-	introSkipper:
-		ldr r2,[r1]
-		cmp r2,#1
-		
-		bleq stopTimer
-		bleq initTitleScreen
-	
-	introSkipper2:
-	
-	ldr r1, =REG_KEYINPUT
-	ldr r2, [r1]
+	beq skipIntro
 	tst r2, #BUTTON_A
-	bleq stopTimer
-	bleq initTitleScreen
+	beq skipIntro
 	
 	ldmfd sp!, {r0-r2, pc} 					@ restore registers and return
 	
 	@---------------------------------
 	
+	skipIntro:
+	
+	ldr r1,=trapStart
+	mov r0,#1
+	str r0,[r1]
+
+	ldr r1,=fadeCheck
+	mov r0,#0
+	str r0,[r1]
+
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	introWait2:
+	ldr r1,=fadeCheck
+	ldr r1,[r1]
+	cmp r1,#16
+	beq fadeIntro2Title
+
+	b introWait2	
+	
+	fadeIntro2Title:
+
+	bl fxFadeOff		
+
+	bl stopTimer
+	bl initTitleScreen
+
+	ldmfd sp!, {r0-r2, pc} 	
+	
+	@---------------------------------
+	
 	.data
 	.align
-	
-	introMonkey:
-	.word 0
-	
 	.pool
 	.end

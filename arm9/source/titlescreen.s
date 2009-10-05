@@ -53,9 +53,9 @@ initTitleScreen:
 	bl fxOff
 	bl fxFadeBlackInit	
 	
-	bl clearBG0									@ Clear bgs
-	bl clearBG1
-	bl clearBG2
+@	bl clearBG0									@ Clear bgs
+@	bl clearBG1
+@	bl clearBG2
 @	bl clearBG3
 	bl initVideoTitle
 	bl initCheat
@@ -160,7 +160,7 @@ titleBottomScreen:
 titleMainScreenFirst:
 	stmfd sp!, {r0-r10, lr}
 	
-b titleMainScreenJump
+	b titleMainScreenJump
 
 titleMainScreen:
 
