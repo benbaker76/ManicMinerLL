@@ -429,7 +429,7 @@ initVideoGameOver:
 	strh r1, [r0]
 	
 	ldr r0, =REG_BG1CNT				@ Set main screen BG0 format to be 32x32 tiles at base address
-	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG1_MAP_BASE) | BG_TILE_BASE(BG1_TILE_BASE) | BG_PRIORITY(BG1_PRIORITY))
+	ldr r1, =(BG_COLOR_256 | BG_32x64 | BG_MAP_BASE(BG1_MAP_BASE) | BG_TILE_BASE(BG1_TILE_BASE) | BG_PRIORITY(BG1_PRIORITY))
 	strh r1, [r0]
 	ldr r0, =REG_BG1CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
 	ldr r1, =(BG_COLOR_256 | BG_32x64 | BG_MAP_BASE(BG1_MAP_BASE_SUB) | BG_TILE_BASE(BG1_TILE_BASE_SUB) | BG_PRIORITY(BG1_PRIORITY))
@@ -443,10 +443,10 @@ initVideoGameOver:
 	strh r1, [r0]
 
 	ldr r0, =REG_BG3CNT				@ Set main screen BG3 format to be 32x32 tiles at base address
-	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG3_MAP_BASE) | BG_TILE_BASE(BG3_TILE_BASE) | BG_PRIORITY(BG3_PRIORITY))
+	ldr r1, =(BG_COLOR_256 | BG_32x64 | BG_MAP_BASE(BG3_MAP_BASE) | BG_TILE_BASE(BG3_TILE_BASE) | BG_PRIORITY(BG3_PRIORITY))
 	strh r1, [r0]
 	ldr r0, =REG_BG3CNT_SUB			@ Set sub screen BG3 format to be 32x32 tiles at base address
-	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG3_MAP_BASE_SUB) | BG_TILE_BASE(BG3_TILE_BASE_SUB) | BG_PRIORITY(BG3_PRIORITY))
+	ldr r1, =(BG_COLOR_256 | BG_32x64 | BG_MAP_BASE(BG3_MAP_BASE_SUB) | BG_TILE_BASE(BG3_TILE_BASE_SUB) | BG_PRIORITY(BG3_PRIORITY))
 	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}

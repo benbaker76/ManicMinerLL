@@ -147,6 +147,9 @@
 #include "../build/EndAnvil.h"
 #include "../build/EndBus.h"
 #include "../build/EndLoo.h"
+#include "../build/EndMaid.h"
+#include "../build/EndStarTrek.h"
+#include "../build/EndEaster.h"
 #include "../build/EndTopSplat.h"
 #include "../build/EndBotSplat.h"
 

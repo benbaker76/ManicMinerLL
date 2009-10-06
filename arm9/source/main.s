@@ -86,11 +86,11 @@ main:
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
 @	bl initLevelClear
 
-@	bl initGameOver
+	bl initGameOver
 	
 	@ ------------------------------------
 	
