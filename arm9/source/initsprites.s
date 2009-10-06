@@ -187,10 +187,10 @@ initBonusSprites:
 	stmfd sp!, {r0-r10, lr}
 	
 
-	ldr r0, =ATTR0_DISABLED			@ Set OBJ_ATTRIBUTE0 to ATTR0_DISABLED
-	ldr r1, =OAM
-	ldr r2, =1024					@ 3 x 16bit attributes + 16 bit filler = 8 bytes x 128 entries in OAM
-	bl dmaFillWords
+@	ldr r0, =ATTR0_DISABLED			@ Set OBJ_ATTRIBUTE0 to ATTR0_DISABLED
+@	ldr r1, =OAM
+@	ldr r2, =1024					@ 3 x 16bit attributes + 16 bit filler = 8 bytes x 128 entries in OAM
+@	bl dmaFillWords
 	
 	ldr r0, =SpritesPal
 	ldr r1, =SPRITE_PALETTE

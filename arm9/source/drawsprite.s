@@ -67,7 +67,6 @@ drawSprite:
 			@ If not - kill it
 			
 			mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
-			ldr r0,=BUF_ATTRIBUTE0_SUB
 			mov r0,r5
 			add r0,r10, lsl #3
 			strh r1,[r0]
@@ -619,6 +618,23 @@ drawSprite:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
+	
+	ldr r8,=bonusDelay
+	ldr r9,[r8]
+	subs r9,#1
+	movmi r9,#0
+	str r9,[r8]
+	cmp r9,#1
+	bne noBonusRefresh
+	
+		ldr r0,=BonusNormalTiles
+		ldr r1,=SPRITE_GFX_SUB
+		add r1,#40*256				@ dump at 40th sprite onwards
+		ldr r2,=8*256
+		bl dmaCopy
+
+	noBonusRefresh:
+	
 
 	ldmfd sp!, {r0-r10,pc}
 	

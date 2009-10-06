@@ -126,6 +126,7 @@
 	.global fadeCheck
 	.global specialDelay
 	.global deathAnimation
+	.global bonusDelay
 
 fadeCheck:
 	.word 0
@@ -165,6 +166,9 @@ liftMotion:
 	.word 0
 	
 trapStart:
+	.word 0
+
+bonusDelay:
 	.word 0
 
 

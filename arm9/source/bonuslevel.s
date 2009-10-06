@@ -68,6 +68,23 @@ bonusLevelUnlocked:
 	@ use fxBonusBurst for effect, but we need new sprites first (bonus.png)	
 	
 	bl fxBonusburstInit
+	ldr r0,=bonusDelay
+	mov r1,#125
+	str r1,[r0]
+
+	mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
+	ldr r0,=0x07000000
+	strh r1,[r0]
+	add r0,#8
+	strh r1,[r0]
+	
+	@ load the graphics needed (do not use on level 20)
+	
+	ldr r0,=BonusSparkleTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#40*256				@ dump at 40th sprite onwards
+	ldr r2,=8*256
+	bl dmaCopy
 
 	@ play a special sound effect for the opening of a bonus level
 

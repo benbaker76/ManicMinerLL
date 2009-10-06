@@ -52,6 +52,10 @@
 #include "../build/Level31.h"
 #include "../build/Level32.h"
 #include "../build/Level33.h"
+#include "../build/Level34.h"
+#include "../build/Level35.h"
+#include "../build/Level36.h"
+
 #include "../build/Level41.h"
 
 #include "../build/Background01.h"
@@ -135,7 +139,8 @@
 #include "../build/CreditPageTop2.h"
 #include "../build/HighScore.h"
 #include "../build/BonusSprite.h"
-
+#include "../build/BonusSparkle.h"
+#include "../build/BonusNormal.h"
 
 #include "../build/EndBottom.h"
 #include "../build/EndTop.h"

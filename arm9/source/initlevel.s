@@ -76,6 +76,8 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=willySpriteType
 	str r0,[r1]
+	ldr r1,=bonusDelay
+	str r0,[r1]	
 	
 	mov r0,#160
 	ldr r1,=air
