@@ -46,7 +46,7 @@
 drawSprite:
 	stmfd sp!, {r0-r10, lr}
 	
-	ldr r1,=spriteScreen
+	ldr r1,=spriteScreen				@ 0=draw top / 1=draw bottom
 	ldr r1,[r1]
 	cmp r1,#0
 	ldreq r5,=BUF_ATTRIBUTE0_SUB
@@ -55,8 +55,6 @@ drawSprite:
 	ldrne r5,=BUF_ATTRIBUTE0
 	ldrne r6,=BUF_ATTRIBUTE1
 	ldrne r9,=BUF_ATTRIBUTE2
-	
-	
 	
 	mov r10,#127 			@ our counter for 128 sprites, do not think we need them all though	
 	SLoop:
