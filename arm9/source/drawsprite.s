@@ -46,6 +46,18 @@
 drawSprite:
 	stmfd sp!, {r0-r10, lr}
 	
+	ldr r1,=spriteScreen
+	ldr r1,[r1]
+	cmp r1,#0
+	ldreq r5,=BUF_ATTRIBUTE0_SUB
+	ldreq r6,=BUF_ATTRIBUTE1_SUB
+	ldreq r9,=BUF_ATTRIBUTE2_SUB
+	ldrne r5,=BUF_ATTRIBUTE0
+	ldrne r6,=BUF_ATTRIBUTE1
+	ldrne r9,=BUF_ATTRIBUTE2
+	
+	
+	
 	mov r10,#127 			@ our counter for 128 sprites, do not think we need them all though	
 	SLoop:
 
@@ -58,6 +70,7 @@ drawSprite:
 			
 			mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
 			ldr r0,=BUF_ATTRIBUTE0_SUB
+			mov r0,r5
 			add r0,r10, lsl #3
 			strh r1,[r0]
 
@@ -70,9 +83,8 @@ drawSprite:
 		cmp r1,#4096					@ account for floating point
 		lsrge r1,#12
 
-		@ Draw sprite to SUB screen ONLY (r1 holds Y)
-		
-		ldr r0,=BUF_ATTRIBUTE0_SUB	
+		@ Draw sprite to SUB screen ONLY (r1 holds Y)	
+		mov r0,r5
 		add r0,r10, lsl #3
 		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 		ldr r3,=SCREEN_SUB_TOP
@@ -92,7 +104,7 @@ drawSprite:
 		sub r1,#SCREEN_LEFT				@ Take 64 off our X
 		sub r1,r4						@ account for maps horizontal position
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
-		ldr r0,=BUF_ATTRIBUTE1_SUB		@
+		mov r0,r6
 		add r0,r10, lsl #3
 		ldr r2, =(ATTR1_SIZE_16)
 
@@ -104,7 +116,7 @@ drawSprite:
 		orr r2, r3, lsl #12
 		strh r2,[r0]
 			@ Draw Attributes
-		ldr r0,=BUF_ATTRIBUTE2_SUB
+		mov r0,r9
 		add r0,r10, lsl #3
 		ldr r2,=spriteObj
 		ldr r3,[r2,r10, lsl #2]
@@ -122,8 +134,8 @@ drawSprite:
 		@----
 		@ now we need to animate any shards
 		@----
-		ldr r9,=spriteActive
-		ldr r0,[r9, r10, lsl #2]
+		ldr r8,=spriteActive
+		ldr r0,[r8, r10, lsl #2]
 		cmp r0,#DUST_ACTIVE						@ first, our little dust thing when you land
 		bne drawnNotDust
 					

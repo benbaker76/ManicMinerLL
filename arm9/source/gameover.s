@@ -27,12 +27,9 @@ initGameOverScreen:
 	
 	bl fxFadeBlackInit
 	bl fxFadeMax
+	bl initVideoMain
 
-
-@	bl clearBG0
 	bl clearBG1
-@	bl clearBG2
-@	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
 
@@ -297,6 +294,8 @@ initGameOver:
 	mov r8,#192
 	ldr r6,=killPixelH
 	str r8,[r6]
+	ldr r6,=killPixelH2
+	str r8,[r6]
 
 	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
 	strh r8, [r5]					@ Write our offset value to REG_BG2HOFS_SUB
@@ -318,7 +317,8 @@ initGameOver:
 	mov r0,#1
 	ldr r1,=killMinerMotion
 	str r0,[r1]
-	
+	ldr r1,=spriteScreen
+	str r0,[r1]	
 	@ ok, init willys sprite
 	
 	mov r10,#0
@@ -360,17 +360,17 @@ initGameOver:
 	@ now load the sprite data for willy
 	
 	ldr r0,=DieGameOverTiles
-	ldr r1,=SPRITE_GFX_SUB
+	ldr r1,=SPRITE_GFX
 	ldr r2,=11*256							@ first 10 sprites for anim
 	bl dmaCopy	
 	ldr r0, =DieGameOverPal
 	ldr r2, =512
-	ldr r1, =SPRITE_PALETTE_SUB
+	ldr r1, =SPRITE_PALETTE
 	bl dmaCopy	
 
 	ldr r0,=DieGameOverTiles				@ copy blood splats
 	add r0,#11*256							@ 12th tile
-	ldr r1,=SPRITE_GFX_SUB
+	ldr r1,=SPRITE_GFX
 	add r1,#40*256							@ dump at 27th sprite onwards
 	ldr r2,=8*256
 	bl dmaCopy
@@ -387,10 +387,11 @@ initGameOver:
 	ldreq r3, =GameOver_xm_gz_size
 	bl initMusic
 	
-	mov r1,#0
-	ldr r5, =REG_BG3VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB			
-	ldr r5, =REG_BG3VOFS			@ Load our horizontal scroll register for BG2 on the sub screen
+	mov r1,#192
+	ldr r5, =REG_BG3VOFS_SUB		@ Load our horizontal scroll register for BG3 on the sub screen
+	strh r1, [r5]					@ Write our offset value to REG_BG3HOFS_SUB			
+
+	ldr r5, =REG_BG3VOFS			@ Load our horizontal scroll register for BG3 on the sub screen
 	strh r1, [r5]
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -470,11 +471,11 @@ updateGameOver:
 	mov r0,#1
 	str r0,[r1]
 
-	mov r1,#0
-	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB		
-	ldr r5, =REG_BG3VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB			
+	mov r0,#0
+	ldr r1,=spriteScreen
+	str r0,[r1]
+
+	bl resetScrollRegisters
 	bl fxFadeOff	
 	bl initGameOverScreen
 
@@ -493,6 +494,10 @@ updateGameOver:
 	ldr r1,=fadeCheck
 	mov r0,#0
 	str r0,[r1]
+	
+	mov r0,#0
+	ldr r1,=spriteScreen
+	str r0,[r1]
 
 	bl fxFadeBlackInit
 	bl fxFadeMin
@@ -507,16 +512,8 @@ updateGameOver:
 	b justWait3
 
 	jumpGameOver:
-
-	mov r1,#0
-	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB		
-	ldr r5, =REG_BG3VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB			
-	ldr r5, =REG_BG1VOFS			@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB		
-	ldr r5, =REG_BG3VOFS			@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r1, [r5]
+	
+	bl resetScrollRegisters
 	
 	bl initTitleScreen
 	
@@ -533,15 +530,24 @@ moveKiller:
 	cmp r0,#0
 	beq moveKillerDone
 	
-		ldr r0,=killPixelH
+
+		ldr r0,=killPixelH			@ top
 		ldr r1,[r0]
 		sub r1,#8
-		cmp r1,#14								@ max fall position
+		cmp r1,#-192
+		movle r1,#-192
+		str r1,[r0]
+		ldr r5, =REG_BG1VOFS_SUB		
+		strh r1, [r5]				
+		cmp r1,#0
+		ldr r0,=killPixelH2			@ bottom
+		ldr r1,[r0]
+		suble r1,#8
+		cmp r1,#14
 		movle r1,#14
 		str r1,[r0]
-		
-		ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-		strh r1, [r5]					@ Write our offset value to REG_BG2HOFS_SUB		
+		ldr r5, =REG_BG1VOFS		
+		strh r1, [r5]			
 	
 		cmp r1,#14
 		bne moveKillerDone
@@ -558,7 +564,8 @@ moveKiller:
 			@ initialise a rumble on both bg1 and bg3 (sub and main)
 			
 			ldr r1,=dropWobble
-			mov r0,#512-8
+			mov r0,#512
+			sub r0,#9
 			str r0,[r1]
 			
 			@ initialise blood splats
@@ -646,22 +653,19 @@ dropWobbler:
 	beq dropWobblerDone
 
 
-		mov r2,r0
-		add r2,#512+16
-		ldr r5, =REG_BG1VOFS_SUB		@ splatThing
-		strh r2, [r5]				
-		ldr r5, =REG_BG1VOFS			@ splatThing
-		strh r2, [r5]				
-
-
-		ldr r5, =REG_BG3VOFS    		@ Background
-		strh r0, [r5]					@ Write our offset value to REG_BG2HOFS_SUB	
-		ldr r5, =REG_BG3VOFS_SUB   		@ Background
-		strh r0, [r5]					@ Write our offset value to REG_BG2HOFS_SUB				
 		add r0,#1
 		cmp r0,#512
 		moveq r0,#0
 		str r0,[r1]
+		mov r2,r0
+		add r2,#512+16		
+		ldr r5, =REG_BG1VOFS			@ splatThing
+		strh r2, [r5]				
+		add r0,#192
+		ldr r5, =REG_BG3VOFS_SUB   		@ Background
+		strh r0, [r5]					@ Write our offset value to REG_BG2HOFS_SUB	
+		ldr r5, =REG_BG3VOFS    		@ Background
+		strh r0, [r5]					@ Write our offset value to REG_BG2HOFS_SUB	
 	
 	dropWobblerDone:
 	
@@ -675,6 +679,8 @@ skullFrameOver:
 skullDelayOver:
 .word 0
 killPixelH:
+.word 0
+killPixelH2:
 .word 0
 killDelay:
 .word 0

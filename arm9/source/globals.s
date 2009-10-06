@@ -56,6 +56,8 @@
 	.global spriteMonsterFlips
 	.global spritePriority
 	.global spriteSize
+	
+	.global spriteScreen
 
 	.global cheatMode
 
@@ -259,6 +261,9 @@ spriteSize:
 	.space 512
 	
 spriteDataEnd:
+
+spriteScreen:
+	.word 0
 
 	.align
 
