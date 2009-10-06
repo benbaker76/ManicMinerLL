@@ -11,8 +11,10 @@
 	.align
 	.text
 
-#define KILLDROP			#200
-#define KILLSOUND			#240
+#define KILLDROP			#206
+#define KILLSOUND			#230
+#define WILLY_WALKS			284
+#define TOTALANIMS			10
 	.global initGameOver
 	.global updateGameOverScreen
 	.global updateGameOver
@@ -226,11 +228,14 @@ initGameOver:
 	ldr r2, =EndTopSplatPalLen
 	bl dmaCopy	
 	
-	@ use bg1 and BG2 sub for the overlaid killing object (32x64 pixel map)
-	@ pick one at random later (8 will be perfect)
+	@ cycle through anims
 
-	bl getRandom
-	and r8,#7
+	ldr r0,=deathAnimation
+	ldr r8,[r0]
+	add r8,#1
+	cmp r8,#TOTALANIMS+1
+	moveq r8,#0
+	str r8,[r0]
 
 	cmp r8,#0
 	ldreq r0,=EndBootTiles
@@ -314,11 +319,20 @@ initGameOver:
 	mov r0,#0
 	ldr r1,=killMinerX
 	str r0,[r1]
+	ldr r1,=kneeDelay
+	str r0,[r1]
+	mov r0,#12
+	ldr r1,=kneeFrame
+	str r0,[r1]	
 	mov r0,#1
 	ldr r1,=killMinerMotion
 	str r0,[r1]
 	ldr r1,=spriteScreen
 	str r0,[r1]	
+	
+	
+	
+	
 	@ ok, init willys sprite
 	
 	mov r10,#0
@@ -361,7 +375,7 @@ initGameOver:
 	
 	ldr r0,=DieGameOverTiles
 	ldr r1,=SPRITE_GFX
-	ldr r2,=11*256							@ first 10 sprites for anim
+	ldr r2,=11*256							@ first 11 sprites for anim
 	bl dmaCopy	
 	ldr r0, =DieGameOverPal
 	ldr r2, =512
@@ -371,8 +385,15 @@ initGameOver:
 	ldr r0,=DieGameOverTiles				@ copy blood splats
 	add r0,#11*256							@ 12th tile
 	ldr r1,=SPRITE_GFX
-	add r1,#40*256							@ dump at 27th sprite onwards
+	add r1,#40*256							@ dump at 40th sprite onwards
 	ldr r2,=8*256
+	bl dmaCopy
+
+	ldr r0,=DieGameOverTiles
+	add r0,#20*256
+	ldr r1,=SPRITE_GFX
+	add r1,#12*256							@ dump at sprite 12 -19
+	ldr r2,=8*256							@ 8 sprites for anim
 	bl dmaCopy
 	
 	mov r0,#128+56+8
@@ -401,7 +422,7 @@ updateGameOver:
 	
 	stmfd sp!, {r0-r10, lr}
 
-	ldr r10,=400
+	ldr r10,=350
 	
 	updateGameOverLoop:
 	
@@ -539,7 +560,8 @@ moveKiller:
 		str r1,[r0]
 		ldr r5, =REG_BG1VOFS_SUB		
 		strh r1, [r5]				
-		cmp r1,#0
+
+		cmp r1,#-32
 		ldr r0,=killPixelH2			@ bottom
 		ldr r1,[r0]
 		suble r1,#8
@@ -570,6 +592,15 @@ moveKiller:
 			
 			@ initialise blood splats
 			
+			mov r0,#127
+			mov r1,#0
+			ldr r2,=spriteActive
+			clearSplats:
+			str r1,[r2,r0,lsl#2]
+			subs r0,#1
+			bpl clearSplats
+			
+			
 			bl fxBloodburstInit
 			
 			@ play a splat sound
@@ -585,12 +616,16 @@ moveKiller:
 moveKillerMiner:	
 	
 	stmfd sp!, {r0-r10, lr}	
+	ldr r0,=spriteActive
+	ldr r0,[r0]
+	cmp r0,#1
+	bne moveMinerDone
 	
 	ldr r0,=killMinerMotion
 	ldr r0,[r0]
 	cmp r0,#0
 	beq moveMinerDone
-	cmp r10,#284
+	cmp r10,#WILLY_WALKS
 	bpl moveMinerDone
 	
 		ldr r0,=killMinerX
@@ -611,7 +646,30 @@ moveKillerMiner:
 			ldreq r0,=spriteObj
 			moveq r3,#2
 			streq r3,[r0]
+			
+		cmp r1,#128+56
+		bne notKnockingKnees
 		
+			@ ok, animate the knees knocking. kneeFrame, and kneeDelay (19-26)
+			ldr r0,=kneeFrame
+			ldr r1,[r0]
+			ldr r2,=spriteObj+4
+			str r1,[r2]
+			ldr r3,=kneeDelay
+			ldr r4,[r3]
+			subs r4,#1
+			movmi r4,#1
+			str r4,[r3]
+			bpl moveMinerDone
+		
+			add r1,#1
+			cmp r1,#19
+			movpl r1,#12
+			str r1,[r0]
+			
+			
+			b moveMinerDone
+		notKnockingKnees:
 		ldr r2,=spriteX
 		str r1,[r2]
 		ldr r2,=spriteX+4
@@ -691,4 +749,8 @@ killMinerX:
 killMinerMotion:
 .word 0
 dropWobble:
+.word 0
+kneeFrame:
+.word 0
+kneeDelay:
 .word 0

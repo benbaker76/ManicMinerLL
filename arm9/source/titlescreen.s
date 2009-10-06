@@ -44,6 +44,7 @@
 	.global titleScroller
 	.global pointerFrame
 	.global pointerY
+	.global freshTitle
 
 @----------------------------
 
@@ -51,12 +52,15 @@ initTitleScreen:
 	stmfd sp!, {r0-r10, lr}
 
 	bl fxOff
-	bl fxFadeBlackInit	
+	bl fxFadeBlackInit
+
+	ldr r0,=freshTitle
+	mov r1,#0
+	str r1,[r0]
+	ldr r1,=levelNum
+	str r0,[r1]
 	
-@	bl clearBG0									@ Clear bgs
-@	bl clearBG1
-@	bl clearBG2
-@	bl clearBG3
+
 	bl initVideoTitle
 	bl initCheat
 	bl clearOAM
@@ -109,6 +113,8 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r1,=trapStart
 	str r0,[r1]
+	ldr r0,=freshTitle
+	str r1,[r0]
 	
 	ldr r1,=tTimer				@ store initial timer
 	ldr r0,=BitmapPause
@@ -1431,6 +1437,8 @@ moveAlter:
 	.pool
 	.data
 	.align
+freshTitle:
+	.word 0
 pointerY:
 	.word 0
 pointerFrame:

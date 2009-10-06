@@ -125,6 +125,7 @@
 	
 	.global fadeCheck
 	.global specialDelay
+	.global deathAnimation
 
 fadeCheck:
 	.word 0
@@ -320,6 +321,9 @@ levelSpecialTime:				@ time needed to unlock a special?
 	.word 0,0,0,0,0,0,0,0,0,0
 
 @ THESE NEED TO BE SAVED AND LOADED
+
+@---------------------------------------------------------------
+
 startOfSaveData:
 
 	
@@ -341,7 +345,7 @@ highScoreName:
 	
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
-	.word 0,1,0,1,0,0,0,0,0,0
+	.word 0,1,0,1,1,1,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
@@ -372,7 +376,13 @@ audioMusic:						@ play Music?
 audioSFXVol:					@ audio Volume
 	.word 7
 
+deathAnimation:
+	.word -1					@ which animation to use on the game over
 
-endOfSaveData:					
+
+endOfSaveData:	
+
+@-------------------------------------------
+				
 	.pool
 	.end

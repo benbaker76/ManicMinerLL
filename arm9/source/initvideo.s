@@ -300,6 +300,11 @@ initVideoTitle:
 		mov r1, #0
 		strh r1, [r0]
 		
+		ldr r0,=freshTitle
+		ldr r1,[r0]	
+		cmp r1,#0
+		bne titleStartTopOnly
+		
 		mov r0, #0
 		ldr r2, =32*32*2
 		ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
@@ -313,6 +318,8 @@ initVideoTitle:
 		ldr r2, =32*32*2
 		ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)
 		bl dmaFillWords
+		
+		titleStartTopOnly:
 		
 		mov r0, #0
 		ldr r2, =32*32*2

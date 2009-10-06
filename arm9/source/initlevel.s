@@ -51,7 +51,7 @@ initLevel:
 	
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
-	bl clearOAM
+@	bl clearOAM						@ IS THIS REALLY NEEDED!!!!?!?!!?!!?!!!?!
 	bl clearSpriteData
 	bl fxFadeIn
 
@@ -88,7 +88,6 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=minerJumpDelay
 	str r0,[r1]
-
 
 	mov r0,#0
 	ldr r1,=spriteObj+256
@@ -156,7 +155,6 @@ initLevel:
 	lsr r0,#1
 	ldr r2,=specialEffect
 	str r0,[r2]
-
 
 	cmp r12,#GAMEMODE_TITLE_SCREEN
 	blne fxSpotlightIn
@@ -814,6 +812,9 @@ generateMonsters:
 	cmp r0,#64
 	ldreq r2, =GameOver_xm_gz
 	ldreq r3, =GameOver_xm_gz_size
+	cmp r0,#65
+	ldreq r2, =HighScore_xm_gz
+	ldreq r3, =HighScore_xm_gz_size
 @	cmp r0,#65
 @	ldreq r2, =KingKong_xm_gz
 @	ldreq r3, =KingKong_xm_gz_size
@@ -893,7 +894,7 @@ getWillySprite:
 	ldmfd sp!, {r0-r10, pc}
 
 .align
-levelWilly:
+levelWilly:							@ this tells us what sprite for what level
 	.byte 0,0,0,0,0,0,1,0,0,0
 	.byte 0,0,0,0,0,2,0,0,0,0
 	.byte 3,5,4,0,0,0,0,0,0,0

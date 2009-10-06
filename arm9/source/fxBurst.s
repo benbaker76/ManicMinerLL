@@ -492,7 +492,7 @@ fxBloodburstInit:
 		bl getRandom									@ generate speed
 		ldr r1,=0xfff
 		and r8, r1	
-		add r8,#2048
+		add r8,#4096
 		str r8, [r6, r3, lsl #2] 						@ Store Speed
 		
 		mov r8,#FX_STARBURST_ACTIVE						@ sprite active

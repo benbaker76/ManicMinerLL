@@ -39,6 +39,11 @@ bonusAward:
 
 	stmfd sp!, {r0-r10, lr}
 	
+	ldr r2,=gameMode
+	ldr r2,[r2]
+	cmp r2,#GAMEMODE_TITLE_SCREEN
+	beq bonusAwardDone
+	
 	ldr r2,=levelNum
 	ldr r2,[r2]
 	sub r2,#1
