@@ -590,7 +590,7 @@ moveKillerMiner:
 	ldr r0,[r0]
 	cmp r0,#0
 	beq moveMinerDone
-	cmp r10,#320
+	cmp r10,#284
 	bpl moveMinerDone
 	
 		ldr r0,=killMinerX
