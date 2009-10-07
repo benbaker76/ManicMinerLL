@@ -172,6 +172,11 @@
 #include "../build/VictoryBonusTop.h"
 #include "../build/VictoryBonusBottom.h"
 
+
+#include "../build/HighSprites.h"
+#include "../build/HighTop.h"
+#include "../build/HighBot.h"
+
 @ intro graphics
 
 #include "../build/Proteus.h"

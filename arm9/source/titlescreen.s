@@ -45,6 +45,7 @@
 	.global pointerFrame
 	.global pointerY
 	.global freshTitle
+	.global moveTrap
 
 @----------------------------
 

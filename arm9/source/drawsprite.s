@@ -99,7 +99,7 @@ drawSprite:
 		cmp r1,#SCREEN_LEFT				@ if less than 64, this is off left of screen
 		addmi r1,#512					@ convert coord for offscreen (32 each side)
 		sub r1,#SCREEN_LEFT				@ Take 64 off our X
-		sub r1,r4						@ account for maps horizontal position
+@		sub r1,r4						@ account for maps horizontal position
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		mov r0,r6
 		add r0,r10, lsl #3

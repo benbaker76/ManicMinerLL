@@ -14,7 +14,7 @@
 #define KILLDROP			#206
 #define KILLSOUND			#230
 #define WILLY_WALKS			284
-#define TOTALANIMS			10
+#define TOTALANIMS			13
 	.global initGameOver
 	.global updateGameOverScreen
 	.global updateGameOver
@@ -108,26 +108,30 @@ updateGameOverScreen:
 	mov r0,#1
 	str r0,[r1]
 
-ldr r1,=fadeCheck
-mov r0,#0
-str r0,[r1]
-
-bl fxFadeBlackInit
-bl fxFadeMin
-bl fxFadeOut
-
-justWait2:
-ldr r1,=fadeCheck
-ldr r1,[r1]
-cmp r1,#16
-beq fade2Title
-
-b justWait2	
+	ldr r1,=fadeCheck
+	mov r0,#0
+	str r0,[r1]
 	
-	fade2Title:
+	mov r0,#0
+	ldr r1,=spriteScreen
+	str r0,[r1]
 
-	bl fxFadeOff	
-	bl initTitleScreen
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWait3:
+	ldr r1,=fadeCheck
+	ldr r1,[r1]
+	cmp r1,#16
+	beq jumpGameOver
+
+	b justWait3
+
+	jumpGameOver:
+
+
+bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -341,9 +345,6 @@ initGameOver:
 	ldr r1,=spriteScreen
 	str r0,[r1]	
 	
-	
-	
-	
 	@ ok, init willys sprite
 	
 	mov r10,#0
@@ -518,11 +519,6 @@ updateGameOver:
 	gOverUpdateEnd:
 	
 	@ return to title screen (or highscore at some point)
-	
-	ldr r1,=trapStart
-	mov r0,#1
-	str r0,[r1]
-
 	ldr r1,=fadeCheck
 	mov r0,#0
 	str r0,[r1]
@@ -535,19 +531,16 @@ updateGameOver:
 	bl fxFadeMin
 	bl fxFadeOut
 
-	justWait3:
+	justWait4:
 	ldr r1,=fadeCheck
 	ldr r1,[r1]
 	cmp r1,#16
-	beq jumpGameOver
+	beq jumpGameOver1
 
-	b justWait3
+	b justWait4
 
-	jumpGameOver:
-	
-	bl resetScrollRegisters
-	
-	bl initTitleScreen
+	jumpGameOver1:	
+bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}
 	

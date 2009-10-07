@@ -39,6 +39,7 @@
 	.global drawTextScroller
 	.global drawTextBigMain
 	.global drawHighText
+	.global drawHighTextMain
 	.global drawTextBigDigits
 	
 drawText:
@@ -334,8 +335,7 @@ drawTextBigSubDone:
 	ldmfd sp!, {r4-r8, pc}
 	
 	@ ----------------------------------------
-	@ ---------------------------------------------
-
+	
 drawHighText:
 	
 	@ r0 = pointer to text
@@ -356,18 +356,13 @@ drawHighText:
 drawHighTextLoop:
 
 	ldrb r5, [r7], #1				@ Read r1 [text] and add 1 to [text] offset
-
-	@ our tiles are in pairs (one above another)
-
 	lsl r5,#1
 	cmp r9,#0
 	subeq r5,#64
 	addne r5,#32
-	
 	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
 	add r5,#1
 	strh r5, [r6], #2
-
 	subs r3,#1	
 	bpl drawHighTextLoop
 
@@ -431,6 +426,37 @@ drawTextBigDigits:
 	add r5,#1
 	strh r5, [r6], #2
 	ldmfd sp!, {r4-r8, pc}
+
+	@ ----------------------------------------
+	
+drawHighTextMain:
+	
+	@ r0 = pointer to text
+	@ r1 = x pos
+	@ r2 = y pos
+	@ r3 = len
+	@ r9 = 0=text 1=digits (0-9)
+
+	stmfd sp!, {r0-r10, lr} 
+	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE) @ Pointer to sub
+	add r4, r1, lsl #1				@ Add x position
+	add r4, r2, lsl #6				@ Add y multiplied by 64
+	add r6, r4, #64
+	sub r3,#1
+	mov r7,r0
+	drawHighTextMainLoop:
+	ldrb r5, [r7], #1				@ Read r1 [text] and add 1 to [text] offset
+	lsl r5,#1
+	cmp r9,#0
+	subeq r5,#64
+	addne r5,#32
+	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
+	add r5,#1
+	strh r5, [r6], #2
+	subs r3,#1	
+	bpl drawHighTextMainLoop
+	ldmfd sp!, {r0-r10, pc}
+
 	
 	.pool
 	.end

@@ -51,9 +51,18 @@ bonusAward:
 	ldr r1,=levelSpecialFound
 	ldr r1,[r1,r2,lsl#2]
 	cmp r1,#1
-	bne bonusAwardDone
+	bne bonusAwardNot
 	
 	bl initBonusSprites
+	b bonusAwardDone
+	
+	bonusAwardNot:
+	
+	mov r1, #ATTR0_DISABLED	
+	ldr r0,=OBJ_ATTRIBUTE0(0)
+	strh r1,[r0]
+	ldr r0,=OBJ_ATTRIBUTE0(1)
+	strh r1,[r0]	
 	
 	bonusAwardDone:
 

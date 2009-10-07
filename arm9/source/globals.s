@@ -267,9 +267,6 @@ spriteSize:
 	
 spriteDataEnd:
 
-spriteScreen:
-	.word 0
-
 	.align
 
 willyJumpData:
@@ -291,6 +288,9 @@ willyJumpData:
 
 levelNum:
 	.word 1
+
+spriteScreen:
+	.word 0
 	
 sfxValues:						@ values for sfx volume from 0-7 (0=off)
 	.byte 0,20,35,50,70,90,110,127
@@ -298,10 +298,11 @@ sfxValues:						@ values for sfx volume from 0-7 (0=off)
 
 	.align
 score:
-	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,4,9,1,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
 
+	.align
 minerLives:
 	.word 0
 	
