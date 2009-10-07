@@ -70,6 +70,8 @@ findHighscore:
 
 	highscoreReturn:
 
+	bl resetScrollRegisters
+
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
@@ -77,26 +79,22 @@ findHighscore:
 	ldr r1,=fadeCheck
 	mov r0,#0
 	str r0,[r1]
-	
-	mov r0,#0
-	ldr r1,=spriteScreen
+	ldr r1,=spriteScreen					@ put it back to the top screen for Drawsprite
 	str r0,[r1]
 
 	bl fxFadeBlackInit
 	bl fxFadeMin
 	bl fxFadeOut
 
-	justWait3:
+	justWait:
 	ldr r1,=fadeCheck
 	ldr r1,[r1]
 	cmp r1,#16
 	beq jumpGameOver
 
-	b justWait3
+	b justWait
 
 	jumpGameOver:
-	
-	bl resetScrollRegisters
 	
 	bl initTitleScreen
 	
@@ -406,6 +404,20 @@ quitHigh:
 
 	ldr r1,=exitHigh;	mov r0,#1;	str r0,[r1]
 	
+	@ now copy the typed text to the buffer, so it appears next time..
+	
+	mov r0,#0
+	quitHighLoop:
+	
+		ldr r1,=highScoreName
+		mov r2,r10;	lsl r2,#3;	add r1,r2; 	add r1,r0		@ r1=source
+		ldr r2,=highNameBlank
+		ldrb r3,[r1]
+		strb r3,[r2,r0]
+		add r0,#1
+		cmp r0,#8
+	bne quitHighLoop
+	
 	b moveHighCursorReturn
 
 @----------------------------------------
@@ -435,8 +447,7 @@ moveHPos:
 		str r1,[r0]
 		b moveHighCursorReturn
 	
-	
-	moveHPosDone:
+		moveHPosDone:
 	b moveHighCursorReturnAdder
 
 @-----------------------------
