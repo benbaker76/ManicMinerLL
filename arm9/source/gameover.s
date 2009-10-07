@@ -262,9 +262,9 @@ initGameOver:
 	ldreq r2,=EndAnvilTilesLen
 	ldreq r3,=EndAnvilMap	
 	cmp r8,#6
-	ldreq r0,=EndBusTiles
-	ldreq r2,=EndBusTilesLen
-	ldreq r3,=EndBusMap	
+	ldreq r0,=EndMorrisseyTiles
+	ldreq r2,=EndMorrisseyTilesLen
+	ldreq r3,=EndMorrisseyMap	
 	cmp r8,#7
 	ldreq r0,=EndLooTiles
 	ldreq r2,=EndLooTilesLen
@@ -281,7 +281,18 @@ initGameOver:
 	ldreq r0,=EndLooTiles
 	ldreq r2,=EndLooTilesLen
 	ldreq r3,=EndLooMap	
-	
+	cmp r8,#11
+	ldreq r0,=EndMaxTiles
+	ldreq r2,=EndMaxTilesLen
+	ldreq r3,=EndMaxMap	
+	cmp r8,#12
+	ldreq r0,=EndTardisTiles
+	ldreq r2,=EndTardisTilesLen
+	ldreq r3,=EndTardisMap	
+	cmp r8,#13
+	ldreq r0,=EndBusTiles
+	ldreq r2,=EndBusTilesLen
+	ldreq r3,=EndBusMap		
 	
 	ldr r1,=BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
 	bl decompressToVRAM
