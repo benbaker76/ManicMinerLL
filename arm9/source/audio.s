@@ -62,7 +62,7 @@ stopSound:
 
 playDead:
 
-	@ 'CHANNEL 0'
+	@ 'CHANNEL 1'
 
 	stmfd sp!, {r0-r2, lr}
 	
@@ -86,7 +86,7 @@ playDead:
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
-	ldrb r1, =0
+	ldrb r1, =FIND_FREE_CHANNEL
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format

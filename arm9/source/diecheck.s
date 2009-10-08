@@ -95,10 +95,9 @@ testingit:
 		
 		ldr r3,=willySpriteType				@ if spectrum original sprite, keep same frame
 		ldr r3,[r3]
-		cmp r3,#1
-		beq dieNotSpecialSprite
-		cmp r3,#5
-		beq dieNotSpecialSprite
+		cmp r3,#1; beq dieNotSpecialSprite
+		cmp r3,#5; beq dieNotSpecialSprite
+		cmp r3,#6; beq dieNotSpecialSprite
 		
 		ldr r3,=levelNum
 		ldr r3,[r3]
@@ -231,6 +230,8 @@ updateDeathAnim:
 			beq notDieFallFall
 			cmp r0,#5
 			beq notDieFallFall
+			cmp r0,#6
+			beq notDieFallFall
 			
 			bl checkFeet				@ this little bit helps us FALL!!
 			bl checkFall
@@ -332,11 +333,10 @@ dieAnimationUpdate:
 		
 		ldr r0,=willySpriteType				@ are we original willy?
 		ldr r10,[r0]
-		cmp r10,#1
-		beq dieAnimationUpdateSpectrum
-		cmp r10,#5
-		beq dieAnimationUpdateSpectrum
-		
+		cmp r10,#1; beq dieAnimationUpdateSpectrum
+		cmp r10,#5; beq dieAnimationUpdateSpectrum
+		cmp r10,#6; beq dieAnimationUpdateSpectrum		
+
 		ldr r1,=dieAnim
 		ldr r2,[r1]
 		subs r2,#1

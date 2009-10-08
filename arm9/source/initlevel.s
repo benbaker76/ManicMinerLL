@@ -396,7 +396,13 @@ getDoorSprite:
 	cmp r0,#30
 	ldreq r0, =Exit31Tiles
 	ldreq r2, =Exit31TilesLen	
-
+	cmp r0,#31
+	ldreq r0, =Exit32Tiles
+	ldreq r2, =Exit32TilesLen
+	
+	cmp r0,#34
+	ldreq r0, =Exit35Tiles
+	ldreq r2, =Exit35TilesLen	
 
 	cmp r0,#40
 	ldreq r0, =Exit41Tiles
@@ -862,7 +868,7 @@ getWillySprite:
 
 	stmfd sp!, {r0-r10, lr}
 
-		@ r3=sprite (0=normal 1=spectrum 2=space 3=horace, 4=dirk )
+		@ r3=sprite (0=normal 1=spectrum 2=space 3=horace, 4=dirk, 5 blagger, 6 coupe )
 
 		ldr r0,=levelNum
 		ldr r0,[r0]
@@ -888,7 +894,9 @@ getWillySprite:
 		cmp r3,#5
 		ldreq r0,=MinerBlaggerTiles
 		ldreq r2,=MinerBlaggerTilesLen
-		
+		cmp r3,#6
+		ldreq r0,=MinerCoupeTiles
+		ldreq r2,=MinerCoupeTilesLen		
 
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
@@ -899,15 +907,18 @@ getWillySprite:
 	ldmfd sp!, {r0-r10, pc}
 
 .align
+.data
 levelWilly:							@ this tells us what sprite for what level
 	.byte 0,0,0,0,0,0,1,0,0,0
-	.byte 0,0,0,0,0,2,0,0,0,0
-	.byte 3,5,4,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,2,0,0,0,0	@ ll
+	.byte 3,5
+	.byte 4,0,0,0,0,0,0,0,0,0	@ ww
+	.byte 6,6,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0	
-
+.align
+.text
 @-------------------------------------------------
 	
 specialEffectStart:

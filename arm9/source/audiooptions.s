@@ -112,6 +112,14 @@ initAudio:
 	bl initAudioSprites
 	bl updateAudioPointer
 	bl playSelectedAudio
+	
+	
+@bl initVideo
+	ldr r0, =FontTiles
+	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
+	ldr r2, =32*8
+@	bl dmaCopy
+
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -129,6 +137,7 @@ updateAudio:
 	bl drawAudioText
 	bl drawSprite
 	bl updateAudioPointer
+	bl displayAudio
 
 	ldr r0,=REG_KEYINPUT						@ Read key input register
 	ldr r10,[r0]								@ Read key value
@@ -463,9 +472,50 @@ drawAudioBars:
 
 @-------------------------------------------------
 
+displayAudio:
+
+	@ just a test for now!
+
+
+	stmfd sp!, {r0-r10, lr}
+	
+bl DC_FlushAll
+	ldr r0, =Module		@ This is the pointer to XM7_ModuleManager_Type where the data is loaded via XM7_LoadXM
+	ldr r1,=46
+	add r0, r1			@ Add the byte offset to channels
+	ldrb r10, [r0] 		@ Read the byte value of channels
+	
+	ldr r2,=xmChannels	
+	str r10,[r2]		@ store number of channels
+
+	ldr r0, =Module		@ This is the pointer to XM7_ModuleManager_Type where the data is loaded via XM7_LoadXM
+	ldr r1,=1596
+	add r0, r1			@ Add the byte offset to channels
+	ldrb r10, [r0] 		@ Read the byte value of channels
+
+	@ r10 = number to display
+	@ r7 = 0 = Main, 1 = Sub
+	@ r8 = height to display to
+	@ r9 = number of Digits to display
+	@ r11 = X coord
+
+	mov r7,#0
+	mov r8,#1
+	mov r9,#8
+	mov r11,#1
+
+	@bl drawDigits
+	
+	
+	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------------------------------
+
 .pool
 .data
 .align
+xmChannels:
+	.word 0
 moveTrap:
 	.word 0
 audioPointer:					@ pointer value 0-3

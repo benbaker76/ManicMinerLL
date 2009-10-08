@@ -496,7 +496,7 @@ minerFall:
 		movpl r2,#192+384	
 		str r2,[r1]
 
-@------------- level 32 mod
+@------------- level 32 mod	(so we can fall into the water)
 
 		ldr r3,=levelNum
 		ldr r3,[r3]
@@ -524,7 +524,6 @@ minerFall:
 		b minerFallFail
 		
 		level32FallFail:
-
 
 @-------------
 
@@ -565,6 +564,28 @@ minerFall:
 		lsr r6,#3
 		lsl r6,#3
 		str r6,[r7]
+		
+		@ now we must check if r9 or r10 is a trampoline
+
+		cmp r9,#21
+		beq onTrampoline
+		cmp r10,#21
+		bne notOnTrampoline
+		onTrampoline:
+			ldr r1,=fallCount
+			ldr r2,[r1]
+			cmp r2,#20
+			ldrgt r2,=spriteHFlip+256
+			ldrgt r2,[r2]
+			addgt r2,#1
+			ldrgt r3,=minerDirection
+			strgt r2,[r3]
+			blgt moveJump
+			mov r2,#0				@ reset fall count
+			str r2,[r1]
+		notOnTrampoline:
+		
+		@ check if fallen too far
 		
 		ldr r1,=fallCount
 		ldr r2,[r1]

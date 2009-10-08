@@ -381,6 +381,7 @@ checkFeet:
 	b feetOnConveyor	
 	
 	feetNotRConveyor:
+
 	
 	checkFeetFinish:
 	
@@ -852,6 +853,10 @@ checkFall:
 	ldmfd sp!, {r0-r7,r9,r10, pc}	
 	
 	checkFall3:
+	
+
+	
+	
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}
 

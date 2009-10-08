@@ -139,7 +139,7 @@ drawDigits:
 	convertLoop:	
 		mov r2,#10					@ This is our divider
 		bl divideNumber				@ call our code to divide r1 by r2 and return r0 with fraction
-		strb r1,[r5,r6]			@ lets store our fraction in our digit data
+		strb r1,[r5,r6]				@ lets store our fraction in our digit data
 		mov r1,r0					@ put the result back in r1 (original r1/10)
 		subs r6,#1					@ take one off our digit counter
 	@	cmp r1,#0					@ is our result 0 yet, if not, we have more to do
@@ -265,10 +265,7 @@ drawTextScroller:
 	ldr r7,[r7]
 	
 	cmp r7,#0
-	
-	
 	addne r5,#1
-
 
 	strh r5, [r4], #2				@ Write the tile number to our 32x32 map and move along
 	add r5,#2

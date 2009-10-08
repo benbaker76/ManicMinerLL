@@ -84,9 +84,9 @@ main:
 
 @	bl initCompletion
 
-	bl findHighscore
+@	bl findHighscore
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	

@@ -112,7 +112,7 @@ minerFrame:
 @	addeq r0,#5
 	
 	and r0,#15
-	lsr r0,#2
+	lsr r0,#1
 
 	ldr r1,=spriteObj+256
 	str r0,[r1]

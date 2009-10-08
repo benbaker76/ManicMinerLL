@@ -973,8 +973,6 @@ fxSparkle:
 	and r8,#63
 	add r8,#32
 	add r5,r8
-
-@	add r5,#64
 	str r5,[r7, r10, lsl #2]
 	cmp r5,#0
 	addpl r1,r5

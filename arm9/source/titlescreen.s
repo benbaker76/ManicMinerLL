@@ -1523,6 +1523,8 @@ titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: HORACE      "
 	.asciz	"PLAY SPECIAL: BLAGGER     "
 	.asciz	"PLAY SPECIAL: REAL CENTRAL"
-	.asciz	"PLAY SPECIAL: COUPE 01    "
+	.asciz	"PLAY SPECIAL: CHEESE      "
+	.asciz	"PLAY SPECIAL: MY SHAFT!   "
+	.asciz	"PLAY SPECIAL: BIG DROPPER "
 titleJB:
 	.asciz	"AUDIO OPTIONS"

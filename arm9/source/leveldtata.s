@@ -401,7 +401,7 @@ levelData:
 @ / bonus levels
 	
 	@ 33 / cheese plant
-	.byte 8,64,5,212,168,0,6,0
+	.byte 8,64,5,212,168,0,6,31
 
 	.byte 32,168,17,1,1,45,32,160
 	.byte 152,104,0,1,1,45,64,200
@@ -411,10 +411,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 34
-	.byte 232,168,5,6,168,1,6,37
+	@ 34 / The dodgy mine shaft
+	.byte 168,64,5,16,168,1,6,31
 
-	.byte 0,0,0,0,0,0,0,0
+	.byte 80,168,17,1,1,45,80,160
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -422,12 +422,12 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 35
-	.byte 232,168,5,6,168,1,6,37
+	@ 35 / the long drop thing
+	.byte 152,144,5,6,168,1,6,34
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 120,168,17,1,255,45,120,212
+	.byte 152,112,17,1,1,45,152,220
+	.byte 32,136,17,1,1,45,8,64
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -552,8 +552,8 @@ levelNames:
 	
 @ bonus levels (from 33)
 	.ascii "         CHEESE-PLANT         "
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "     THE DODGY MINE SHAFT     "
+	.ascii "         THE BIG DROP         "
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -996,31 +996,31 @@ levelNames:
 	.ascii "  WILLY WAS SURE THAT THIS"
 	.ascii "WOULD GIVE HIM A FEW REST-"
 	.ascii "LESS NIGHTS.              "
-	@ 34
+	@ 34	/ coupe dodgy mine shaft
+	.ascii "  WILLY GINGERLY STEPPED  "
+	.ascii "INTO THE MINE SHAFT.      "
+	.ascii "  'NOW, WHY IS THIS CALLED"
+	.ascii "THE 'DODGY' MINE SHAFT?', "
+	.ascii "HE THOUGHT QUIETLY TO HIM-"
+	.ascii "SELF. HE FOUND QUIET BOUTS"
+	.ascii "OF THINKING REWARDING AND "
+	.ascii "A MUCH LESS NOISY THAN    "
+	.ascii "SHOUTING HIS THOUGHTS OUT "
+	.ascii "LOUD TO ALL IN THE AREA.  "
+	.ascii "  WILLY THOUGHT A LITTLE  "
+	.ascii "LOUDER, AND GOT A HEADACHE"	
+	@ 35	/ BIG DROP
 	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "	
-	@ 35
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  NOW THIS WAS SOMETHING  "
+	.ascii "OUR ADVENTUROUS WILLY HAD "
+	.ascii "NOT SEEN BEFORE. WHAT WAS "
+	.ascii "THAT STRANGE TRAMPOLINE - "
+	.ascii "SHAPED CONTRAPTION AT THE "
+	.ascii "BOTTOM OF THAT DEEP SHAFT?"
+	.ascii "  WORSE STILL, HOW WAS HE "
+	.ascii "GOING TO BE ABLE TO GET   "
+	.ascii "DOWN THERE WITHOUT SOME - "
+	.ascii "THING TO BREAK HIS FALL?  "
 	.ascii "                          "
 	@ 36
 	.ascii "                          "
@@ -1144,8 +1144,9 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	@ 33
 	.ascii "       SAM COUPE 1990       "
 	@ 34
-	.ascii "                            "
-	.ascii "                            "
+	.ascii "       SAM COUPE 1990       "
+	@ 35
+	.ascii "       SAM COUPE 1990       "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "                            "

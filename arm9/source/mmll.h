@@ -120,6 +120,9 @@
 #include "../build/Exit29.h"
 #include "../build/Exit30.h"
 #include "../build/Exit31.h"
+#include "../build/Exit32.h"
+
+#include "../build/Exit35.h"
 
 #include "../build/Exit41.h"
 #include "../build/Exit42.h"
@@ -196,6 +199,7 @@
 #include "../build/MinerHorace.h"
 #include "../build/MinerCasablanca.h"
 #include "../build/MinerBlagger.h"
+#include "../build/MinerCoupe.h"
 
 #include "../build/SpriteBank1.h"
 
@@ -560,6 +564,6 @@
 
 #define HIGH_NAME_LEN				8
 #define HIGH_SCORE_LEN				6
-#define SECRET_MAX					4			@ use this to make sure that we don't unlock more than we have
+#define SECRET_MAX					6			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
 

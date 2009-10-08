@@ -33,6 +33,7 @@
 	.global initMusic
 	.global initMusicForced
 	.global stopMusic
+	.global Module
 
 	#define XM7_MODULEMANAGER_TYPE_SIZE			0xCE8
 	#define XM7_MODULE_IPC						IPC+0x20

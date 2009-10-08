@@ -347,13 +347,13 @@ highScoreName:
 	.ascii "FLASHMAN"
 	.ascii " -LOBO- "
 	.ascii "HEADKAZE"
-	.ascii "COCKRASH"
-	.ascii "NADSITCH"
-	.ascii "ARSEWOMP"
+	.ascii "FLETCHER"
+	.ascii "-S -- F-"
+	.ascii " SVERX! "
 	
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
-	.word 0,1,0,1,1,1,0,0,0,0
+	.word 0,1,0,1,1,1,0,1,0,1
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
@@ -375,7 +375,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 255
+	.word 6
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 
