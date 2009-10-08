@@ -913,7 +913,7 @@ levelWilly:							@ this tells us what sprite for what level
 	.byte 0,0,0,0,0,2,0,0,0,0	@ ll
 	.byte 3,5
 	.byte 4,0,0,0,0,0,0,0,0,0	@ ww
-	.byte 6,6,0,0,0,0,0,0,0,0
+	.byte 6,6,6,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0	
