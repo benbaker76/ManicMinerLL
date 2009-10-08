@@ -810,6 +810,9 @@ generateMonsters:
 	cmp r0,#23
 	ldreq r2, =Cold_xm_gz
 	ldreq r3, =Cold_xm_gz_size
+	cmp r0,#24
+	ldreq r2, =Radio_xm_gz
+	ldreq r3, =Radio_xm_gz_size
 	
 	cmp r0,#64
 	ldreq r2, =GameOver_xm_gz
