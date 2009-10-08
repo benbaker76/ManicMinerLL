@@ -13,8 +13,6 @@
 
 	.global initCompletion
 	.global updateCompletion
-	.global initCompletionBonus
-	.global updateCompletionBonus
 	
 @---------------------------			LOST LEVEL COMPLETION INIT
 
@@ -27,7 +25,7 @@ initCompletion:
 	bl clearBG0
 	bl clearBG1
 	bl clearBG2
-	bl clearBG3
+@	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
 	bl stopMusic					@ remove when we have completion music
@@ -38,7 +36,6 @@ initCompletion:
 
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
-	bl fxFadeIn	
 	
 	ldr r0,=VictoryBottomTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
@@ -66,9 +63,27 @@ initCompletion:
 	ldr r2, =VictoryTopPalLen
 	bl dmaCopy	
 	
+	@ load the glint sprites
+	
+	ldr r0, =VictoryStarsPal
+	ldr r2, =512
+	ldr r1, =SPRITE_PALETTE
+	bl dmaCopy
+
+	ldr r0, =VictoryStarsTiles
+	ldr r2, =VictoryStarsTilesLen
+	ldr r1, =SPRITE_GFX
+	bl dmaCopy		
+
+	mov r0,#1
+	ldr r1,=spriteScreen
+	str r0,[r1]
+	
 @	ldreq r2, =GameOver_xm_gz
 @	ldreq r3, =GameOver_xm_gz_size
 @	bl initMusic
+
+	bl fxFadeIn	
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -78,26 +93,69 @@ updateCompletion:
 
 	stmfd sp!, {r0-r10, lr}
 	
-	@ Check for start or A pressed
+	completionLLLoop:
 	
-	ldr r2, =REG_KEYINPUT
-	ldr r10,[r2]
-	
-	tst r10,#BUTTON_START
-	beq completionEnd
-	tst r10,#BUTTON_A
-	beq completionEnd
+		bl swiWaitForVBlank
 
-	ldmfd sp!, {r0-r10, pc}
+		@ update goldGlints
+		
+		bl goldGlintInit
+		
+		bl drawSprite
+	
+		@ Check for start or A pressed
+	
+		ldr r2, =REG_KEYINPUT
+		ldr r10,[r2]
+	
+		tst r10,#BUTTON_START
+		beq completionEnd
+		tst r10,#BUTTON_A
+		beq completionEnd
+	
+		ldr r1,=trapStart
+		mov r0,#0
+		str r0,[r1]
+	
+		completionLLNo:
+
+	b completionLLLoop
 
 	completionEnd:
 	
-	@ return to title screen (or highscore at some point)
+	ldr r1,=trapStart
+	ldr r0,[r1]
+	cmp r0,#0
+	bne completionLLNo
+	
+@---------------------- return to title screen (or highscore at some point)
 	
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
+
+	ldr r1,=fadeCheck
+	mov r0,#0
+	str r0,[r1]
 	
-	bl initTitleScreen
+	mov r0,#0
+	ldr r1,=spriteScreen
+	str r0,[r1]
+
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWait4:
+	ldr r1,=fadeCheck
+	ldr r1,[r1]
+	cmp r1,#16
+	beq jumpCompLL
+
+	b justWait4
+
+	jumpCompLL:
+
+	bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}

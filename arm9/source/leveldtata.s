@@ -984,18 +984,18 @@ levelNames:
 	@ BONUS LEVELS
 	
 	@ 33	/ coupe Cheese-Plant
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  WILLY HAD JUST STEPPED  "
+	.ascii "INTO THIS CAVERN WHEN A   "
+	.ascii "THOUGHT ENTERED HIS HEAD, "
+	.ascii "AS OFTEN HAPPENS,         "
+	.ascii "'IS THIS A CAVERN THAT HAS"
+	.ascii "A HIDDEN CHEESE PLANT IN  "
+	.ascii "IT, OR.. IS THIS CAVERN A "
+	.ascii "SECRET FACTORY, OR PLANT, "
+	.ascii "WHERE THEY MAKE CHEESE?'  "
+	.ascii "  WILLY WAS SURE THAT THIS"
+	.ascii "WOULD GIVE HIM A FEW REST-"
+	.ascii "LESS NIGHTS.              "
 	@ 34
 	.ascii "                          "
 	.ascii "                          "
@@ -1088,44 +1088,44 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	@ 41	/ CENTRAL CAVERN
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "THIS IS JUST FOR FUN!!!!!!"
-	.ascii "                          "
-	.ascii "MAY NOT BE USED IN FINAL!!"
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "	
+	.ascii "  WILLY SOMEHOW FELT MUCH "
+	.ascii "MORE SECURE IN THE CAVERN "
+	.ascii "THAT HE KNOWS SO WELL.    "
+	.ascii "  'I FEEL MUCH MORE SECURE"
+	.ascii "IN THIS CAVERN', THOUGHT  "
+	.ascii "WILLY.                    "
+	.ascii "  HE WAS MOST SUPRISED    "
+	.ascii "TO DISCOVER THAT WHEN HE  "
+	.ascii "JUMPED UP TO THE FIRST    "
+	.ascii "PLATFORM, BITS OF HIM DID "
+	.ascii "NO TURN RED.              "
+	.ascii "'I'M SUPRISED!' HE MUSED. "	
 
 @------------------------------- Level info	
 
 levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
-	.ascii "    LEVEL 17 - ORIC 1985    "
-	.ascii "    LEVEL 20 - ORIC 1985    "
-	.ascii "    LEVEL XX - GBA  2002    "
-	.ascii "    LEVEL 24 - ORIC 1985    "
-	.ascii "    LEVEL 18 - ORIC 1985    "
-	.ascii "  LEVEL 21 - DRAGON32 1983  "
-	.ascii "    LEVEL 28 - ORIC 1985    "
-	.ascii "    LEVEL 19 - ORIC 1985    "
-	.ascii "    LEVEL XX - GBA  2002    "
-	.ascii "    LEVEL 21 - ORIC 1983    "
-	.ascii "  LEVEL 22-ARCHIMEDES 19XX  "
-	.ascii "    LEVEL 26 - ORIC 1985    "	
-	.ascii "    LEVEL 27 - ORIC 1985    "
-	.ascii "    LEVEL XX - GBA  2002    "
-	.ascii "    LEVEL 23 - ORIC 1985    "
-	.ascii "  I HAVE COCKED UP HERE ??  "
-	.ascii "    LEVEL XX - BBC  198X    "
-	.ascii "  LEVEL 22 - DRAGON32 1983  "
-	.ascii "    LEVEL XX - BBC  198X    "
-	.ascii "  LEVEL 20 - AMSTRAD  198X  "
+	.ascii "    LEVEL 17 - ORIC 1985    "	@1
+	.ascii "    LEVEL 20 - ORIC 1985    "	@2
+	.ascii "    LEVEL XX - GBA  2002    "	@3
+	.ascii "    LEVEL 24 - ORIC 1985    "	@4
+	.ascii "    LEVEL 18 - ORIC 1985    "	@5
+	.ascii "  LEVEL 21 - DRAGON32 1983  "	@6
+	.ascii "    LEVEL 28 - ORIC 1985    "	@7
+	.ascii "    LEVEL 19 - ORIC 1985    "	@8
+	.ascii "    LEVEL XX - GBA  2002    "	@9
+	.ascii "    LEVEL 21 - ORIC 1983    "	@10
+	.ascii "  LEVEL 22-ARCHIMEDES 19XX  "	@11
+	.ascii "    LEVEL 26 - ORIC 1985    "	@12
+	.ascii "    LEVEL 27 - ORIC 1985    "	@13
+	.ascii "    LEVEL XX - GBA  2002    "	@14
+	.ascii "    LEVEL 23 - ORIC 1985    "	@15
+	.ascii "  I HAVE COCKED UP HERE ??  "	@16
+	.ascii "    LEVEL XX - BBC  198X    "	@17
+	.ascii "  LEVEL 22 - DRAGON32 1983  "	@18
+	.ascii "    LEVEL XX - BBC  198X    "	@19
+	.ascii "  LEVEL 20 - AMSTRAD  198X  "	@20
 	
-	@ Bonus 2 LEVELS (HORACE AND BLAGGER
+	@ Bonus 2 LEVELS (HORACE AND BLAGGER)
 	.ascii "    HORACE - PSION3 1995    "
 	.ascii "     BLAGGER - C64 1983     "
 	
@@ -1138,7 +1138,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "    ORIGINAL - LOBO 2009    "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "     SPACE FRACTAL 2009     "
-	.ascii "ORIGNAL LEVEL - SVERX 2009  "
+	.ascii "   A SVERX ORIGINAL  2009   "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
 	@ 33

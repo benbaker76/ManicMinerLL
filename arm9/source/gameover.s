@@ -130,8 +130,7 @@ updateGameOverScreen:
 
 	jumpGameOver:
 
-
-bl findHighscore
+	bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}
 

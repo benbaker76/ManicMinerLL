@@ -42,6 +42,7 @@
 	.global drawSprite
 	.global spareSprite
 	.global spareSpriteFX
+	.global anySpareSpriteFX
 
 drawSprite:
 	stmfd sp!, {r0-r10, lr}
@@ -611,10 +612,34 @@ drawSprite:
 		cmp r0,#FX_BONUS
 		bne notBonusSpray
 		
-			bl fxBonusSpray
-			b endDrawSprite
+			bl fxBonusSpray;	b endDrawSprite
 		
 		notBonusSpray:
+		cmp r0,#FX_SPARKLE
+		bne notSparkle
+		
+			bl fxSparkle;		b endDrawSprite
+		
+		notSparkle:
+		cmp r0,#FX_GGLINT_ACTIVE
+		bne drawNotGGlint
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			sub r2,#1
+			cmp r2,#0
+			moveq r2,#GGLINT_ANIM
+			str r2,[r1,r10,lsl #2]
+			bne drawNotGGlint
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#GGLINT_FRAME_END+1
+				str r2,[r1,r10,lsl #2]
+				bne drawNotGGlint
+					ldr r1,=spriteActive
+					mov r2,#0
+					str r2,[r1,r10,lsl #2]		
+		drawNotGGlint:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
@@ -680,6 +705,32 @@ spareSpriteFX:
 	ldmfd sp!, {r0-r9, pc}
 	
 	spareSpriteFoundFX:
+	
+	mov r10,r0
+
+	ldmfd sp!, {r0-r9, pc}
+
+.pool
+.align
+
+@--------------------------------------------
+
+anySpareSpriteFX:
+	stmfd sp!, {r0-r9, lr}
+
+	mov r0,#127
+	ldr r1,=spriteActive
+	anySpareSpriteFindFX:
+	
+		ldr r2,[r1, r0, lsl #2]
+		cmp r2,#0
+		beq anySpareSpriteFoundFX
+		subs r0,#1
+		bpl anySpareSpriteFindFX
+	mov r10,#0
+	ldmfd sp!, {r0-r9, pc}
+	
+	anySpareSpriteFoundFX:
 	
 	mov r10,r0
 

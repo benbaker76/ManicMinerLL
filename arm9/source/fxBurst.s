@@ -43,6 +43,8 @@
 	.global fxMoveBloodburst
 	.global fxBonusburstInit
 	.global fxBonusSpray
+	.global fxSparkleInit
+	.global fxSparkle
 	
 fxStarburstInit:
 
@@ -813,6 +815,203 @@ mov r7,#0
 str r7,[r8,r10,lsl#2]
 
 ldmfd sp!, {r0-r12, pc}
+
+@------------------------------------------------------- bonusSplay	
+
+fxSparkleInit:
+
+	stmfd sp!, {r0-r12, lr}
+
+	ldr r1,=spriteX
+	ldr r1,[r1]
+	bl getRandom
+	and r8,#7
+	subs r8,#3
+	add r1,r8
+	
+	ldr r2,=spriteY
+	ldr r2,[r2]
+	add r2,#8
+
+	lsl r1,#12
+	lsl r2,#12
+
+	ldr r4, =spriteX
+	ldr r5, =spriteY
+	ldr r6, =spriteSpeed
+	ldr r9,=spriteActive
+	ldr r3,=spriteObj
+	ldr r11, =spriteDir
+	ldr r12,=spritePriority
+
+	bl anySpareSpriteFX
+	cmp r10,#0
+	beq sparkleGenerateDone
+		
+		str r1, [r4, r10, lsl #2]						@ Store X
+		mov r8,#FX_SPARKLE								@ sprite active
+		str r8, [r9, r10, lsl #2]
+		mov r8,#0										@ priority
+		str r8, [r12,r10, lsl #2]
+		mov r8,#SPARKLE_FRAME
+		str r8, [r3,r10, lsl #2]
+		ldr r7,=spriteAnimDelay
+		add r8,#SPARKLE_ANIM
+		str r8,[r7, r10, lsl #2]
+		ldr r7,=spriteMin								@ gravity
+		mov r8,#0
+		str r8,[r7, r10, lsl #2]
+		
+		ldr r8,=cursorAction
+		ldr r0,[r8]
+		cmp r0,#1
+		beq sparkleUp
+		cmp r0,#2
+		beq sparkleDown
+
+		sparkleUpQuit:
+
+		str r2, [r5, r10, lsl #2] 						@ Store Y
+
+		bl getRandom									@ generate direction
+		and r8,#255
+		str r8, [r11, r10, lsl #2]
+
+		bl getRandom									@ generate speed
+		ldr r7,=0x7ff
+		and r8, r7	
+		add r8,#128
+		str r8, [r6, r10, lsl #2] 						@ Store Speed
+
+	sparkleGenerateDone:
+
+	ldmfd sp!, {r0-r12, pc}
+	
+sparkleUp:
+	bl getRandom
+	and r8,#31
+	cmp r8,#6
+	ble sparkleUpQuit
+	sub r2,#(16<<12)
+	str r2, [r5, r10, lsl #2] 						@ Store Y
+	
+	bl getRandom
+	and r8,#255
+	add r8,#256
+	str r8,[r11,r10,lsl#2]		@ direction
+	mov r8,#-256
+	subs r8,#256
+	ldr r5,=spriteMin
+	str r8,[r5,r10,lsl#2]		@ gravity
+	bl getRandom
+	ldr r1,=0xfff
+	and r8,r1
+	add r8,#1024
+	str r8,[r6,r10,lsl#2]
+
+b 	sparkleGenerateDone
+
+sparkleDown:
+	str r2, [r5, r10, lsl #2] 						@ Store Y
+	bl getRandom
+	and r8,#63
+	add r8,#64+32
+	str r8,[r11,r10,lsl#2]		@ direction
+	mov r8,#64
+	ldr r5,=spriteMin
+	str r8,[r5,r10,lsl#2]		@ gravity
+	bl getRandom
+	ldr r1,=0x1ff
+	and r8,r1
+	add r8,#512
+	str r8,[r6,r10,lsl#2]
+
+b 	sparkleGenerateDone
+
+@------------------------------------------------------- update bonusSplay	
+
+fxSparkle:
+
+	stmfd sp!, {r0-r12, lr}
+	
+	@ r10 = offset
+
+	ldr r4, =spriteSpeed
+	ldr r2, =spriteX
+	ldr r3, =spriteY
+		
+	ldr r0,=spriteDir
+	ldr r0,[r0, r10, lsl #2]
+	lsl r0,#1
+	ldr r7,=COS_bin
+	ldrsh r7, [r7,r0]								@ r7= 16bit signed cos
+	ldr r8,=SIN_bin
+	ldrsh r8, [r8,r0]								@ r8= 16bit signed sin
+
+	ldr r6, [r4, r10, lsl #2] 						@ R6 now holds the speed of the star
+
+	ldr r0, [r2, r10, lsl #2]						@ r0 is now X coord value					MOVE X
+	muls r9,r6,r7									@ mul cos by speed
+	add r0,r9, asr #12								@ add to x
+
+	cmp r0,#(32<<12)
+	blt sparkleRegenerate
+	cmp r0,#(320<<12)
+	bge sparkleRegenerate
+	
+	str r0, [r2,r10, lsl #2]
+			
+	ldr r1, [r3, r10, lsl #2]						@ r1 now holds the Y coord of the star		MOVE Y
+	muls r9,r6,r8
+	add r1,r9, asr #12								@ add to Y coord (signed)
+
+	@ now add gravity to y
+	
+	ldr r7,=spriteMin							@ add to gravity
+	ldr r5,[r7, r10, lsl #2]
+	bl getRandom
+	and r8,#63
+	add r8,#32
+	add r5,r8
+
+@	add r5,#64
+	str r5,[r7, r10, lsl #2]
+	cmp r5,#0
+	addpl r1,r5
+	
+	cmp r1,#(576<<12)
+	bge sparkleRegenerate
+
+	str r1, [r3, r10, lsl #2]						@ store y 20.12
+	
+	@ animate
+	ldr r7,=spriteAnimDelay+0
+	ldr r6,[r7, r10, lsl #2]
+	subs r6,#1
+	movmi r6,#SPARKLE_ANIM
+	str r6,[r7, r10, lsl #2]
+	bpl sparkleSkip
+	
+		ldr r7,=spriteObj+0
+		ldr r6,[r7,r10,lsl#2]
+		add r6,#1
+		cmp r6,#SPARKLE_FRAME_END+1
+		moveq r6,#SPARKLE_FRAME
+		str r6,[r7,r10,lsl#2]
+	@	beq  sparkleRegenerate
+	
+	sparkleSkip:
+	
+	ldmfd sp!, {r0-r12, pc}
+
+sparkleRegenerate:
+
+ldr r8,=spriteActive
+mov r7,#0
+str r7,[r8,r10,lsl#2]
+
+ldmfd sp!, {r0-r12, pc}
+
 
 	.data
 	.pool

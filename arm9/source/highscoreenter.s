@@ -228,6 +228,25 @@ enterHighScore:
 	ldr r1, =BG_PALETTE_SUB
 	ldr r2, =HighTopPalLen
 	bl dmaCopy
+	@ we now need to grab the "face expression" from the bottom map based on r10
+	ldr r0, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
+	add r0, #1536					@ first tile of offscreen tiles
+	mov r1,#5
+	mov r2,#5
+	sub r2,r10
+	mul r2,r1
+	add r0,r2,lsl#1					@ r0=source
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
+	add r1,#(18*32)*2
+	add r1,#13*2					@ r1=dest
+	mov r2,#5*2						@ length
+	mov r3,#3
+	mouthLoop:
+		bl dmaCopy
+		add r0,#64
+		add r1,#64
+		subs r3,#1
+	bpl mouthLoop
 	
 	ldr r0,=HighBotTiles							@ copy the tiles used for title
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
@@ -242,6 +261,12 @@ enterHighScore:
 	ldr r2, =HighBotPalLen
 	bl dmaCopy
 	
+	mov r1,#0
+	ldr r0,=entryFrame
+	str r1,[r0]
+	ldr r0,=entryDelay
+	str r1,[r0]
+
 	bl fxFadeIn	
 	
 	@ play music
@@ -323,7 +348,7 @@ enterName:
 	
 	@ init Cursor
 	ldr r1,=spriteActive
-	mov r0,#255
+	mov r0,#1
 	str r0,[r1]
 	ldr r1,=spriteObj
 	mov r0,#0
@@ -334,12 +359,12 @@ enterName:
 	enterNameLoop:
 
 		bl swiWaitForVBlank
-	
+		
 		bl moveHighCursor
-	
 		bl drawHighCursor
-	
+		bl fxSparkleInit
 		bl drawSprite
+		bl entryCursorAnim
 		
 	ldr r1,=exitHigh
 	ldr r1,[r1]
@@ -347,6 +372,22 @@ enterName:
 	beq enterNameLoop
 	
 	ldmfd sp!, {r0-r10, pc}	
+@---------------------------------------------	
+	
+entryCursorAnim:
+
+	stmfd sp!, {r0-r8, lr}	
+
+	ldr r1,=entryDelay
+	ldr r0,[r1]; subs r0,#1; movmi r0,#4; str r0,[r1]
+	bpl entryCursorAnimDone
+		ldr r1,=entryFrame
+		ldr r0,[r1]; add r0,#1; cmp r0,#4; moveq r0,#0; str r0,[r1]
+		ldr r1,=spriteObj; str r0,[r1]
+	
+	entryCursorAnimDone:
+
+	ldmfd sp!, {r0-r8, pc}	
 
 @---------------------------------------------	
 	
@@ -373,6 +414,8 @@ moveHighCursor:
 	mov r1,#0
 	str r1,[r0]
 	ldr r0,=trapStart
+	str r1,[r0]
+	ldr r0,=cursorAction
 	str r1,[r0]
 	
 	b moveHighCursorReturn
@@ -473,7 +516,11 @@ moveVPos:
 		cmp r2,#31;		moveq r2,#57
 		cmp r2,#32;		moveq r2,#65+25
 		cmp r2,#64;		moveq r2,#32
-		strb r2,[r1]	
+		strb r2,[r1]
+
+		ldr r1,=cursorAction
+		mov r2,#2
+		str r2,[r1]
 	
 		bl displayHighscores
 		b moveHighCursorReturn	
@@ -495,13 +542,16 @@ moveVPos:
 		cmp r2,#58;		moveq r2,#32
 		strb r2,[r1]
 
+		ldr r1,=cursorAction
+		mov r2,#1
+		str r2,[r1]
+
 		bl displayHighscores
 		b moveHighCursorReturn
 
 	moveVPosDone:
 	b moveHighCursorReturnAdder
-	
-@--------------------------------
+
 .pool
 .data
 
@@ -512,5 +562,7 @@ highNameBlank:
 .align
 exitHigh:
 	.word 0
-testT:
-.word 0
+entryFrame:
+	.word 0
+entryDelay:
+	.word 0

@@ -127,8 +127,11 @@
 	.global specialDelay
 	.global deathAnimation
 	.global bonusDelay
+	.global cursorAction
 
 fadeCheck:
+	.word 0
+cursorAction:
 	.word 0
 	
 gameMode:

@@ -55,6 +55,8 @@
 #include "../build/Level34.h"
 #include "../build/Level35.h"
 #include "../build/Level36.h"
+#include "../build/Level37.h"
+#include "../build/Level38.h"
 
 #include "../build/Level41.h"
 
@@ -171,7 +173,7 @@
 #include "../build/VictoryWWBottom.h"
 #include "../build/VictoryBonusTop.h"
 #include "../build/VictoryBonusBottom.h"
-
+#include "../build/VictoryStars.h"
 
 #include "../build/HighSprites.h"
 #include "../build/HighTop.h"
@@ -450,6 +452,8 @@
 #define FX_BLOOD_ACTIVE				25
 #define FX_LIFT_ACTIVE				26
 #define FX_BONUS					27
+#define FX_SPARKLE					28
+#define FX_GGLINT_ACTIVE			29
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -538,6 +542,14 @@
 #define BLOOD_ANIM				 	8
 
 #define BONUS_ANIM					16
+
+#define SPARKLE_FRAME				4
+#define SPARKLE_FRAME_END			11
+#define SPARKLE_ANIM				12
+
+#define GGLINT_FRAME				0
+#define GGLINT_FRAME_END			7
+#define GGLINT_ANIM					6
 
 @ level defines
 
