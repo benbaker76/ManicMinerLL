@@ -31,8 +31,8 @@ stmfd sp!, {r0-r10, lr}
 	@ also set lives, score etc...
 	mov r1,#0
 	ldr r2,=score
-@	str r1,[r2],#4
-@	str r1,[r2],#4
+	str r1,[r2],#4
+	str r1,[r2],#4
 	
 	ldr r0,=musicRestart
 	mov r1,#0

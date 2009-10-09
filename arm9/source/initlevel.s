@@ -194,10 +194,16 @@ initLevel:
 	cmp r1,#GAMEMODE_TITLE_SCREEN
 	beq highestLevelDone
 
-	ldr r1,=levelBank		@ 1=lost, 2=hollywood
 	ldr r2,=levelNum
 	ldr r2,[r2]
 	sub r3,r2,#1
+	
+	ldr r1,=levelTypes
+	ldr r1,[r1,r3,lsl#2]
+	cmp r1,#0
+	bne highestLevelDone
+
+	ldr r1,=levelBank		@ 1=lost, 2=hollywood
 	ldr r1,[r1,r3,lsl#2]	@ r2=level type
 	cmp r1,#1
 	bne highestLevelHollyWood

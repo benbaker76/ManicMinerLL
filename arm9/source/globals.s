@@ -304,7 +304,7 @@ sfxValues:						@ values for sfx volume from 0-7 (0=off)
 
 	.align
 score:
-	.byte 0,0,4,9,1,0,0,0
+	.byte 0,0,0,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
 
@@ -314,17 +314,17 @@ minerLives:
 	
 levelTypes:						@ a word for each level. 0=normal, 1=last level LL, 3=last level WW, 2=bonus
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 0,0,0,0,0,0,0,0,0,1
-	.word 2,2
-	.word 0,0,0,0,0,0,0,0,0,3
-	.word 2,2,2,2,2,2,2,2,2,0
-levelBank:						@ 1=lost, 2=hollywood, 0=forget it
+	.word 0,0,0,0,0,0,0,0,0,1	@1-20 	- LL
+	.word 2,2					@21-22	- Bonus
+	.word 0,0,0,0,0,0,0,0,0,3	@23-32	- WW
+	.word 2,2,2,2,2,2,2,2,2,2	@33-42	- Bonus
+levelBank:						@ 1=lost, 2=hollywood, 0=forget it (not important)
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 0,0
 	.word 2,2,2,2,2,2,2,2,2,2
-	.word 0,0,0,0,0,0,0,0,1,0
-levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe) 
+	.word 0,0,0,0,0,0,0,0,0,0
+levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on convs) 
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
