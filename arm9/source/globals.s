@@ -348,7 +348,7 @@ highScoreName:
 	.ascii " -LOBO- "
 	.ascii "HEADKAZE"
 	.ascii "FLETCHER"
-	.ascii "-S -- F-"
+	.ascii " SPACEF "
 	.ascii " SVERX! "
 	
 	.align
