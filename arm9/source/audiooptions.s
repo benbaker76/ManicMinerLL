@@ -287,21 +287,15 @@ moveAudioPointer:
 
 	ldr r0,=REG_KEYINPUT						@ Read key input register
 	ldr r10,[r0]								@ Read key value
-	tst r10,#BUTTON_UP
-	beq movePointerUD
-	tst r10,#BUTTON_DOWN
-	beq movePointerUD	
-	tst r10,#BUTTON_LEFT
-	beq moveAlter
-	tst r10,#BUTTON_RIGHT
-	beq moveAlter
+	tst r10,#BUTTON_UP; 	beq movePointerUD
+	tst r10,#BUTTON_DOWN;	beq movePointerUD	
+	tst r10,#BUTTON_LEFT;	beq moveAlter
+	tst r10,#BUTTON_RIGHT;	beq moveAlter
 
 		ldr r1,=trapStart	
-		mov r0,#0
-		str r0,[r1]
+		mov r0,#0;	str r0,[r1]
 		ldr r1,=moveTrap	
-		mov r0,#0
-		str r0,[r1]
+		mov r0,#0;	str r0,[r1]
 		b moveAPointerDone1	
 	
 	moveAPointerDone:
@@ -325,8 +319,7 @@ movePointerUD:
 		@up
 		ldr r1,=audioPointer
 		ldr r2,[r1]
-		subs r2,#1
-		movmi r2,#0
+		subs r2,#1; movmi r2,#0
 		str r2,[r1]
 		b moveAPointerDone
 	
@@ -335,8 +328,7 @@ movePointerUD:
 		ldr r1,=audioPointer
 		ldr r2,[r1]
 		add r2,#1
-		cmp r2,#4
-		moveq r2,#3
+		cmp r2,#4; moveq r2,#3
 		str r2,[r1]
 		b moveAPointerDone
 
@@ -350,8 +342,7 @@ moveTimer:
 	ldr r0,[r1]
 	add r0,#1
 	cmp r0,#POINTER_DELAY
-	moveq r0,#0
-	str r0,[r1]
+	moveq r0,#0; str r0,[r1]
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -368,18 +359,26 @@ moveAlter:
 	cmp r0,#2
 	bne notTune
 	
-		@ alter Music playing
+		@ alter Music playing @later add a check to see if that tune is unlocked yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 		tst r10,#BUTTON_RIGHT
 		bne movePointerL
+
+@		
+getAnotherTune:
+@
 		
 			@R
+	selectRight:
 			ldr r0,=audioPlaying
 			ldr r1,[r0]
 			add r1,#1
 			ldr r2,=audioTuneList
+			rightNew:
 			ldrb r3,[r2,r1]
 			cmp r3,#255
+			moveq r1,#0
+			beq rightNew
 			beq moveAPointerDone
 			str r1,[r0]
 			mov r0,r3
@@ -388,14 +387,34 @@ moveAlter:
 	
 		movePointerL:
 			@L
+		selectLeft:
 			ldr r0,=audioPlaying
 			ldr r1,[r0]
 			subs r1,#1
-			bmi moveAPointerDone
+			bpl leftOld
+				@ ok, now we need to scan audioTuneList for 255 and be that -1
+				mov r1,#0
+				ldr r2,=audioTuneList
+				musicScan:
+					ldrb r3,[r2,r1]
+					cmp r3,#255
+					beq musicScanDone
+					add r1,#1
+				b musicScan
+				musicScanDone:
+				sub r1,#1
+			leftOld:
 			ldr r2,=audioTuneList
 			ldrb r3,[r2,r1]
 			str r1,[r0]
-			mov r0,r3
+@
+@
+@ check if tune r3 has been played before
+@ if not, jump back to getAnotherTune
+@
+@
+
+			mov r0,r3			
 			bl levelMusicPlayEasy
 			b moveAPointerDone	
 	notTune:
@@ -458,13 +477,11 @@ drawAudioBars:
 	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ r1 = destination
 	add r1,#(32*10)*2
 	add r1,#21*2
-
 	mov r2,#14
 	
 	bl dmaCopy
 
-	add r0,#64
-	add r1,#64
+	add r0,#64; add r1,#64
 	
 	bl dmaCopy
 

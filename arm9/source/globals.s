@@ -329,7 +329,7 @@ levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on conv
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 1,1,1,1,1,1,0,0,0,0
+	.word 1,1,1,1,1,1,1,1,0,0
 gameType:
 	.word 0						@ store type in here from levelSpecial
 
@@ -380,7 +380,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 8
+	.word 255
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 

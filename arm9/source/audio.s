@@ -418,7 +418,7 @@ playKey:
 
 playExplode:
 
-	@ 'CHANNEL - FIND FREE'
+	@ 'CHANNEL - 3'
 
 
 	stmfd sp!, {r0-r2, lr}
@@ -443,7 +443,7 @@ playExplode:
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_CHAN(1)							@ Channel
-	ldrb r1, =FIND_FREE_CHANNEL
+	ldrb r1, =3
 	strb r1, [r0]
 	
 	ldr r0, =IPC_SOUND_FORMAT(1)						@ Format
