@@ -415,6 +415,14 @@ monsterAnimate:
 
 		mov r5,r1
 		sub r5,#1
+
+		ldr r7,=spriteHFlip
+		ldr r7,[r7,r1,lsl #2]
+		cmp r7,#0
+		moveq r7,#7
+		subeq r7,r10
+		moveq r10,r7
+
 	
 		ldr r2,=spriteObjBase
 		ldr r2,[r2,r1,lsl #2]
@@ -428,7 +436,7 @@ monsterAnimate:
 		add r0,r2		@ r3= memory address of our sprite image
 		
 		@ r0 = FROM
-		
+	
 		ldr r1,=SPRITE_GFX_SUB
 		add r5,#8		@ add 8 to the monster number for the sprite used
 		lsl r5,#8		@ each sprite is 256 bytes

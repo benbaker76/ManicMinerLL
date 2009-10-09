@@ -398,13 +398,13 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
-@ / bonus levels
+@ / MORE bonus levels
 	
 	@ 33 / cheese plant
-	.byte 8,64,5,212,168,0,6,31
+	.byte 8,64,25,212,168,0,6,31
 
-	.byte 32,168,17,1,1,45,32,160
-	.byte 152,104,0,1,1,45,64,200
+	.byte 32,168,17,1,1,61,32,160
+	.byte 152,104,0,1,1,61,64,200
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -412,9 +412,9 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 34 / The dodgy mine shaft
-	.byte 168,64,5,16,168,1,6,31
+	.byte 168,64,25,16,168,1,6,31
 
-	.byte 80,168,17,1,1,45,80,160
+	.byte 80,168,17,17,1,62,80,158
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -423,40 +423,40 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 35 / the long drop thing
-	.byte 152,144,5,6,168,1,6,34
+	.byte 152,144,25,8,168,1,6,34
 
-	.byte 120,168,17,1,255,45,120,212
-	.byte 152,112,17,1,1,45,152,220
-	.byte 32,136,17,1,1,45,8,64
+	.byte 120,168,17,1,255,63,120,212
+	.byte 152,112,17,1,1,63,152,220
+	.byte 32,136,17,1,1,63,8,62
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 36
-	.byte 232,168,5,6,168,1,6,37
+	@ 36 / bouncy-bouncy
+	.byte 240,96,25,8,88,1,6,32
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 96,168,0,17,2,59,8,232
+	.byte 112,128,17,17,1,60,92,142
+	.byte 112,88,17,17,1,58,56,172
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 37
-	.byte 232,168,5,6,168,1,6,37
+	@ 37 / the rocky outcrop
+	.byte 112,152,25,6,168,1,6,32
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 40,152,0,17,1,64,40,94-16
+	.byte 56,152,0,17,1,65,56,110-16
+	.byte 160,96,17,1,1,61,160,212
+	.byte 160,168,17,1,1,61,160,232
+	.byte 88,48,17,16,1,12,48,120
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 38
-	.byte 232,168,5,6,168,1,6,37
+	.byte 232,168,25,6,168,1,6,34
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -467,7 +467,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 39
-	.byte 232,168,5,6,168,1,6,37
+	.byte 232,168,25,6,168,1,6,34
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -478,7 +478,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 40
-	.byte 232,168,5,6,168,1,6,37
+	.byte 232,168,5,6,168,1,6,34
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -552,11 +552,11 @@ levelNames:
 	
 @ bonus levels (from 33)
 	.ascii "         CHEESE-PLANT         "
-	.ascii "     THE DODGY MINE SHAFT     "
+	.ascii "    THE DODGY MINE SHAFT!     "
 	.ascii "         THE BIG DROP         "
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "        BOUNCY-BOUNCY!        "
+	.ascii "      THE ROCKY OUTCROP.      "
+	.ascii "   BOTTOM OF THE MINE SHAFT   "
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "      THE CENTRAL CAVERN      "
@@ -1022,7 +1022,7 @@ levelNames:
 	.ascii "DOWN THERE WITHOUT SOME - "
 	.ascii "THING TO BREAK HIS FALL?  "
 	.ascii "                          "
-	@ 36
+	@ 36	/ BOUNCY BOUNCY
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1035,7 +1035,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 37
+	@ 37	/ ROCKY OUTCROP
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1147,9 +1147,12 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "       SAM COUPE 1990       "
 	@ 35
 	.ascii "       SAM COUPE 1990       "
-	.ascii "                            "
-	.ascii "                            "
-	.ascii "                            "
+	@ 36
+	.ascii "       SAM COUPE 1990       "
+	@ 37
+	.ascii "       SAM COUPE 1990       "
+	@ 38
+	.ascii "       SAM COUPE 1990       "
 	.ascii "                            "
 	.ascii "                            "
 	.ascii "  LEVEL 01 - SPECTRUM 1983  "

@@ -121,6 +121,7 @@
 #include "../build/Exit30.h"
 #include "../build/Exit31.h"
 #include "../build/Exit32.h"
+#include "../build/Exit33.h"
 
 #include "../build/Exit35.h"
 
@@ -564,6 +565,6 @@
 
 #define HIGH_NAME_LEN				8
 #define HIGH_SCORE_LEN				6
-#define SECRET_MAX					6			@ use this to make sure that we don't unlock more than we have
+#define SECRET_MAX					8			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
 

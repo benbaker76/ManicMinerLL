@@ -414,7 +414,7 @@ feetOnConveyor:
 	mov r1,#MINER_CONVEYOR
 	str r1,[r0]
 
-	cmp r4,#14
+	cmp r4,#15
 	movle r3,#MINER_LEFT
 	movgt r3,#MINER_RIGHT				@ set conveyor direction
 	cmp r4,#19
@@ -423,6 +423,16 @@ feetOnConveyor:
 	moveq r3,#MINER_RIGHT
 
 	ldr r1,=conveyorDirection
+	str r3,[r1]
+	
+	ldr r1,=gameType
+	ldr r1,[r1]							@ if this is 1, we need to move instantly with conveyor
+	cmp r1,#1
+	bne checkFeetFinish
+	ldr r1,=minerDirection
+	str r3,[r1]
+	sub r3,#1
+	ldr r1,=spriteHFlip+256
 	str r3,[r1]
 
 	b checkFeetFinish

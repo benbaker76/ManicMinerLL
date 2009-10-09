@@ -128,6 +128,9 @@
 	.global deathAnimation
 	.global bonusDelay
 	.global cursorAction
+	
+	.global levelSpecial
+	.global gameType
 
 fadeCheck:
 	.word 0
@@ -321,12 +324,14 @@ levelBank:						@ 1=lost, 2=hollywood, 0=forget it
 	.word 0,0
 	.word 2,2,2,2,2,2,2,2,2,2
 	.word 0,0,0,0,0,0,0,0,1,0
-levelSpecialTime:				@ time needed to unlock a special?
+levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe) 
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 0,0,0,0,0,0,0,0,0,0
+	.word 1,1,1,1,1,1,0,0,0,0
+gameType:
+	.word 0						@ store type in here from levelSpecial
 
 @ THESE NEED TO BE SAVED AND LOADED
 
@@ -354,7 +359,7 @@ highScoreName:
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 	.word 0,1,0,1,1,1,0,1,0,1
-	.word 0,0,0,0,0,0,0,0,0,0
+	.word 1,0,1,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
@@ -375,7 +380,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 6
+	.word 8
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 

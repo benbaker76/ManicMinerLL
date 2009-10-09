@@ -224,6 +224,16 @@ initLevel:
 	
 	bl bonusAward										@ display award if level has a bonus level in it
 
+	@ read if level is special and store in gameType
+	
+	ldr r1,=levelNum
+	ldr r1,[r1]
+	add r1,#1
+	ldr r0,=levelSpecial
+	ldr r1,[r0,r1,lsl#2]
+	ldr r0,=gameType
+	str r1,[r0]
+
 	ldmfd sp!, {r0-r12, pc}
 
 @-------------------------------------------------
@@ -278,13 +288,10 @@ generateColMap:
 	ldr r0,=colMapLevels
 	add r0,r5
 	ldr r1,=colMapStore
-	
 	ldr r10,=keyCounter
 	mov r9,#0
 	str r9,[r10]
 	@ r0=source, r1=destination
-	
-	
 	mov r3,#768
 	colMapLoop:
 		ldrb r2,[r0],#1
@@ -292,18 +299,11 @@ generateColMap:
 		blt notColMapKey
 		cmp r2,#31
 		bgt notColMapKey
-		
 		add r9,#1
-		
 		notColMapKey:
-		
-		
-		
 		strb r2,[r1],#1
-		
 		subs r3,#1
 	bpl colMapLoop
-	
 	str r9,[r10]
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -399,6 +399,9 @@ getDoorSprite:
 	cmp r0,#31
 	ldreq r0, =Exit32Tiles
 	ldreq r2, =Exit32TilesLen
+	cmp r0,#32
+	ldreq r0, =Exit33Tiles
+	ldreq r2, =Exit33TilesLen
 	
 	cmp r0,#34
 	ldreq r0, =Exit35Tiles
@@ -819,6 +822,9 @@ generateMonsters:
 	cmp r0,#24
 	ldreq r2, =Radio_xm_gz
 	ldreq r3, =Radio_xm_gz_size
+	cmp r0,#25
+	ldreq r2, =Oldies_xm_gz
+	ldreq r3, =Oldies_xm_gz_size
 	
 	cmp r0,#64
 	ldreq r2, =GameOver_xm_gz
