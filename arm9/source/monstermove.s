@@ -27,6 +27,8 @@ monsterMove:
 		ldr r3,[r2, r1,lsl #2]
 		cmp r3,#0
 		beq moveMonsterFail
+		cmp r3,#MONSTER_ACTIVE
+		bne moveMonsterFail
 
 		ldr r2,=spriteSpeed
 		ldr r4,[r2,r1,lsl#2]
@@ -84,8 +86,7 @@ monsterMoveLR:
 	@ r1 is still our offset
 	@ check direction (hflip) and move
 
-	ldr r2,=spriteHFlip
-ldr r2,=spriteDir
+	ldr r2,=spriteDir
 	ldr r3,[r2,r1,lsl#2]
 	cmp r3,#0
 	bne monsterLRRight

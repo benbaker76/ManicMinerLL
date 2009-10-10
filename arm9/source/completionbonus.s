@@ -64,9 +64,8 @@ initCompletionBonus:
 	ldr r2, =VictoryBonusTopPalLen
 	bl dmaCopy	
 	
-@	ldreq r2, =GameOver_xm_gz
-@	ldreq r3, =GameOver_xm_gz_size
-@	bl initMusic
+@	mov r0,#?
+@	bl levelMusicPlayEasy
 	
 	ldmfd sp!, {r0-r10, pc}
 	

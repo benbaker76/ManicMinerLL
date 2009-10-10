@@ -415,9 +415,8 @@ initGameOver:
 	ldr r1,=exitY
 	str r0,[r1]
 	
-	ldreq r2, =GameOver_xm_gz
-	ldreq r3, =GameOver_xm_gz_size
-	bl initMusic
+	mov r0,#27						@ play gameover musi
+	bl levelMusicPlayEasy
 	
 	mov r1,#192
 	ldr r5, =REG_BG3VOFS_SUB		@ Load our horizontal scroll register for BG3 on the sub screen
@@ -554,7 +553,6 @@ moveKiller:
 	cmp r0,#0
 	beq moveKillerDone
 	
-
 		ldr r0,=killPixelH			@ top
 		ldr r1,[r0]
 		sub r1,#8

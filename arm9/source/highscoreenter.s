@@ -271,7 +271,7 @@ enterHighScore:
 	
 	@ play music
 	
-	mov r0,#65
+	mov r0,#28
 	bl levelMusicPlayEasy
 	
 	bl displayHighscores

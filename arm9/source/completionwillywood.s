@@ -64,9 +64,8 @@ initCompletionWillyWood:
 	ldr r2, =VictoryWWTopPalLen
 	bl dmaCopy	
 	
-@	ldreq r2, =GameOver_xm_gz
-@	ldreq r3, =GameOver_xm_gz_size
-@	bl initMusic
+@	mov r0,#?
+@	bl levelMusicPlayEasy
 	
 	ldmfd sp!, {r0-r10, pc}
 @----------------------------------

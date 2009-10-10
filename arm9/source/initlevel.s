@@ -408,7 +408,9 @@ getDoorSprite:
 	cmp r0,#32
 	ldreq r0, =Exit33Tiles
 	ldreq r2, =Exit33TilesLen
-	
+	cmp r0,#33
+	ldreq r0, =Exit34Tiles
+	ldreq r2, =Exit34TilesLen	
 	cmp r0,#34
 	ldreq r0, =Exit35Tiles
 	ldreq r2, =Exit35TilesLen	
@@ -832,23 +834,26 @@ generateMonsters:
 	ldreq r2, =Oldies_xm_gz
 	ldreq r3, =Oldies_xm_gz_size
 	
-	cmp r0,#64
+	
+	cmp r0,#26	@ 37
+	ldreq r2, =Title_xm_gz
+	ldreq r3, =Title_xm_gz_size	
+	cmp r0,#27	@ 38
 	ldreq r2, =GameOver_xm_gz
 	ldreq r3, =GameOver_xm_gz_size
-	cmp r0,#65
+	cmp r0,#28	@ 39
 	ldreq r2, =HighScore_xm_gz
 	ldreq r3, =HighScore_xm_gz_size
-@	cmp r0,#65
-@	ldreq r2, =KingKong_xm_gz
-@	ldreq r3, =KingKong_xm_gz_size
-@	cmp r0,#66
-@	ldreq r2, =KingKong_xm_gz
-@	ldreq r3, =KingKong_xm_gz_size
-@	cmp r0,#67
-@	ldreq r2, =KingKong_xm_gz
-@	ldreq r3, =KingKong_xm_gz_size	
 	
 	bl initMusic
+	
+	@ now we hear music, set the flag in musicHeard (byte)
+	
+	ldr r1,=musicHeard
+	mov r2,#1
+	strb r2,[r1,r0]					@ set byte to say heard
+	
+	
 	levelMusicFail:
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -925,7 +930,7 @@ levelWilly:							@ this tells us what sprite for what level
 	.byte 0,0,0,0,0,2,0,0,0,0	@ ll
 	.byte 3,5
 	.byte 4,0,0,0,0,0,0,0,0,0	@ ww
-	.byte 6,6,6,0,0,0,0,0,0,0
+	.byte 6,6,6,6,6,6,2,0,0,0	@ BONUS
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0	
@@ -980,6 +985,8 @@ specialEffectStart:
 		bleq rockyInit
 	cmp r0,#FX_FFLAG
 		bleq fFlagInit
+	cmp r0,#FX_CAUSEWAY
+		bleq causeInit
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

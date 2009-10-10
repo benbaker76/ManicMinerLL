@@ -262,6 +262,12 @@ collectKey:
 	@ a little bit to animate keys... Well, it works!!
 	@ ok, r0 = offset, r1=colmap, r2=frame
 	stmfd sp!, {r0-r10, lr}
+	
+	
+	ldr r3,=gameMode
+	ldr r3,[r3]
+	cmp r3,#GAMEMODE_RUNNING
+	bne keyFinish
 
 	ldr r4,=colMapStore
 	mov r2,#0
@@ -326,6 +332,8 @@ collectKey:
 	ldr r2,=adder+3
 	strb r1,[r2]
 	bl addScore
+	
+	keyFinish:
 	
 	ldmfd sp!, {r0-r10, pc}
 

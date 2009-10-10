@@ -21,7 +21,7 @@ levelData:
 @						1=rain, 2=stars, 3=Leaves, 4=Glint 5=Drip 6=eyes 7=flies
 @						8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
 @						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
-@						17=forcefield, 18=anton, 19=lift,20=rocky, 21=BTTF flag
+@						17=forcefield, 18=anton, 19=lift,20=rocky, 21=BTTF flag, 22=causeway
 @ 7 =background number (0-?)
 @ 8 =door bank number (0-?)
 
@@ -455,18 +455,18 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 38 / bottom of the mine shaft
-	.byte 8,168,25,6,89,1,6,34
+	.byte 8,168,25,6,88,1,6,33
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 72,88,17,1,1,61,32,112
+	.byte 196,152,17,1,1,61,192,232
+	.byte 8,108,17,16,2,12,108,152
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 39
-	.byte 232,168,25,6,168,1,6,34
+	@ 39	/ cosmic causeway
+	.byte 240,136,2,6,168,45,6,11
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -477,7 +477,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 40
-	.byte 232,168,5,6,168,1,6,34
+	.byte 240,136,5,6,168,1,6,34
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -556,7 +556,7 @@ levelNames:
 	.ascii "        BOUNCY-BOUNCY!        "
 	.ascii "      THE ROCKY OUTCROP.      "
 	.ascii "   BOTTOM OF THE MINE SHAFT   "
-	.ascii "                              "
+	.ascii "       COSMIC  CAUSEWAY       "
 	.ascii "                              "
 	.ascii "      THE CENTRAL CAVERN      "
 
@@ -1023,31 +1023,31 @@ levelNames:
 	.ascii "                          "
 	@ 36	/ BOUNCY BOUNCY
 	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	.ascii "  NOW THAT WILLY HAD FOUND"
+	.ascii "THE POWER OF THE BOUNCE,  "
+	.ascii "IT SEEMED TO HIM THAT     "
+	.ascii "EVERYONE WANTED TO BOUNCE "
+	.ascii "ALSO.                     "
+	.ascii "  'THIS IS A STRANGE PLACE"
+	.ascii "FULL OF BOUNCING THINGS', "
+	.ascii "THOUGH WILLY, JUST PRIOR  "
+	.ascii "TO TRYING A FEW BOUNCING  "
+	.ascii "MOVES HIMSELF.            "
 	.ascii "                          "
 	@ 37	/ ROCKY OUTCROP
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 38
+	.ascii "  A STRANGE BEAST STOOD   "
+	.ascii "GUARDING THE ENTRANCE TO  "
+	.ascii "A CAVE, OR WAS THIS THE   "
+	.ascii "EXIT FROM THE CAVE? WILLY "
+	.ascii "WAS FAR FROM SURE, AND FAR"
+	.ascii "FROM WHERE HE BEGAN.      "
+	.ascii "  HE ALSO WONDERED WHY HE "
+	.ascii "WOULD HAVE TO CLIMB EVERY-"
+	.ascii "WHERE TO COLLECT THE KEYS,"
+	.ascii "WHEN IT WAS CLEAR TO HIM  "
+	.ascii "THAT THE EXIT HAD NO DOOR."
+	.ascii "  HE DID LIKE KEYS THOUGH!"
+	@ 38	/ BOTTOM OF THE MIN SHAFT
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1152,7 +1152,8 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "       SAM COUPE 1990       "
 	@ 38
 	.ascii "       SAM COUPE 1990       "
-	.ascii "                            "
+	@ 39
+	.ascii "   ORIGINAL - FLASH  2009   "
 	.ascii "                            "
 	.ascii "  LEVEL 01 - SPECTRUM 1983  "
 

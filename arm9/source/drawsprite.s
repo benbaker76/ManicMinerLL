@@ -43,6 +43,7 @@
 	.global spareSprite
 	.global spareSpriteFX
 	.global anySpareSpriteFX
+	.global anySpareSpriteMonster
 
 drawSprite:
 	stmfd sp!, {r0-r10, lr}
@@ -640,6 +641,35 @@ drawSprite:
 					mov r2,#0
 					str r2,[r1,r10,lsl #2]		
 		drawNotGGlint:
+		cmp r0,#FX_CAUSEWAY_ACTIVE
+		bne drawNotCause
+			ldr r1,=spriteAnimDelay
+			ldr r2,[r1,r10,lsl #2]
+			subs r2,#1
+			movmi r2,#CAUSE_ANIM
+			str r2,[r1,r10,lsl #2]
+			bpl drawCause
+				ldr r1,=spriteObj
+				ldr r2,[r1,r10,lsl #2]
+				add r2,#1
+				cmp r2,#CAUSE_FRAME_END+1
+				moveq r2,#CAUSE_FRAME
+				str r2,[r1,r10,lsl #2]
+			drawCause:
+			ldr r1,=spriteX
+			ldr r2,[r1,r10,lsl#2]
+			ldr r0,=spriteSpeed
+			ldr r0,[r0,r10,lsl#2]
+			sub r2,r0
+			str r2,[r1,r10,lsl#2]
+			cmp r2,#64
+			bpl drawNotCause
+			mov r2,#0
+			ldr r1,=spriteActive
+			str r2,[r1,r10,lsl#2]
+			
+			
+		drawNotCause:
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
@@ -734,6 +764,29 @@ anySpareSpriteFX:
 	
 	mov r10,r0
 
+	ldmfd sp!, {r0-r9, pc}
+
+@--------------------------------------------
+
+anySpareSpriteMonster:
+	stmfd sp!, {r0-r9, lr}
+
+	mov r0,#84
+	ldr r1,=spriteActive
+	anySpareSpriteMFind:
+	
+		ldr r2,[r1, r0, lsl #2]
+		cmp r2,#0
+		beq anySpareSpriteMFound
+		subs r0,#1
+		cmp r0,#64
+		bne anySpareSpriteMFind
+	mov r10,#255
+	ldmfd sp!, {r0-r9, pc}
+	
+	anySpareSpriteMFound:
+	
+	mov r10,r0
 	ldmfd sp!, {r0-r9, pc}
 	
 	.pool

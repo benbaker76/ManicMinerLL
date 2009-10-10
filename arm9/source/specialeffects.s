@@ -63,6 +63,7 @@
 	.global rockyInit
 	.global fFlagInit
 	.global goldGlintInit
+	.global causeInit
 
 	.global specialFXStop
 
@@ -109,7 +110,9 @@ updateSpecialFX:
 	bleq rockyUpdate
 	cmp r0,#FX_FFLAG
 	bleq fFlagUpdate
-
+	cmp r0,#FX_CAUSEWAY
+	bleq causeUpdate
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init rain
@@ -2922,13 +2925,91 @@ goldGlintInit:
 
 		ldr r2,=spriteHFlip
 		str r8,[r2,r10,lsl#2]
-
-	
-	
+		
 	goldUpdateFail:
 
 	ldmfd sp!, {r0-r10, pc}
 
+@------------------------------------ Causeway init
+causeInit:
+	stmfd sp!, {r0-r10, lr}
+	mov r0,#0
+	ldr r1,=mPos
+	str r0,[r1]
+	ldr r1,=mDelay
+	str r0,[r1]
+	
+	@ load the sprites
+
+	ldr r0,=FXCausewayTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#40*256
+	ldr r2,=8*256
+	bl dmaCopy
+	
+	bl starsInit
+
+	ldmfd sp!, {r0-r10, pc}
+	
+.pool
+.align
+
+@------------------------------------ Causeway Update
+causeUpdate:
+	stmfd sp!, {r0-r10, lr}
+
+	@ Check if to init a meteor
+
+	ldr r1,=mDelay
+	ldr r0,[r1]
+	subs r0,#1
+	movmi r0,#85
+	str r0,[r1]
+	bpl causeUpdateDone
+	
+		@ ok... Init one!
+		@ first, find a free sprite
+		
+		bl anySpareSpriteMonster
+		cmp r10,#255
+		beq causeUpdateDone
+			
+		ldr r1,=mPos
+		ldr r0,[r1]
+		add r0,#1
+		cmp r0,#16
+		moveq r0,#0
+		str r0,[r1]			@ r0=y coord offset
+		
+		ldr r1,=mCoords
+		ldrb r2,[r1,r0]
+		lsl r2,#3
+		add r2,#384
+		add r2,#4
+		ldr r1,=spriteY
+		str r2,[r1,r10,lsl#2]		@ store Y
+		ldr r1,=mSpeed
+		ldrb r2,[r1,r0]
+		ldr r1,=spriteSpeed
+		str r2,[r1,r10,lsl#2]		@ speed
+		ldr r1,=spriteX
+		ldr r2,=64+256
+		str r2,[r1,r10,lsl#2]		@ store X
+		mov r2,#FX_CAUSEWAY_ACTIVE
+		ldr r1,=spriteActive
+		str r2,[r1,r10,lsl#2]		@ activate
+		mov r2,#CAUSE_FRAME
+		ldr r1,=spriteObj
+		str r2,[r1,r10,lsl#2]		@ image
+		mov r2,#CAUSE_ANIM
+		ldr r1,=spriteAnimDelay
+		str r2,[r1,r10,lsl#2]		@ image	
+	
+	causeUpdateDone:
+
+	bl starsUpdate
+
+	ldmfd sp!, {r0-r10, pc}
 	
 	.pool
 	.data
@@ -2977,7 +3058,18 @@ goldGlintInit:
 	leafFall:
 	.byte 20,20,20,20,14,14,14,14,10,10,8,4,0,0,0,0
 	.byte 0,0,0,0,4,8,10,10,14,14,14,14,20,20,20,20
+	mCoords:
+	.byte 15,8,18,22,5,16,12,10,20,14,10,19,7,9,21,6
+
+	mSpeed:
+	.byte 1,2,1,1,2,1,2,1,2,1,1,2,1,1,1,2
+	
 	.align
+	
+	mPos:
+	.word 0
+	mDelay:
+	.word 0
 	kongLX:
 	.word 192,208,192,208,192,208
 	kongLY:

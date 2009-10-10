@@ -459,7 +459,7 @@ minerFall:
 	
 		bl checkFeet
 		
-		bl checkFall
+		bl checkFall			@ returns r8
 		
 		cmp r8,#0
 		bne minerFallFail
@@ -493,9 +493,10 @@ minerFall:
 		ldr r2,[r1]
 		add r2,#2					@ add 2 to y coord (should we accelerate?)
 		cmp r2,#192+384
-		movpl r2,#192+384	
+		movpl r2,#192+384
 		str r2,[r1]
-
+		blpl initDeath				@ fallen off bottom of screen
+	
 @------------- level 32 mod	(so we can fall into the water)
 
 		ldr r3,=levelNum
@@ -529,7 +530,7 @@ minerFall:
 
 		bl checkFeet				@ lets have a look below us
 		
-		bl checkFall
+		bl checkFall				@ returns r8
 		
 		cmp r8,#0
 		bne minerFallOver
@@ -540,7 +541,7 @@ minerFall:
 		ldr r2,[r1]
 		add r2,#2					@ 2 pixels at a time!
 		str r2,[r1]
-
+		
 	minerFallFail:
 
 	ldmfd sp!, {r0-r10, pc}

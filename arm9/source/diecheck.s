@@ -241,7 +241,12 @@ updateDeathAnim:
 				ldr r0,=spriteY+256
 				ldr r1,[r0]
 				add r1,#2
+				cmp r1,#192+384
+				movpl r1,#192+384
 				str r1,[r0]
+		
+				
+				
 			@	b notDieFallFall
 			notDieFall:
 				@ are we on a conveyor? If so, Our corpse must move also - LOL

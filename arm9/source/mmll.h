@@ -57,7 +57,7 @@
 #include "../build/Level36.h"
 #include "../build/Level37.h"
 #include "../build/Level38.h"
-
+#include "../build/Level39.h"
 #include "../build/Level41.h"
 
 #include "../build/Background01.h"
@@ -122,7 +122,7 @@
 #include "../build/Exit31.h"
 #include "../build/Exit32.h"
 #include "../build/Exit33.h"
-
+#include "../build/Exit34.h"
 #include "../build/Exit35.h"
 
 #include "../build/Exit41.h"
@@ -428,6 +428,8 @@
 #define FX_LIFT						19
 #define FX_ROCKY					20
 #define FX_FFLAG					21
+#define FX_CAUSEWAY					22
+
 
 @ / these are sprite active values used by drawsprite
 #define MONSTER_ACTIVE				128
@@ -459,6 +461,7 @@
 #define FX_BONUS					27
 #define FX_SPARKLE					28
 #define FX_GGLINT_ACTIVE			29
+#define FX_CAUSEWAY_ACTIVE			77
 
 @ / these are various animation settings
 #define DUST_FRAME					60			@ start frame (or only frame)
@@ -556,6 +559,10 @@
 #define GGLINT_FRAME_END			7
 #define GGLINT_ANIM					6
 
+#define CAUSE_FRAME					40
+#define CAUSE_FRAME_END				47
+#define CAUSE_ANIM					8
+
 @ level defines
 
 #define EXIT_CLOSED					64
@@ -565,6 +572,6 @@
 
 #define HIGH_NAME_LEN				8
 #define HIGH_SCORE_LEN				6
-#define SECRET_MAX					8			@ use this to make sure that we don't unlock more than we have
+#define SECRET_MAX					9			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
 

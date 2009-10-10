@@ -131,6 +131,7 @@
 	
 	.global levelSpecial
 	.global gameType
+	.global musicHeard
 
 fadeCheck:
 	.word 0
@@ -355,11 +356,16 @@ highScoreName:
 	.ascii "FLETCHER"
 	.ascii " SPACEF "
 	.ascii " SVERX! "
+musicHeard:
+	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
+	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,1,1,0,0
+	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
 	
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 	.word 0,1,0,1,1,1,0,1,0,1
-	.word 1,0,1,0,0,0,0,0,0,0
+	.word 1,0,1,1,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0

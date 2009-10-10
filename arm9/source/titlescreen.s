@@ -125,10 +125,12 @@ initTitleScreen:
 	ldr r2, =gameMode
 	str r1,[r2]
 	
-	ldr r2, =Title_xm_gz
-	ldr r3, =Title_xm_gz_size
-	bl initMusicForced					@ play title music
+@	ldr r2, =Title_xm_gz
+@	ldr r3, =Title_xm_gz_size
+@	bl initMusicForced					@ play title music
 
+	mov r0,#26
+	bl levelMusicPlayEasy
 	bl initTitleSprites
 	
 	mov r1, #1
@@ -1520,14 +1522,15 @@ titleSL:
 	.asciz	"START AT LEVEL:"
 titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: LOCKED      "
-	.asciz	"PLAY SPECIAL: HORACE      "
-	.asciz	"PLAY SPECIAL: BLAGGER     "
-	.asciz	"PLAY SPECIAL: REAL CENTRAL"
-	.asciz	"PLAY SPECIAL: CHEESE      "
-	.asciz	"PLAY SPECIAL: MY SHAFT!   "
-	.asciz	"PLAY SPECIAL: BIG DROPPER "
-	.asciz	"PLAY SPECIAL: BOUNCY THING"
-	.asciz	"PLAY SPECIAL: ROCKY THING "
-
+	.asciz	"PLAY SPECIAL: HORACE      "	@ 21	1
+	.asciz	"PLAY SPECIAL: BLAGGER     "	@ 22	2
+	.asciz	"PLAY SPECIAL: REAL CENTRAL"	@ 41	3
+	.asciz	"PLAY SPECIAL: CHEESE      "	@ 33	4
+	.asciz	"PLAY SPECIAL: MY SHAFT!   "	@ 34	5
+	.asciz	"PLAY SPECIAL: BIG DROPPER "	@ 35	6
+	.asciz	"PLAY SPECIAL: BOUNCY THING"	@ 36	7
+	.asciz	"PLAY SPECIAL: ROCKY THING "	@ 37	8
+	.asciz	"PLAY SPECIAL: MY BOTTOM!  "	@ 38	9
+	.asciz	"PLAY SPECIAL: COSMIC MAN! "	@ 39	10
 titleJB:
 	.asciz	"AUDIO OPTIONS"

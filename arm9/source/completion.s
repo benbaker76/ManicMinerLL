@@ -79,9 +79,8 @@ initCompletion:
 	ldr r1,=spriteScreen
 	str r0,[r1]
 	
-@	ldreq r2, =GameOver_xm_gz
-@	ldreq r3, =GameOver_xm_gz_size
-@	bl initMusic
+@	mov r0,#?
+@	bl levelMusicPlayEasy
 
 	bl fxFadeIn	
 	

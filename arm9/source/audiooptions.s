@@ -96,8 +96,8 @@ initAudio:
 	mov r0,#0
 	ldr r1,=audioPointer
 	str r0,[r1]
-	ldr r1,=audioPlaying
-	str r0,[r1]	
+@	ldr r1,=audioPlaying
+@	str r0,[r1]	
 	ldr r1,=audioPointerDelay
 	str r0,[r1]	
 	ldr r1,=audioPointerFrame
@@ -206,8 +206,17 @@ drawAudioText:
 
 	add r2,#2
 	ldr r0,=audioPT						@ now playing
-	mov r1,#8
-	bl drawTextBigMain	
+	mov r1,#6
+	bl drawTextBigMain
+
+	ldr r1,=audioPlaying				@ display tune number
+	ldr r1,[r1]
+	ldr r3,=audioTuneList
+	ldrb r1,[r3,r1]
+	mov r0,r1
+	add r0,#1
+	mov r1,#22
+	bl drawTextBigDigits
 
 	@ diplay name of tune, use audioPlaying for offset
 
@@ -372,14 +381,24 @@ getAnotherTune:
 	selectRight:
 			ldr r0,=audioPlaying
 			ldr r1,[r0]
+			
+			rightHeard:
 			add r1,#1
+
 			ldr r2,=audioTuneList
 			rightNew:
-			ldrb r3,[r2,r1]
+			ldrb r3,[r2,r1]					@ check if we are at end of the list
 			cmp r3,#255
-			moveq r1,#0
+			moveq r1,#0						@ if so, return to the beginning
 			beq rightNew
-			beq moveAPointerDone
+			
+			@ ok, check if tune r3 had been heard
+			
+			ldr r4,=musicHeard
+			ldrb r4,[r4,r3]
+			cmp r4,#0
+			beq rightHeard
+
 			str r1,[r0]
 			mov r0,r3
 			bl levelMusicPlayEasy
@@ -390,6 +409,8 @@ getAnotherTune:
 		selectLeft:
 			ldr r0,=audioPlaying
 			ldr r1,[r0]
+			leftHeard:
+			
 			subs r1,#1
 			bpl leftOld
 				@ ok, now we need to scan audioTuneList for 255 and be that -1
@@ -403,17 +424,21 @@ getAnotherTune:
 				b musicScan
 				musicScanDone:
 				sub r1,#1
-			leftOld:
+			leftOld:			
+			
 			ldr r2,=audioTuneList
 			ldrb r3,[r2,r1]
 			str r1,[r0]
-@
-@
-@ check if tune r3 has been played before
-@ if not, jump back to getAnotherTune
-@
-@
-
+			
+			@ ok, check if tune r3 had been heard
+			
+			ldr r4,=musicHeard
+			ldrb r4,[r4,r3]
+			cmp r4,#0
+			beq leftHeard			
+			
+			
+			
 			mov r0,r3			
 			bl levelMusicPlayEasy
 			b moveAPointerDone	
@@ -542,19 +567,19 @@ audioPointerFrame:
 audioPointerDelay:
 	.word 0
 audioPlaying:					@ what tune?
-	.word 0	
+	.word 1	
 .align
 audioPointerY:					@ pointer Y values
 	.byte 81,97,113,145
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
-	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,64,65,255
+	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,255
 audioVT:
 	.asciz	"SFX GAME VOLUME:"		@ 24
 audioMT:
 	.asciz	"IN GAME MUSIC: OFF"
 	.asciZ	"IN GAME MUSIC: ON "	@ 18
 audioPT:
-	.asciz	"- SELECT  TUNE -"			@ 16
+	.asciz	"- SELECT  TUNE: 00 -"	@ 20
 audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	"MINER WILLY'S MINING SONG!"	@ 26+1
 	.asciz	"  ON A DARK MINING NIGHT  "
@@ -582,6 +607,7 @@ audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	" LOOKS LIKE A COLD FRONT! "
 	.asciz	" IT'S TIME TO RETURN HOME "
 	.asciz	" COMMODORES LITTLE WILLY! "
+	.asciz	"  THE TITLED SIR. WILLY!  "
 	.asciz	"     A SOMBER MOMENT.     "
 	.asciz	"   OH JOY! BIG NUMBERS!   "
 	.asciz	"                          "
