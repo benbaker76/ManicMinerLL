@@ -466,7 +466,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 39	/ cosmic causeway
-	.byte 240,136,2,6,168,45,6,11
+	.byte 240,136,2,6,168,45,38,11
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -1047,32 +1047,32 @@ levelNames:
 	.ascii "WHEN IT WAS CLEAR TO HIM  "
 	.ascii "THAT THE EXIT HAD NO DOOR."
 	.ascii "  HE DID LIKE KEYS THOUGH!"
-	@ 38	/ BOTTOM OF THE MIN SHAFT
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 39
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
+	@ 38	/ BOTTOM OF THE MINE SHAFT
+	.ascii "  WILLY VENTURE FORTH INTO"
+	.ascii "THE BOTTOM OF THE MINE    "
+	.ascii "SHAFT.                    "
+	.ascii "  AS 'MINE SHAFT BOTTOMS' "
+	.ascii "GO, THIS, HE THOUGHT, WAS "
+	.ascii "PERHAPS ONE OF THE BEST HE"
+	.ascii "HAD EVER SEEN. IF NOT THE "
+	.ascii "BEST, IT CERTAINLY CAME A "
+	.ascii "CLOSE SECOND.             "
+	.ascii " AFTER SPENDING AROUND TEN"
+	.ascii "MINUTES JUDGING THE MERITS"
+	.ascii "OF THE SHAFT, HE MOVED ON."
+	@ 39	/ COSMIC CAUSEWAY
+	.ascii "  WILLY HAD ALWAYS LIKED  "
+	.ascii "HIS VENTURES INTO SPACE,  "
+	.ascii "THOUGH THIS SPACE JOURNEY "
+	.ascii "WAS PERHAPS NOT QUITE AS  "
+	.ascii "RELAXING AS HE HOPED. HE  "
+	.ascii "DID WONDER WHY HE DID NOT "
+	.ascii "EXPERIENCE WEIGHLESSNESS  "
+	.ascii "LIKE HE HAD SEEN IN THE   "
+	.ascii "FILMS AT THE LOCAL FLEA   "
+	.ascii "PIT. PERHAPS IT WAS A VERY"
+	.ascii "HEAVY SPACESUIT HE THOUGHT"
+	.ascii "TO HIMSELF.               "
 	@ 41
 	.ascii "                          "
 	.ascii "                          "

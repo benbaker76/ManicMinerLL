@@ -91,6 +91,9 @@
 #include "../build/Background30.h"
 #include "../build/Background31.h"
 #include "../build/Background32.h"
+
+#include "../build/Background39.h"
+
 #include "../build/Background41.h"
 
 #include "../build/Exit01.h"
