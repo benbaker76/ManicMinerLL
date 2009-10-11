@@ -1999,7 +1999,7 @@ meteorInit:
 		ldr r1,=spriteActive
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
-		mov r0,#128+24
+		mov r0,#128+26
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY
@@ -2012,10 +2012,11 @@ meteorInit:
 		mov r0,#FORCEF_ANIM
 		str r0,[r1,r10,lsl#2]
 		add r10,#1
+	
 		ldr r1,=spriteActive
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
-		mov r0,#128+88
+		mov r0,#128+86
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY
@@ -2034,7 +2035,7 @@ meteorInit:
 		ldr r1,=spriteActive
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
-		mov r0,#128+24
+		mov r0,#128+26
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY
@@ -2050,7 +2051,7 @@ meteorInit:
 		ldr r1,=spriteActive
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
-		mov r0,#128+88
+		mov r0,#128+86
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY

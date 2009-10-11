@@ -242,7 +242,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 19	/ BBC - Final Barrier
-	.byte 232,72,5,12,168,35,18,18
+	.byte 232,72,29,12,168,35,18,18
 
 	.byte 80,136,0,1,255,48,16,80
 	.byte 88,88,0,1,1,48,64,88
@@ -499,13 +499,13 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 42 / the final conflict
-	.byte 232,120,0,24,168,1,6,41
+	.byte 232,64,0,16,168,1,6,41
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 16,120,17,1,1,70,16,96
+	.byte 128,120,17,1,1,71,128,232
+	.byte 104,144,17,1,1,70,104,232
+	.byte 80,168,17,1,1,71,16,142
+	.byte 142,168,17,1,1,70,142,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
 	@ 43
@@ -649,7 +649,7 @@ levelNames:
 	.ascii "     THE LOGO OF THE YEAR     "
 	.ascii "      THE CENTRAL CAVERN      "
 
-	.ascii "                              "
+	.ascii "      THE FINAL CONFLICT      "
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -1199,7 +1199,7 @@ levelNames:
 	.ascii "PLATFORM, BITS OF HIM DID "
 	.ascii "NO TURN RED.              "
 	.ascii "'I'M SUPRISED!' HE MUSED. "	
-	@ 42
+	@ 42	/ FINAL CONFLICT
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1378,20 +1378,20 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	@ 42
 	.ascii "     BLAGGER - C64 1983     "
 	@ 43
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 44
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 45
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 46
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 47
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 48
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 49
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 	@ 50
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "                            "
 
 	.end

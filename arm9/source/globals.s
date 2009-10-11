@@ -357,10 +357,15 @@ highScoreName:
 	.ascii " SPACEF "
 	.ascii " SVERX! "
 musicHeard:
-	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
-	.byte 0,0,0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,1,1,0,0
-	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
+@	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
+@	.byte 0,0,0,0,0,0,0,0,0,0
+@	.byte 0,0,0,0,0,0,1,1,0,0
+@	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
+
+	.byte 1,1,1,1,1,1,1,1,1,1	@ 0-9			( set to one if the music is heard ingame)
+	.byte 1,1,1,1,1,1,1,1,1,1
+	.byte 1,1,1,1,1,1,1,1,1,1
+	.byte 1,1,1,1,1,1,1,1,1,1	@ 30-39	(40 tunes)
 	
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
@@ -371,12 +376,12 @@ levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 	.word 0,0,0,0,0,0,0,0,0,0
 	
 	.align
-levelLLReached:					@ Lost max
-	.word 1
+levelLLReached:					@ Lost max (highest visited)
+	.word 20
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 1
+	.word 10
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
