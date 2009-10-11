@@ -78,7 +78,7 @@ main:
 	ldr r0,=cheatMode
 	mov r1,#0
 	str r1,[r0]
-
+	bl initSystem
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
@@ -86,11 +86,11 @@ main:
 
 @	bl findHighscore
 
-	bl initGame
+@	bl initGame
 
 @	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 @	bl initLevelClear
 

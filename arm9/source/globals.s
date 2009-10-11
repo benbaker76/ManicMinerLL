@@ -370,7 +370,7 @@ musicHeard:
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 	.word 0,1,0,1,1,1,0,1,0,1
-	.word 1,0,1,1,0,0,0,0,0,0
+	.word 1,1,1,1,0,0,0,1,0,1
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
