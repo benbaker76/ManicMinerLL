@@ -1532,5 +1532,6 @@ titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: ROCKY THING "	@ 37	8
 	.asciz	"PLAY SPECIAL: MY BOTTOM!  "	@ 38	9
 	.asciz	"PLAY SPECIAL: COSMIC MAN! "	@ 39	10
+	.asciz	"PLAY SPECIAL: THAT LOGO   "	@ 40	11
 titleJB:
 	.asciz	"AUDIO OPTIONS"

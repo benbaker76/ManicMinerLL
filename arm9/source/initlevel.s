@@ -939,7 +939,7 @@ levelWilly:							@ this tells us what sprite for what level
 	.byte 3,5
 	.byte 4,0,0,0,0,0,0,0,0,0	@ ww
 	.byte 6,6,6,6,6,6,2,5		@ bonus up to 40
-	.byte 0,0,0,0,0,0,0,0,0,0	@ levels 41-50
+	.byte 0,5,0,0,0,0,0,0,0,0	@ levels 41-50
 
 .align
 .text
