@@ -58,6 +58,7 @@
 #include "../build/Level37.h"
 #include "../build/Level38.h"
 #include "../build/Level39.h"
+#include "../build/Level40.h"
 #include "../build/Level41.h"
 
 #include "../build/Background01.h"

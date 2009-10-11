@@ -476,18 +476,18 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 40
-	.byte 240,136,5,6,168,1,6,34
+	@ 40	/ greatest logo
+	.byte 232,120,0,16,120,1,6,41
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 52,52,17,1,1,68,52,204
+	.byte 102,81,17,1,1,69,52,204
+	.byte 152,112,17,1,1,67,52,204
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
 	
-	@ 41 / demo data for original level 1
+	@ 41 / the central cavern
 	.byte 232,168,5,8,168,1,40,0
 	
 	.byte 60,120,17,1,1,0,60,122
@@ -498,7 +498,96 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	
+	@ 42
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 43
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 44
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 45
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 46
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 47
+	.byTe 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 48
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 49
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 50
+	.byte 232,120,0,16,120,1,6,41
+
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
 @------------------------------- Level names
 
 levelNames:
@@ -557,8 +646,19 @@ levelNames:
 	.ascii "      THE ROCKY OUTCROP.      "
 	.ascii "   BOTTOM OF THE MINE SHAFT   "
 	.ascii "       COSMIC  CAUSEWAY       "
-	.ascii "                              "
+	.ascii "     THE LOGO OF THE YEAR     "
 	.ascii "      THE CENTRAL CAVERN      "
+
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
 
 @------------------------------- The story
 
@@ -1099,6 +1199,123 @@ levelNames:
 	.ascii "PLATFORM, BITS OF HIM DID "
 	.ascii "NO TURN RED.              "
 	.ascii "'I'M SUPRISED!' HE MUSED. "	
+	@ 42
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 43
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 44
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 45
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 46
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 47
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 48
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 49
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	@ 50
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
 
 @------------------------------- Level info	
 
@@ -1154,7 +1371,27 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "       SAM COUPE 1990       "
 	@ 39
 	.ascii "   ORIGINAL - FLASH  2009   "
-	.ascii "                            "
+	@ 40
+	.ascii "     BLAGGER - C64 1983     "
+	@ 41
 	.ascii "  LEVEL 01 - SPECTRUM 1983  "
+	@ 42
+	.ascii "     BLAGGER - C64 1983     "
+	@ 43
+	.ascii "     BLAGGER - C64 1983     "
+	@ 44
+	.ascii "     BLAGGER - C64 1983     "
+	@ 45
+	.ascii "     BLAGGER - C64 1983     "
+	@ 46
+	.ascii "     BLAGGER - C64 1983     "
+	@ 47
+	.ascii "     BLAGGER - C64 1983     "
+	@ 48
+	.ascii "     BLAGGER - C64 1983     "
+	@ 49
+	.ascii "     BLAGGER - C64 1983     "
+	@ 50
+	.ascii "     BLAGGER - C64 1983     "
 
 	.end

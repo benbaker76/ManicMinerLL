@@ -247,6 +247,11 @@ drawLevel:
 	ldreq r5,=Level39TilesLen
 	ldreq r6,=Level39Map
 	ldreq r7,=Level39MapLen
+	cmp r3,#40
+	ldreq r4,=Level40Tiles
+	ldreq r5,=Level40TilesLen
+	ldreq r6,=Level40Map
+	ldreq r7,=Level40MapLen
 	cmp r3,#41
 	ldreq r4,=Level41Tiles
 	ldreq r5,=Level41TilesLen
