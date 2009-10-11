@@ -837,8 +837,6 @@ generateMonsters:
 	cmp r0,#25
 	ldreq r2, =Oldies_xm_gz
 	ldreq r3, =Oldies_xm_gz_size
-	
-	
 	cmp r0,#26	@ 37
 	ldreq r2, =Title_xm_gz
 	ldreq r3, =Title_xm_gz_size	
@@ -848,6 +846,12 @@ generateMonsters:
 	cmp r0,#28	@ 39
 	ldreq r2, =HighScore_xm_gz
 	ldreq r3, =HighScore_xm_gz_size
+	cmp r0,#29
+	ldreq r2, =Deep_xm_gz
+	ldreq r3, =Deep_xm_gz_size
+	cmp r0,#30
+	ldreq r2, =Oops_xm_gz
+	ldreq r3, =Oops_xm_gz_size	
 	
 	bl initMusic
 	
