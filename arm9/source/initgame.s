@@ -21,7 +21,7 @@ stmfd sp!, {r0-r10, lr}
 	@ r12 MUST be sent here so that the game starts where it should
 	@
 
-mov r12,#19
+@mov r12,#19
 
 	ldr r1,=levelNum
 	str r12,[r1]
