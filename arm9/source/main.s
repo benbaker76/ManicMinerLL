@@ -196,6 +196,8 @@ gameLoop:
 	bl pauseCheck
 
 @	bl debugText
+
+	bl coords
 	
 mainLoopDone:
 
@@ -235,6 +237,26 @@ spotlightLoop:
 @	bl debugText
 
 	b mainLoop									@ our main loop
+	
+	
+coords:
+
+	stmfd sp!, {r0-r10, lr}
+	
+	
+	ldr r1,=spriteX+256
+	ldr r10,[r1]
+	sub r10,#64
+	mov r7,#0
+	mov r8,#23
+	mov r9,#3
+	mov r11,#3
+	bl drawDigits
+	
+	
+	
+	
+	ldmfd sp!, {r0-r10, pc}
 
 	.pool
 	.end
