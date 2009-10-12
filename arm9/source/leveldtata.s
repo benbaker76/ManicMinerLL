@@ -209,7 +209,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 16 / Oric - Wheres the hyperspace button
-	.byte 162,168,2,6,96,5,15,79
+	.byte 162,168,2,6,96,5,15,15
 
 	.byte 24,96,17,1,1,11,8,112
 	.byte 112,120,17,1,1,11,112,176
@@ -264,7 +264,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	
 	@ 21 / Horace
-	.byte 240,80,5,8,168,7,20,116						@ music		NEED TO CORRECT!!
+	.byte 240,80,5,8,168,7,20,20						@ music		NEED TO CORRECT!!
 	
 	.byte 60,128,17,1,1,25,32,192
 	.byte 122,96,17,1,2,25,0,192
@@ -289,7 +289,7 @@ levelData:
 @ movie Levels
 	
 	@ 23 / casablanca
-	.byte 184,80,6,8,168,19,22,150
+	.byte 184,80,6,8,168,19,22,22
 
 	.byte 190,120,17,1,1,29,144,216
 	.byte 56,120,17,1,1,29,16,120
@@ -636,7 +636,7 @@ levelNames:
 	.ascii "BLONDES ARE SCARCE ROUND HERE!" @ KING KONG
 	.ascii "         I'LL BE BACK         " @ TERMINATOR
 	.ascii "        I HAD A HUNCH!        "	@ YOUNG FRANKENSTEIN
-	.ascii " DO YOU KNOW HOW TO MADDISON? "	@ ROCKY HORROR
+	.ascii " DO YOU KNOW HOW TO MADISON?? "	@ ROCKY HORROR
 	
 @ bonus levels (from 33)
 	.ascii "         CHEESE-PLANT         "

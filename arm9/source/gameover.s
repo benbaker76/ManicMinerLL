@@ -279,11 +279,11 @@ initGameOver:
 	cmp r8,#9
 	ldreq r0,=EndEasterTiles
 	ldreq r2,=EndEasterTilesLen
-	ldreq r3,=EndLooMap	
+	ldreq r3,=EndEasterMap	
 	cmp r8,#10
-	ldreq r0,=EndLooTiles
-	ldreq r2,=EndLooTilesLen
-	ldreq r3,=EndLooMap	
+	ldreq r0,=EndStarTrekTiles
+	ldreq r2,=EndStarTrekTilesLen
+	ldreq r3,=EndStarTrekMap	
 	cmp r8,#11
 	ldreq r0,=EndMaxTiles
 	ldreq r2,=EndMaxTilesLen

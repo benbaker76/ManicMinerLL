@@ -319,18 +319,23 @@ levelTypes:						@ a word for each level. 0=normal, 1=last level LL, 3=last leve
 	.word 2,2					@21-22	- Bonus
 	.word 0,0,0,0,0,0,0,0,0,3	@23-32	- WW
 	.word 2,2,2,2,2,2,2,2,2,2	@33-42	- Bonus
+	.word 2,2,2,2,2,2,2,2,2,2	@43-52	- Bonus
 levelBank:						@ 1=lost, 2=hollywood, 0=forget it (not important)
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 0,0
 	.word 2,2,2,2,2,2,2,2,2,2
 	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+
 levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on convs) 
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 1,1,1,1,1,1,1,1,0,0
+	.word 0,0,0,0,0,0,0,0,0,0
+
 gameType:
 	.word 0						@ store type in here from levelSpecial
 
