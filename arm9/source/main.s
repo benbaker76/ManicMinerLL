@@ -86,7 +86,7 @@ main:
 
 @	bl findHighscore
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	
@@ -94,7 +94,7 @@ main:
 	
 @	bl initLevelClear
 
-	bl initGameOver
+@	bl initGameOver
 	
 	@ ------------------------------------
 	

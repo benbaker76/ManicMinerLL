@@ -104,13 +104,14 @@ minerFrame:
 	
 	
 	ldr r0,=spriteX+256
-	ldr r0,[r0]
-	
+	ldr r0,[r0]	
 	and r0,#31
 	lsr r0,#2
+
 	
 	ldr r7,=spriteHFlip+256
 	ldr r7,[r7]
+
 	cmp r7,#0
 	moveq r7,#7
 	subeq r7,r0

@@ -2269,6 +2269,7 @@ forceFieldInit:
 		mov r0,#MONSTER_ACTIVE
 		str r0,[r1,r10,lsl#2]
 		mov r0,#128+96+32
+		add r0,#2
 		ldr r1,=spriteX
 		str r0,[r1,r10,lsl#2]
 		ldr r1,=spriteY
