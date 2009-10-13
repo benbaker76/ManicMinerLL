@@ -131,7 +131,7 @@ ldreq r1,=frameLeft
 ldrne r1,=frameRight
 
 
-ldr r0,[r1,r0,lsl#2]
+	ldr r0,[r1,r0,lsl#2]
 
 	ldr r1,=spriteObj+256
 	str r0,[r1]
