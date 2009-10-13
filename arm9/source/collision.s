@@ -64,6 +64,7 @@ checkLeft:
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
+@add r0,#1
 	lsr r0, #3					@ divide by 8	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -91,6 +92,7 @@ checkLeft:
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
+@add r0,#1
 	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -149,7 +151,7 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	and r0,#31
+@	and r0,#31
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
@@ -176,7 +178,7 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-	and r0,#31
+@	and r0,#31
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset

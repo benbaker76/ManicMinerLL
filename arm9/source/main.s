@@ -198,7 +198,7 @@ gameLoop:
 
 @	bl debugText
 
-@	bl coords
+	bl coords
 	
 mainLoopDone:
 

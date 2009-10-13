@@ -405,8 +405,8 @@
 #define MINER_MID_JUMP				22			@ 22
 #define MINER_JUMPLEN				34			@ 34
 
-#define LEFT_OFFSET					3
-#define RIGHT_OFFSET				11
+#define LEFT_OFFSET					3			@ 3
+#define RIGHT_OFFSET				11			@ 11
 #define FEET_NIP					0		@ one or 2??? (0 works best)
 #define FEET_DROP					0		@ This does not work :(
 
