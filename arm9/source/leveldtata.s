@@ -1212,7 +1212,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 43
+	@ 43	/ the vat
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1225,7 +1225,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 44
+	@ 44	/ mutant telephones
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1238,7 +1238,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 45
+	@ 45	/ warehouse
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1303,7 +1303,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 50
+	@ 50	/ the final barrier
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
