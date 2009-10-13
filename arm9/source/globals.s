@@ -407,6 +407,7 @@ levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0		@ 43-50
 	
 	.align
 levelLLReached:					@ Lost max (highest visited)
@@ -424,7 +425,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 12
+	.word 14
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 

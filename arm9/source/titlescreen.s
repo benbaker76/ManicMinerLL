@@ -1364,7 +1364,9 @@ moveAlter:
 				ldr r6,[r5]
 				sub r6,#1
 				cmp r6,#0
-				moveq r6,#1
+				ldr r4,=unlockedBonuses
+				ldr r4,[r4]
+				moveq r6,r4
 				str r6,[r5]
 				bl optionDraw	
 				b moveAlterDone
@@ -1421,7 +1423,7 @@ moveAlter:
 				ldr r6,[r5]
 				add r6,#1
 				cmp r6,r4
-				movpl r6,r4
+				movgt r6,#1
 				str r6,[r5]
 				bl optionDraw	
 				b moveAlterDone
@@ -1502,7 +1504,7 @@ tGorillaFrames:
 	.byte 2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,1,2
 	.align
 bonusLevelsAre:					@ these are the bonus level indexes
-	.word 0,21,22,41,33,34,35,36,37,38,39,40,42
+	.word 0,21,22,41,33,34,35,36,37,38,39,40,42,43,44,45
 tScrollText:
 	.ascii	"    HELLO AND WELCOME TO 'MANIC MINER THE LOST LEVELS'...      THIS IS NOT YOUR USUAL "
 	.ascii	"'MANIC MINER' REMAKE AND IS CONSTRUCTED FROM A SELECTION OF THE LEVELS YOU MAY NOT HAVE "
@@ -1534,5 +1536,8 @@ titleBL:			@ 26 chars each
 	.asciz	"PLAY SPECIAL: COSMIC MAN! "	@ 39	10
 	.asciz	"PLAY SPECIAL: THAT LOGO   "	@ 40	11
 	.asciz	"PLAY SPECIAL: CONFLICTION "	@ 42	12
+	.asciz	"PLAY SPECIAL: THE VAT     "	@ 43	13
+	.asciz	"PLAY SPECIAL: BUZBY RINGS "	@ 44	14
+	.asciz	"PLAY SPECIAL: WARES HOUSE "	@ 45	15
 titleJB:
 	.asciz	"AUDIO OPTIONS"

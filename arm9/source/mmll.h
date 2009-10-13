@@ -62,6 +62,12 @@
 #include "../build/Level41.h"
 #include "../build/Level42.h"
 
+#include "../build/Level43.h"
+#include "../build/Level44.h"
+#include "../build/Level45.h"
+
+#include "../build/Level49.h"
+
 #include "../build/Background01.h"
 #include "../build/Background02.h"
 #include "../build/Background03.h"
@@ -132,6 +138,8 @@
 
 #include "../build/Exit41.h"
 #include "../build/Exit42.h"
+
+#include "../build/Exit44.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
@@ -577,6 +585,6 @@
 
 #define HIGH_NAME_LEN				8
 #define HIGH_SCORE_LEN				6
-#define SECRET_MAX					12			@ use this to make sure that we don't unlock more than we have
+#define SECRET_MAX					15			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
 

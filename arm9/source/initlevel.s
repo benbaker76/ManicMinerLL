@@ -138,7 +138,7 @@ initLevel:
 
 
 	ldrb r0,[r1],#1
-	add r0,#64
+	add r0,#65
 	ldr r2,=spriteX+256
 	str r0,[r2]	
 
@@ -421,6 +421,13 @@ getDoorSprite:
 	cmp r0,#41
 	ldreq r0, =Exit42Tiles
 	ldreq r2, =Exit42TilesLen	
+
+	cmp r0,#43
+	ldreq r0, =Exit44Tiles
+	ldreq r2, =Exit44TilesLen	
+
+
+
 	cmp r2,#0
 	beq skipExit
 	
@@ -939,7 +946,7 @@ levelWilly:							@ this tells us what sprite for what level
 	.byte 3,5
 	.byte 4,0,0,0,0,0,0,0,0,0	@ ww
 	.byte 6,6,6,6,6,6,2,5		@ bonus up to 40
-	.byte 0,5,0,0,0,0,0,0,0,0	@ levels 41-50
+	.byte 0,5,1,1,1,0,0,0,0,1	@ levels 41-50
 
 .align
 .text
