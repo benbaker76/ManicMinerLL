@@ -63,6 +63,7 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
+	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -89,6 +90,7 @@ checkLeft:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
+	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY+256
 	ldr r1,[r1]

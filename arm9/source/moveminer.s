@@ -211,15 +211,12 @@ moveMiner:
 		
 		bl checkLeft
 		bl checkBlocked
-
 		cmp r11,#0
 		beq moveMinerFail
 
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
 		add r1,#1
-@orr r1,#7
-@sub r1,#3
 		str r1,[r2]		
 		
 		b moveMinerFail
@@ -246,15 +243,12 @@ moveMiner:
 		
 		bl checkRight
 		bl checkBlocked
-
 		cmp r11,#0
 		beq moveMinerFail
 
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
 		sub r1,#1
-@orr r1,#7
-@sub r1,#3
 		str r1,[r2]		
 		
 		b moveMinerFail

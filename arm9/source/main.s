@@ -86,11 +86,11 @@ main:
 
 @	bl findHighscore
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
 @	bl initLevelClear
 
@@ -171,6 +171,7 @@ gameLoop:
 	bl checkHeadDie
 	
 	bl minerFrame
+	
 	bl levelAnimate
 		
 	bl checkExit
@@ -197,7 +198,7 @@ gameLoop:
 
 @	bl debugText
 
-	bl coords
+@	bl coords
 	
 mainLoopDone:
 
