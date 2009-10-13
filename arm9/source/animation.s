@@ -126,7 +126,6 @@ cmp r1,#0
 
 ldr r0,=spriteX+256
 ldr r0,[r0]
-@add r0,#LEFT_OFFSET
 ldreq r1,=frameLeft
 ldrne r1,=frameRight
 
@@ -134,6 +133,11 @@ ldrne r1,=frameRight
 	ldr r0,[r1,r0,lsl#2]
 
 	ldr r1,=spriteObj+256
+	
+	mov r7,#7
+	sub r7,r0
+	mov r0,r7
+	
 	str r0,[r1]
 	
 	minerFrameDone:

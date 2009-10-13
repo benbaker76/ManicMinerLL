@@ -135,10 +135,10 @@ moveRight:
 	ldr r3,[r2]
 	cmp r3,#0
 	moveq r0,#0						@ set dir to 0 if you were facing Left and flip sprite
-@ldreq r1,=spriteX+256
-@ldreq r2,[r1]
-@addeq r2,#1
-@streq r2,[r1]
+ldreq r1,=spriteX+256
+ldreq r2,[r1]
+addeq r2,#1
+streq r2,[r1]
 	beq moveRightDone
 	
 	mov r0,#MINER_RIGHT				@ return 'moving right'
@@ -161,10 +161,10 @@ moveLeft:
 	ldr r3,[r2]
 	cmp r3,#1
 	moveq r0,#0						@ set dir to 0 if you were facing right and flip sprite
-@ldreq r1,=spriteX+256
-@ldreq r2,[r1]
-@subeq r2,#1
-@streq r2,[r1]
+ldreq r1,=spriteX+256
+ldreq r2,[r1]
+subeq r2,#1
+streq r2,[r1]
 	beq moveLeftDone
 
 	mov r0,#MINER_LEFT				@ return 'moving right'
