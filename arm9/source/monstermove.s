@@ -86,7 +86,7 @@ monsterMove:
 ldr r1,=mPhase
 ldr r2,[r1]
 add r2,#1
-cmp r2,#3
+cmp r2,#2
 moveq r2,#0
 str r2,[r1]
 
