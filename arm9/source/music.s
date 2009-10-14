@@ -105,6 +105,10 @@ initMusicContinue:
 	ldr r1, =Module								@ Send module data location
 	str r1, [r0]
 	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
+	
 	ldr r0, =modLoaded
 	ldr r1, =XM7_MOD_LOADED
 	str r1, [r0]
@@ -122,6 +126,10 @@ stopMusic:
 	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
 	ldr r1, =XM7_STOP							@ Send stop command
 	str r1, [r0]
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 
 	ldmfd sp!, {r0-r1, pc}
 	

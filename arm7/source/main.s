@@ -40,9 +40,9 @@
 	.text
 	.global main
 	
-interruptHandlerVBlank:
+interruptHandlerIPC:
 
-	stmfd sp!, {r0-r8, lr}
+	stmfd sp!, {r0-r4, lr}
 	
 	ldr r1, =XM7_MODULE_IPC
 	ldr r0, [r1]
@@ -86,6 +86,14 @@ interruptHandlerVBlank:
 	strgt r8, [r7]								@ Clear the data
 	blgt playSound								@ If so lets play the sound
 	
+	ldmfd sp!, {r0-r4, pc} 					@ restore registers and return
+
+	@ ------------------------------------
+	
+interruptHandlerVBlank:
+
+	stmfd sp!, {r0-r8, lr}
+	
 	ldmfd sp!, {r0-r8, pc} 					@ restore registers and return
 
 	@ ------------------------------------
@@ -97,8 +105,16 @@ main:
 	ldr r1, =interruptHandlerVBlank				@ Function Address
 	bl irqSet									@ Set the interrupt
 	
-	ldr r0, =IRQ_VBLANK							@ Interrupts
+	ldr r0, =IRQ_IPC_SYNC							@ VBLANK interrupt
+	ldr r1, =interruptHandlerIPC				@ Function Address
+	bl irqSet									@ Set the interrupt
+	
+	ldr r0, =(IRQ_VBLANK | IRQ_IPC_SYNC)		@ Interrupts
 	bl irqEnable								@ Enable
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SYNC_IRQ_ENABLE
+	strh r1, [r0]
 	
 	ldr r0, =REG_POWERCNT
 	ldr r1, =POWER_SOUND						@ Turn on sound

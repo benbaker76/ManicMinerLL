@@ -56,6 +56,10 @@ stopSound:
 	mov r1, #STOP_SOUND									@ Stop sound value
 	str r1, [r0]										@ Write the value
 	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
+	
 	ldmfd sp!, {r0-r1, pc} 							@ restore registers and return
 	
 	@ ---------------------------------------------
@@ -102,6 +106,10 @@ playDead:
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
 	ldr r1, =dead_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
@@ -163,6 +171,10 @@ playJump:
 	ldr r1, =jump_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
 	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
+	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
 	@ ---------------------------------------------
@@ -207,6 +219,10 @@ playTone:
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
 	ldr r1, =tone_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
@@ -265,6 +281,10 @@ playFall:
 	ldr r1, =jump_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
 	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
+	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
 	@ ---------------------------------------------
@@ -310,8 +330,12 @@ playLevelEnd:
 	str r1, [r0]										@ Write the sample size
 	
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
-	ldr r1, =levelend_raw									@ Get the sample address
+	ldr r1, =levelend_raw								@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
@@ -353,14 +377,18 @@ playClick:
 	strb r1, [r0]
 
 	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
-	ldr r1, =click_raw_end							@ Get the sample end
-	ldr r2, =click_raw								@ Get the same start
+	ldr r1, =click_raw_end								@ Get the sample end
+	ldr r2, =click_raw									@ Get the same start
 	sub r1, r2											@ Sample end - start = size
 	str r1, [r0]										@ Write the sample size
 	
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
 	ldr r1, =click_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
@@ -402,14 +430,18 @@ playKey:
 	strb r1, [r0]
 
 	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
-	ldr r1, =key_raw_end							@ Get the sample end
-	ldr r2, =key_raw								@ Get the same start
+	ldr r1, =key_raw_end								@ Get the sample end
+	ldr r2, =key_raw									@ Get the same start
 	sub r1, r2											@ Sample end - start = size
 	str r1, [r0]										@ Write the sample size
 	
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
 	ldr r1, =key_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 
@@ -457,8 +489,12 @@ playExplode:
 	str r1, [r0]										@ Write the sample size
 	
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
-	ldr r1, =explode_raw									@ Get the sample address
+	ldr r1, =explode_raw								@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 
@@ -498,14 +534,18 @@ playFallThing:
 	strb r1, [r0]
 
 	ldr r0, =IPC_SOUND_LEN(1)							@ Get the IPC sound length address
-	ldr r1, =fallthing_raw_end								@ Get the sample end
-	ldr r2, =fallthing_raw									@ Get the same start
+	ldr r1, =fallthing_raw_end							@ Get the sample end
+	ldr r2, =fallthing_raw								@ Get the same start
 	sub r1, r2											@ Sample end - start = size
 	str r1, [r0]										@ Write the sample size
 	
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
-	ldr r1, =fallthing_raw									@ Get the sample address
+	ldr r1, =fallthing_raw								@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
@@ -553,6 +593,10 @@ playSplat:
 	ldr r0, =IPC_SOUND_DATA(1)							@ Get the IPC sound data address
 	ldr r1, =splat_raw									@ Get the sample address
 	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(0)
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	

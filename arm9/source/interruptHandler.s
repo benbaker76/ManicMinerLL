@@ -54,8 +54,12 @@ initInterruptHandler:
 	ldr r1, =interruptHandlerTimer2			@ Function Address
 	bl irqSet
 	
-	ldr r0, =(IRQ_VBLANK | IRQ_HBLANK | IRQ_TIMER1 | IRQ_TIMER2)		@ Interrupts
+	ldr r0, =(IRQ_VBLANK | IRQ_HBLANK | IRQ_TIMER1 | IRQ_TIMER2 | IRQ_IPC_SYNC)		@ Interrupts
 	bl irqEnable							@ Enable
+	
+	ldr r0, =REG_IPC_SYNC					@ Turn on IPC_SYNC interrupt
+	ldr r1, =IPC_SYNC_IRQ_ENABLE
+	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
 	
