@@ -86,11 +86,11 @@ main:
 
 @	bl findHighscore
 
-	bl initGame
+@	bl initGame
 
 @	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 @	bl initLevelClear
 
