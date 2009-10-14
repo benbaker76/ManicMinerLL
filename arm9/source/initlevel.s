@@ -78,6 +78,9 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=bonusDelay
 	str r0,[r1]	
+	mov r0,#-1
+	ldr r1,=mPhase
+	str r0,[r1]
 	
 	mov r0,#160
 	ldr r1,=air
@@ -427,7 +430,9 @@ getDoorSprite:
 	cmp r0,#43
 	ldreq r0, =Exit44Tiles
 	ldreq r2, =Exit44TilesLen	
-
+	cmp r0,#44
+	ldreq r0, =Exit45Tiles
+	ldreq r2, =Exit45TilesLen
 
 
 	cmp r2,#0
@@ -861,6 +866,9 @@ generateMonsters:
 	cmp r0,#30
 	ldreq r2, =Oops_xm_gz
 	ldreq r3, =Oops_xm_gz_size	
+	cmp r0,#31
+	ldreq r2, =Doom_xm_gz
+	ldreq r3, =Doom_xm_gz_size	
 	
 	bl initMusic
 	

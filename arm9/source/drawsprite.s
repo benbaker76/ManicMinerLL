@@ -662,7 +662,7 @@ drawSprite:
 			ldr r0,[r0,r10,lsl#2]
 			sub r2,r0
 			str r2,[r1,r10,lsl#2]
-			cmp r2,#64
+			cmp r2,#47
 			bpl drawNotCause
 			mov r2,#0
 			ldr r1,=spriteActive

@@ -64,7 +64,6 @@ checkLeft:
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftTNot			@ if offscreen - dont check (will help later I hope)
-@add r0,#1
 	lsr r0, #3					@ divide by 8	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -92,7 +91,6 @@ checkLeft:
 	add r0,#LEFT_OFFSET
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkLeftBNot			@ if offscreen - dont check (will help later I hope)
-@add r0,#1
 	lsr r0, #3					@ divide by 8		
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -244,14 +242,12 @@ checkFeet:
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
-	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkFeetLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
-	add r1,#FEET_DROP
 	subs r1,#384				@ our offset
 	bmi checkFeetLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
@@ -283,14 +279,12 @@ checkFeet:
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
-	sub r0,#FEET_NIP			@ use this for head detection also
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkFeetRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
 	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
-	add r1,#FEET_DROP
 	subs r1,#384				@ our offset
 	bmi checkFeetRNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
@@ -954,13 +948,10 @@ checkBlocked:
 	bgt checkBlock3
 
 	mov r11,#1
+	
+	checkBlock3:	
 
 	ldmfd sp!, {r0-r10, pc}	
-
-	checkBlock3:
-
-	ldmfd sp!, {r0-r10, pc}	
-
 
 @--------------------------------------------
 

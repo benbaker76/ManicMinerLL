@@ -578,7 +578,9 @@ flipSwitch:
 	cmp r8,#25
 	beq flipSwitchWallDestroy
 	cmp r8,#31
-	beq flipSwithLiftThing
+	beq flipSwitchLiftThing
+	cmp r8,#7						@ on level 8, remove a section, no reverse either
+	beq flipSwitchCavern
 	
 	@ now, flip the conveyors (ulp) (DEFAULT action)
 
@@ -641,7 +643,6 @@ flipSwitch:
 			
 			mov r7,#0
 			strb r7,[r4,r0]
-
 			ldr r5, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 			add r5, #1536					@ first tile of offscreen tiles
 			add r5, #16						@ add 8 chars (Our blank)
@@ -668,6 +669,35 @@ flipSwitch:
 	cmp r8,#0
 	blne playExplode
 	
+	b flipSwitchDone
+@-----------------------------------------------
+
+	flipSwitchCavern:
+	
+	@ remove a section of tiles in the 'not cavern' level
+
+	ldr r5, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r5, #1536					@ first tile of offscreen tiles
+	add r5, #16						@ add 8 chars (Our blank)
+	ldrh r5,[r5]					@ r5 now=the graphic we need to display
+	ldr r4,=colMapStore
+	@ add to this the same as draw location
+
+	ldr r6, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r6,#(32*13)*2		@ y
+	add r6,#12*2			@ X
+	add r4,#32*13
+	add r4,#12
+	mov r7,#0
+
+	mov r0,#3
+	
+	cavernLoop:
+		strb r7,[r4,r0]
+		strh r5,[r6],#2
+	
+	subs r0,#1
+	bpl cavernLoop
 	b flipSwitchDone
 	
 @------------------------------------------- Draw effect at offset r0
@@ -748,7 +778,7 @@ flipSwitch:
 	
 @-----------------------------
 
-flipSwithLiftThing:
+flipSwitchLiftThing:
 
 	@ only activate lift if liftmotion is 0
 	

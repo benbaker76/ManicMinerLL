@@ -142,6 +142,7 @@
 #include "../build/Exit42.h"
 #include "../build/Exit43.h"
 #include "../build/Exit44.h"
+#include "../build/Exit45.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"

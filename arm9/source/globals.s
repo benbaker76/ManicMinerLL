@@ -135,10 +135,15 @@
 
 	.global frameLeft
 	.global frameRight
+	
+	.global mPhase
 
 fadeCheck:
 	.word 0
 cursorAction:
+	.word 0
+	
+mPhase:
 	.word 0
 	
 gameMode:
@@ -425,7 +430,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 14
+	.word 15
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 

@@ -224,9 +224,13 @@ moveMiner:
 
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
-		add r1,#1
+@		add r1,#1
+@		str r1,[r2]		
+		add r1,#3
+		lsr r1,#3
+		lsl r1,#3
+		add r1,#5
 		str r1,[r2]		
-		
 		b moveMinerFail
 
 	moveMinerRight:
@@ -256,8 +260,15 @@ moveMiner:
 
 		ldr r2,=spriteX+256
 		ldr r1,[r2]
-		sub r1,#1
-		str r1,[r2]		
+		cmp r1,#240+68
+		bge moveMinerFail
+@		sub r1,#1
+@		str r1,[r2]
+		sub r1,#4
+		lsr r1,#3
+		lsl r1,#3
+		add r1,#4
+		str r1,[r2]
 		
 		b moveMinerFail
 

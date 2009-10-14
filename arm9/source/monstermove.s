@@ -32,16 +32,28 @@ monsterMove:
 
 		ldr r2,=spriteSpeed
 		ldr r4,[r2,r1,lsl#2]
-	
-		cmp r4,#255						@ is this fractional?
-		bne monsterMoveNormalSpeed
+		mov r8,#1
+		cmp r4,#254						@ is this fractional?
+		blt monsterMoveNormalSpeed
+			cmp r4,#254
+			movne r7,#2
+			bne notPartial
+			@ partial move 2
+				ldr r7,=mPhase
+				ldr r7,[r7]
+				cmp r7,#0
+			@	movne r7,#1
+				addeq r8,#1
+				mov r7,#1
+			@	beq moveMonsterFail
+			notPartial:
 			ldr r5,=monsterDelay
 			ldr r6,[r5,r1,lsl #2]
 			add r6,#1
-			cmp r6,#2
-			moveq r6,#0
+			cmp r6,r7
+			movge r6,#0
 			str r6,[r5,r1,lsl #2]
-			moveq r4,#1
+			moveq r4,r8
 			movne r4,#0
 		monsterMoveNormalSpeed:
 		
@@ -69,6 +81,15 @@ monsterMove:
 	add r1,#1
 	cmp r1,#72
 	bne monsterMoveLoop
+
+
+ldr r1,=mPhase
+ldr r2,[r1]
+add r2,#1
+cmp r2,#3
+moveq r2,#0
+str r2,[r1]
+
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -117,7 +138,7 @@ monsterMoveLR:
 		ldr r2,=spriteMax
 		ldr r3,[r2,r1,lsl#2]
 		cmp r10,r3
-		ble monsterLRDone
+		blt monsterLRDone
 			ldr r3,=spriteHFlip
 			mov r4,#0
 			str r4,[r3,r1,lsl#2]
@@ -166,7 +187,7 @@ monsterMoveUD:
 		ldr r2,=spriteMax
 		ldr r3,[r2,r1,lsl#2]
 		cmp r10,r3
-		ble monsterUDDone
+		blt monsterUDDone
 			mov r4,#0
 			ldr r3,=spriteDir
 			str r4,[r3,r1,lsl#2]
@@ -228,7 +249,7 @@ monsterMoveTRBL:
 		ldr r2,=spriteMax
 		ldr r3,[r2,r1,lsl#2]
 		cmp r10,r3
-		ble monsterTRBLDone
+		blt monsterTRBLDone
 			ldr r3,=spriteHFlip
 			mov r4,#0
 			str r4,[r3,r1,lsl#2]
@@ -293,7 +314,7 @@ monsterMoveTLBR:
 		ldr r2,=spriteMax
 		ldr r3,[r2,r1,lsl#2]
 		cmp r10,r3
-		ble monsterTLBRDone
+		blt monsterTLBRDone
 			ldr r3,=spriteHFlip
 			mov r4,#0
 			str r4,[r3,r1,lsl#2]
@@ -307,4 +328,9 @@ monsterMoveTLBR:
 
 	bl monsterAnimate
 
+
 	ldmfd sp!, {r0-r10, pc}
+	
+	
+.pool
+.data
