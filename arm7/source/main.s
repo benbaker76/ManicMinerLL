@@ -24,12 +24,8 @@
 #include "audio.h"
 #include "ipc.h"
 
-	#define XM7_MODULE_IPC						IPC+0x20
-	#define XM7_STOP							-1
-
-	#define MUSIC_CHANNEL		0
-	#define SOUND_CHANNEL		1
-	#define FORCE_SOUND_CHANNEL	2
+	#define XM7_MODULE_IPC		IPC+0x100
+	#define XM7_STOP			-1
 	
 	#define STOP_SOUND			-1
 	#define NO_FREE_CHANNEL		-1
@@ -42,7 +38,7 @@
 	
 interruptHandlerIPC:
 
-	stmfd sp!, {r0-r4, lr}
+	stmfd sp!, {r0-r9, lr}
 	
 	ldr r1, =XM7_MODULE_IPC
 	ldr r0, [r1]
@@ -64,13 +60,24 @@ interruptHandlerIPC:
 	streq r2, [r1]
 	bleq XM7_StopModule
 	
-	ldr r7, =IPC_SOUND_DATA(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r8, =IPC_SOUND_LEN(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r2, =IPC_SOUND_CHAN(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r3, =IPC_SOUND_RATE(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r4, =IPC_SOUND_VOL(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r5, =IPC_SOUND_PAN(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r6, =IPC_SOUND_FORMAT(SOUND_CHANNEL)	@ Get a pointer to the sound data in IPC
+	mov r9, #15									@ Out channel 1-16
+	
+interruptHandlerIPCLoop:
+	
+	ldr r7, =IPC_SOUND_DATA(0)					@ Get a pointer to the sound data in IPC
+	add r7, r9, lsl #4
+	ldr r8, =IPC_SOUND_LEN(0)					@ Get a pointer to the sound data in IPC
+	add r8, r9, lsl #4
+	ldr r2, =IPC_SOUND_CHAN(0)					@ Get a pointer to the sound data in IPC
+	add r2, r9, lsl #4
+	ldr r3, =IPC_SOUND_RATE(0)					@ Get a pointer to the sound data in IPC
+	add r3, r9, lsl #4
+	ldr r4, =IPC_SOUND_VOL(0)					@ Get a pointer to the sound data in IPC
+	add r4, r9, lsl #4
+	ldr r5, =IPC_SOUND_PAN(0)					@ Get a pointer to the sound data in IPC
+	add r5, r9, lsl #4
+	ldr r6, =IPC_SOUND_FORMAT(0)				@ Get a pointer to the sound data in IPC
+	add r6, r9, lsl #4
 	ldr r0, [r7]								@ Read the value
 	ldr r1, [r8]								@ Read the value
 	ldrb r2, [r2]								@ Read the value
@@ -86,15 +93,18 @@ interruptHandlerIPC:
 	strgt r8, [r7]								@ Clear the data
 	blgt playSound								@ If so lets play the sound
 	
-	ldmfd sp!, {r0-r4, pc} 					@ restore registers and return
+	subs r9, #1
+	bpl interruptHandlerIPCLoop
+	
+	ldmfd sp!, {r0-r9, pc} 					@ restore registers and return
 
 	@ ------------------------------------
 	
 interruptHandlerVBlank:
 
-	stmfd sp!, {r0-r8, lr}
+	stmfd sp!, {r0-r9, lr}
 	
-	ldmfd sp!, {r0-r8, pc} 					@ restore registers and return
+	ldmfd sp!, {r0-r9, pc} 					@ restore registers and return
 
 	@ ------------------------------------
 	
@@ -105,7 +115,7 @@ main:
 	ldr r1, =interruptHandlerVBlank				@ Function Address
 	bl irqSet									@ Set the interrupt
 	
-	ldr r0, =IRQ_IPC_SYNC							@ VBLANK interrupt
+	ldr r0, =IRQ_IPC_SYNC						@ VBLANK interrupt
 	ldr r1, =interruptHandlerIPC				@ Function Address
 	bl irqSet									@ Set the interrupt
 	
@@ -133,68 +143,6 @@ mainLoop:
 	bl checkSleepMode
 	
 	b mainLoop
-	
-	@ ------------------------------------
-	
-playMusic:
-
-	stmfd sp!, {r0-r4, lr}
-	
-	@ r0 - Data
-	@ r1 - Len
-	
-	ldr r2, =SCHANNEL_TIMER(0)
-	ldr r3, =SCHANNEL_TIMER(1)
-	ldr r4, =SOUND_FREQ(32000)					@ Frequency currently hard-coded to 32000 Hz
-	strh r4, [r2]
-	strh r4, [r3]
-	
-	ldr r2, =SCHANNEL_SOURCE(0)					@ Channel source
-	ldr r3, =SCHANNEL_SOURCE(1)					@ Channel source
-	str r0, [r2]								@ Write the value
-	str r0, [r3]								@ Write the value
-	
-	ldr r2, =SCHANNEL_LENGTH(0)
-	ldr r3, =SCHANNEL_LENGTH(1)
-	bic r1, #3									@ & ~0x7
-	and r1, #0x7FFFFFFF							@ & 0x7FFFFFFF
-	lsr r1, #2									@ Right shift (LEN >> 2)
-	str r1, [r2]								@ Write the value
-	str r1, [r3]								@ Write the value
-	
-	ldr r2, =SCHANNEL_REPEAT_POINT(0)
-	ldr r3, =SCHANNEL_REPEAT_POINT(1)
-	mov r4, #0
-	strh r4, [r2]
-	strh r4, [r3]
-	
-	ldr r2, =SCHANNEL_CR(0)
-	ldr r3, =SCHANNEL_CR(1)
-	ldr r4, =(SCHANNEL_ENABLE | SOUND_REPEAT | SOUND_VOL(127) | SOUND_PAN(64) | SOUND_8BIT)
-	str r4, [r2]
-	str r4, [r3]
-
-	ldmfd sp!, {r0-r4, pc} 					@ restore rgisters and return
-	
-	@ ------------------------------------
-	
-stopMusic:
-
-	stmfd sp!, {r0-r2, lr}
-	
-	ldr r0, =IPC_SOUND_DATA(MUSIC_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r1, =IPC_SOUND_LEN(MUSIC_CHANNEL)		@ Get a pointer to the sound data in IPC
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r1]
-	
-	ldr r0, =SCHANNEL_CR(0)
-	ldr r1, =SCHANNEL_CR(1)
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r1]
-
-	ldmfd sp!, {r0-r2, pc} 					@ restore rgisters and return
 	
 	@ ------------------------------------
 	
@@ -269,8 +217,10 @@ stopSound:
 
 	stmfd sp!, {r0-r2, lr}
 	
-	ldr r0, =IPC_SOUND_DATA(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
-	ldr r1, =IPC_SOUND_LEN(SOUND_CHANNEL)		@ Get a pointer to the sound data in IPC
+	ldr r0, =IPC_SOUND_DATA(0)					@ Get a pointer to the sound data in IPC
+	add r0, r9, lsl #4
+	ldr r1, =IPC_SOUND_LEN(0)					@ Get a pointer to the sound data in IPC
+	add r1, r9, lsl #4
 	mov r2, #0
 	str r2, [r0]
 	str r2, [r1]

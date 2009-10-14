@@ -36,7 +36,7 @@
 	.global Module
 
 	#define XM7_MODULEMANAGER_TYPE_SIZE			0xCE8
-	#define XM7_MODULE_IPC						IPC+0x20
+	#define XM7_MODULE_IPC						IPC+0x100
 	#define XM7_STOP							-1
 	#define XM7_MOD_NOT_LOADED					0
 	#define XM7_MOD_LOADED						1
