@@ -135,10 +135,7 @@ moveRight:
 	ldr r3,[r2]
 	cmp r3,#0
 	moveq r0,#0						@ set dir to 0 if you were facing Left and flip sprite
-ldreq r1,=spriteX+256
-ldreq r2,[r1]
-addeq r2,#1
-streq r2,[r1]
+	
 	beq moveRightDone
 	
 	mov r0,#MINER_RIGHT				@ return 'moving right'
@@ -161,10 +158,6 @@ moveLeft:
 	ldr r3,[r2]
 	cmp r3,#1
 	moveq r0,#0						@ set dir to 0 if you were facing right and flip sprite
-ldreq r1,=spriteX+256
-ldreq r2,[r1]
-subeq r2,#1
-streq r2,[r1]
 	beq moveLeftDone
 
 	mov r0,#MINER_LEFT				@ return 'moving right'
@@ -223,9 +216,7 @@ moveMiner:
 		beq moveMinerFail
 
 		ldr r2,=spriteX+256
-		ldr r1,[r2]
-@		add r1,#1
-@		str r1,[r2]		
+		ldr r1,[r2]	
 		add r1,#3
 		lsr r1,#3
 		lsl r1,#3
@@ -262,8 +253,6 @@ moveMiner:
 		ldr r1,[r2]
 		cmp r1,#240+68
 		bge moveMinerFail
-@		sub r1,#1
-@		str r1,[r2]
 		sub r1,#4
 		lsr r1,#3
 		lsl r1,#3
@@ -279,9 +268,9 @@ moveMiner:
 	
 moveJump:
 
-	stmfd sp!, {r0-r10, lr}
-
-	@ here we need to initialise a jump (if one is not already active)
+	stmfd sp!, {r0-r10,lr}
+	
+@ here we need to initialise a jump (if one is not already active)
 	@ all we need to do is set miners mode to jump and initialise the counter
 	@ if cannot be active as the init is skipped if willy is not in mormal phase
 	
@@ -308,7 +297,7 @@ moveJump:
 	beq moveJumpFail
 	cmp r10,#1
 	beq moveJumpFail
-	
+
 	ldr r0,=minerAction
 	ldr r1,[r0]
 	cmp r1,#MINER_JUMP

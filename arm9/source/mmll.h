@@ -413,6 +413,8 @@
 #define MINER_FALL					2
 #define MINER_CONVEYOR				4
 
+#define MINER_SPRITE				99
+
 #define MINER_MID_JUMP				22			@ 22
 #define MINER_JUMPLEN				34			@ 34
 

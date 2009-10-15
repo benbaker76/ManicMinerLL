@@ -87,10 +87,11 @@ initLevel:
 	str r0,[r1]
 	
 	cmp r12,#GAMEMODE_TITLE_SCREEN
-	movne r0,#1
+	movne r0,#MINER_SPRITE
 	moveq r0,#0
 	ldr r1,=spriteActive+256
 	str r0,[r1]
+	mov r0,#0
 	ldr r1,=minerJumpDelay
 	str r0,[r1]
 

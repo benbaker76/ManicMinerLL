@@ -44,9 +44,16 @@
 	.global spareSpriteFX
 	.global anySpareSpriteFX
 	.global anySpareSpriteMonster
+	
+offsetMiner:
+	ldr r0,=spriteHFlip				@ compensate for left sprite pos.
+	ldr r0,[r0,r10,lsl #2]
+	cmp r0,#0
+	moveq r11,#1	
+	b sprites_Draw
 
 drawSprite:
-	stmfd sp!, {r0-r10, lr}
+	stmfd sp!, {r0-r12, lr}
 	
 	ldr r1,=spriteScreen				@ 0=draw top / 1=draw bottom
 	ldr r1,[r1]
@@ -63,6 +70,9 @@ drawSprite:
 
 		ldr r0,=spriteActive				@ r2 is pointer to the sprite active setting
 		ldr r1,[r0,r10, lsl #2]				@ add sprite number * 4
+cmp r1,#MINER_SPRITE
+beq offsetMiner								@ set offset it miner!
+mov r11,#0									@ r11=-offset for sprite
 		cmp r1,#0							@ Is sprite active? (anything other than 0)
 		bne sprites_Draw					@ if so, draw it!
 
@@ -101,12 +111,11 @@ drawSprite:
 		cmp r1,#SCREEN_LEFT				@ if less than 64, this is off left of screen
 		addmi r1,#512					@ convert coord for offscreen (32 each side)
 		sub r1,#SCREEN_LEFT				@ Take 64 off our X
-@		sub r1,r4						@ account for maps horizontal position
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		mov r0,r6
 		add r0,r10, lsl #3
 		ldr r2, =(ATTR1_SIZE_16)
-
+		sub r1,r11						@ subtract offset	
 		and r1,r3
 		orr r2,r1
 		ldr r3,=spriteHFlip
@@ -691,7 +700,7 @@ drawSprite:
 	noBonusRefresh:
 	
 
-	ldmfd sp!, {r0-r10,pc}
+	ldmfd sp!, {r0-r12,pc}
 	
 @--------------------------------------------
 
