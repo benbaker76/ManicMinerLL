@@ -59,7 +59,26 @@ minerControl:
 	
 	@ move l/r return r0 as the new minerDirection
 	
-	mov r0, #0									@ make the direction 0 first
+	
+	ldr r1,=gameType
+	ldr r1,[r1]
+	cmp r1,#2
+	movne r0,#0
+	bne notFrozenMove
+	
+		ldr r1,=platFours
+		ldr r1,[r1]
+		cmp r1,#1
+		movne r0,#0
+		bne notFrozenMove
+
+		ldr r2,=minerDirection
+		ldr r0,[r2]
+
+	
+	notFrozenMove:
+
+								@ make the direction 0 first
 	
 	tst r10,#BUTTON_RIGHT
 	bleq moveRight								@ right is pressed
@@ -131,6 +150,30 @@ moveRight:
 
 	stmfd sp!, {r1-r10, lr}
 	
+ldr r2, =gameType
+ldr r2,[r2]
+cmp r2,#2
+bne moveRightNoIce
+
+	ldr r2,=platFours
+	ldr r2,[r2]
+	cmp r2,#1
+	bne moveRightNoIce
+
+		ldr r2,=minerDirection
+		ldr r2,[r2]
+		cmp r2,#MINER_STILL
+		beq moveRightNoIce
+
+		mov r0,r2
+@	ldr r1,=spriteHFlip+256
+@	sub r2,#1						@ flip sprite
+@	str r2,[r1]
+
+	b moveRightFail
+
+moveRightNoIce:
+	
 	ldr r2,=spriteHFlip+256
 	ldr r3,[r2]
 	cmp r3,#0
@@ -145,6 +188,8 @@ moveRight:
 	ldr r2,=spriteHFlip+256
 	mov r1,#1						@ flip sprite
 	str r1,[r2]
+	
+	moveRightFail:
 
 	ldmfd sp!, {r1-r10, pc}
 	
@@ -153,6 +198,30 @@ moveRight:
 moveLeft:
 
 	stmfd sp!, {r1-r10, lr}
+
+ldr r2, =gameType
+ldr r2,[r2]
+cmp r2,#2
+bne moveLeftNoIce
+
+	ldr r2,=platFours
+	ldr r2,[r2]
+	cmp r2,#1
+	bne moveLeftNoIce
+
+		ldr r2,=minerDirection
+		ldr r2,[r2]
+		cmp r2,#MINER_STILL
+		beq moveLeftNoIce
+
+		mov r0,r2
+@	ldr r1,=spriteHFlip+256
+@	sub r2,#1						@ flip sprite
+@	str r2,[r1]
+
+	b moveLeftFail
+
+moveLeftNoIce:
 	
 	ldr r2,=spriteHFlip+256
 	ldr r3,[r2]
@@ -167,6 +236,8 @@ moveLeft:
 	ldr r2,=spriteHFlip+256
 	mov r1,#0						@ flip sprite
 	str r1,[r2]
+	
+	moveLeftFail:
 
 	ldmfd sp!, {r1-r10, pc}
 	
@@ -481,10 +552,13 @@ minerFall:
 
 		mov r1,#MINER_FALL
 		str r1,[r0]					@ set to falling
-	
+
+		ldr r1,=gameType
+		ldr r1,[r1]
+		cmp r1,#2					@ if frozen level, dont stop movement.
 		mov r1,#0
 		ldr r0,=minerDirection
-		str r1,[r0]
+		strne r1,[r0]
 	
 		b minerFallFail
 

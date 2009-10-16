@@ -22,6 +22,7 @@ levelData:
 @						8=mallow, 9=twinkle, 10=blood, 11=bulb flash, 12=blinks
 @						13=animate killer blocks, 14=sparks 15=kong, 16=meteor storm
 @						17=forcefield, 18=anton, 19=lift,20=rocky, 21=BTTF flag, 22=causeway
+@						23=snow
 @ 7 =background number (0-?)
 @ 8 =door bank number (0-?)
 
@@ -538,18 +539,20 @@ levelData:
 	.byte 40,168,17,1,255,83,40,64			@ ok
 	.byte 96,168,17,1,1,84,96,200			@ ok
 	.byte 0,0,0,0,0,0,0,0	
-	@ 46
-	.byte 232,120,0,16,120,1,6,41
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	@ 46 end of the world
+	.byte 232,168,0,8,72,1,6,0
+
+	.byte 8,168,17,1,1,15,8,216
+	.byte 8,128,17,1,1,19,8,144
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
-	@ 47
-	.byTe 232,120,0,16,120,1,6,41
+	
+	@ 47 its christmas charley brown
+	.byTe 152,112,128,240,56,46,6,1
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -653,8 +656,8 @@ levelNames:
 	.ascii "           THE VAT!           "
 	.ascii "   ATTACK OF THE MUTANT...?   "
 	.ascii "        THE WAREHOUSE.        "
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "     THE END OF THE WORLD     "
+	.ascii "IT IS CHRISTMAS CHARLIE BROWN!"
 	.ascii "                              "
 	.ascii "                              "
 	.ascii "                              "
@@ -1251,20 +1254,20 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 46
+	@ 46 	end of the world
 	.ascii "                          "
+	.ascii "  STU SAID 'THIS LEVEL IS "
+	.ascii "LOST', THOUGH FLASH WAS   "
+	.ascii "NOT SO SURE. 'PUT IT IN', "
+	.ascii "SAID STU, 'NO, LEAVE IT   "
+	.ascii "OUT', SAID FLASH.         "
+	.ascii "  IN, OUT, IN, OUT, IN OUT"
+	.ascii "IT TURNED OUT THAT THE END"
+	.ascii "OF THE WORLD WAS CAUSED BY"
+	.ascii "A GAME OF ARGUEMENTATIVE  "
+	.ascii "HOKEY COKEY.. SAD!        "
 	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	.ascii "                          "
-	@ 47
+	@ 47  its christmas charlie brown
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1384,9 +1387,9 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	@ 45
 	.ascii "  LEVEL 17 - SPECTRUM 1983  "
 	@ 46
-	.ascii "                            "
+	.ascii "    LEVEL XX - ORIC 1985    "
 	@ 47
-	.ascii "                            "
+	.ascii "   ORIGINAL - FLASH  2009   "
 	@ 48
 	.ascii "                            "
 	@ 49

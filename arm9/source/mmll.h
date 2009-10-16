@@ -65,6 +65,7 @@
 #include "../build/Level44.h"
 #include "../build/Level45.h"
 #include "../build/Level46.h"
+#include "../build/Level47.h"
 
 #include "../build/Level49.h"
 
@@ -241,6 +242,7 @@
 #include "../build/FXLift.h"
 #include "../build/FXRocky.h"
 #include "../build/FXBackFlag.h"
+#include "../build/FXSnow.h"
 
 @ death animations
 
@@ -415,8 +417,8 @@
 
 #define MINER_SPRITE				99
 
-#define MINER_MID_JUMP				22			@ 22
-#define MINER_JUMPLEN				34			@ 34
+#define MINER_MID_JUMP				23			@ 22
+#define MINER_JUMPLEN				36			@ 34
 
 #define LEFT_OFFSET					3			@ 3
 #define RIGHT_OFFSET				11			@ 11
@@ -447,6 +449,7 @@
 #define FX_ROCKY					20
 #define FX_FFLAG					21
 #define FX_CAUSEWAY					22
+#define FX_SNOW						23
 
 
 @ / these are sprite active values used by drawsprite

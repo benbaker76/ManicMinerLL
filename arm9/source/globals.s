@@ -118,6 +118,7 @@
 	.global unlockedBonuses
 	.global levelBank
 	.global levelSpecialFound
+	.global platFours
 	
 	.global audioMusic
 	.global audioSFXVol
@@ -157,6 +158,8 @@ airDelay:
 musicRestart:
 	.word 0
 levelWraps:
+	.word 0
+platFours:
 	.word 0
 	
 cheatMode:
@@ -285,7 +288,7 @@ spriteDataEnd:
 	.align
 
 willyJumpData:
-	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
+	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0,0,0
 	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2
 
 @	.byte -3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
@@ -327,22 +330,22 @@ levelTypes:						@ a word for each level. 0=normal, 1=last level LL, 3=last leve
 	.word 2,2					@21-22	- Bonus
 	.word 0,0,0,0,0,0,0,0,0,3	@23-32	- WW
 	.word 2,2,2,2,2,2,2,2,2,2	@33-42	- Bonus
-	.word 2,2,2,2,2,2,2,2,2,2	@43-52	- Bonus
+	.word 2,2,2,2,2,2,2,2		@43-50	- Bonus
 levelBank:						@ 1=lost, 2=hollywood, 0=forget it (not important)
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 1,1,1,1,1,1,1,1,1,1
 	.word 0,0
 	.word 2,2,2,2,2,2,2,2,2,2
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0
 
 levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on convs) 
-	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,0,0,0,0,0,0,0,0,0	@ 2=slippery 4s
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 1,1,1,1,1,1,1,1,0,0
-	.word 0,0,0,0,0,0,0,0,0,0
+	.word 1,1,1,1,1,1,0,0,0,0
+	.word 0,0,0,0,2,0,0,0
 
 gameType:
 	.word 0						@ store type in here from levelSpecial
@@ -430,7 +433,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 15
+	.word 17
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 

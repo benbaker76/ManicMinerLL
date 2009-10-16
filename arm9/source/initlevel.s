@@ -78,9 +78,15 @@ initLevel:
 	str r0,[r1]
 	ldr r1,=bonusDelay
 	str r0,[r1]	
+	ldr r1,=minerDirection
+	str r0,[r1]
+	ldr r1,=platFours
+	str r0,[r1]	
+
 	mov r0,#-1
 	ldr r1,=mPhase
 	str r0,[r1]
+
 	
 	mov r0,#160
 	ldr r1,=air
@@ -238,7 +244,7 @@ initLevel:
 	
 	ldr r1,=levelNum
 	ldr r1,[r1]
-	add r1,#1
+	sub r1,#1
 	ldr r0,=levelSpecial
 	ldr r1,[r0,r1,lsl#2]
 	ldr r0,=gameType
@@ -1012,6 +1018,9 @@ specialEffectStart:
 		bleq fFlagInit
 	cmp r0,#FX_CAUSEWAY
 		bleq causeInit
+	cmp r0,#FX_SNOW
+		bleq snowInit
+
 	@ etc
 	ldmfd sp!, {r0-r1, pc}	
 

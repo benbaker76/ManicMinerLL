@@ -64,6 +64,7 @@
 	.global fFlagInit
 	.global goldGlintInit
 	.global causeInit
+	.global snowInit
 
 	.global specialFXStop
 
@@ -483,7 +484,25 @@ starsNew:
 @------------------------------------
 
 .pool
+
+@------------------------------------ init snow
+snowInit:
+	stmfd sp!, {r0-r10, lr}
+	bl leafInit
 	
+	ldr r0,=specialEffect
+	ldr r1,=FX_LEAVES
+	str r1,[r0]
+	
+	@ move overlay the snowballs
+
+	ldr r0,=FXSnowTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#30*256				@ dump at 30th sprite
+	ldr r2,=FXSnowTilesLen
+	bl dmaCopy
+
+	ldmfd sp!, {r0-r10, pc}	
 @------------------------------------ Init leaves
 leafInit:
 	stmfd sp!, {r0-r10, lr}
@@ -494,7 +513,7 @@ leafInit:
 		mov r2,#FX_LEAVES_ACTIVE
 		str r2,[r1,r0,lsl#2]
 		ldr r1,=spriteObj
-		mov r2,#LEAF_FRAME			@ object for rain
+		mov r2,#LEAF_FRAME			@ object for leaf
 		str r2,[r1,r0,lsl#2]
 		
 		bl getRandom				@ r8 returned

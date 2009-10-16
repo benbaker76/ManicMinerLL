@@ -263,13 +263,10 @@ checkFeet:
 
 	mov r9,r5	
 	
-
 	@ check for other stuff
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDieFeet
-	
-
 	
 	checkFeetLNot:
 
@@ -379,17 +376,26 @@ checkFeet:
 	b feetOnConveyor	
 	
 	feetNotRConveyor:
-
 	
 	checkFeetFinish:
-	
+
+@ if either r9 or r10=4, set platFours to 1
+mov r11,#0
+cmp r9,#4
+moveq r11,#1
+cmp r10,#4
+moveq r11,#1
+
+ldr r2,=platFours
+str r11,[r2]
+
 	push {r9,r10}
-	mov r2,r9
+	mov r10,r11
 	mov r11,#29							@ X Pos
 	mov r8,#23							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #0							@ 0 = Main, 1 = Sub
-@	bl drawDigits
+	bl drawDigits
 	mov r10,r2
 	mov r11,#25							@ X Pos
 	mov r8,#23							@ Y Pos
