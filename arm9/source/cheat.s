@@ -29,6 +29,7 @@
 #include "ipc.h"
 
 	#define	CHEAT_AMOUNT 		4
+	#define	CHEAT2_AMOUNT 		4
 	
 	.arm
 	.align
@@ -36,6 +37,9 @@
 	.global initCheat
 	.global updateCheatCheck
 	.global useCheat
+	.global initCheat2
+	.global updateCheat2Check
+	.global useCheat2
 	
 initCheat:
 
@@ -120,6 +124,97 @@ updateCheatCheck:
 	bl playDead	
 
 	ldmfd sp!, {r0-r8, pc}
+
+
+
+@----------------------------------------------------------------------------
+
+
+	
+	@---------------------------------
+initCheat2:
+
+	stmfd sp!, {r0-r8, lr}
+
+	ldr r0, =cheat2Section
+	mov r1, #0
+	str r1, [r0]
+	ldr r0, =cheat2Key
+	str r1,[r0]
+	
+	ldmfd sp!, {r0-r8, pc}
+	
+	@---------------------------------
+
+updateCheat2Check:
+	@ repeating the sequence (you can change if wanted) will turn cheats on and off
+	stmfd sp!, {r0-r8, lr}
+	
+	ldr r1, =REG_KEYINPUT						@ Read Key Input
+	ldr r2, [r1]
+	ldr r8,=1023								@ all buttons clear (but in DS=set?)
+	cmp r2,r8
+	beq noCheat2Key								@ if no key pressed, no need to check!
+	ldr r3,=cheat2Key
+	ldr r3,[r3]
+	cmp r2,r3
+	bne cheat2Check								@ if key pressed is same, wait for release 
+	ldmfd sp!, {r0-r8, pc}
+
+	cheat2Check:
+	ldr r4,=cheat2Sequence
+	ldr r5,=cheat2Section
+	ldr r7,[r5]
+	ldr r6,[r4, r7, lsl #2]					@ r6=key in sequence to find
+	tst r2,r6
+	bne wrongCheat2Key
+		add r7,#1
+		cmp r7,#CHEAT2_AMOUNT
+		beq activateCheat2
+		str r7,[r5]
+		ldr r3,=cheat2Key
+		str r2,[r3]
+		ldmfd sp!, {r0-r8, pc}	
+	
+	wrongCheat2Key:
+		mov r7,#0
+		str r7,[r5]
+		ldr r3,=cheat2Key
+		str r2,[r3]
+		ldmfd sp!, {r0-r8, pc}	
+
+	noCheat2Key:
+		mov r2,#0
+		ldr r3,=cheat2Key
+		str r2,[r3]
+		ldmfd sp!, {r0-r8, pc}
+		
+	activateCheat2:
+		mov r2,#0
+		str r2,[r5]					@ reset cheatSection	
+		ldr r5,=cheat2Mode
+		ldr r6,[r5]
+		cmp r6,#0
+		beq activateCheat2ON
+@---------- Cheats off
+	
+	mov r2,#0
+	str r2,[r5]
+	
+	bl playDead		
+	
+	ldmfd sp!, {r0-r8, pc}		
+	
+@---------- Cheats on
+	
+	activateCheat2ON:
+	
+	mov r2,#1
+	str r2,[r5]
+	
+	bl playDead	
+
+	ldmfd sp!, {r0-r8, pc}
 	
 	@---------------------------------
 
@@ -136,6 +231,17 @@ cheatSequence:									@ in the current check - you must use different key for e
 
 	.align
 cheatKey:
+	.word 0
+
+cheat2Section:
+	.word 0
+
+	.align
+cheat2Sequence:									@ in the current check - you must use different key for each part!
+	.word BUTTON_LEFT, BUTTON_RIGHT, BUTTON_LEFT, BUTTON_RIGHT
+
+	.align
+cheat2Key:
 	.word 0
 
 	.pool

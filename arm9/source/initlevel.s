@@ -946,6 +946,9 @@ getWillySprite:
 		cmp r3,#6
 		ldreq r0,=MinerCoupeTiles
 		ldreq r2,=MinerCoupeTilesLen		
+		cmp r3,#7
+		ldreq r0,=MinerDarkerTiles
+		ldreq r2,=MinerDarkerTilesLen	
 
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
@@ -958,10 +961,10 @@ getWillySprite:
 .align
 .data
 levelWilly:							@ this tells us what sprite for what level
-	.byte 0,0,0,0,0,0,1,0,0,0
-	.byte 0,0,0,0,0,2,0,0,0,0	@ ll
+	.byte 0,0,7,0,0,0,1,0,0,0
+	.byte 0,0,0,0,7,2,0,0,0,0	@ ll
 	.byte 3,5
-	.byte 4,0,0,0,0,0,0,0,0,0	@ ww
+	.byte 4,0,0,0,0,0,7,0,0,7	@ ww
 	.byte 6,6,6,6,6,6,2,5		@ bonus up to 40
 	.byte 0,5,1,1,1,0,0,0,0,1	@ levels 41-50
 

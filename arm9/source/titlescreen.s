@@ -64,6 +64,8 @@ initTitleScreen:
 
 	bl initVideoTitle
 	bl initCheat
+	bl initCheat2
+
 	bl clearOAM
 
 	mov r0,#0							@ set level to 0 for start of game
@@ -402,6 +404,11 @@ updateTitleScreen:
 		cmp r10,#128
 		bpl titleIsBitmap
 	
+		ldr r1,=cheat2Mode
+		ldr r1,[r1]
+		cmp r1,#1
+		beq cheat2
+	
 		ldr r0,=minerDelay
 		ldr r1,[r0]
 		add r1,#1
@@ -409,6 +416,8 @@ updateTitleScreen:
 		moveq r1,#0
 		str r1,[r0]
 		bne skipTitleFrame
+		
+			cheat2:
 		
 			bl monsterMove
 		
@@ -424,6 +433,7 @@ updateTitleScreen:
 		bl drawTitleSprites
 		
 		bl updateCheatCheck
+		bl updateCheat2Check
 		
 		bl titleMenuControl
 		
@@ -1539,7 +1549,7 @@ titleBL:			@ 27 chars each
 	.asciz	"PLAY SPECIAL: THE VAT     "	@ 43	13
 	.asciz	"PLAY SPECIAL: BUZBY RINGS "	@ 44	14
 	.asciz	"PLAY SPECIAL: WARES HOUSE "	@ 45	15
-	.asciz	"PLAY SPECIAL: WORLDS END  "	@ 46	16\
-	.asciz	"PLAY SPECIAL: SEASONING   "	@ 47	17
+	.asciz	"PLAY SPECIAL: WORLDS END  "	@ 46	16
+	.asciz	"PLAY SPECIAL: A BROWN ONE "	@ 47	17
 titleJB:
 	.asciz	"AUDIO OPTIONS"

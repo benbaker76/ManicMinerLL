@@ -34,6 +34,8 @@
 findHighscore:
 	stmfd sp!, {r0-r10, lr}
 	
+	ldr r0,=cheatMode; ldr r0,[r0]; cmp r0,#1; beq highscoreReturn		@ if CHEATING - no highscore!! HA HA
+	
 	mov r0,#5						@ highscore position
 	mov r1,#0						@ digit to check
 	mov r10,#HIGH_SCORE_LEN			@ multiplier (6 digits per score)

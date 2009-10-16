@@ -60,6 +60,7 @@
 	.global spriteScreen
 
 	.global cheatMode
+	.global cheat2Mode
 
 	.global minerDelay
 	.global minerDirection
@@ -138,10 +139,13 @@
 	.global frameRight
 	
 	.global mPhase
+	.global leafAmount
 
 fadeCheck:
 	.word 0
 cursorAction:
+	.word 0
+leafAmount:
 	.word 0
 	
 mPhase:
@@ -163,6 +167,8 @@ platFours:
 	.word 0
 	
 cheatMode:
+	.word 0
+cheat2Mode:
 	.word 0
 
 fxMode:

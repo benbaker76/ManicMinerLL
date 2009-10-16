@@ -148,6 +148,10 @@ gameLoop:
 	ldr r0,[r0]
 	cmp r0,#21
 	beq moveFaster
+	ldr r0,=cheat2Mode
+	ldr r0,[r0]
+	cmp r0,#1
+	beq moveFaster
 	ldr r0,=minerDelay
 	ldr r1,[r0]
 	add r1,#1

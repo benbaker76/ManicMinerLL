@@ -152,7 +152,6 @@ rainInit:
 		ldr r1,=spritePriority
 		mov r8,#3
 		str r8,[r1,r0,lsl#2]
-		
 	
 	subs r0,#1
 	bpl rainInitLoop
@@ -273,7 +272,6 @@ rainUpdate:
 	subs r0,#1
 	bpl rainUpdateLoop
 
-	
 	@ OK, check for lightning... (if delay is 0)
 	
 	ldr r9,=lightningDelay
@@ -449,7 +447,6 @@ starsUpdate:
 		blt starsNew
 		str r3,[r1,r0,lsl#2]
 
-
 		starsReturn:
 	subs r0,#1
 	bpl starsUpdateLoop
@@ -507,7 +504,15 @@ snowInit:
 leafInit:
 	stmfd sp!, {r0-r10, lr}
 	
-	mov r0,#30
+	ldr r1,=specialEffect
+	ldr r2,[r1]
+	mov r1,#30
+	cmp r2,#FX_SNOW
+	moveq r1,#60
+	ldr r2,=leafAmount
+	str r1,[r2]
+	
+	mov r0,r1
 	leafInitLoop:
 		ldr r1,=spriteActive
 		mov r2,#FX_LEAVES_ACTIVE
@@ -563,7 +568,9 @@ leafInit:
 leafUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
-	mov r0,#30
+	ldr r1,=leafAmount
+	ldr r0,[r1]
+	
 	leafUpdateLoop:
 		ldr r1,=spriteActive
 		ldr r2,[r1,r0,lsl#2]
@@ -626,7 +633,6 @@ leafUpdate:
 			cmp r7,#0
 			subne r7,#1
 			str r7,[r1,r0,lsl#2]
-			
 			b leafMoved
 		
 		leafRight:

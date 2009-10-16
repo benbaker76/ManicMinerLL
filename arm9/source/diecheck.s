@@ -215,6 +215,14 @@ updateDeathAnim:
 	
 		bl swiWaitForVBlank	
 
+		ldr r0,=cheat2Mode
+		ldr r0,[r0]
+		cmp r0,#1
+		beq cheatDeath
+		ldr r0,=levelNum
+		ldr r0,[r0]
+		cmp r0,#21
+		beq cheatDeath
 		ldr r0,=minerDelay
 		ldr r1,[r0]
 		add r1,#1
@@ -222,6 +230,8 @@ updateDeathAnim:
 		moveq r1,#0
 		str r1,[r0]
 		bne skipFrameClearDie
+		
+			cheatDeath:
 			bl monsterMove
 			
 			ldr r0,=willySpriteType

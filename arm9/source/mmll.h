@@ -218,6 +218,7 @@
 #include "../build/MinerCasablanca.h"
 #include "../build/MinerBlagger.h"
 #include "../build/MinerCoupe.h"
+#include "../build/MinerDarker.h"
 
 #include "../build/SpriteBank1.h"
 
