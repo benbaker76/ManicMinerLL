@@ -441,6 +441,9 @@ getDoorSprite:
 	ldreq r0, =Exit45Tiles
 	ldreq r2, =Exit45TilesLen
 
+	cmp r0,#46
+	ldreq r0, =Exit46Tiles
+	ldreq r2, =Exit46TilesLen
 
 	cmp r2,#0
 	beq skipExit
@@ -657,6 +660,17 @@ getLevelBackground:
 	ldreq r5,=Background41TilesLen
 	ldreq r6,=Background41Map
 	ldreq r7,=Background41MapLen
+	
+	cmp r0,#45
+	ldreq r4,=Background46Tiles
+	ldreq r5,=Background46TilesLen
+	ldreq r6,=Background46Map
+	ldreq r7,=Background46MapLen
+	cmp r0,#46
+	ldreq r4,=Background47Tiles
+	ldreq r5,=Background47TilesLen
+	ldreq r6,=Background47Map
+	ldreq r7,=Background47MapLen
 
 	@ Draw main game map!
 	mov r0,r4
@@ -876,6 +890,9 @@ generateMonsters:
 	cmp r0,#31
 	ldreq r2, =Doom_xm_gz
 	ldreq r3, =Doom_xm_gz_size	
+	cmp r0,#32
+	ldreq r2, =Hero_xm_gz
+	ldreq r3, =Hero_xm_gz_size	
 	
 	bl initMusic
 	
@@ -949,7 +966,11 @@ getWillySprite:
 		cmp r3,#7
 		ldreq r0,=MinerDarkerTiles
 		ldreq r2,=MinerDarkerTilesLen	
+		cmp r3,#8
+		ldreq r0,=MinerSnoopyTiles
+		ldreq r2,=MinerSnoopyTilesLen
 
+	
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
 		
@@ -966,7 +987,7 @@ levelWilly:							@ this tells us what sprite for what level
 	.byte 3,5
 	.byte 4,0,0,0,0,0,7,0,0,7	@ ww
 	.byte 6,6,6,6,6,6,2,5		@ bonus up to 40
-	.byte 0,5,1,1,1,0,0,0,0,1	@ levels 41-50
+	.byte 0,5,1,1,1,0,8,0,0,1	@ levels 41-50
 
 .align
 .text

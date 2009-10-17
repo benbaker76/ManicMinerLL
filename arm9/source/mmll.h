@@ -104,6 +104,8 @@
 #include "../build/Background39.h"
 
 #include "../build/Background41.h"
+#include "../build/Background46.h"
+#include "../build/Background47.h"
 
 #include "../build/Background49.h"
 
@@ -144,6 +146,7 @@
 #include "../build/Exit43.h"
 #include "../build/Exit44.h"
 #include "../build/Exit45.h"
+#include "../build/Exit46.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"
@@ -219,6 +222,7 @@
 #include "../build/MinerBlagger.h"
 #include "../build/MinerCoupe.h"
 #include "../build/MinerDarker.h"
+#include "../build/MinerSnoopy.h"
 
 #include "../build/SpriteBank1.h"
 
@@ -263,6 +267,7 @@
 #include "../build/DieTravolta.h"
 #include "../build/DieVanish.h"
 #include "../build/DieGameOver.h"
+#include "../build/DieSnoopy.h"
 
 @ tile offset for the status font
 

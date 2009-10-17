@@ -155,6 +155,10 @@ testingit:
 		ldreq r4,=spriteHFlip+256
 		moveq r5,#0
 		streq r5,[r4]
+		
+		cmp r3,#46
+		ldreq r0,=DieSnoopyTiles		
+		
 		ldr r1, =SPRITE_GFX_SUB				@ copy tiles
 
 		bl dmaCopy
