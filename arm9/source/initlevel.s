@@ -872,13 +872,13 @@ generateMonsters:
 	cmp r0,#25
 	ldreq r2, =Oldies_xm_gz
 	ldreq r3, =Oldies_xm_gz_size
-	cmp r0,#26	@ 37
+	cmp r0,#26
 	ldreq r2, =Title_xm_gz
 	ldreq r3, =Title_xm_gz_size	
-	cmp r0,#27	@ 38
+	cmp r0,#27
 	ldreq r2, =GameOver_xm_gz
 	ldreq r3, =GameOver_xm_gz_size
-	cmp r0,#28	@ 39
+	cmp r0,#28
 	ldreq r2, =HighScore_xm_gz
 	ldreq r3, =HighScore_xm_gz_size
 	cmp r0,#29
