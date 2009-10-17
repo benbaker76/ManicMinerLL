@@ -79,10 +79,21 @@ initCompletion:
 	ldr r1,=spriteScreen
 	str r0,[r1]
 	
-@	mov r0,#?
-@	bl levelMusicPlayEasy
+	mov r0,#32
+	bl levelMusicPlayEasy
+
+	ldr r0, =ScrollFontTiles						@ copy out nice wide font to tope screen
+	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
+	ldr r2, =ScrollFontTilesLen
+	bl decompressToVRAM	
 
 	bl fxFadeIn	
+	
+	
+	mov r0,#67
+	mov r1,#10
+	mov r2,#10
+	bl drawTextDouble
 	
 	ldmfd sp!, {r0-r10, pc}
 

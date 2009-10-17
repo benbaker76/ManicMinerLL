@@ -41,6 +41,7 @@
 	.global drawHighText
 	.global drawHighTextMain
 	.global drawTextBigDigits
+	.global drawTextDouble
 	
 drawText:
 	
@@ -453,6 +454,36 @@ drawHighTextMain:
 	subs r3,#1	
 	bpl drawHighTextMainLoop
 	ldmfd sp!, {r0-r10, pc}
+
+@-----------------------------
+
+drawTextDouble:
+
+	@ r0 = char
+	@ r1 = x pos
+	@ r2 = y pos
+
+	stmfd sp!, {r0-r8, lr} 
+
+	ldr r5,=BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
+	add r5,r2,lsl #6
+	add r5, r1,lsl #2		@ r5= top left coord
+	mov r6,r5
+	add r5,#64				@ r6 =bot left
+
+	sub r0,#32
+	lsl r0,#2				@ top left tile
+
+	strh r0, [r6], #2
+	add r0,#1
+	strh r0, [r6], #2
+	add r0,#1
+	strh r0, [r5], #2
+	add r0,#1
+	strh r0, [r5], #2
+
+	ldmfd sp!, {r0-r8, pc}
+	@ ---------------------------------------------
 
 	
 	.pool

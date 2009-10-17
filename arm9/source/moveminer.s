@@ -411,7 +411,12 @@ minerJump:
 	ldr r2,[r3]						@ r2 = the phase of the jump ("keep" r2 and r3 for later)
 	
 	ldr r1,=willyJumpData
-	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump	
+	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump
+
+ldr r5,=gameType
+ldr r5,[r5]
+cmp r5,#3
+lsleq r4,#1
 
 	ldr r5,=spriteY+256				@ get y coord
 	ldr r6,[r5]
@@ -447,9 +452,12 @@ minerJump:
 	
 	@-------------- JUMP GOIUNG DOWN
 	
+		ldr r5,=gameType
+		ldr r5,[r5]
+		cmp r5,#3					@ if it is a turbo jump level, dont add to fall count
 		ldr r3,=fallCount				@ if we are coming down, this is counted as a fall!
 		ldr r5,[r3]
-		add r5,r4
+		addne r5,r4
 		str r5,[r3]
 	
 

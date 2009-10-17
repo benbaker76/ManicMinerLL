@@ -346,7 +346,7 @@ levelBank:						@ 1=lost, 2=hollywood, 0=forget it (not important)
 	.word 0,0,0,0,0,0,0,0
 
 levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on convs) 
-	.word 0,0,0,0,0,0,0,0,0,0	@ 2=slippery 4s
+	.word 0,0,0,0,0,0,0,0,0,0	@ 2=slippery 4s, 3=big jumper
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0

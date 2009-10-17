@@ -893,7 +893,9 @@ generateMonsters:
 	cmp r0,#32
 	ldreq r2, =Hero_xm_gz
 	ldreq r3, =Hero_xm_gz_size	
-	
+	cmp r0,#33
+	ldreq r2, =Xmas_xm_gz
+	ldreq r3, =Xmas_xm_gz_size		
 	bl initMusic
 	
 	@ now we hear music, set the flag in musicHeard (byte)

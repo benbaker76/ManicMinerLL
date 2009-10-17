@@ -509,6 +509,7 @@ levelData:
 	.byte 142,168,17,1,1,70,142,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
+	
 	@ 43 / The Vat
 	.byte 120,168,5,14,168,1,6,42
 
@@ -519,6 +520,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
+
 	@ 44  mutant telephones
 	.byte 8,72,5,21,72,1,6,43
 
@@ -552,7 +554,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0	
 	
 	@ 47 its christmas charley brown
-	.byTe 152,112,128,240,56,46,46,46
+	.byTe 152,112,128+33,240,56,46,46,46
 
 	.byte 136,136,1,0,255,85,80,136
 	.byte 32,56,17,1,1,86,32,216
@@ -599,7 +601,7 @@ levelNames:
 
 	.ascii "        HOME AT LAST??        "
 	.ascii "         THE  AIRLOCK         "
-	.ascii "       MUMMY!!, DADDY!!       "
+	.ascii "       MUMMY!!, DADDY!!       "	@ TO end of the world
 	.ascii "  HALL OF THE MOUNTAIN KONG!  "
 	.ascii "         BACK TO WORK         "
 	.ascii "    THE DRAGON USERS BONUS    "
@@ -656,7 +658,7 @@ levelNames:
 	.ascii "           THE VAT!           "
 	.ascii "   ATTACK OF THE MUTANT...?   "
 	.ascii "        THE WAREHOUSE.        "
-	.ascii "     THE END OF THE WORLD     "
+	.ascii "     THE END OF THE WORLD     "	@ to mummy daddy!
 	.ascii "IT IS CHRISTMAS CHARLIE BROWN!"
 	.ascii "                              "
 	.ascii "                              "
