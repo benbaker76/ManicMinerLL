@@ -40,6 +40,8 @@ initLevelClear:										@ set up the level clear dat
 
 	stmfd sp!, {r0-r10, lr}	
 
+	bl stopTimer3
+
 	@ first, remove willy
 	mov r1,#0
 	ldr r2,=spriteActive+256
@@ -64,6 +66,30 @@ initLevelClear:										@ set up the level clear dat
 	bl fxStarburstInit
 	
 	bl playLevelEnd
+	
+	@ if this is a bonus level, we need to check the timer and see if we have a record!
+	
+	ldr r0,=levelNum
+	ldr r0,[r0]
+	sub r0,#1
+	ldr r1,=levelTypes
+	ldr r1,[r1,r0,lsl#2]
+	cmp r1,#2
+	bne notABonusLevel
+	
+		@ ok, bonus level
+		
+		ldr r0,=cheat2Mode
+		ldr r0,[r0]
+		cmp r0,#1
+		beq notABonusLevel
+	
+		bl checkBonusTimer
+	
+	notABonusLevel:
+	
+	
+	
 	
 	ldmfd sp!, {r0-r10, pc}	
 @-----------------------------------------------
@@ -139,6 +165,96 @@ scoreAir:											@ reduce Air and score it
 
 @-----------------------------------------------	
 	
+checkBonusTimer:
+
+	stmfd sp!, {r0-r10, lr}	
+
+
+	ldr r1,=levelNum
+	ldr r1,[r1]
+	sub r1,#1
+	ldr r2,=levelForTimer
+	ldr r0,[r2,r1,lsl#2]
+	mov r1,#12
+	mul r0,r1				@ r0= offset from records (0-1-2-3-4-)
+	ldr r8,=levelRecords
+	add r8,r0				@ r8 points to mins
+	mov r9,r8
+
+mov r5,#0
+ldr r1,=bMin
+ldr r1,[r1]
+ldr r3,=1000000
+mul r1,r3
+add r5,r1
+ldr r1,=bSec
+ldr r1,[r1]
+ldr r3,=10000
+mul r1,r3
+add r5,r1
+ldr r1,=bMil
+ldr r1,[r1]
+add r5,r1	@ r5=our time
+
+mov r6,#0
+ldr r1,[r8]
+ldr r3,=1000000
+mul r1,r3
+add r6,r1
+add r8,#4
+ldr r1,[r8]
+ldr r3,=10000
+mul r1,r3
+add r6,r1
+add r8,#4
+ldr r1,[r8]
+add r6,r1	@ r6=record
+
+cmp r5,r6
+bge notARecord
+
+	@ ok, this is a record, copy to new record and display
+	
+	mov r3,r9
+	ldr r1,=bMin
+	ldr r1,[r1]
+	str r1,[r3]
+	mov r10,r1
+	mov r7,#0
+	mov r11,#14
+	mov r8,#2
+	mov r9,#2
+	bl drawDigitsB	
+	
+	add r3,#4
+	ldr r1,=bSec
+	ldr r1,[r1]
+	str r1,[r3]	
+	mov r10,r1
+	mov r7,#0
+	mov r11,#17
+	mov r8,#2
+	mov r9,#2
+	bl drawDigitsB
+	
+	add r3,#4
+	ldr r1,=bMil
+	ldr r1,[r1]
+	str r1,[r3]
+	mov r10,r1
+	mov r7,#0
+	mov r11,#20
+	mov r8,#2
+	mov r9,#3
+	bl drawDigitsB
+
+	@ ok, now we need to do something to make a noise and signal success!!
+
+
+notARecord:
+
+	ldmfd sp!, {r0-r10, pc}
+
 	.pool
 	.data
 	

@@ -39,6 +39,9 @@
 	.global digits
 	.global screenOrder
 	
+	.global levelForTimer
+	.global levelRecords
+	
 	.global spriteActive
 	.global spriteX
 	.global spriteY
@@ -140,6 +143,17 @@
 	
 	.global mPhase
 	.global leafAmount
+	
+	.global bMin
+	.global bSec
+	.global bMil
+	
+bMin:
+	.word 0
+bSec:
+	.word 0
+bMil:
+	.word 0
 
 fadeCheck:
 	.word 0
@@ -352,6 +366,13 @@ levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on conv
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 1,1,1,1,1,1,0,0,0,0
 	.word 0,0,0,0,2,0,0,0
+levelForTimer:
+	.word 0,0,0,0,0,0,0,0,0,0	
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 0,1
+	.word 0,0,0,0,0,0,0,0,0,0
+	.word 2,3,4,5,6,7,8,9,10,11
+	.word 12,13,14,15,16,17,18,19
 
 gameType:
 	.word 0						@ store type in here from levelSpecial
@@ -418,11 +439,11 @@ musicHeard:
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 	.word 0,1,0,1,1,1,0,1,0,1
 	.word 1,1,1,1,0,0,0,1,0,1
-	.word 0,0
-	.word 0,0,0,0,0,0,0,0,0,0
-	.word 0,0,0,0,0,0,0,0,0,0
-	.word 0,0,0,0,0,0,0,0		@ 43-50
-	
+	.word 0,1					@ bonus 1 and 2 (20 and 21)
+	.word 0,1,1,0,0,1,1,0,0,1	@ lost levels 23-32
+	.word 0,0,0,0,0,0,0,0,0,0	@ bonus 3-12
+	.word 0,0,1,0,0,1,0,0		@ bonus 13-20	( 32-49)
+
 	.align
 levelLLReached:					@ Lost max (highest visited)
 	.word 20
@@ -450,6 +471,31 @@ audioSFXVol:					@ audio Volume
 
 deathAnimation:
 	.word -1					@ which animation to use on the game over
+
+levelRecords:	
+	@ bonus level records
+	@ stored as min,sec,mil
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+	.word 2,30,0
+
 
 
 endOfSaveData:	

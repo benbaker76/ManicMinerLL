@@ -50,11 +50,16 @@ initInterruptHandler:
 	ldr r1, =interruptHandlerTimer1			@ Function Address
 	bl irqSet
 	
-	ldr r0, =IRQ_TIMER2						@ TIMER3 interrupt
+	ldr r0, =IRQ_TIMER2						@ TIMER2 interrupt
 	ldr r1, =interruptHandlerTimer2			@ Function Address
 	bl irqSet
+
+	ldr r0, =IRQ_TIMER3						@ TIMER3 interrupt
+	ldr r1, =interruptHandlerTimer3			@ Function Address
+	bl irqSet
+
 	
-	ldr r0, =(IRQ_VBLANK | IRQ_HBLANK | IRQ_TIMER1 | IRQ_TIMER2 | IRQ_IPC_SYNC)		@ Interrupts
+	ldr r0, =(IRQ_VBLANK | IRQ_HBLANK | IRQ_TIMER1 | IRQ_TIMER2 | IRQ_TIMER3 | IRQ_IPC_SYNC)		@ Interrupts
 	bl irqEnable							@ Enable
 	
 	ldr r0, =REG_IPC_SYNC					@ Turn on IPC_SYNC interrupt
@@ -103,6 +108,14 @@ interruptHandlerTimer2:
 	ldmfd sp!, {pc}
 	
 	@ ------------------------------------
+	@ ------------------------------------
+	
+interruptHandlerTimer3:
 
+	stmfd sp!, {lr}
+	
+	bl timerTimer3
+	
+	ldmfd sp!, {pc}
 	.pool
 	.end

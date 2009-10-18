@@ -203,6 +203,9 @@ gameLoop:
 @	bl debugText
 
 @	bl coords
+
+	bl displayBonusTimer
+
 	
 mainLoopDone:
 
@@ -216,6 +219,10 @@ spotlightLoop:
 	ldr r0,=levelNum
 	ldr r0,[r0]
 	cmp r0,#21
+	beq moveSpotFaster
+	ldr r0,=cheat2Mode
+	ldr r0,[r0]
+	cmp r0,#1
 	beq moveSpotFaster
 	ldr r0,=minerDelay
 	ldr r1,[r0]

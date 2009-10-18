@@ -249,6 +249,10 @@ initLevel:
 	ldr r1,[r0,r1,lsl#2]
 	ldr r0,=gameType
 	str r1,[r0]
+	
+	@ start timer if bonus level
+	
+	bl bonusTimerInit
 
 	ldmfd sp!, {r0-r12, pc}
 

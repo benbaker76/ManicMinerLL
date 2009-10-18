@@ -34,6 +34,7 @@
 	.global drawText
 	.global drawTextCount
 	.global drawDigits
+	.global drawDigitsB
 	.global drawTextBig
 	.global drawTextBlack
 	.global drawTextScroller
@@ -484,7 +485,68 @@ drawTextDouble:
 
 	ldmfd sp!, {r0-r8, pc}
 	@ ---------------------------------------------
+	@ ---------------------------------------------
 
+drawDigitsB:
+
+	@ Ok, to use this we need to pass it a few things!!!
+	@ r10 = number to display
+	@ r7 = 0 = Main, 1 = Sub
+	@ r8 = height to display to
+	@ r9 = number of Digits to display
+	@ r11 = X coord
+	
+	stmfd sp!, {r0-r10, lr}
+	
+	cmp r9,#0						@ if you forget to set r9 (or are using it)
+	moveq r9,#4						@ we will default to 4 digits
+
+	ldr r5,=digits					@ r5 = pointer to our digit store	
+	mov r1,#31
+	mov r2,#0
+	
+	debugClearB:						@ clear our digits
+		strb r2,[r5,r1]
+		subs r1,#1
+	bpl debugClearB
+	
+	mov r6,#31						@ r6 is the digit we are to store 0-31 (USING WORDS)
+	mov r1,r10
+	convertLoopB:	
+		mov r2,#10					@ This is our divider
+		bl divideNumber				@ call our code to divide r1 by r2 and return r0 with fraction
+		strb r1,[r5,r6]				@ lets store our fraction in our digit data
+		mov r1,r0					@ put the result back in r1 (original r1/10)
+		subs r6,#1					@ take one off our digit counter
+	@	cmp r1,#0					@ is our result 0 yet, if not, we have more to do
+	bne convertLoopB	
+
+	ldr r0, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)	@ make r0 a pointer to screen memory bg bitmap sub address
+	ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+	cmp r7, #0
+	moveq r0, r1
+	mov r1,#0
+	add r1, r8, lsl #6
+	add r0, r1
+	add r0, r11, lsl #1
+	ldr r1, =digits					@ Get address of text characters to draw
+
+	mov r2,#32
+	sub r2,r9						
+	add r1,r2						@ r1 = offset from digit reletive to number of digits to draw (r8)
+	mov r2,r9						@ r2 = number of digits to draw
+
+digitsLoopB:
+	ldrb r3,[r1],#1					@ Read r1 [text] and add 1 to [text] offset
+	add r3,#16						@ offset for 0. We only have chars as a tile in sub screen
+	orr r3, #(9 << 12)				@ Orr in the palette number (n << 12)
+	strh r3, [r0], #2				@ Write the tile number to our 32x32 map and move along
+	subs r2, #1						@ Move along one
+	bne digitsLoopB					@ And loop back until done
+	
+	ldmfd sp!, {r0-r10, pc}
+	
+	@ ---------------------------------------------
 	
 	.pool
 	.end

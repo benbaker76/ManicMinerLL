@@ -102,36 +102,16 @@ minerFrame:
 	cmp r0,#GAMEMODE_RUNNING
 	bne minerFrameDone
 	
-	
-@	ldr r0,=spriteX+256
-@	ldr r0,[r0]
-@	sub  r0,#64	
-@	add r0,#3
-@	sub r0,#1
-@	and r0,#15
-@	lsr r0,#1
+	ldr r1,=spriteHFlip+256
+	ldr r1,[r1]
+	cmp r1,#0
 
-	
-@	ldr r7,=spriteHFlip+256
-@	ldr r7,[r7]
-
-@	cmp r7,#0
-@	moveq r7,#7
-@	subeq r7,r0
-@	moveq r0,r7	
-	
-ldr r1,=spriteHFlip+256
-ldr r1,[r1]
-cmp r1,#0
-
-ldr r0,=spriteX+256
-ldr r0,[r0]
-ldreq r1,=frameLeft
-ldrne r1,=frameRight
-
+	ldr r0,=spriteX+256
+	ldr r0,[r0]
+	ldreq r1,=frameLeft
+	ldrne r1,=frameRight
 
 	ldr r0,[r1,r0,lsl#2]
-
 	ldr r1,=spriteObj+256
 	
 	mov r7,#7
