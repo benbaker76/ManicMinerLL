@@ -602,6 +602,6 @@
 
 #define HIGH_NAME_LEN				8
 #define HIGH_SCORE_LEN				6
-#define SECRET_MAX					15			@ use this to make sure that we don't unlock more than we have
+#define SECRET_MAX					20			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
 

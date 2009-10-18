@@ -69,8 +69,8 @@ levelData:
 	@ 3 / end of the world
 	.byte 232,168,3,8,72,25,2,0
 
-	.byte 8,168,17,1,1,15,8,216
-	.byte 8,128,17,1,1,19,8,144
+	.byte 8,168,17,1,1,17,8,216
+	.byte 8,128,17,1,1,20,8,144
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -584,10 +584,10 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
 	@ 50 / FINAL BARRIER
-	.byte 232,120,0,16,168,1,49,41
+	.byte 152,104,0,220,168,0,49,0
 
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
+	.byte 192,108,17,0,255,12,108,168
+	.byte 56,168,17,1,1,19,56,176
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -705,6 +705,7 @@ levelNames:
 	.ascii "OF THE WORLD WAS CAUSED BY"
 	.ascii "A GAME OF ARGUEMENTATIVE  "
 	.ascii "HOKEY COKEY.. SAD!        "
+	.ascii "                          "
 	@ 4
 	.ascii "ENTERING WHAT USED TO BE  "
 	.ascii "HIS BACK HALLWAY, WILLY IS"
