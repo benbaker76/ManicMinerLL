@@ -82,11 +82,11 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-	bl initCompletion
+@	bl initCompletion
 
 @	bl findHighscore
 
-@	bl initGame
+	bl initGame
 
 @	bl initTitleScreen
 	

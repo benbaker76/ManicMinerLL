@@ -66,8 +66,9 @@
 #include "../build/Level45.h"
 #include "../build/Level46.h"
 #include "../build/Level47.h"
-
+#include "../build/Level48.h"
 #include "../build/Level49.h"
+#include "../build/Level50.h"
 
 #include "../build/Background01.h"
 #include "../build/Background02.h"
@@ -106,8 +107,8 @@
 #include "../build/Background41.h"
 #include "../build/Background46.h"
 #include "../build/Background47.h"
-
 #include "../build/Background49.h"
+#include "../build/Background50.h"
 
 #include "../build/Exit01.h"
 #include "../build/Exit02.h"
@@ -147,6 +148,8 @@
 #include "../build/Exit44.h"
 #include "../build/Exit45.h"
 #include "../build/Exit46.h"
+
+#include "../build/Exit48.h"
 
 #include "../build/TopMenu.h"
 #include "../build/BotMenu.h"

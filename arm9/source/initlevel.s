@@ -444,6 +444,10 @@ getDoorSprite:
 	cmp r0,#46
 	ldreq r0, =Exit46Tiles
 	ldreq r2, =Exit46TilesLen
+	
+	cmp r0,#47
+	ldreq r0, =Exit48Tiles
+	ldreq r2, =Exit48TilesLen
 
 	cmp r2,#0
 	beq skipExit
@@ -671,6 +675,15 @@ getLevelBackground:
 	ldreq r5,=Background47TilesLen
 	ldreq r6,=Background47Map
 	ldreq r7,=Background47MapLen
+
+
+
+	cmp r0,#49
+	ldreq r4,=Background50Tiles
+	ldreq r5,=Background50TilesLen
+	ldreq r6,=Background50Map
+	ldreq r7,=Background50MapLen
+
 
 	@ Draw main game map!
 	mov r0,r4
@@ -989,7 +1002,7 @@ levelWilly:							@ this tells us what sprite for what level
 	.byte 3,5
 	.byte 4,0,0,0,0,0,7,0,0,7	@ ww
 	.byte 6,6,6,6,6,6,2,5		@ bonus up to 40
-	.byte 0,5,1,1,1,0,8,0,0,1	@ levels 41-50
+	.byte 0,5,1,1,1,0,8,1,0,0	@ levels 41-50
 
 .align
 .text

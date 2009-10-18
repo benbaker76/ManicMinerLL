@@ -563,8 +563,18 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
-	@ 48
-	.byte 232,120,0,16,120,1,6,41
+	@ 48 / ENDORIAN FOREST
+	.byte 96,168,5,8,96,1,6,47
+
+	.byte 68,120,17,1,1,87,68,116
+	.byte 92,144,17,1,255,87,60,116
+	.byte 132,104,17,1,1,89,132,172
+	.byte 60,168,17,1,1,88,28,212
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
+	@ 49 / JUMP FOR JOY
+	.byte 232,120,5,16,168,1,6,41
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -573,18 +583,8 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
-	@ 49
-	.byte 232,120,5,16,120,1,6,41
-
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0	
-	@ 50
-	.byte 232,120,0,16,120,1,6,41
+	@ 50 / FINAL BARRIER
+	.byte 232,120,0,16,168,1,49,41
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -660,10 +660,9 @@ levelNames:
 	.ascii "        THE WAREHOUSE.        "
 	.ascii "     THE END OF THE WORLD     "	@ to mummy daddy!
 	.ascii "IT IS CHRISTMAS CHARLIE BROWN!"
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
-	.ascii "                              "
+	.ascii "       ENDORIAN  FOREST       "
+	.ascii "         JUMP FOR JOY         "
+	.ascii "      THE FINAL BARRIER.      "
 
 @------------------------------- The story
 
@@ -1283,7 +1282,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 48
+	@ 48 / ENDORIAN FOREST
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1296,7 +1295,7 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 49
+	@ 49 / JUMP FOR JOY
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
@@ -1365,40 +1364,40 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
 	@ 33
-	.ascii "       SAM COUPE 1990       "
+	.ascii "      SAM COUPE (1990)      "
 	@ 34
-	.ascii "       SAM COUPE 1990       "
+	.ascii "      SAM COUPE (1990)      "
 	@ 35
-	.ascii "       SAM COUPE 1990       "
+	.ascii "      SAM COUPE (1990)      "
 	@ 36
-	.ascii "       SAM COUPE 1990       "
+	.ascii "      SAM COUPE (1990)      "
 	@ 37
-	.ascii "       SAM COUPE 1990       "
+	.ascii "      SAM COUPE (1990)      "
 	@ 38
-	.ascii "       SAM COUPE 1990       "
+	.ascii "      SAM COUPE (1990)      "
 	@ 39
 	.ascii "   ORIGINAL - FLASH  2009   "
 	@ 40
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "    BLAGGER (1983) - C64    "
 	@ 41
 	.ascii "  LEVEL 01 - SPECTRUM 1983  "
 	@ 42
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "    BLAGGER (1983) - C64    "
 	@ 43
-	.ascii "  LEVEL 07 - SPECTRUM 1983  "
+	.ascii "  SPECTRUM (1983) - LVL 07  "
 	@ 44
-	.ascii "  LEVEL 11 - SPECTRUM 1983  "
+	.ascii "  SPECTRUM (1983) - LVL 11  "
 	@ 45
-	.ascii "  LEVEL 17 - SPECTRUM 1983  "
+	.ascii "  SPECTRUM (1983) - LVL 17  "
 	@ 46
-	.ascii "    LEVEL XX - ORIC 1985    "
+	.ascii "   ORIC (1985) - LEVEL XX   "
 	@ 47
 	.ascii "   ORIGINAL - FLASH  2009   "
 	@ 48
-	.ascii "                            "
+	.ascii "   ORIC (1985) - LEVEL XX   "
 	@ 49
-	.ascii "                            "
+	.ascii "   ORIGINAL - FLASH  2009   "
 	@ 50
-	.ascii "  LEVEL 20 - SPECTRUM 1983  "
+	.ascii "  SPECTRUM (1983) - LVL 20  "
 
 	.end
