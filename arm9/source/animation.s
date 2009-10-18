@@ -581,6 +581,8 @@ flipSwitch:
 	beq flipSwitchLiftThing
 	cmp r8,#7						@ on level 8, remove a section, no reverse either
 	beq flipSwitchCavern
+	cmp r8,#49
+	beq flipSwitchJump
 	
 	@ now, flip the conveyors (ulp) (DEFAULT action)
 
@@ -618,6 +620,16 @@ flipSwitch:
 	bl playClick
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+@-----------------------------------------------
+	flipSwitchJump:
+	
+	ldr r4,=gameType
+	mov r1,#3
+	str r1,[r4]
+	
+	b switchStandardReturn
+
 	
 @-----------------------------------------------
 

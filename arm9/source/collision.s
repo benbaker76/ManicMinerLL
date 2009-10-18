@@ -395,7 +395,7 @@ str r11,[r2]
 	mov r8,#23							@ Y Pos
 	mov r9,#2							@ Digits
 	mov r7, #0							@ 0 = Main, 1 = Sub
-	bl drawDigits
+@	bl drawDigits
 	mov r10,r2
 	mov r11,#25							@ X Pos
 	mov r8,#23							@ Y Pos
