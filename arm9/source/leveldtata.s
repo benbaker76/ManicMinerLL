@@ -66,16 +66,16 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	
-	@ 3 / GBA - Level xx - Mummy Daddy
-	.byte 224,80,3,218,168,8,2,2
-	
-	.byte 104,108,1,16,1,16,108,168
-	.byte 56,64,1,16,255,16,64,112
-	.byte 120,112,1,16,255,16,64,112
-	.byte 232,48,0,1,255,20,208,232
+	@ 3 / end of the world
+	.byte 232,168,3,8,72,25,2,0
+
+	.byte 8,168,17,1,1,15,8,216
+	.byte 8,128,17,1,1,19,8,144
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0	
 
 	@ 4 / Oric - level 24 - Hall of the mountain kong
 	.byte 232,168,8,7,168,7,3,3
@@ -541,17 +541,17 @@ levelData:
 	.byte 40,168,17,1,255,83,40,64			@ ok
 	.byte 96,168,17,1,1,84,96,200			@ ok
 	.byte 0,0,0,0,0,0,0,0	
-
-	@ 46 end of the world
-	.byte 232,168,31,8,72,25,45,0
-
-	.byte 8,168,17,1,1,15,8,216
-	.byte 8,128,17,1,1,19,8,144
+	
+	@ 46 / GBA - Level xx - Mummy Daddy
+	.byte 224,80,3,218,168,8,45,2
+	
+	.byte 104,108,1,16,1,16,108,168
+	.byte 56,64,1,16,255,16,64,112
+	.byte 120,112,1,16,255,16,64,112
+	.byte 232,48,0,1,255,20,208,232
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0
-	.byte 0,0,0,0,0,0,0,0	
 	
 	@ 47 its christmas charley brown
 	.byTe 152,112,128+33,240,56,46,46,46
@@ -574,7 +574,7 @@ levelData:
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0	
 	@ 49 / JUMP FOR JOY
-	.byte 232,120,5,16,168,1,6,41
+	.byte 232,120,5,16,168,1,48,0
 
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -601,7 +601,7 @@ levelNames:
 
 	.ascii "        HOME AT LAST??        "
 	.ascii "         THE  AIRLOCK         "
-	.ascii "       MUMMY!!, DADDY!!       "	@ TO end of the world
+	.ascii "     THE END OF THE WORLD     "
 	.ascii "  HALL OF THE MOUNTAIN KONG!  "
 	.ascii "         BACK TO WORK         "
 	.ascii "    THE DRAGON USERS BONUS    "
@@ -658,7 +658,7 @@ levelNames:
 	.ascii "           THE VAT!           "
 	.ascii "   ATTACK OF THE MUTANT...?   "
 	.ascii "        THE WAREHOUSE.        "
-	.ascii "     THE END OF THE WORLD     "	@ to mummy daddy!
+	.ascii "       MUMMY!!, DADDY!!       "
 	.ascii "IT IS CHRISTMAS CHARLIE BROWN!"
 	.ascii "       ENDORIAN  FOREST       "
 	.ascii "         JUMP FOR JOY         "
@@ -693,19 +693,18 @@ levelNames:
 	.ascii "AND HE REALISES HE'LL NEED"
 	.ascii "PROTECTION IF HE'S GOING  "
 	.ascii "TO RETRIEVE THEM SAFELY..."
-	@ 3
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
-	.ascii ".........................."
+	@ 3 / end of the world
+	.ascii "                          "
+	.ascii "  STU SAID 'THIS LEVEL IS "
+	.ascii "LOST', THOUGH FLASH WAS   "
+	.ascii "NOT SO SURE. 'PUT IT IN', "
+	.ascii "SAID STU, 'NO, LEAVE IT   "
+	.ascii "OUT', SAID FLASH.         "
+	.ascii "  IN, OUT, IN, OUT, IN OUT"
+	.ascii "IT TURNED OUT THAT THE END"
+	.ascii "OF THE WORLD WAS CAUSED BY"
+	.ascii "A GAME OF ARGUEMENTATIVE  "
+	.ascii "HOKEY COKEY.. SAD!        "
 	@ 4
 	.ascii "ENTERING WHAT USED TO BE  "
 	.ascii "HIS BACK HALLWAY, WILLY IS"
@@ -1256,18 +1255,18 @@ levelNames:
 	.ascii "                          "
 	.ascii "                          "
 	.ascii "                          "
-	@ 46 	end of the world
+	@ 46 	mummy daddy
 	.ascii "                          "
-	.ascii "  STU SAID 'THIS LEVEL IS "
-	.ascii "LOST', THOUGH FLASH WAS   "
-	.ascii "NOT SO SURE. 'PUT IT IN', "
-	.ascii "SAID STU, 'NO, LEAVE IT   "
-	.ascii "OUT', SAID FLASH.         "
-	.ascii "  IN, OUT, IN, OUT, IN OUT"
-	.ascii "IT TURNED OUT THAT THE END"
-	.ascii "OF THE WORLD WAS CAUSED BY"
-	.ascii "A GAME OF ARGUEMENTATIVE  "
-	.ascii "HOKEY COKEY.. SAD!        "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
+	.ascii "                          "
 	.ascii "                          "
 	@ 47  its christmas charlie brown
 	.ascii "                          "
@@ -1327,7 +1326,7 @@ levelNames:
 levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "   ORIC (1985) - LEVEL 17   "	@1
 	.ascii "   ORIC (1985) - LEVEL 24   "	@2
-	.ascii "    GBA (2002) - LEVEL 03   "	@3
+	.ascii "   ORIC (1985) - LEVEL XX   "	@3
 	.ascii "   ORIC (1985) - LEVEL 20   "	@4
 	.ascii "   ORIC (1985) - LEVEL 18   "	@5
 	.ascii "  DRAGON (1984) - LEVEL 21  "	@6
@@ -1390,7 +1389,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	@ 45
 	.ascii "  SPECTRUM (1983) - LVL 17  "
 	@ 46
-	.ascii "   ORIC (1985) - LEVEL XX   "
+	.ascii "    GBA (2002) - LEVEL 03   "
 	@ 47
 	.ascii "   ORIGINAL - FLASH  2009   "
 	@ 48

@@ -676,7 +676,11 @@ getLevelBackground:
 	ldreq r6,=Background47Map
 	ldreq r7,=Background47MapLen
 
-
+	cmp r0,#48
+	ldreq r4,=Background49Tiles
+	ldreq r5,=Background49TilesLen
+	ldreq r6,=Background49Map
+	ldreq r7,=Background49MapLen
 
 	cmp r0,#49
 	ldreq r4,=Background50Tiles
