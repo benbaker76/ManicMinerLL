@@ -928,7 +928,7 @@ levelNames:
 	.ascii "A PORTAL TO GET HOME AND  "
 	.ascii "SAVE EARTH?    (YES. - ED)"
 
-	@ 21	/ HORACE
+	@ 21	/ HORACE - bonus 1
 	.ascii "  WILLY SUDDENLY BECAME   "
 	.ascii "SOMEONE ELSE, 'WHAT!' HE  "
 	.ascii "THOUGHT.                  "
@@ -941,7 +941,7 @@ levelNames:
 	.ascii "A HORRIFIC CONDITION..    "
 	.ascii "  HE REALISED THAT HE WAS "
 	.ascii "HORACE, AT LAST! HURRAH!  "	
-	@ 22	/ BLAGGER
+	@ 22	/ BLAGGER - bonus 2
 	.ascii "  SO, IT LOOKS LIKE WILLY "
 	.ascii "HAS TAKEN TO A LIFE OF    "
 	.ascii "CRIME... ROBBING BANKS IS "
@@ -954,6 +954,9 @@ levelNames:
 	.ascii "  I DON'T THINK WILLY     "
 	.ascii "WOULD BE ABLE TO HANDLE   "
 	.ascii "DOING A BIT OF 'BIRD'.    "
+	
+	@ movie levels
+	
 	@ 23	/CASABLANCA
 	.ascii "  FALLING THROUGH THE VOID"
 	.ascii "OF CELLULOID, WILLY VISITS"
@@ -1085,7 +1088,7 @@ levelNames:
 	.ascii "THEN WHAT? WILLY COULD SEE"
 	.ascii "NO EXIT THIS TIME......   "
 	
-	@ BONUS LEVELS
+	@ BONUS LEVELS 3-20
 	
 	@ 33	/ coupe Cheese-Plant
 	.ascii "  WILLY HAD JUST STEPPED  "
@@ -1363,7 +1366,7 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	.ascii "   A SVERX ORIGINAL  2009   "
 	.ascii "   ORIGINAL - FLASH  2009   "
 	
-	@ 33
+	@ 33	/ bonus levels from 3rd onward to 20th
 	.ascii "      SAM COUPE (1990)      "
 	@ 34
 	.ascii "      SAM COUPE (1990)      "

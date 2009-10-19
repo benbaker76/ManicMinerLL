@@ -1545,7 +1545,7 @@ titleBL:			@ 27 chars each
 	.asciz	"PLAY SPECIAL: THE VAT     "	@ 43	13
 	.asciz	"PLAY SPECIAL: BUZBY RINGS "	@ 44	14
 	.asciz	"PLAY SPECIAL: WARES HOUSE "	@ 45	15
-	.asciz	"PLAY SPECIAL: WORLDS END  "	@ 46	16
+	.asciz	"PLAY SPECIAL: MUMMY DADDY!"	@ 46	16
 	.asciz	"PLAY SPECIAL: AH CHRISTMAS"	@ 47	17
 	.asciz	"PLAY SPECIAL: EWOKS?      "	@ 48	17
 	.asciz	"PLAY SPECIAL: JUMP FOR JOY"	@ 49	17
