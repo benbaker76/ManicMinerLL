@@ -191,12 +191,6 @@ initLevel:
 	
 	bl levelName
 
-	@UNCOMMENT TO OPEN EXIT
-@	ldr r1,=spriteActive
-@	mov r0,#63				@ use the 63rd sprite
-@	mov r2,#EXIT_OPEN
-@	str r2,[r1,r0,lsl#2]
-
 	@ ok, now are we greater than the last level we could select?
 	
 	ldr r1,=gameMode
@@ -253,6 +247,13 @@ initLevel:
 	@ start timer if bonus level
 	
 	bl bonusTimerInit
+
+
+	@UNCOMMENT TO OPEN EXIT
+	ldr r1,=spriteActive
+	mov r0,#63				@ use the 63rd sprite
+	mov r2,#EXIT_OPEN
+@	str r2,[r1,r0,lsl#2]
 
 	ldmfd sp!, {r0-r12, pc}
 

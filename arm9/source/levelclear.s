@@ -41,6 +41,10 @@ initLevelClear:										@ set up the level clear dat
 	stmfd sp!, {r0-r10, lr}	
 
 	bl stopTimer3
+	
+	mov r0,#0
+	ldr r1,=isItARecord
+	str r0,[r1]
 
 	@ first, remove willy
 	mov r1,#0
@@ -52,7 +56,7 @@ initLevelClear:										@ set up the level clear dat
 	str r1,[r0]
 	
 	ldr r0,=levelEndTimer
-	ldr r1,=450				@ 350 works
+	ldr r1,=450		
 	str r1,[r0]
 	
 	ldr r1,=spriteActive		@ Close the door
@@ -82,14 +86,11 @@ initLevelClear:										@ set up the level clear dat
 		ldr r0,=cheat2Mode
 		ldr r0,[r0]
 		cmp r0,#1
-		beq notABonusLevel
+		beq notABonusLevel		@ no records for cheaters! (turbo mode)
 	
 		bl checkBonusTimer
 	
 	notABonusLevel:
-	
-	
-	
 	
 	ldmfd sp!, {r0-r10, pc}	
 @-----------------------------------------------
@@ -133,7 +134,25 @@ levelClear:											@ do the level clear stuff
 		bl drawAir	
 	
 		bl fxMoveStarburst
-	
+		
+		@ only if a bonus record
+		
+		ldr r1,=isItARecord
+		ldr r1,[r1]
+		cmp r1,#1
+		bne notRecordFlash
+		ldr r1,=lightningFlash
+		ldr r0,[r1]
+		subs r0,#1
+		movmi r0,#0
+		str r0,[r1]
+		ldr r2,=BLEND_Y
+		str r0,[r2]
+		ldr r0, =BLEND_CR
+		ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3)
+		strh r1, [r0]
+		notRecordFlash:
+		
 	subs r10,#1
 	bpl levelClearLoop
 	
@@ -224,7 +243,9 @@ bge notARecord
 	mov r11,#14
 	mov r8,#2
 	mov r9,#2
-	bl drawDigitsB	
+	bl drawDigitsB
+	mov r8,#1
+	bl drawDigitsB
 	
 	add r3,#4
 	ldr r1,=bSec
@@ -235,6 +256,8 @@ bge notARecord
 	mov r11,#17
 	mov r8,#2
 	mov r9,#2
+	bl drawDigitsB
+	mov r8,#1
 	bl drawDigitsB
 	
 	add r3,#4
@@ -247,9 +270,46 @@ bge notARecord
 	mov r8,#2
 	mov r9,#3
 	bl drawDigitsB
+	mov r8,#1
+	bl drawDigitsB
+	
+	bl displayBonusTimer
 
 	@ ok, now we need to do something to make a noise and signal success!!
 
+	@ cLEAR TEXT
+
+	ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+	add r1,#(32*2)*5
+	mov r0,#0
+	ldr r2,=(32*2)*12
+	bl dmaFillWords
+	
+	@ DRAW RECORD TEXT (well done - a speed-run record)
+	
+	ldr r0,=BG_MAP_RAM(BG3_MAP_BASE)
+	add r0,#(64*28)						@ r0=src
+	ldr r1,=BG_MAP_RAM(BG3_MAP_BASE)
+	add r1,#(64*7)
+	add r1,#(6*2)						@ r1=dest
+	mov r2,#20*2						@ len
+	mov r3,#8
+	recordTextLoop:
+	bl dmaCopy
+	add r1,#64
+	add r0,#64
+	subs r3,#1
+	bpl recordTextLoop
+	
+	mov r8,#17
+	ldr r1,=lightningFlash
+	str r8,[r1]
+	
+	mov r0,#1
+	ldr r1,=isItARecord
+	str r0,[r1]
+	
+	@ make noise!!
 
 notARecord:
 
@@ -259,4 +319,8 @@ notARecord:
 	.data
 	
 	levelEndTimer:
+		.word 0
+	lightningFlash:
+		.word 0
+	isItARecord:
 		.word 0

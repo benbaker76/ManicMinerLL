@@ -219,25 +219,24 @@ updateDeathAnim:
 	
 		bl swiWaitForVBlank	
 
-		ldr r0,=cheat2Mode
-		ldr r0,[r0]
-		cmp r0,#1
-		beq cheatDeath
+		ldr r4,=cheat2Mode
+		ldr r4,[r4]
+
 		ldr r0,=levelNum
 		ldr r0,[r0]
 		cmp r0,#21
 		beq cheatDeath
 		ldr r0,=minerDelay
-		ldr r1,[r0]
-		add r1,#1
-		cmp r1,#2
-		moveq r1,#0
-		str r1,[r0]
+		ldr r5,[r0]
+		add r5,#1
+		cmp r5,#2
+		moveq r5,#0
+		str r5,[r0]
 		bne skipFrameClearDie
 		
 			cheatDeath:
 			bl monsterMove
-			
+			cheatDeath2:
 			ldr r0,=willySpriteType
 			ldr r0,[r0]
 			cmp r0,#1
@@ -258,10 +257,7 @@ updateDeathAnim:
 				cmp r1,#192+384
 				movpl r1,#192+384
 				str r1,[r0]
-		
-				
-				
-			@	b notDieFallFall
+
 			notDieFall:
 				@ are we on a conveyor? If so, Our corpse must move also - LOL
 				ldr r0,=minerAction
@@ -274,7 +270,12 @@ updateDeathAnim:
 					str r0,[r1]
 					bl moveMiner
 			notDieFallFall:
-		skipFrameClearDie:	
+		skipFrameClearDie:
+	
+		cmp r4,#1
+		moveq r4,#0
+		cmpeq r5,#1
+		beq cheatDeath2
 	
 		bl drawSprite
 		bl levelAnimate	

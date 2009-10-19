@@ -126,10 +126,6 @@ initTitleScreen:
 	mov r1, #GAMEMODE_TITLE_SCREEN
 	ldr r2, =gameMode
 	str r1,[r2]
-	
-@	ldr r2, =Title_xm_gz
-@	ldr r3, =Title_xm_gz_size
-@	bl initMusicForced					@ play title music
 
 	mov r0,#26
 	bl levelMusicPlayEasy

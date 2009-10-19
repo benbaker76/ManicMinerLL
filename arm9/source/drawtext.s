@@ -43,6 +43,7 @@
 	.global drawHighTextMain
 	.global drawTextBigDigits
 	.global drawTextDouble
+	.global drawTextComp
 	
 drawText:
 	
@@ -547,7 +548,36 @@ digitsLoopB:
 	ldmfd sp!, {r0-r10, pc}
 	
 	@ ---------------------------------------------
+	@ ---------------------------------------------
+
+drawTextComp:
 	
+	@ r0 = pointer to char
+	@ r1 = x pos
+	@ r2 = y pos
+
+	stmfd sp!, {r4-r8, lr} 
+	
+	ldr r4, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB) @ Pointer to sub
+	add r4, r1, lsl #1				@ Add x position
+	add r4, r2, lsl #6				@ Add y multiplied by 64
+	add r6, r4, #64
+
+
+	@ our tiles are in pairs (one above another)
+
+	lsl r0,#1
+	add r0,#64
+	orr r0, #(1 << 12)
+
+	strh r0, [r4], #2				@ Write the tile number to our 32x32 map and move along
+
+	add r0,#1
+	strh r0, [r6], #2
+	
+	ldmfd sp!, {r4-r8, pc}
+	
+	@ -----------------------------------------------	
 	.pool
 	.end
 

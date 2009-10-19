@@ -75,6 +75,7 @@
 	.global spriteDataStart
 	.global spriteDataEnd
 	.global willyJumpData
+	.global willyJumpData2
 	.global conveyorFrame
 	.global conveyorDirection
 	.global lastMiner
@@ -307,15 +308,12 @@ spriteDataEnd:
 
 	.align
 
-willyJumpData:
+willyJumpData:	@ dragon32/Oric mod
 	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0,0,0
 	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2
-
-@	.byte -3,-3,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0
-@	.byte 0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,3,3
-
-@	.byte -2,-2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,0,0,0,0
-@	.byte 0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2
+willyJumpData2:	@ original Spectrum
+	.byte -2,-2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,0,0,0,0
+	.byte 0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2
 	
 	.byte 99
 	.byte 3,3,3,3,3
@@ -360,11 +358,11 @@ levelBank:						@ 1=lost, 2=hollywood, 0=forget it (not important)
 	.word 0,0,0,0,0,0,0,0
 
 levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on convs) 
-	.word 0,0,0,0,0,0,0,0,0,0	@ 2=slippery 4s, 3=big jumper
+	.word 0,0,0,0,0,0,0,0,0,0	@ 2=slippery 4s, 3=big jumper, 4=thin jump
 	.word 0,0,0,0,0,0,0,0,0,0
 	.word 0,0
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 1,1,1,1,1,1,0,0,0,0
+	.word 1,1,1,1,1,1,0,0,4,0
 	.word 0,0,0,0,2,0,0,0
 levelForTimer:
 	.word 0,0,0,0,0,0,0,0,0,0	

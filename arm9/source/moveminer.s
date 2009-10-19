@@ -92,7 +92,9 @@ minerControl:
 	
 	tst r10,#BUTTON_A
 	bleq moveJump
-
+	tst r10,#BUTTON_B
+	bleq moveJump
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------- ON CONVEYOR
@@ -409,23 +411,30 @@ minerJump:
 
 	ldr r3,=jumpCount
 	ldr r2,[r3]						@ r2 = the phase of the jump ("keep" r2 and r3 for later)
-	
-	ldr r1,=willyJumpData
-	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump
 
 ldr r5,=gameType
 ldr r5,[r5]
+cmp r5,#4
+
+	ldreq r1,=willyJumpData2
+	ldrne r1,=willyJumpData
+	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump
+
 cmp r5,#3
 lsleq r4,#1
 
-	ldr r5,=spriteY+256				@ get y coord
-	ldr r6,[r5]
+	ldr r7,=spriteY+256				@ get y coord
+	ldr r6,[r7]
 	mov r8,r6						@ Save the Y value for a 'headbut' for later
 	adds r6,r4
-	str r6,[r5]						@ shove it back
+	str r6,[r7]						@ shove it back
 
 	add r2,#1						@ add to the jump phase
-	cmp r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
+
+cmp r5,#4
+
+	cmpeq r2,#MINER_JUMPLEN-2			@ check if we are at the end of a jump
+	cmpne r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
 	blt minerJumpContinues
 
 
@@ -446,8 +455,10 @@ lsleq r4,#1
 	minerJumpContinues:
 
 	str r2,[r3]						@ store new jump position
-	
-	cmp r2,#MINER_MID_JUMP			@ if we are past the jump midpoint, check feet
+cmp r5,#4
+
+	cmpeq r2,#MINER_MID_JUMP-1			@ if we are past the jump midpoint, check feet
+	cmpne r2,#MINER_MID_JUMP			@ if we are past the jump midpoint, check feet
 	ble minerJumpUp					@ if not, jump to the head detection
 	
 	@-------------- JUMP GOIUNG DOWN
@@ -678,7 +689,7 @@ minerFall:
 		
 		ldr r1,=fallCount
 		ldr r2,[r1]
-		cmp r2,#32
+		cmp r2,#34
 		ble fallNotDeadly
 		
 			bl initDeath

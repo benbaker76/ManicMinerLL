@@ -155,11 +155,14 @@
 #include "../build/BotMenu.h"
 
 #include "../build/GameBottom.h"
+#include "../build/GameBottomRec.h"
+
 
 #include "../build/Sprites.h"
 #include "../build/TitleSprites.h"
 #include "../build/Font.h"
 #include "../build/BigFont.h"
+#include "../build/BigFont2.h"
 #include "../build/ScrollFont.h"
 #include "../build/Status.h"
 #include "../build/CreditPage.h"
