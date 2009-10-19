@@ -155,8 +155,6 @@
 #include "../build/BotMenu.h"
 
 #include "../build/GameBottom.h"
-#include "../build/GameBottomRec.h"
-
 
 #include "../build/Sprites.h"
 #include "../build/TitleSprites.h"
