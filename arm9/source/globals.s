@@ -353,7 +353,7 @@ sfxValues:						@ values for sfx volume from 0-7 (0=off)
 
 	.align
 score:
-	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,6,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
 

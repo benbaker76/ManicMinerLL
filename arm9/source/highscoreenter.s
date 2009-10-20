@@ -81,19 +81,6 @@ findHighscore:
 	mov r0,#0
 	ldr r1,=spriteScreen					@ put it back to the top screen for Drawsprite
 	str r0,[r1]
-
-	bl fxFadeBlackInit
-	bl fxFadeOut
-
-	justWait:
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
-	beq jumpGameOver
-
-	b justWait
-
-	jumpGameOver:
 	
 	bl initTitleScreen
 	
@@ -110,8 +97,8 @@ enterHighScore:
 @	mov r1,#0
 @	str r1,[r2]
 
-	bl initVideoTitle
-@	bl initVideoHigh
+@	bl initVideoTitle
+	bl initVideoHigh
 	bl clearSpriteData
 @	bl clearBG0
 	bl clearBG1
@@ -278,6 +265,19 @@ enterHighScore:
 	@ ok, now we need to jump to the bit that allow us to alter the entry
 	
 	bl enterName
+	
+	bl fxFadeBlackInit
+	bl fxFadeOut
+
+	justWait:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq jumpGameOver
+
+	b justWait
+
+	jumpGameOver:
 
 	b highscoreReturn
 
