@@ -118,6 +118,9 @@ initTitleScreen:
 	str r0,[r1]
 	ldr r0,=freshTitle
 	str r1,[r0]
+	mov r0,#2
+	ldr r1,=scrollSpeed
+	str r0,[r1]
 	
 	ldr r1,=tTimer				@ store initial timer
 	ldr r0,=BitmapPause
@@ -528,9 +531,11 @@ titleScroller:
 
 	ldr r6,=tScrollPix
 	ldr r7,[r6]
-	add r7,#2
+	ldr r5,=scrollSpeed
+	ldr r5,[r5]
+	add r7,r5
 	cmp r7,#8
-	moveq r7,#0
+	movge r7,#0
 	str r7,[r6]
 	ldr r0, =REG_BG2HOFS
 	strh r7,[r0]	
@@ -563,6 +568,16 @@ titleScrollerRefresh:
 	bne titleScrollerRefreshLoop
 
 	bl drawTextScroller
+	
+	ldr r2, =REG_KEYINPUT
+	ldr r10,[r2]
+	ldr r1,=scrollSpeed
+	ldr r2,[r1]
+	tst r10,#BUTTON_L
+	moveq r2,#2
+	tst r10,#BUTTON_R
+	moveq r2,#4
+	str r2,[r1]
 
 b titleScrollerDone
 
@@ -1448,6 +1463,8 @@ moveAlter:
 	.pool
 	.data
 	.align
+scrollSpeed:
+	.word 0
 freshTitle:
 	.word 0
 pointerY:

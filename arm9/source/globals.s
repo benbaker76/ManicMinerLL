@@ -473,15 +473,15 @@ deathAnimation:
 levelRecords:	
 	@ bonus level records
 	@ stored as min,sec,mil
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
+	.word 0,35,0
+	.word 0,55,0
+	.word 1,00,0
+	.word 0,55,0
+	.word 0,45,0
+	.word 1,15,0
+	.word 1,10,0
+	.word 1,00,0
+	.word 0,55,0
 	.word 2,30,0
 	.word 2,30,0
 	.word 2,30,0

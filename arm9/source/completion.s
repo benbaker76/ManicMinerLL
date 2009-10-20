@@ -289,10 +289,7 @@ updatePages:
 		mov r0,#-1
 		str r0,[r1]
 	
-	
-	
 	turnPageDone:
-	
 	
 	ldmfd sp!, {r0-r10, pc}	
 	.pool
