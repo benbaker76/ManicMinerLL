@@ -287,8 +287,6 @@ spriteObjBase:
 	.space 512
 spriteHFlip:
 	.space 512
-spriteBloom:
-	.space 512
 spriteAnimDelay:
 	.space 512
 spriteDir:
@@ -391,10 +389,10 @@ levelSpecial:					@ adjusments for dif games (0=none, 1=Coupe - not walk on conv
 levelForTimer:
 	.word 0,0,0,0,0,0,0,0,0,0	
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 0,1
+	.word 0,1	@ 21 22
 	.word 0,0,0,0,0,0,0,0,0,0
-	.word 2,3,4,5,6,7,8,9,10,11
-	.word 12,13,14,15,16,17,18,19
+	.word 2,3,4,5,6,7,8,9,10,11 @ 33-42
+	.word 12,13,14,15,16,17,18,19 @ 43-50
 
 gameType:
 	.word 0						@ store type in here from levelSpecial
@@ -497,28 +495,26 @@ deathAnimation:
 levelRecords:	
 	@ bonus level records
 	@ stored as min,sec,mil
-	.word 0,35,0
-	.word 0,55,0
-	.word 1,00,0
-	.word 0,55,0
-	.word 0,45,0
-	.word 1,15,0
-	.word 1,10,0
-	.word 1,00,0
-	.word 0,55,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-	.word 2,30,0
-
-
+	.word 0,35,0	@ 21	-	horace
+	.word 0,55,0	@ 22	-	blagger
+	.word 1,00,0	@ 33	- 	cheese plant
+	.word 0,55,0	@ 34	-	dodgy mine shaft
+	.word 0,45,0	@ 35	-	long drop thing
+	.word 1,15,0	@ 36	-	bouncy bouncy
+	.word 1,10,0	@ 37	-	rocky outcrop
+	.word 1,00,0	@ 38	-	bottom of the mine shaft
+	.word 0,55,0	@ 39	-	cosmic causeway
+	.word 2,30,0	@ 40	-	greatest logo
+	.word 2,30,0	@ 41	-	central cavern
+	.word 2,30,0	@ 42	-	final conflict
+	.word 2,30,0	@ 43	-	the vat
+	.word 2,30,0	@ 44	-	mutant telephones
+	.word 2,30,0	@ 45	-	the warehouse
+	.word 2,30,0	@ 46	-	mummy daddy
+	.word 2,30,0	@ 47	-	christmas charlie brown
+	.word 2,30,0	@ 48	-	endorian forest
+	.word 2,30,0	@ 49	-	jump for joy
+	.word 2,30,0	@ 50	-	the final barrier
 
 endOfSaveData:	
 

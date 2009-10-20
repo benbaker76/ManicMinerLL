@@ -145,9 +145,6 @@ drawPauseWindow:
 		cmp r1,#2
 		movlt r1,#2
 		lsl r1,#10						@ set priority
-		ldr r2,=spriteBloom
-		ldr r2,[r2,r10, lsl #2]
-		orr r1,r2, lsl #12
 		orr r1,r3, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
 		strh r1, [r0]					@ store it all back
 	subs r10,#1
