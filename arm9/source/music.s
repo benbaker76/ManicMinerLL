@@ -74,8 +74,8 @@ initMusic:
 	cmp r1, #XM7_MOD_LOADED
 	bne initMusicContinue
 
-	bl stopMusic
-	bl swiWaitForVBlank
+@	bl stopMusic
+@	bl swiWaitForVBlank
 	
 	ldr r0, =Module
 	bl XM7_UnloadXM
@@ -93,13 +93,13 @@ initMusicContinue:
 	cmp r0, #0									@ Returning non-zero in r0 means failed to load
 	bne initMusicFailed
 	
-	bl DC_FlushAll
+@	bl DC_FlushAll
 	
 	ldr r0, =Module								@ Pointer to module data
 	ldr r1, =ZLibBuffer
 	bl XM7_LoadXM								@ Load module
 	
-	bl DC_FlushAll								@ Flush
+@	bl DC_FlushAll								@ Flush
 	
 	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
 	ldr r1, =Module								@ Send module data location

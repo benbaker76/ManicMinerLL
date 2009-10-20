@@ -129,7 +129,7 @@ updateAudio:
 
 	stmfd sp!, {r0-r10, lr}
 	
-	bl swiWaitForVBlank
+@	bl swiWaitForVBlank
 	
 	@ er, do stuff here!
 	
@@ -401,7 +401,7 @@ getAnotherTune:
 
 			str r1,[r0]
 			mov r0,r3
-			bl levelMusicPlayEasy
+			bl playSelectedAudio
 			b moveAPointerDone
 	
 		movePointerL:
@@ -440,7 +440,7 @@ getAnotherTune:
 			
 			
 			mov r0,r3			
-			bl levelMusicPlayEasy
+			bl playSelectedAudio
 			b moveAPointerDone	
 	notTune:
 	cmp r0,#0
