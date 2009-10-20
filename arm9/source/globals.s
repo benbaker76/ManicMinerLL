@@ -502,24 +502,24 @@ levelRecords:
 	@ stored as min,sec,mil
 	.word 0,35,0	@ 21	-	horace
 	.word 0,55,0	@ 22	-	blagger
-	.word 1,00,0	@ 33	- 	cheese plant
-	.word 0,55,0	@ 34	-	dodgy mine shaft
-	.word 0,45,0	@ 35	-	long drop thing
-	.word 1,15,0	@ 36	-	bouncy bouncy
-	.word 1,10,0	@ 37	-	rocky outcrop
-	.word 1,00,0	@ 38	-	bottom of the mine shaft
-	.word 0,55,0	@ 39	-	cosmic causeway
-	.word 2,30,0	@ 40	-	greatest logo
-	.word 2,30,0	@ 41	-	central cavern
-	.word 2,30,0	@ 42	-	final conflict
-	.word 2,30,0	@ 43	-	the vat
-	.word 2,30,0	@ 44	-	mutant telephones
-	.word 2,30,0	@ 45	-	the warehouse
-	.word 2,30,0	@ 46	-	mummy daddy
-	.word 2,30,0	@ 47	-	christmas charlie brown
-	.word 2,30,0	@ 48	-	endorian forest
-	.word 2,30,0	@ 49	-	jump for joy
-	.word 2,30,0	@ 50	-	the final barrier
+	.word 0,55,0	@ 33	- 	cheese plant
+	.word 0,45,0	@ 34	-	dodgy mine shaft
+	.word 1,20,0	@ 35	-	the big drop
+	.word 1,10,0	@ 36	-	bouncy bouncy
+	.word 0,55,0	@ 37	-	rocky outcrop
+	.word 0,55,0	@ 38	-	bottom of the mine shaft
+	.word 9,30,0	@ 39	-	cosmic causeway
+	.word 1,05,0	@ 40	-	that logo
+	.word 1,00,0	@ 41	-	central cavern
+	.word 0,55,0	@ 42	-	final conflict
+	.word 0,50,0	@ 43	-	the vat
+	.word 0,55,0	@ 44	-	mutant telephones
+	.word 0,45,0	@ 45	-	the warehouse
+	.word 0,45,0	@ 46	-	mummy daddy
+	.word 1,30,0	@ 47	-	christmas charlie brown
+	.word 1,00,0	@ 48	-	endorian forest
+	.word 9,30,0	@ 49	-	jump for joy
+	.word 1,10,0	@ 50	-	the final barrier
 
 endOfSaveData:	
 
