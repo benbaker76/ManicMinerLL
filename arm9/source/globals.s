@@ -43,13 +43,18 @@
 	.global levelRecords
 	
 	.global spriteActive
+	.global spriteActiveSub
 	.global spriteX
+	.global spriteXSub
 	.global spriteY
+	.global spriteYSub
 	.global spriteObj
+	.global spriteObjSub
 	.global spriteObjBase
 	.global spriteHFlip
 	.global spriteBloom
 	.global spriteAnimDelay
+	.global spriteAnimDelaySub
 	.global spriteDir
 	.global spriteMin
 	.global spriteMax
@@ -58,6 +63,7 @@
 	.global spriteMonsterMove
 	.global spriteMonsterFlips
 	.global spritePriority
+	.global spritePrioritySub
 	.global spriteSize
 	
 	.global spriteScreen
@@ -148,6 +154,19 @@
 	.global bSec
 	.global bMil
 	
+spriteActiveSub:
+	.space 512
+spriteXSub:
+	.space 512
+spriteYSub:
+	.space 512
+spriteObjSub:
+	.space 512
+spriteAnimDelaySub:
+	.space 512
+spritePrioritySub:
+	.space 512
+
 bMin:
 	.word 0
 bSec:
@@ -302,6 +321,7 @@ monsterDelay:
 	.space 512
 spriteSize:
 	.space 512
+
 	
 spriteDataEnd:
 

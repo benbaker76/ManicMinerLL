@@ -567,7 +567,7 @@ drawTextComp:
 	@ our tiles are in pairs (one above another)
 
 	lsl r0,#1
-	add r0,#64
+	sub r0,#64
 	orr r0, #(1 << 12)
 
 	strh r0, [r4], #2				@ Write the tile number to our 32x32 map and move along

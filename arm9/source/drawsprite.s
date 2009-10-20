@@ -40,7 +40,9 @@
 	.align
 	.text
 	.global drawSprite
+	.global drawSpriteSub
 	.global spareSprite
+	.global spareSpriteSub
 	.global spareSpriteFX
 	.global anySpareSpriteFX
 	.global anySpareSpriteMonster
@@ -728,6 +730,31 @@ spareSprite:
 	
 @--------------------------------------------
 
+spareSpriteSub:
+	stmfd sp!, {r0-r9, lr}
+
+	mov r0,#127
+	ldr r1,=spriteActiveSub
+	spareSpriteFindSub:
+	
+		ldr r2,[r1, r0, lsl #2]
+		cmp r2,#0
+		beq spareSpriteFoundSub
+		add r0,#1
+		cmp r0,#128
+		bne spareSpriteFindSub
+	mov r10,#0
+	ldmfd sp!, {r0-r9, pc}
+	
+	spareSpriteFoundSub:
+	
+	mov r10,r0
+
+	ldmfd sp!, {r0-r9, pc}
+	
+@--------------------------------------------
+
+
 spareSpriteFX:
 	stmfd sp!, {r0-r9, lr}
 
@@ -798,5 +825,83 @@ anySpareSpriteMonster:
 	mov r10,r0
 	ldmfd sp!, {r0-r9, pc}
 	
+@---------------------------------------------
+
+drawSpriteSub:
+	stmfd sp!, {r0-r12, lr}
+
+	ldr r5,=BUF_ATTRIBUTE0_SUB
+	ldr r6,=BUF_ATTRIBUTE1_SUB
+	ldr r9,=BUF_ATTRIBUTE2_SUB
+	
+	mov r10,#127 			@ our counter for 128 sprites, do not think we need them all though	
+	SLoopSub:
+
+		ldr r0,=spriteActiveSub				@ r2 is pointer to the sprite active setting
+		ldr r1,[r0,r10, lsl #2]				@ add sprite number * 4
+		cmp r1,#0							@ Is sprite active? (anything other than 0)
+		bne sprites_Draw_Sub				@ if so, draw it!
+
+			@ If not - kill it
+			
+			mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
+			mov r0,r5
+			add r0,r10, lsl #3
+			strh r1,[r0]
+
+		b sprites_Done_Sub
+	
+	sprites_Draw_Sub:
+	
+		ldr r0,=spriteYSub				@ Load Y coord
+		ldr r1,[r0,r10,lsl #2]			@ add ,rX for offsets
+		cmp r1,#4096					@ account for floating point
+		lsrge r1,#12
+
+		@ Draw sprite to SUB screen ONLY (r1 holds Y)	
+		mov r0,r5
+		add r0,r10, lsl #3
+		ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+		ldr r3,=SCREEN_SUB_TOP
+		cmp r1,r3
+		addmi r1,#256
+		sub r1,r3
+		and r1,#0xff					@ Y is only 0-255
+		orr r2,r1
+		strh r2,[r0]
+		@ Draw X
+		ldr r0,=spriteXSub				@ get X coord mem space
+		ldr r1,[r0,r10,lsl #2]			@ add ,rX for offsets
+		cmp r1,#4096					@ account for floating point
+		lsrge r1,#12
+		cmp r1,#SCREEN_LEFT				@ if less than 64, this is off left of screen
+		addmi r1,#512					@ convert coord for offscreen (32 each side)
+		sub r1,#SCREEN_LEFT				@ Take 64 off our X
+		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
+		mov r0,r6
+		add r0,r10, lsl #3
+		ldr r2, =(ATTR1_SIZE_16)
+		sub r1,r11						@ subtract offset	
+		and r1,r3
+		orr r2,r1
+		strh r2,[r0]
+			@ Draw Attributes
+		mov r0,r9
+		add r0,r10, lsl #3
+		ldr r2,=spriteObjSub
+		ldr r3,[r2,r10, lsl #2]
+		ldr r1,=spritePrioritySub
+		ldr r1,[r1,r10, lsl #2]
+		lsl r1,#10						@ set priority
+		orr r1,r3, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
+		strh r1, [r0]					@ store it all back
+
+	sprites_Done_Sub:
+
+	
+	subs r10,#1
+	bpl SLoopSub
+	
+	ldmfd sp!, {r0-r12, pc}	
 	.pool
 	.end

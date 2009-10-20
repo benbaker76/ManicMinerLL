@@ -27,7 +27,7 @@ initCompletion:
 	bl clearBG0
 	bl clearBG1
 	bl clearBG2
-@	bl clearBG3
+	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
 	bl stopMusic					@ remove when we have completion music
@@ -86,7 +86,7 @@ initCompletion:
 
 	ldr r0,=BigFont2Tiles							@ copy the tiles used for large font
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-	add r1,#BigFontOffset
+@	add r1,#BigFontOffset
 	ldr r2,=BigFont2TilesLen
 	bl decompressToVRAM
 	
@@ -212,14 +212,19 @@ updatePages:
 			sub r7,#2
 			ldrb r0,[r4,r7]	@ r0=char
 			add r7,#1
-			mov r1,r7
-			mov r2,r5,lsl#1
+			mov r1,r7		@ r1=x
+			mov r2,r5,lsl#1	@ r2=y
 			bl drawTextComp
+			
+			@ ok, using r1,r2 as x,y.. Draw sprinkles
+			
+			bl sprinkles
+			
 		pageNotYet:
 	
-	add r4,#30
-	add r5,#1
-	cmp r5,#11
+	add r4,#30				@ chars per line
+	add r5,#1				@ down a line
+	cmp r5,#11				@ have we done all 11?
 	bne pageDrawLoop
 	
 	ldr r1,=drawDelay
@@ -228,19 +233,18 @@ updatePages:
 	movmi r2,#1
 	str r2,[r1]
 	bpl updatePagesDone
-	
+		@ update to next char along on each line
 		mov r1,#10				@ offset
-		mov r5,#-1				@ page delay
+		mov r5,#-1				@ page delay (for turn page)
 		ldr r2,=pageOffs
 		fillLoop:
 		
 			ldr r3,[r2,r1,lsl#2]
-			add r3,#1
+			adds r3,#1
 			cmp r3,#31
 			movge r3,#31
-			ldrge r5,=600
-			str r3,[r2,r1,lsl#2]
-			
+			ldrge r5,=500	@ 550 best?
+			str r3,[r2,r1,lsl#2]	
 			subs r1,#1
 		bpl fillLoop
 	
@@ -271,15 +275,28 @@ updatePages:
 		cmp r3,#MAX_PAGES
 		beq turnPageDone
 		
-		str r3,[r1]
+		str r3,[r1]			@ reset pageoffs!
 		ldr r1,=pageOffs
-		mov r0,r1
-		mov r5,#44
-		mul r5,r3
-		add r0,r5
-		add r0,#44
-		mov r2,#11*4
-		bl dmaCopy
+@		mov r0,r1
+@		mov r5,#44
+@		mul r5,r3
+@		add r0,r5
+@		add r0,#44
+@		mov r2,#44
+@		bl dmaCopy	@ r0=src r1=dest r2=len
+
+mov r5,#44
+mul r3,r5
+mov r0,r1	@ ro=dest
+add r1,r3	@ r1=src
+add r1,#44
+mov r2,#10	@ counter
+pageReset:
+ldr r3,[r1,r2,lsl#2]
+str r3,[r0,r2,lsl#2]
+subs r2,#1
+bpl pageReset
+
 		
 		ldr r1,=pageDelay
 		mov r0,#-1
@@ -288,6 +305,18 @@ updatePages:
 	turnPageDone:
 	
 	ldmfd sp!, {r0-r10, pc}	
+	
+@--------------------------------
+
+sprinkles:
+
+	stmfd sp!, {r0-r10, lr}	
+	
+	@ activate sprinkles at r1,r2 on sub screen (10 per line?)
+	
+	
+	
+	ldmfd sp!, {r0-r10, pc}		
 	.pool
 	.data
 	.align
@@ -307,7 +336,7 @@ updatePages:
 	pageDelay:
 	.word 0
 	pages:
-	.ascii "CONGRATULATIONS               "
+	.ascii "CONGRATULATIONS              1"
 	.ascii "                              "
 	.ascii " YOUVE CLEARED ALL OF THE LOST"
 	.ascii "ALL OF THE LOST COCK JOCKEY   "
@@ -319,19 +348,19 @@ updatePages:
 	.ascii "         WCVBC                "
 	.ascii "  CXCXCBXBBXXBB        PICKLES"
 @
-	.ascii "SO, WELL THIS IS THE THING,   "
-	.ascii "IS THIS OK FOR THE COMPLETION "
-	.ascii "TEXT, OR IS IT A BIT POO?     "
-	.ascii "I REALLY AM NOT SURE? BUT AT  "
-	.ascii "LEAST WE CAN HAVE SOME WIPES  "
-	.ascii "THAT CHANGE PER PAGE I SPOSE  "
+	.ascii "SO, WELL THIS IS THE THING,  2"
+	.ascii "IS THIS OK FOR THE COMPLETIONY"
+	.ascii "TEXT, OR IS IT A BIT POO?    Z"
+	.ascii "I REALLY AM NOT SURE? BUT AT A"
+	.ascii "LEAST WE CAN HAVE SOME WIPES B"
+	.ascii "THAT CHANGE PER PAGE I SPOSE C"
 	.ascii "AND IT SHOULD GIVE PLENTY OF  "
 	.ascii "ROOM FOR STUFF TO BE SAID     "
 	.ascii "A BIT LIKE THIS DRIVEL THAT I "
 	.ascii "AM SAYING I SUPPOSE.....      "
-	.ascii "        FLASH 2009            "
+	.ascii "        FLASH 2009           F"
 @	
-	.ascii "CONGRATULATIONS               "
+	.ascii "CONGRATULATIONS              3"
 	.ascii "                              "
 	.ascii " YOUVE CLEARED ALL OF THE LOST"
 	.ascii "ALL OF THE LOST COCK JOCKEY   "
@@ -343,7 +372,7 @@ updatePages:
 	.ascii "         WCVBC                "
 	.ascii "  CXCXCBXBBXXBB        PICKLES"
 @
-	.ascii "SO, WELL THIS IS THE THING,   "
+	.ascii "SO, WELL THIS IS THE THING,  4"
 	.ascii "IS THIS OK FOR THE COMPLETION "
 	.ascii "TEXT, OR IS IT A BIT POO?     "
 	.ascii "I REALLY AM NOT SURE? BUT AT  "

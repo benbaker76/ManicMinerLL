@@ -78,6 +78,7 @@ findHighscore:
 	mov r0,#1
 	str r0,[r1]
 
+	mov r0,#0
 	ldr r1,=spriteScreen					@ put it back to the top screen for Drawsprite
 	str r0,[r1]
 
