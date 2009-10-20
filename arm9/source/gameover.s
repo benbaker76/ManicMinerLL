@@ -107,23 +107,18 @@ updateGameOverScreen:
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
-
-	ldr r1,=fadeCheck
-	mov r0,#0
-	str r0,[r1]
 	
 	mov r0,#0
 	ldr r1,=spriteScreen
 	str r0,[r1]
 
 	bl fxFadeBlackInit
-	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait3:
-	ldr r1,=fadeCheck
+	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
-	cmp r1,#16
+	cmp r1,#0
 	beq jumpGameOver
 
 	b justWait3
@@ -458,39 +453,33 @@ updateGameOver:
 		tst r2,#BUTTON_START
 		bne updateGO
 		
-		ldr r2,=trapStart
-		ldr r1,[r2]
-		cmp r1,#1
-		beq updateGO2
+		ldr r2, =trapStart
+		ldr r1, [r2]
+		mov r3, #0
+		cmp r1, #1
+		streq r3, [r2]
+		beq updateGO
 		
-			b gOverUpdateEnd
+		b gOverUpdateEnd
 		
 		updateGO:
-		
-			ldr r2,=trapStart
-			mov r1,#0
-			str r1,[r2]
-		
-		updateGO2:
 
 	subs r10,#1
 	cmp r10,#-70
 	bpl updateGameOverLoop
 	
 	@ fade out for next screen
-	ldr r1,=fadeCheck
-	mov r0,#0
-	str r0,[r1]	
 
 	bl fxFadeBlackInit
-	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait:
-	ldr r1,=fadeCheck
+	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
-	cmp r1,#16
+	cmp r1,#0
 	beq fadeGameOver
+	
+	b fadeGameOver
 
 	b justWait
 	
@@ -517,28 +506,24 @@ updateGameOver:
 	gOverUpdateEnd:
 	
 	@ return to title screen (or highscore at some point)
-	ldr r1,=fadeCheck
-	mov r0,#0
-	str r0,[r1]
 	
 	mov r0,#0
 	ldr r1,=spriteScreen
 	str r0,[r1]
 
 	bl fxFadeBlackInit
-	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait4:
-	ldr r1,=fadeCheck
+	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
-	cmp r1,#16
+	cmp r1,#0
 	beq jumpGameOver1
 
 	b justWait4
 
 	jumpGameOver1:	
-bl findHighscore
+	bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}
 	

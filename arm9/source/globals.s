@@ -129,7 +129,6 @@
 	.global audioSFXVol
 	.global sfxValues
 	
-	.global fadeCheck
 	.global specialDelay
 	.global deathAnimation
 	.global bonusDelay

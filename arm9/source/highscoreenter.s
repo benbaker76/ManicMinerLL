@@ -78,20 +78,16 @@ findHighscore:
 	mov r0,#1
 	str r0,[r1]
 
-	ldr r1,=fadeCheck
-	mov r0,#0
-	str r0,[r1]
 	ldr r1,=spriteScreen					@ put it back to the top screen for Drawsprite
 	str r0,[r1]
 
 	bl fxFadeBlackInit
-	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait:
-	ldr r1,=fadeCheck
+	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
-	cmp r1,#16
+	cmp r1,#0
 	beq jumpGameOver
 
 	b justWait

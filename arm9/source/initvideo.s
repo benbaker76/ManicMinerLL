@@ -326,13 +326,15 @@ initVideoTitle:
 
 	titleStart:
 	
-		ldr r0, =BG_PALETTE
-		mov r1, #0
-		strh r1, [r0]
+		ldr r0, =0
+		ldr r1, =BG_PALETTE
+		mov r2, #512
+		bl dmaFillHalfWords
 		
-		ldr r0, =BG_PALETTE_SUB
-		mov r1, #0
-		strh r1, [r0]
+		ldr r0, =0
+		ldr r1, =BG_PALETTE_SUB
+		mov r2, #512
+		bl dmaFillHalfWords
 		
 		ldr r0,=freshTitle
 		ldr r1,[r0]	

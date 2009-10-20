@@ -42,10 +42,9 @@
 	.global fxFadeOut
 	.global fxFadeInVBlank
 	.global fxFadeOutVBlank
-	.global fxFadeOutBusy
-	.global fxFadeOutBusy
 	.global fxFadeCallbackAddress
 	.global fxFadeBlackLevelInit
+	.global fxFadeBusy
 	
 fxFadeBlackInit:
 
@@ -65,6 +64,10 @@ fxFadeBlackInit:
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
 	str r1, [r0]
 
 	ldmfd sp!, {r0-r1, pc}
@@ -86,6 +89,10 @@ fxFadeBlackLevelInit:
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
@@ -113,6 +120,10 @@ fxFadeWhiteInit:
 	ldr r1, =0							@ Reset value
 	str r1, [r0]
 	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
+	str r1, [r0]
+	
 	ldmfd sp!, {r0-r1, pc}
 	
 	@ ---------------------------------------
@@ -135,6 +146,10 @@ fxFadeBG0Init:
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
@@ -161,6 +176,10 @@ fxFadeBG0SubInit:
 	ldr r1, =0							@ Reset value
 	str r1, [r0]
 	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
+	str r1, [r0]
+	
 	ldmfd sp!, {r0-r1, pc}
 	
 	@ ---------------------------------------
@@ -179,6 +198,10 @@ fxFadeBG0SubBG1SubInit:
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
@@ -203,6 +226,10 @@ fxFadeBG1BG2Init:
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =0							@ Reset value
+	str r1, [r0]
+	
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
@@ -274,8 +301,8 @@ fxFadeOff:
 	mov r1, #0
 	str r1, [r0]
 	
-	ldr r0, =fxFadeOutBusy
-	ldr r1, =FADE_NOT_BUSY
+	ldr r0, =fxFadeBusy
+	ldr r1, =0
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
@@ -293,6 +320,10 @@ fxFadeIn:
 	orr r1, #FX_FADE_IN
 	str r1, [r0]
 	
+	ldr r0, =fxFadeBusy
+	ldr r1, =1
+	str r1, [r0]
+	
 	ldmfd sp!, {r0-r1, pc}
 	
 	@ ---------------------------------------
@@ -308,8 +339,8 @@ fxFadeOut:
 	orr r1, #FX_FADE_OUT
 	str r1, [r0]
 	
-	ldr r0, =fxFadeOutBusy
-	ldr r1, =FADE_BUSY
+	ldr r0, =fxFadeBusy
+	ldr r1, =1
 	str r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
@@ -383,8 +414,6 @@ fxFadeOutVBlank:
 	add r1, #1							@ Add 1 to fadeValue
 	str r1, [r0]						@ Write fadeValue back
 	cmp r1, #16							@ Is our fadeValue greater than 16?
-	ldr r4,=fadeCheck
-	str r1,[r4]
 	blgt fxFadeOff						@ Yes turn off effect
 	blgt fxFadeExecuteCallback			@ Execute callback
 	
@@ -420,7 +449,7 @@ fxFadeExecuteCallbackReturn:
 fadeValue:
 	.word 0
 	
-fxFadeOutBusy:
+fxFadeBusy:
 	.word 0
 
 fxFadeCallbackAddress:

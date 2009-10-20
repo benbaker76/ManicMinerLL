@@ -160,10 +160,6 @@ updateCompletion:
 	mov r0,#1
 	str r0,[r1]
 
-	ldr r1,=fadeCheck
-	mov r0,#0
-	str r0,[r1]
-	
 	mov r0,#0
 	ldr r1,=spriteScreen
 	str r0,[r1]
@@ -173,9 +169,9 @@ updateCompletion:
 	bl fxFadeOut
 
 	justWait4:
-	ldr r1,=fadeCheck
+	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
-	cmp r1,#16
+	cmp r1,#0
 	beq jumpCompLL
 
 	b justWait4

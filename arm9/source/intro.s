@@ -126,7 +126,6 @@ showIntro1FadeOut:
 	stmfd sp!, {r0-r1, lr}
 	
 	bl fxFadeBG1BG2Init
-	bl fxFadeMin
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =showIntro2
@@ -204,7 +203,6 @@ showIntro2FadeOut:
 	stmfd sp!, {r0-r1, lr}
 	
 	bl fxFadeBG1BG2Init
-	bl fxFadeMin
 	
 	ldr r0, =fxFadeCallbackAddress
 	ldr r1, =showIntro3
@@ -284,32 +282,27 @@ updateIntro:
 	
 	@---------------------------------
 	
-	skipIntro:
+skipIntro:
+	
+	bl stopTimer
 
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
-
-	ldr r1,=fadeCheck
-	mov r0,#0
-	str r0,[r1]
-
+	
 	bl fxFadeBlackInit
-	bl fxFadeMin
 	bl fxFadeOut
 
-	introWait2:
-		ldr r1,=fadeCheck
-		ldr r1,[r1]
-		cmp r1,#16
-		beq fadeIntro2Title
-	b introWait2	
+introWait:
+
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq skipIntroDone
+	b introWait	
 	
-	fadeIntro2Title:
+skipIntroDone:	
 
-@	bl fxFadeOff		
-
-	bl stopTimer
 	bl initTitleScreen
 
 	ldmfd sp!, {r0-r2, pc} 	
