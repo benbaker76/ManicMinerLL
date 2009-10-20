@@ -58,9 +58,10 @@ initTitleScreen:
 	ldr r0,=freshTitle
 	mov r1,#0
 	str r1,[r0]
-	ldr r1,=levelNum
-	str r0,[r1]
-	
+	ldr r0,=levelNum
+	str r1,[r0]
+	ldr r0,=titleVidInit
+	str r1,[r0]
 
 	bl initVideoTitle
 	bl initCheat
@@ -68,7 +69,8 @@ initTitleScreen:
 
 	bl clearOAM
 
-	mov r0,#0							@ set level to 0 for start of game
+	mov r0,#0							
+	@ set level to 0 for start of game
 	ldr r1,=levelNum
 	str r0,[r1]
 	ldr r1,=tScrollerOn
@@ -120,6 +122,8 @@ initTitleScreen:
 	str r1,[r0]
 	mov r0,#2
 	ldr r1,=scrollSpeed
+	str r0,[r1]
+	ldr r1,=titleVidInit
 	str r0,[r1]
 	
 	ldr r1,=tTimer				@ store initial timer

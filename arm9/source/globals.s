@@ -68,6 +68,8 @@
 	.global spritePrioritySub
 	.global spriteSize
 	
+	.global titleVidInit
+	
 	.global spriteScreen
 
 	.global cheatMode
@@ -162,6 +164,9 @@ bMin:
 bSec:
 	.word 0
 bMil:
+	.word 0
+	
+titleVidInit:
 	.word 0
 
 fadeCheck:
