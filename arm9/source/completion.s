@@ -86,9 +86,21 @@ initCompletion:
 
 	ldr r0,=BigFont2Tiles							@ copy the tiles used for large font
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
-@	add r1,#BigFontOffset
 	ldr r2,=BigFont2TilesLen
 	bl decompressToVRAM
+
+	ldr r0, =SpritesPal
+	ldr r2, =512
+	ldr r1, =SPRITE_PALETTE_SUB
+	bl dmaCopy
+
+	@ Write the tile data to VRAM
+
+	ldr r0, =FXSprinkleTiles
+	ldr r2, =FXSprinkleTilesLen
+	ldr r1, =SPRITE_GFX_SUB
+	bl dmaCopy
+
 	
 	bl fxFadeIn	
 	
@@ -126,6 +138,7 @@ updateCompletion:
 		bl goldGlintInit
 		
 		bl drawSprite
+		bl drawSpriteSub
 		
 		bl updatePages
 	
@@ -214,11 +227,11 @@ updatePages:
 			add r7,#1
 			mov r1,r7		@ r1=x
 			mov r2,r5,lsl#1	@ r2=y
+			cmp r0,#32
+			blne sprinkles
 			bl drawTextComp
 			
 			@ ok, using r1,r2 as x,y.. Draw sprinkles
-			
-			bl sprinkles
 			
 		pageNotYet:
 	
@@ -277,28 +290,19 @@ updatePages:
 		
 		str r3,[r1]			@ reset pageoffs!
 		ldr r1,=pageOffs
-@		mov r0,r1
-@		mov r5,#44
-@		mul r5,r3
-@		add r0,r5
-@		add r0,#44
-@		mov r2,#44
-@		bl dmaCopy	@ r0=src r1=dest r2=len
+		mov r5,#44
+		mul r3,r5
+		mov r0,r1	@ ro=dest
+		add r1,r3	@ r1=src
+		add r1,#44
+		mov r2,#10	@ counter
+		pageReset:
+			ldr r3,[r1,r2,lsl#2]
+			str r3,[r0,r2,lsl#2]
+			subs r2,#1
+		bpl pageReset
 
-mov r5,#44
-mul r3,r5
-mov r0,r1	@ ro=dest
-add r1,r3	@ r1=src
-add r1,#44
-mov r2,#10	@ counter
-pageReset:
-ldr r3,[r1,r2,lsl#2]
-str r3,[r0,r2,lsl#2]
-subs r2,#1
-bpl pageReset
-
-		
-		ldr r1,=pageDelay
+		ldr r1,=pageDelay	@ reset page delay
 		mov r0,#-1
 		str r0,[r1]
 	
@@ -313,9 +317,51 @@ sprinkles:
 	stmfd sp!, {r0-r10, lr}	
 	
 	@ activate sprinkles at r1,r2 on sub screen (10 per line?)
+	cmp r1,#30
+	bge noSprinkle
+	bl spareSpriteSub
 	
+	ldr r3,=spriteActiveSub
+	mov r4,#1
+	str r4,[r3,r10,lsl#2]
 	
+	lsl r1,#3
+	add r1,#64
+	bl getRandom
+	and r8,#7
+	add r1,r8
+	ldr r3,=spriteXSub
+	str r1,[r3,r10,lsl#2]
 	
+	lsl r2,#3
+	add r2,#384
+	add r2,#4
+	bl getRandom
+	and r8,#7
+	add r2,r8
+	ldr r3,=spriteYSub
+	str r2,[r3,r10,lsl#2]	
+	
+	mov r4,#0
+	ldr r3,=spriteObjSub
+	str r4,[r3,r10,lsl#2]
+	
+	mov r4,#4
+	bl getRandom
+	and r8,#7
+	add r4,r8
+	ldr r3,=spriteAnimDelaySub
+	str r4,[r3,r10,lsl#2]
+	ldr r3,=spriteMaxSub
+	str r4,[r3,r10,lsl#2]	
+	
+	bl getRandom
+	and r8,#3
+	add r8,#1
+	ldr r3,=spriteMinSub
+	str r8,[r3,r10,lsl#2]
+	
+	noSprinkle:
 	ldmfd sp!, {r0-r10, pc}		
 	.pool
 	.data
@@ -326,9 +372,10 @@ sprinkles:
 	.word 0,0,0,0,0,0,0,0,0,0,0
 
 	.word 0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10	
-	.word 0,-2,-4,-6,-8,-10,-8,-6,-4,-2,0
+	.word -5,-1,-6,-2,-7,-3,-8,-4,-9,-5,-10
 	.word -20,-18,-16,-14,-12,-10,-8,-6,-4,-2,0
 	.word -5,-1,-6,-2,-7,-3,-8,-4,-9,-5,-10
+	.word 0,0,-4,-4,-8,-8,-12,-12,-16,-16,-20
 	drawDelay:
 	.word 0
 	page:

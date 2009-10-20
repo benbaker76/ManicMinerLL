@@ -100,7 +100,7 @@ enterHighScore:
 @	bl initVideoTitle
 	bl initVideoHigh
 	bl clearSpriteData
-@	bl clearBG0
+	bl clearBG0
 	bl clearBG1
 @	bl clearBG2
 	bl resetScrollRegisters

@@ -57,7 +57,9 @@
 	.global spriteAnimDelaySub
 	.global spriteDir
 	.global spriteMin
+	.global spriteMinSub	
 	.global spriteMax
+	.global spriteMaxSub
 	.global spriteSpeed
 	.global spriteMonster
 	.global spriteMonsterMove
@@ -153,19 +155,7 @@
 	.global bMin
 	.global bSec
 	.global bMil
-	
-spriteActiveSub:
-	.space 512
-spriteXSub:
-	.space 512
-spriteYSub:
-	.space 512
-spriteObjSub:
-	.space 512
-spriteAnimDelaySub:
-	.space 512
-spritePrioritySub:
-	.space 512
+
 
 bMin:
 	.word 0
@@ -322,7 +312,22 @@ monsterDelay:
 spriteSize:
 	.space 512
 
-	
+spriteActiveSub:
+	.space 512
+spriteXSub:
+	.space 512
+spriteYSub:
+	.space 512
+spriteObjSub:
+	.space 512
+spriteAnimDelaySub:
+	.space 512
+spritePrioritySub:
+	.space 512	
+spriteMaxSub:
+	.space 512
+spriteMinSub:
+	.space 512
 spriteDataEnd:
 
 	.align

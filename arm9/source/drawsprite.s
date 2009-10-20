@@ -122,7 +122,6 @@ mov r11,#0									@ r11=-offset for sprite
 		orr r2,r1
 		ldr r3,=spriteHFlip
 		ldr r3,[r3,r10, lsl #2]			@ load flip H
-		strh r2,[r0]
 		orr r2, r3, lsl #12
 		strh r2,[r0]
 			@ Draw Attributes
@@ -133,9 +132,7 @@ mov r11,#0									@ r11=-offset for sprite
 		ldr r1,=spritePriority
 		ldr r1,[r1,r10, lsl #2]
 		lsl r1,#10						@ set priority
-		ldr r2,=spriteBloom
-		ldr r2,[r2,r10, lsl #2]
-		orr r1,r2, lsl #12
+
 		orr r1,r3, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
 		strh r1, [r0]					@ store it all back
 
@@ -740,9 +737,8 @@ spareSpriteSub:
 		ldr r2,[r1, r0, lsl #2]
 		cmp r2,#0
 		beq spareSpriteFoundSub
-		add r0,#1
-		cmp r0,#128
-		bne spareSpriteFindSub
+		subs r0,#1
+		bpl spareSpriteFindSub
 	mov r10,#0
 	ldmfd sp!, {r0-r9, pc}
 	
@@ -893,10 +889,44 @@ drawSpriteSub:
 		ldr r1,=spritePrioritySub
 		ldr r1,[r1,r10, lsl #2]
 		lsl r1,#10						@ set priority
+		ldr r2,=spriteBloom
+		ldr r2,[r2,r10, lsl #2]
+		orr r1,r2, lsl #12
 		orr r1,r3, lsl #3				@ or r1 with sprite pointer *16 (for sprite data block)
 		strh r1, [r0]					@ store it all back
 
 	sprites_Done_Sub:
+		ldr r1,=spriteActiveSub
+		ldr r1,[r1,r10,lsl#2]
+		cmp r1,#1
+		bne notSprinkle
+			ldr r1,=spriteYSub
+			ldr r2,[r1,r10,lsl#2]
+			ldr r3,=spriteMinSub
+			ldr r3,[r3,r10,lsl#2]
+			add r2,r3
+			cmp r2,#384+192
+			bge killSprinkle
+			str r2,[r1,r10,lsl#2]
+			ldr r1,=spriteAnimDelaySub
+			ldr r2,[r1,r10,lsl#2]
+			subs r2,#1
+			ldrmi r3,=spriteMaxSub
+			ldrmi r3,[r3,r10,lsl#2]
+			movmi r2,r3
+			str r2,[r1,r10,lsl#2]
+			bpl notSprinkle
+				killSprinkle:
+				ldr r1,=spriteObjSub
+				ldr r2,[r1,r10,lsl#2]
+				add r2,#1
+				cmp r2,#8
+				str r2,[r1,r10,lsl#2]
+				bne notSprinkle
+					ldr r1,=spriteActiveSub
+					mov r2,#0
+					str r2,[r1,r10,lsl#2]
+		notSprinkle:
 
 	
 	subs r10,#1

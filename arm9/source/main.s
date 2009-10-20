@@ -82,7 +82,7 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-@	bl initCompletion
+	bl initCompletion
 
 @	bl findHighscore
 
@@ -94,7 +94,7 @@ main:
 	
 @	bl initLevelClear
 
-	bl initGameOver
+@	bl initGameOver
 	
 	@ ------------------------------------
 	
