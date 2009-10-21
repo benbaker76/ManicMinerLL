@@ -203,12 +203,12 @@ initLevel:
 
 	ldr r2,=levelNum
 	ldr r2,[r2]
-	sub r3,r2,#1
+	sub r3,r2,#1			@ r3=current level
 	
 	ldr r1,=levelTypes
 	ldr r1,[r1,r3,lsl#2]
-	cmp r1,#0
-	bne highestLevelDone
+	cmp r1,#2
+	beq highestLevelDone
 
 	ldr r1,=levelBank		@ 1=lost, 2=hollywood
 	ldr r1,[r1,r3,lsl#2]	@ r2=level type
@@ -228,6 +228,7 @@ initLevel:
 
 		ldr r1,=levelHWReached
 		ldr r0,[r1]
+		sub r2,#22
 		cmp r2,r0
 		ble highestLevelDone
 		str r2,[r1]
@@ -921,6 +922,10 @@ generateMonsters:
 	cmp r0,#33
 	ldreq r2, =Xmas_xm_gz
 	ldreq r3, =Xmas_xm_gz_size		
+	cmp r0,#34
+	ldreq r2, =End_xm_gz
+	ldreq r3, =End_xm_gz_size	
+
 	bl initMusic
 	
 	@ now we hear music, set the flag in musicHeard (byte)

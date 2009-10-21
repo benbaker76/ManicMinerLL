@@ -308,7 +308,7 @@ updatePages:
 	pageDelay:
 	.word 0
 	pages:
-	.ascii "CONGRATULATIONS!              "
+	.ascii "THIS IS JUST A TEST AT THE MO!"
 	.ascii "                              "
 	.ascii "WILLY HURTLED THROUGH THE WARP"
 	.ascii "PORTAL AND BACK TO EARTH. UPON"

@@ -364,7 +364,7 @@ sfxValues:						@ values for sfx volume from 0-7 (0=off)
 
 	.align
 score:
-	.byte 0,0,6,0,0,0,0,0
+	.byte 0,0,0,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
 
@@ -478,11 +478,11 @@ levelLLReached:					@ Lost max (highest visited)
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 10
+	.word 1
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 1
+	.word 0
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
 	.word 0
 screenOrder:					@ preference of the screen order	

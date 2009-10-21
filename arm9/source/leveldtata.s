@@ -797,7 +797,7 @@ levelNames:
 	.ascii "OF SOME SORT HAS COME TO  "
 	.ascii "REST ON THE LOOSE SOIL AT "
 	.ascii "THE CENTRE OF THE CAVERN. "
-	.ascii "WILLY DARES TO HOPE..."
+	.ascii "WILLY DARES TO HOPE...    "
 	@ 11
 	.ascii "MIRACULOUSLY, THE ELEVATOR"
 	.ascii "GROANS INTO LIFE AS WILLY "
@@ -817,7 +817,7 @@ levelNames:
 	.ascii "CABLE-CAR, THE WIRE HIDDEN"
 	.ascii "BY THE DARK. THE INSTANT  "
 	.ascii "HE CLOSES THE DOOR BEHIND "
-	.ascii "HIM IT PLUNGES DOWNWARDS"
+	.ascii "HIM IT PLUNGES DOWNWARDS  "
 	.ascii "AT A TERRIFYING SPEED.    "
 	.ascii "                          "
 	.ascii "WHEN IT FINALLY STOPS, HE "
@@ -928,6 +928,8 @@ levelNames:
 	.ascii "ONCE AGAIN, HE'LL BE ABLE "
 	.ascii "TO GET BACK HOME AND SAVE "
 	.ascii "THE EARTH?    (YES. - ED) "
+
+	@ the first 2 bonus levels
 
 	@ 21	/ HORACE - bonus 1
 	.ascii "  WILLY SUDDENLY BECAME   "

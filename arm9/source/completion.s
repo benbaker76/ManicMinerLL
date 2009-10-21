@@ -81,7 +81,7 @@ initCompletion:
 	ldr r1,=spriteScreen
 	str r0,[r1]
 	
-	mov r0,#32
+	mov r0,#34
 	bl levelMusicPlayEasy
 
 	ldr r0,=BigFont2Tiles							@ copy the tiles used for large font
@@ -111,7 +111,7 @@ initCompletion:
 	mov r0,#-1
 	ldr r1,=pageDelay
 	str r0,[r1]
-	mov r0,#100
+	mov r0,#250
 	ldr r1,=pageDelayInit
 	str r0,[r1]
 	
@@ -138,8 +138,6 @@ updateCompletion:
 	
 		bl swiWaitForVBlank
 
-		@ update goldGlints
-		
 		bl goldGlintInit
 		
 		bl drawSprite
@@ -172,7 +170,7 @@ updateCompletion:
 	cmp r0,#0
 	bne completionLLNo
 	
-@---------------------- return to title screen (or highscore at some point)
+@---------------------- return to title screen & Highscore
 	
 	ldr r1,=trapStart
 	mov r0,#1
