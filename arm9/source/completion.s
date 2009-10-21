@@ -121,6 +121,11 @@ initCompletion:
 	mov r2,#11*4
 	bl dmaCopy
 	
+	
+	ldr r1,=unlockedHW
+	mov r2,#1
+	str r2,[r1]						@ unlock WillyWood
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @---------------------------			LOST LEVEL COMPLETION
@@ -228,16 +233,12 @@ updatePages:
 			mov r1,r7		@ r1=x
 			mov r2,r5,lsl#1	@ r2=y
 			cmp r0,#32
-			blne sprinkles
+			blne sprinkles	@ ok, using r1,r2 as x,y.. Draw sprinkles
 			bl drawTextComp
-			
-			@ ok, using r1,r2 as x,y.. Draw sprinkles
-			
 		pageNotYet:
-	
-	add r4,#30				@ chars per line
-	add r5,#1				@ down a line
-	cmp r5,#11				@ have we done all 11?
+		add r4,#30				@ chars per line
+		add r5,#1				@ down a line
+		cmp r5,#11				@ have we done all 11?
 	bne pageDrawLoop
 	
 	ldr r1,=drawDelay
@@ -250,13 +251,13 @@ updatePages:
 		mov r1,#10				@ offset
 		mov r5,#-1				@ page delay (for turn page)
 		ldr r2,=pageOffs
-		fillLoop:
-		
+
+		fillLoop:		
 			ldr r3,[r2,r1,lsl#2]
 			adds r3,#1
 			cmp r3,#31
 			movge r3,#31
-			ldrge r5,=625	@ 550 best?
+			ldrge r5,=725	@ 550 best?
 			str r3,[r2,r1,lsl#2]	
 			subs r1,#1
 		bpl fillLoop
@@ -280,31 +281,29 @@ updatePages:
 		cmp r2,#0
 		bne turnPageDone
 
-		@ turn page
+			ldr r1,=page	@ turn page
+			ldr r3,[r1]
+			add r3,#1
+			cmp r3,#MAX_PAGES
+			beq turnPageDone
 		
-		ldr r1,=page
-		ldr r3,[r1]
-		add r3,#1
-		cmp r3,#MAX_PAGES
-		beq turnPageDone
-		
-		str r3,[r1]			@ reset pageoffs!
-		ldr r1,=pageOffs
-		mov r5,#44
-		mul r3,r5
-		mov r0,r1	@ ro=dest
-		add r1,r3	@ r1=src
-		add r1,#44
-		mov r2,#10	@ counter
-		pageReset:
-			ldr r3,[r1,r2,lsl#2]
-			str r3,[r0,r2,lsl#2]
-			subs r2,#1
-		bpl pageReset
+			str r3,[r1]			@ reset pageoffs!
+			ldr r1,=pageOffs
+			mov r5,#44
+			mul r3,r5
+			mov r0,r1	@ ro=dest
+			add r1,r3	@ r1=src
+			add r1,#44
+			mov r2,#10	@ counter
+			pageReset:
+				ldr r3,[r1,r2,lsl#2]
+				str r3,[r0,r2,lsl#2]
+				subs r2,#1
+			bpl pageReset
 
-		ldr r1,=pageDelay	@ reset page delay
-		mov r0,#-1
-		str r0,[r1]
+			ldr r1,=pageDelay	@ reset page delay
+			mov r0,#-1
+			str r0,[r1]
 	
 	turnPageDone:
 	
@@ -362,7 +361,9 @@ sprinkles:
 	str r8,[r3,r10,lsl#2]
 	
 	noSprinkle:
-	ldmfd sp!, {r0-r10, pc}		
+	ldmfd sp!, {r0-r10, pc}	
+
+	
 	.pool
 	.data
 	.align
@@ -383,7 +384,7 @@ sprinkles:
 	pageDelay:
 	.word 0
 	pages:
-	.ascii "CONGRATULATIONS!              "
+	.ascii "       CONGRATULATIONS!       "
 	.ascii "                              "
 	.ascii "WILLY HURTLED THROUGH THE WARP"
 	.ascii "PORTAL AND BACK TO EARTH. UPON"

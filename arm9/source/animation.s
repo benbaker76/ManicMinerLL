@@ -532,13 +532,20 @@ flipSwitch:
 	str r3,[r5]
 
 	cmp r0,#32
-	ldr r6,=switch1
+	ldreq r6,=switch1
 	cmp r0,#33
-	ldr r6,=switch2
+	ldreq r6,=switch2
 	cmp r0,#34
-	ldr r6,=switch3
+	ldreq r6,=switch3
 	cmp r0,#35
-	ldr r6,=switch4
+	ldreq r6,=switch4
+	
+	
+ldr r8,[r6]
+cmp r8,#1
+beq flipSwitchFail
+mov r8,#1
+str r8,[r6]
 
 	cmp r2,#0
 
@@ -598,6 +605,8 @@ flipSwitch:
 	flipSwitchDone:
 	
 	bl playClick
+	
+	flipSwitchFail:
 	
 	ldmfd sp!, {r0-r10, pc}
 	

@@ -676,21 +676,21 @@ checkCollectDie:
 		cmp r4,#0
 		bne checkCollectDieDone
 	
-		cmp r0,#32
-		ldreq r4,=switch1
-		cmp r0,#33
-		ldreq r4,=switch2
-		cmp r0,#34
-		ldreq r4,=switch3
-		cmp r0,#35
-		ldreq r4,=switch4	
-		ldr r2,[r4]
-		cmp r2,#1
-		movne r2,#1					@ flip switch
-		moveq r2,#0
-		str r2,[r4]
+@		cmp r0,#32
+@		ldreq r4,=switch1
+@		cmp r0,#33
+@		ldreq r4,=switch2
+@		cmp r0,#34
+@		ldreq r4,=switch3
+@		cmp r0,#35
+@		ldreq r4,=switch4	
+@		ldr r2,[r4]
+@		cmp r2,#1
+@		movne r2,#1					@ flip switch
+@		moveq r2,#0
+@		str r2,[r4]
 		@ now to redraw the switch
-		
+		mov r2,#1
 		bl flipSwitch
 		
 		b checkCollectDieDone
