@@ -92,9 +92,19 @@ minerControl:
 	
 	tst r10,#BUTTON_A
 	bleq moveJump
+	tst r10,#BUTTON_A
+	beq jumpFlagSkip
 	tst r10,#BUTTON_B
 	bleq moveJump
+	tst r10,#BUTTON_B	
+	beq jumpFlagSkip
+
+		mov r0,#0
+		ldr r1,=jumpTrap
+		str r0,[r1]
 	
+	jumpFlagSkip:
+
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------- ON CONVEYOR
@@ -349,12 +359,9 @@ moveJump:
 	
 	@ we need to check above head first to see if a jump is possible
 	
-	ldr r1,=minerJumpDelay
-	ldr r2,[r1]
-	add r2,#1
-	cmp r2,#6
-	moveq r2,#5
-	str r2,[r1]
+ldr r1,=jumpTrap
+ldr r1,[r1]
+cmp r1,#0
 	bne moveJumpFail
 	
 	ldr r1,=spriteY+256

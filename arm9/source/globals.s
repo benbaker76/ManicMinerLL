@@ -115,6 +115,7 @@
 	.global switchOn
 	.global levelWraps
 	.global liftMotion
+	.global jumpTrap
 	
 	.global trapStart
 	
@@ -167,6 +168,8 @@ bMil:
 	.word 0
 	
 titleVidInit:
+	.word 0
+jumpTrap:
 	.word 0
 
 fadeCheck:

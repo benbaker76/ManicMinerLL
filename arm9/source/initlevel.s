@@ -87,6 +87,9 @@ initLevel:
 	ldr r1,=mPhase
 	str r0,[r1]
 
+	mov r0,#1
+	ldr r1,=jumpTrap
+	str r0,[r1]
 	
 	mov r0,#160
 	ldr r1,=air
