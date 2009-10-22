@@ -186,7 +186,7 @@ titleMainScreen:
 	titleMainScreenJump:
 
 	bl fxFadeMax
-	bl specialFXStop	
+@	bl specialFXStop	
 
 	bl fxFadeIn
 	
@@ -1189,6 +1189,20 @@ gameStartNormal:
 	@ check pointerY to set the starting level (amd the gamemode/level selected)
 
 	stmfd sp!, {r0-r10, lr}
+
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWaitForIt:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq fadeDone
+
+	b justWaitForIt
+
+	fadeDone:	
 
 	mov r1, #GAMEMODE_RUNNING
 	ldr r2, =gameMode

@@ -14,7 +14,7 @@
 	.global initCompletionWillyWood
 	.global updateCompletionWillyWood
 	
-	#define	 MAX_PAGES_WW	4
+	#define	 MAX_PAGES_WW	5
 	
 @---------------------------			WILLYWOOD COMPLETION INIT
 
@@ -36,7 +36,7 @@ initCompletionWillyWood:
 	mov r0,#GAMEMODE_COMPLETION_WILLYW
 	str r0,[r1]
 
-	bl fxFadeBlackLevelInit
+	bl fxFadeBlackInit
 	bl fxFadeMax
 	
 	ldr r0,=VictoryWWBottomTiles						@ copy the tiles used for game over
@@ -75,8 +75,8 @@ initCompletionWillyWood:
 	ldr r1, =SPRITE_PALETTE_SUB
 	bl dmaCopy
 	
-	ldr r0, =FXSprinkleTiles
-	ldr r2, =FXSprinkleTilesLen
+	ldr r0, =FXPigTiles
+	ldr r2, =FXPigTilesLen
 	ldr r1, =SPRITE_GFX_SUB
 	bl dmaCopy
 	
@@ -99,6 +99,8 @@ initCompletionWillyWood:
 	add r0,#44
 	mov r2,#11*4
 	bl dmaCopy
+
+@	bl generateBGSprites
 	
 	bl fxFadeIn
 	
@@ -115,6 +117,8 @@ updateCompletionWillyWood:
 		bl updatePages
 	
 		bl drawSpriteSub	
+		
+	@	bl updateBGSprites
 	
 		@ Check for start or A pressed
 	
@@ -123,6 +127,48 @@ updateCompletionWillyWood:
 	
 		tst r10,#BUTTON_START
 		beq completionWWEnd
+
+		tst r10,#BUTTON_L
+		beq skipBack
+		tst r10,#BUTTON_LEFT
+		beq skipBack
+		tst r10,#BUTTON_R
+		beq skipForward
+		tst r10,#BUTTON_RIGHT
+		beq skipForward		
+		b skipNone
+		
+		skipBack:
+			@ back a page
+			ldr r2,=pageDelay
+			ldr r1,[r2]
+			cmp r1,#-1
+			beq skipNone
+			cmp r1,#880
+			bpl skipNone
+			ldr r1,=page
+			ldr r3,[r1]
+			subs r3,#1
+			bmi skipNone
+			str r3,[r1]
+			bl changePage			
+		skipForward:
+			@ forward a page
+			ldr r2,=pageDelay
+			ldr r1,[r2]
+			cmp r1,#-1
+			beq skipNone
+			cmp r1,#880
+			bpl skipNone
+			ldr r1,=page
+			ldr r3,[r1]
+			add r3,#1
+			cmp r3,#MAX_PAGES_WW
+			beq skipNone
+			str r3,[r1]
+			bl changePage
+		
+		skipNone:
 
 		ldr r1,=trapStart
 		mov r0,#0
@@ -166,6 +212,14 @@ updateCompletionWillyWood:
 	bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}
+	
+@-------------------------------
+changePage:
+	
+	stmfd sp!, {r0-r10, lr}	
+
+	b pageTurner
+	
 @-------------------------------
 updatePages:	
 	stmfd sp!, {r0-r10, lr}	
@@ -199,7 +253,7 @@ updatePages:
 			mov r1,r7		@ r1=x
 			mov r2,r5,lsl#1	@ r2=y
 			cmp r0,#32
-		@	blne sprinkles	@ ok, using r1,r2 as x,y.. Draw sprinkles
+			blne sprinkles	@ ok, using r1,r2 as x,y.. Draw sprinkles
 			bl drawTextComp
 		pageNotYet:
 		add r4,#30				@ chars per line
@@ -223,7 +277,7 @@ updatePages:
 			adds r3,#1
 			cmp r3,#31
 			movge r3,#31
-			ldrge r5,=725	@ 550 best?
+			ldrge r5,=925	@ 550 best?
 			str r3,[r2,r1,lsl#2]	
 			subs r1,#1
 		bpl fillLoop
@@ -252,7 +306,7 @@ updatePages:
 			add r3,#1
 			cmp r3,#MAX_PAGES_WW
 			beq turnPageDone
-		
+	pageTurner:	
 			str r3,[r1]			@ reset pageoffs!
 			ldr r1,=pageOffs
 			mov r5,#44
@@ -276,8 +330,128 @@ updatePages:
 	ldmfd sp!, {r0-r10, pc}	
 	
 @--------------------------------
-@-----------------
+	
+sprinkles:
 
+	stmfd sp!, {r0-r10, lr}	
+	
+	@ activate sprinkles at r1,r2 on sub screen (10 per line?)
+	cmp r1,#30
+	bge noSprinkle
+	bl spareSpriteSub
+	
+	ldr r3,=spriteActiveSub
+	mov r4,#1
+	str r4,[r3,r10,lsl#2]
+	
+	lsl r1,#3
+	add r1,#64-8
+	bl getRandom
+	and r8,#7
+	add r1,r8
+	ldr r3,=spriteXSub
+	str r1,[r3,r10,lsl#2]
+	
+	lsl r2,#3
+	add r2,#384
+	add r2,#4
+	bl getRandom
+	and r8,#7
+	add r2,r8
+	ldr r3,=spriteYSub
+	str r2,[r3,r10,lsl#2]	
+	
+	mov r4,#0
+	ldr r3,=spriteObjSub
+	str r4,[r3,r10,lsl#2]
+	
+	mov r4,#4
+	bl getRandom
+	and r8,#7
+	add r4,r8
+	ldr r3,=spriteAnimDelaySub
+	str r4,[r3,r10,lsl#2]
+	ldr r3,=spriteMaxSub
+	str r4,[r3,r10,lsl#2]	
+	
+	bl getRandom
+	and r8,#3
+	add r8,#1
+	ldr r3,=spriteMinSub
+	str r8,[r3,r10,lsl#2]
+	
+	noSprinkle:
+
+	ldmfd sp!, {r0-r10, pc}	
+@-----------------
+generateBGSprites:
+	stmfd sp!, {r0-r12, lr}		
+
+	ldr r1,=spriteXSub
+	ldr r2,=spriteYSub
+	ldr r3,=spriteActiveSub
+	ldr r4,=spriteObjSub
+	ldr r5,=spriteMinSub		@ use for speed
+	ldr r6,=spritePrioritySub
+	mov r7,#3
+
+	mov r0,#127
+	
+	generateLoop:
+	
+		mov r8,#0
+		str r8,[r4,r0,lsl#2]	@ obj
+		mov r8,#2
+		str r8,[r3,r0,lsl#2]	@ spriteActive
+		mov r8,#3
+		str r8,[r6,r0,lsl#2]	@ priority
+		
+	@	bl getRandom
+	@	and r8,#0x31			@ xcoord
+		mov r8,#1
+	@	sub r8,#256
+	@add r8,#256
+	@add r8,#64
+		lsl r8,#12
+		str r8,[r1,r0,lsl#2]
+		
+		bl getRandom
+		and r8,#0xFF
+		lsr r8,#2
+		mul r8,r7
+		cmp r8,#192-32
+		subpl r8,#12	
+		add r8,#384
+		lsl r8,#12
+		str r8,[r2,r0,lsl#2]
+		
+		bl getRandom
+		ldr r10,=0xfff
+		and r8,r10
+		add r8,#1024
+		str r8,[r5,r0,lsl#2]
+		
+		bl getRandom
+		ldr r12,=0x3ff
+	and r8,r12
+	subs r8,#512
+	ldr r11,=spriteMaxSub
+	str r8,[r11,r0,lsl#2]
+		
+		subs r0,#1
+	bpl generateLoop
+
+	
+	
+	
+	
+	ldmfd sp!, {r0-r12, pc}	
+	
+	
+@-----------------		
+	
+@-----------------
+updateBGSprites:
 	stmfd sp!, {r0-r10, lr}		
 	
 	
@@ -343,14 +517,26 @@ updatePages:
 	.ascii "EXPLORED HIS NEW MANSION...   "
 
 @
-	.ascii "  MANIC MINER IN WILLYWORLD   "
+	.ascii "  MANIC MINER IN WILLYWORLD.  "
 	.ascii "                              "
-	.ascii "        CODE - FLASH          "
-	.ascii "     SUPPORT - HEADKAZE       "
-	.ascii "       VISUALS - LOBO         "
-	.ascii "    SOUNDS - SPACEFRACTAL     "
+	.ascii "         CODE - FLASH         "
+	.ascii "      SUPPORT - HEADKAZE      "
+	.ascii "        VISUALS - LOBO        "
+	.ascii "     MUSIC - SPACEFRACTAL     "
 	.ascii "       WORDS - REV.STU        "
 	.ascii "                              "
-	.ascii "         (C) 2009             "
+	.ascii "           # 2009             "
 	.ascii "                              "
 	.ascii " MANIC MINER BY MATTHEW SMITH "
+@
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "   WE HOPE YOU HAVE ENJOYED   "
+	.ascii "           PLAYING!           "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "          GAME  OVER          "
+	.ascii "                              "
+	.ascii "                              "
+	.ascii "                              "

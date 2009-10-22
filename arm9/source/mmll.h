@@ -253,6 +253,7 @@
 #include "../build/FXBackFlag.h"
 #include "../build/FXSnow.h"
 #include "../build/FXSprinkle.h"
+#include "../build/FXPig.h"
 
 @ death animations
 

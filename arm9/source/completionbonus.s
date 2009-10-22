@@ -34,9 +34,8 @@ initCompletionBonus:
 	mov r0,#GAMEMODE_COMPLETION_BONUS
 	str r0,[r1]
 
-	bl fxFadeBlackLevelInit
+	bl fxFadeBlackInit
 	bl fxFadeMax
-	bl fxFadeIn	
 	
 	ldr r0,=VictoryBonusBottomTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
@@ -66,6 +65,10 @@ initCompletionBonus:
 	
 @	mov r0,#?
 @	bl levelMusicPlayEasy
+
+	bl fxFadeIn	
+
+	@ if gotRecord=1, then a bonus time has been beaten
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -82,8 +85,6 @@ updateCompletionBonus:
 	
 	tst r10,#BUTTON_START
 	beq completionBonusEnd
-	tst r10,#BUTTON_A
-	beq completionBonusEnd
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -94,6 +95,24 @@ updateCompletionBonus:
 	ldr r1,=trapStart
 	mov r0,#1
 	str r0,[r1]
+
+	mov r0,#0
+	ldr r1,=spriteScreen
+	str r0,[r1]
+
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWait4:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq jumpCompLL
+
+	b justWait4
+
+	jumpCompLL:
 	
 	bl initTitleScreen
 	

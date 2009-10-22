@@ -912,19 +912,47 @@ drawSpriteSub:
 			ldrmi r3,[r3,r10,lsl#2]
 			movmi r2,r3
 			str r2,[r1,r10,lsl#2]
-			bpl notSprinkle
+			bpl doneThing
 				killSprinkle:
 				ldr r1,=spriteObjSub
 				ldr r2,[r1,r10,lsl#2]
 				add r2,#1
 				cmp r2,#8
 				str r2,[r1,r10,lsl#2]
-				bne notSprinkle
+				bne doneThing
 					ldr r1,=spriteActiveSub
 					mov r2,#0
 					str r2,[r1,r10,lsl#2]
+					b doneThing
 		notSprinkle:
+		cmp r1,#2
+		bne notPig
+			ldr r1,=spriteXSub
+			ldr r2,[r1,r10,lsl#2]
+			ldr r3,=spriteMinSub
+			ldr r4,[r3,r10,lsl#2]
+			adds r2,r4
+			cmp r2,#((288+64)<<12)
+			movpl r2,#(16<<12)
+			str r2,[r1,r10,lsl#2]
+			lsr r2,#12
+			and r2,#15
+			lsr r2,#2
+			ldr r1,=spriteObjSub
+			str r2,[r1,r10,lsl#2]
+		
+			ldr r1,=spriteYSub
+			ldr r2,[r1,r10,lsl#2]
+			ldr r3,=spriteMaxSub
+			ldr r4,[r3,r10,lsl#2]
+			adds r2,r4
+			str r2,[r1,r10,lsl#2]
+		
+		
+		
+		notPig:
 
+		doneThing:
 	
 	subs r10,#1
 	bpl SLoopSub

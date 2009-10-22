@@ -82,8 +82,9 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-	bl initCompletion
+@	bl initCompletion
 @	bl initCompletionWillyWood
+	bl initCompletionBonus
 
 @	bl findHighscore
 

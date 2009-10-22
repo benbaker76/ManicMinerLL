@@ -47,13 +47,21 @@ initLevel:
 	cmp r12,#GAMEMODE_TITLE_SCREEN
 @	blne stopMusic	
 	
+	ldr r1,=gameBegin				@ if this is the first time, dont fade
+	ldr r0,[r1]
+	cmp r0,#1
+	beq skippy
+	
 	bl specialFXStop	
 	
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
-@	bl clearOAM						@ IS THIS REALLY NEEDED!!!!?!?!!?!!?!!!?!
 	bl clearSpriteData
-	bl fxFadeIn
+
+	skippy:
+	
+	mov r0,#0
+	str r0,[r1]
 
 	mov r0,#0
 	ldr r1,=switch1
@@ -148,7 +156,6 @@ initLevel:
 	lsr r0,#7
 	ldr r2,=levelWraps				@ does the edges wrap? 0-1
 	str r0,[r2]
-
 
 	ldrb r0,[r1],#1
 	add r0,#65
@@ -252,7 +259,8 @@ initLevel:
 	
 	bl bonusTimerInit
 
-
+	bl fxFadeIn
+	
 	@UNCOMMENT TO OPEN EXIT
 	ldr r1,=spriteActive
 	mov r0,#63				@ use the 63rd sprite

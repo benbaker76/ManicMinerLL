@@ -23,6 +23,15 @@ stmfd sp!, {r0-r10, lr}
 
 @mov r12,#50
 
+	ldr r1,=gameBegin
+	mov r2,#1
+	str r2,[r1]
+
+@	bl fxFadeBlackInit
+bl fxFadeMainInit
+	bl fxFadeMax
+
+
 	ldr r1,=levelNum
 	str r12,[r1]
 	mov r0,#3				@ set level to 3 for lives

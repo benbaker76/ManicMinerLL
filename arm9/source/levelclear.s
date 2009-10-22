@@ -188,6 +188,9 @@ checkBonusTimer:
 
 	stmfd sp!, {r0-r10, lr}	
 
+	ldr r1,=gotRecord
+	mov r0,#0
+	str r0,[r1]
 
 	ldr r1,=levelNum
 	ldr r1,[r1]
@@ -310,6 +313,10 @@ bge notARecord
 	str r0,[r1]
 	
 	@ make noise!!
+	
+	ldr r1,=gotRecord
+	mov r0,#1
+	str r0,[r1]
 
 notARecord:
 

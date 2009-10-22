@@ -36,7 +36,7 @@ initCompletion:
 	mov r0,#GAMEMODE_COMPLETION
 	str r0,[r1]
 
-	bl fxFadeBlackLevelInit
+	bl fxFadeBlackInit
 	bl fxFadeMax
 	
 	ldr r0,=VictoryBottomTiles						@ copy the tiles used for game over
@@ -170,7 +170,7 @@ updateCompletion:
 			ldr r1,[r2]
 			cmp r1,#-1
 			beq skipNone
-			cmp r1,#692
+			cmp r1,#880
 			bpl skipNone
 			ldr r1,=page
 			ldr r3,[r1]
@@ -184,7 +184,7 @@ updateCompletion:
 			ldr r1,[r2]
 			cmp r1,#-1
 			beq skipNone
-			cmp r1,#692
+			cmp r1,#880
 			bpl skipNone
 			ldr r1,=page
 			ldr r3,[r1]
@@ -304,7 +304,7 @@ updatePages:
 			adds r3,#1
 			cmp r3,#31
 			movge r3,#31
-			ldrge r5,=725	@ 550 best?
+			ldrge r5,=925	@ 550 best?
 			str r3,[r2,r1,lsl#2]	
 			subs r1,#1
 		bpl fillLoop
@@ -375,7 +375,7 @@ sprinkles:
 	str r4,[r3,r10,lsl#2]
 	
 	lsl r1,#3
-	add r1,#64
+	add r1,#64-8
 	bl getRandom
 	and r8,#7
 	add r1,r8

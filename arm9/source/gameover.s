@@ -25,6 +25,33 @@ initGameOverScreen:
 
 	stmfd sp!, {r0-r10, lr}
 	
+	@ first, we need to fade all out
+	
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWaitForIt:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq jumpCompLL
+
+	b justWaitForIt
+
+	jumpCompLL:	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	lcdMainOnBottom
 	
 	bl fxFadeBlackInit

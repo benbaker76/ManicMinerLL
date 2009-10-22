@@ -158,7 +158,12 @@
 	.global bMin
 	.global bSec
 	.global bMil
+	
+	.global gotRecord
+	.global gameBegin
 
+gameBegin:
+	.word 0
 
 bMin:
 	.word 0
@@ -266,6 +271,8 @@ switchX:
 switchY:
 	.word 0
 switchOn:
+	.word 0
+gotRecord:
 	.word 0
 	
 	@ Text values
