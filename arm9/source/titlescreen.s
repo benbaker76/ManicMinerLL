@@ -1259,6 +1259,8 @@ gameStartNormal:
 	timeToPlay:						@ 'activate game start'
 	
 	bl stopMusic
+	
+	bl clearOAM
 
 	bl initGame
 

@@ -345,7 +345,7 @@ sprinkles:
 	str r4,[r3,r10,lsl#2]
 	
 	lsl r1,#3
-	add r1,#64-8
+	add r1,#64-4
 	bl getRandom
 	and r8,#7
 	add r1,r8

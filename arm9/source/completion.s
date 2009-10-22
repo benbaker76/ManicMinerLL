@@ -368,6 +368,12 @@ sprinkles:
 	@ activate sprinkles at r1,r2 on sub screen (10 per line?)
 	cmp r1,#30
 	bge noSprinkle
+	bl getRandom
+	and r8,#1
+	cmp r8,#1
+	bge noSprinkle	
+	
+	
 	bl spareSpriteSub
 	
 	ldr r3,=spriteActiveSub
@@ -375,10 +381,11 @@ sprinkles:
 	str r4,[r3,r10,lsl#2]
 	
 	lsl r1,#3
-	add r1,#64-8
+	add r1,#64-4
 	bl getRandom
 	and r8,#7
 	add r1,r8
+lsl r1,#12
 	ldr r3,=spriteXSub
 	str r1,[r3,r10,lsl#2]
 	
@@ -388,6 +395,7 @@ sprinkles:
 	bl getRandom
 	and r8,#7
 	add r2,r8
+lsl r2,#12
 	ldr r3,=spriteYSub
 	str r2,[r3,r10,lsl#2]	
 	
@@ -397,7 +405,7 @@ sprinkles:
 	
 	mov r4,#4
 	bl getRandom
-	and r8,#7
+	and r8,#3
 	add r4,r8
 	ldr r3,=spriteAnimDelaySub
 	str r4,[r3,r10,lsl#2]
@@ -405,8 +413,9 @@ sprinkles:
 	str r4,[r3,r10,lsl#2]	
 	
 	bl getRandom
-	and r8,#3
-	add r8,#1
+	ldr r7,=0xfff
+	and r8,r7
+	add r8,#2048
 	ldr r3,=spriteMinSub
 	str r8,[r3,r10,lsl#2]
 	

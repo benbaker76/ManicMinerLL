@@ -876,8 +876,7 @@ drawSpriteSub:
 		ldr r3,=0x1ff					@ Make sure 0-512 only as higher would affect attributes
 		mov r0,r6
 		add r0,r10, lsl #3
-		ldr r2, =(ATTR1_SIZE_16)
-		sub r1,r11						@ subtract offset	
+		ldr r2, =(ATTR1_SIZE_16)	
 		and r1,r3
 		orr r2,r1
 		strh r2,[r0]
@@ -902,7 +901,7 @@ drawSpriteSub:
 			ldr r3,=spriteMinSub
 			ldr r3,[r3,r10,lsl#2]
 			add r2,r3
-			cmp r2,#384+192
+			cmp r2,#((384+192)<<12)
 			bge killSprinkle
 			str r2,[r1,r10,lsl#2]
 			ldr r1,=spriteAnimDelaySub
