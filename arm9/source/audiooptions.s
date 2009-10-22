@@ -60,9 +60,8 @@ initAudio:
 	
 	bl stopMusic
 	
-	bl fxFadeBlackLevelInit
+	bl fxFadeBlackInit
 	bl fxFadeMax
-	bl fxFadeIn
 
 	@ draw top and bottom screens
 	
@@ -112,15 +111,8 @@ initAudio:
 	bl initAudioSprites
 	bl updateAudioPointer
 	bl playSelectedAudio
-	
-	
-@bl initVideo
-	ldr r0, =FontTiles
-	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
-	ldr r2, =32*8
-@	bl dmaCopy
 
-
+	bl fxFadeIn
 	ldmfd sp!, {r0-r10, pc}
 
 @-------------------------------------------------
@@ -128,9 +120,7 @@ initAudio:
 updateAudio:
 
 	stmfd sp!, {r0-r10, lr}
-	
-@	bl swiWaitForVBlank
-	
+
 	@ er, do stuff here!
 	
 	bl moveAudioPointer
@@ -167,17 +157,19 @@ audioStartPressed:
 	str r0,[r1]
 	ldr r1,=trapStart
 	str r0,[r1]
-	
-	bl clearOAM	
-	bl initVideoTitle
-	bl initSprites
-	bl clearSpriteData
-	
-	bl stopMusic
-	
-	bl fxFadeBlackLevelInit
-	bl fxFadeMax
-	bl fxFadeIn
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWait5:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq jumpout
+
+	b justWait5
+
+	jumpout:
 
 	bl initTitleScreen
 

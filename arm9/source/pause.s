@@ -93,7 +93,20 @@ gamePaused:
 	bne pauseButtonsDone
 	
 		@ Button SELECT pressed - title screen
-	
+		bl fxFadeBlackInit
+		bl fxFadeMin
+		bl fxFadeOut
+
+		justWaitForIt:
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
+		beq jumpCompLL
+
+		b justWaitForIt
+
+		jumpCompLL:		
+
 		bl clearBG1
 		bl clearBG2
 		bl clearBG3

@@ -338,6 +338,12 @@ sprinkles:
 	@ activate sprinkles at r1,r2 on sub screen (10 per line?)
 	cmp r1,#30
 	bge noSprinkle
+	bl getRandom
+	and r8,#1
+	cmp r8,#1
+	bge noSprinkle	
+	
+	
 	bl spareSpriteSub
 	
 	ldr r3,=spriteActiveSub
@@ -349,6 +355,7 @@ sprinkles:
 	bl getRandom
 	and r8,#7
 	add r1,r8
+lsl r1,#12
 	ldr r3,=spriteXSub
 	str r1,[r3,r10,lsl#2]
 	
@@ -358,6 +365,7 @@ sprinkles:
 	bl getRandom
 	and r8,#7
 	add r2,r8
+lsl r2,#12
 	ldr r3,=spriteYSub
 	str r2,[r3,r10,lsl#2]	
 	
@@ -367,7 +375,7 @@ sprinkles:
 	
 	mov r4,#4
 	bl getRandom
-	and r8,#7
+	and r8,#3
 	add r4,r8
 	ldr r3,=spriteAnimDelaySub
 	str r4,[r3,r10,lsl#2]
@@ -375,8 +383,9 @@ sprinkles:
 	str r4,[r3,r10,lsl#2]	
 	
 	bl getRandom
-	and r8,#3
-	add r8,#1
+	ldr r7,=0xfff
+	and r8,r7
+	add r8,#2048
 	ldr r3,=spriteMinSub
 	str r8,[r3,r10,lsl#2]
 	
@@ -441,25 +450,11 @@ generateBGSprites:
 		subs r0,#1
 	bpl generateLoop
 
-	
-	
-	
-	
 	ldmfd sp!, {r0-r12, pc}	
 	
 	
 @-----------------		
-	
-@-----------------
-updateBGSprites:
-	stmfd sp!, {r0-r10, lr}		
-	
-	
-	
-	ldmfd sp!, {r0-r10, pc}	
-	
-	
-@-----------------	
+
 	.pool
 	.data
 	.align
@@ -468,11 +463,12 @@ updateBGSprites:
 	pageOffs:						@ load the sets following depending on page (+11)
 	.word 0,0,0,0,0,0,0,0,0,0,0
 
-	.word 0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10	
-	.word -5,-1,-6,-2,-7,-3,-8,-4,-9,-5,-10
-	.word -20,-18,-16,-14,-12,-10,-8,-6,-4,-2,0
-	.word -5,-1,-6,-2,-7,-3,-8,-4,-9,-5,-10
+	.word -10,-15,-15,-10,-5,-1,-5,-10,-15,-15,-10
 	.word 0,0,-4,-4,-8,-8,-12,-12,-16,-16,-20
+	.word -25,0,-26,3,-27,6,-28,9,-29,-12,-30
+	.word 0,-6,-2,-8,-4,-10,-6,-12,-8,-14,-10	
+	.word -5,-1,-6,-2,-7,-3,-8,-4,-9,-5,-10
+
 	drawDelay:
 	.word 0
 	page:

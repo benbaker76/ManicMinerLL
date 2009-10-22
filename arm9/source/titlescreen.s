@@ -475,6 +475,13 @@ titleNextScreen:
 
 	ldrne r0,=tDemoSequence				@ our demo sequence (normal)
 	ldreq r0,=tDemoSequenceFull			@ our demo sequence (With Holywood)
+	bne notBonus
+		ldr r6,=unlockedBonuses
+		ldr r6,[r6]
+		cmp r6,#20
+		ldreq r0,=tDemoSequenceAll
+	notBonus:
+	
 	ldr r1,=tDemoPos					@ pos in sequence
 	ldr r2,[r1]							@ r2=position
 	add r2,#1
@@ -1178,6 +1185,21 @@ startAudio:
 	ldr r2,=tScrollerOn
 	str r1,[r2]
 	
+	bl fxFadeBlackInit
+	bl fxFadeMin
+	bl fxFadeOut
+
+	justWait4:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	beq jumpCompLL
+
+	b justWait4
+
+	jumpCompLL:	
+	
+	
 	bl initAudio
 
 	ldmfd sp!, {r0-r10, pc}
@@ -1511,6 +1533,8 @@ tDemoSequence:			@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=
 	.word 0,1,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,4096
 tDemoSequenceFull:		@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
 	.word 0,1,2,3,4,512,5,6,7,8,2048,9,10,11,12,1024,13,14,15,16,2048,17,18,19,20,0,23,24,25,26,27,2048,28,29,30,31,32,4096	
+tDemoSequenceAll:		@ 0=title, 512=credits 1, 1024=credits 2, 2048=hi scores, 4096=loop (others display the level)
+	.word 0,1,2,3,4,5,6,7,8,9,10,512,11,12,13,14,15,16,17,18,19,20,2048,23,24,25,26,27,28,29,30,31,32,1024,21,22,33,34,35,36,37,38,39,40,2048,41,42,43,44,45,46,47,48,49,50,4096
 tDemoPos:
 	.word 0
 tScrollPix:

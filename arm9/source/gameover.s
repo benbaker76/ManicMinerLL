@@ -40,18 +40,7 @@ initGameOverScreen:
 	b justWaitForIt
 
 	jumpCompLL:	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	lcdMainOnBottom
 	
 	bl fxFadeBlackInit
@@ -66,7 +55,6 @@ initGameOverScreen:
 	mov r0,#GAMEMODE_GAMEOVER_SCREEN			@ this is our "wait and music" screen
 	str r0,[r1]
 
-	
 	ldr r0,=EndBottomTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
 	ldr r2,=EndBottomTilesLen

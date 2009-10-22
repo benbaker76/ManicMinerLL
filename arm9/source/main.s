@@ -82,7 +82,7 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-	bl initCompletion
+@	bl initCompletion
 @	bl initCompletionWillyWood
 @	bl initCompletionBonus
 
@@ -92,7 +92,7 @@ main:
 
 @	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 @	bl initLevelClear
 
@@ -251,6 +251,7 @@ spotlightLoop:
 
 	b mainLoop									@ our main loop
 	
+@----------------------------
 	
 coords:
 

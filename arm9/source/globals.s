@@ -460,15 +460,15 @@ highScoreName:
 	.ascii " SPACEF "
 	.ascii " SVERX! "
 musicHeard:
-@	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
-@	.byte 0,0,0,0,0,0,0,0,0,0
-@	.byte 0,0,0,0,0,0,1,1,0,0
-@	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
+	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
+	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,1,1,0,0
+	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
 
-	.byte 1,1,1,1,1,1,1,1,1,1	@ 0-9			( set to one if the music is heard ingame)
-	.byte 1,1,1,1,1,1,1,1,1,1
-	.byte 1,1,1,1,1,1,1,1,1,1
-	.byte 1,1,1,1,1,1,1,1,1,1	@ 30-39	(40 tunes)
+@	.byte 1,1,1,1,1,1,1,1,1,1	@ 0-9			( set to one if the music is heard ingame)
+@	.byte 1,1,1,1,1,1,1,1,1,1
+@	.byte 1,1,1,1,1,1,1,1,1,1
+@	.byte 1,1,1,1,1,1,1,1,1,1	@ 30-39	(40 tunes)
 	
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
@@ -481,7 +481,7 @@ levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 
 	.align
 levelLLReached:					@ Lost max (highest visited)
-	.word 20
+	.word 1
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
@@ -495,7 +495,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 20
+	.word 255
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 
