@@ -152,8 +152,49 @@ updateCompletion:
 	
 		tst r10,#BUTTON_START
 		beq completionEnd
-		tst r10,#BUTTON_A
-		beq completionEnd
+
+
+		tst r10,#BUTTON_L
+		beq skipBack
+		tst r10,#BUTTON_LEFT
+		beq skipBack
+		tst r10,#BUTTON_R
+		beq skipForward
+		tst r10,#BUTTON_RIGHT
+		beq skipForward		
+		b skipNone
+		
+		skipBack:
+			@ back a page
+			ldr r2,=pageDelay
+			ldr r1,[r2]
+			cmp r1,#-1
+			beq skipNone
+			cmp r1,#692
+			bpl skipNone
+			ldr r1,=page
+			ldr r3,[r1]
+			subs r3,#1
+			bmi skipNone
+			str r3,[r1]
+			bl changePage			
+		skipForward:
+			@ forward a page
+			ldr r2,=pageDelay
+			ldr r1,[r2]
+			cmp r1,#-1
+			beq skipNone
+			cmp r1,#692
+			bpl skipNone
+			ldr r1,=page
+			ldr r3,[r1]
+			add r3,#1
+			cmp r3,#MAX_PAGES
+			beq skipNone
+			str r3,[r1]
+			bl changePage
+		
+		skipNone:
 	
 		ldr r1,=trapStart
 		mov r0,#0
@@ -197,6 +238,14 @@ updateCompletion:
 	bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}
+
+@-------------------------------
+changePage:
+	
+	stmfd sp!, {r0-r10, lr}	
+
+	b pageTurner
+
 	.pool
 @-------------------------------
 updatePages:	
@@ -283,9 +332,12 @@ updatePages:
 			ldr r3,[r1]
 			add r3,#1
 			cmp r3,#MAX_PAGES
-			beq turnPageDone
+			bge turnPageDone
 		
 			str r3,[r1]			@ reset pageoffs!
+
+		pageTurner:
+
 			ldr r1,=pageOffs
 			mov r5,#44
 			mul r3,r5
@@ -426,7 +478,7 @@ sprinkles:
 	.ascii "      SUPPORT - HEADKAZE      "
 	.ascii "        VISUALS - LOBO        "
 	.ascii "     MUSIC - SPACEFRACTAL     "
-	.ascii "   CONCEPT/WORDS - REV. STU   "
+	.ascii "   CONCEPT, WORDS - REV.STU   "
 	.ascii "                              "
 	.ascii "            # 2009            "
 	.ascii "                              "

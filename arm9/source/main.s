@@ -82,7 +82,7 @@ main:
 	bl initVideo
 	bl initInterruptHandler						@ initialize the interrupt handler
 
-@	bl initCompletion
+	bl initCompletion
 @	bl initCompletionWillyWood
 
 @	bl findHighscore
@@ -91,7 +91,7 @@ main:
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
 @	bl initLevelClear
 

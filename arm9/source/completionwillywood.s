@@ -123,8 +123,6 @@ updateCompletionWillyWood:
 	
 		tst r10,#BUTTON_START
 		beq completionWWEnd
-		tst r10,#BUTTON_A
-		beq completionWWEnd
 
 		ldr r1,=trapStart
 		mov r0,#0
