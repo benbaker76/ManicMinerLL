@@ -983,9 +983,9 @@ levelNames:
 	.ascii "                          "
 	.ascii "JUDGING BY THE ELECTRONICS"
 	.ascii "ON DISPLAY IT WAS SOMETIME"
-	.ascii "AROUND THE 1980S, BUT WHAT"
-	.ascii "ON EARTH (OR WAS IT?) WERE"
-	.ascii "THESE FURRY CREATURES?    "
+	.ascii "AROUND THE 1980s, BUT WHAT"
+	.ascii "ON EARTH WERE THESE WEIRD "
+	.ascii "LITTLE FURRY CREATURES?   " 
 	@ 25	/goonies
 	.ascii "WILLY MADE HIS ESCAPE AND "
 	.ascii "FOUND HIMSELF IN THE DARK "

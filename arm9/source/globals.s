@@ -449,14 +449,14 @@ highScoreScore:
 	.byte 0,0,5,1,2,0
 	.byte 0,0,4,0,9,6
 	.byte 0,0,3,2,0,4
-	.byte 0,0,2,0,0,0
+	.byte 0,0,2,7,1,0
 	.byte 0,0,1,0,2,4
 	.byte 0,0,0,9,0,9
 highScoreName:
 	.ascii "FLASHMAN"
 	.ascii " -LOBO- "
 	.ascii "HEADKAZE"
-	.ascii "FLETCHER"
+	.ascii "REV.STU!"
 	.ascii " SPACEF "
 	.ascii " SVERX! "
 musicHeard:
