@@ -199,15 +199,14 @@ updateCompletionWillyWood:
 	bl fxFadeMin
 	bl fxFadeOut
 
-	justWait:
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
-	beq jumpComp
-
-	b justWait
-
-	jumpComp:
+	justWait4:
+		bl swiWaitForVBlank
+		bl drawSpriteSub
+		bl updatePages	
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
+	bne justWait4
 
 	bl findHighscore
 	
@@ -465,7 +464,7 @@ generateBGSprites:
 
 	.word -10,-15,-15,-10,-5,-1,-5,-10,-15,-15,-10
 	.word 0,0,-4,-4,-8,-8,-12,-12,-16,-16,-20
-	.word -25,0,-26,3,-27,6,-28,9,-29,-12,-30
+	.word -25,0,-26,-3,-27,-6,-28,-9,-29,-12,-30
 	.word 0,-6,-2,-8,-4,-10,-6,-12,-8,-14,-10	
 	.word -5,-1,-6,-2,-7,-3,-8,-4,-9,-5,-10
 

@@ -226,14 +226,15 @@ updateCompletion:
 	bl fxFadeOut
 
 	justWait4:
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
-	beq jumpCompLL
-
-	b justWait4
-
-	jumpCompLL:
+		bl swiWaitForVBlank
+		bl goldGlintInit	
+		bl drawSprite
+		bl drawSpriteSub
+		bl updatePages	
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
+	bne justWait4
 
 	bl findHighscore
 	

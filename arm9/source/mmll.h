@@ -254,6 +254,7 @@
 #include "../build/FXSnow.h"
 #include "../build/FXSprinkle.h"
 #include "../build/FXPig.h"
+#include "../build/FXBonus.h"
 
 @ death animations
 

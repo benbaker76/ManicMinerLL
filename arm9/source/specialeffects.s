@@ -65,6 +65,7 @@
 	.global goldGlintInit
 	.global causeInit
 	.global snowInit
+	.global bonusInit
 
 	.global specialFXStop
 
@@ -486,7 +487,27 @@ starsNew:
 @------------------------------------
 
 .pool
+@------------------------------------ init snow
+bonusInit:
+	stmfd sp!, {r0-r10, lr}
+	bl leafInit
+	
+	ldr r0,=specialEffect
+	ldr r1,=FX_LEAVES
+	str r1,[r0]
 
+	ldr r0,=FXBonusTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#30*256				@ dump at 30th sprite
+	ldr r2,=FXBonusTilesLen
+	bl dmaCopy
+	
+	ldr r0, =SpritesPal
+	ldr r2, =512
+	ldr r1, =SPRITE_PALETTE_SUB
+	bl dmaCopy	
+	
+	ldmfd sp!, {r0-r10, pc}	
 @------------------------------------ init snow
 snowInit:
 	stmfd sp!, {r0-r10, lr}
@@ -509,11 +530,19 @@ snowInit:
 leafInit:
 	stmfd sp!, {r0-r10, lr}
 	
+	ldr r1,=gameMode
+	ldr r1,[r1]
+	cmp r1,#GAMEMODE_COMPLETION_BONUS
+	moveq r9,#384-16
+	movne r9,#384+48
+	
 	ldr r1,=specialEffect
 	ldr r2,[r1]
 	mov r1,#30
 	cmp r2,#FX_SNOW
 	moveq r1,#60
+	cmp r9,#384-16
+	moveq r1,#127
 	ldr r2,=leafAmount
 	str r1,[r2]
 	
@@ -538,7 +567,7 @@ leafInit:
 		lsr r8,#2
 		mov r3,#3
 		mul r8,r3
-		add r8,#384+48
+		add r8,r9
 		lsl r8,#12
 		ldr r1,=spriteY
 		str r8,[r1,r0,lsl#2]		@ store y	0-191
@@ -622,11 +651,11 @@ leafUpdate:
 			@ r1=sprite
 			
 			ldr r2,[r1,r0,lsl#2]			@ r2=x co
-			ldr r9,=spriteMonsterMove
-			ldr r10,[r9,r0,lsl#2]			@ r10=speed
+			ldr r8,=spriteMonsterMove
+			ldr r10,[r8,r0,lsl#2]			@ r10=speed
 			cmp r10,#-2048
 			subgt r10,#128
-			str r10,[r9,r0,lsl#2]
+			str r10,[r8,r0,lsl#2]
 			adds r2,r10
 			str r2,[r1,r0,lsl#2]
 			mov r10,#32
@@ -651,11 +680,11 @@ leafUpdate:
 			rightLeafNoChange:
 			
 			ldr r2,[r1,r0,lsl#2]			@ r2=x co
-			ldr r9,=spriteMonsterMove
-			ldr r10,[r9,r0,lsl#2]			@ r10=speed
+			ldr r8,=spriteMonsterMove
+			ldr r10,[r8,r0,lsl#2]			@ r10=speed
 			cmp r10,#2048
 			addlt r10,#128
-			str r10,[r9,r0,lsl#2]
+			str r10,[r8,r0,lsl#2]
 			adds r2,r10
 			str r2,[r1,r0,lsl#2]
 			mov r10,#256+96
@@ -683,6 +712,15 @@ leafUpdate:
 	ldmfd sp!, {r0-r10, pc}
 	
 leafNew:
+	ldr r9,=gameMode
+	ldr r9,[r9]
+	cmp r9,#GAMEMODE_COMPLETION_BONUS
+	moveq r9,#-16
+	movne r9,#32
+
+
+
+
 		bl getRandom				@ r8 returned
 		ldr r7,=0x1FF				@ and with 256
 		and r8,r7
@@ -691,7 +729,7 @@ leafNew:
 		ldr r1,=spriteX
 		str r8,[r1,r0,lsl#2]		@ store X	0-255
 		mov r8,#384
-		add r8,#32
+		add r8,r9
 		lsl r8,#12
 		ldr r1,=spriteY
 		str r8,[r1,r0,lsl#2]		@ store y	0-191

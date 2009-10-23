@@ -564,7 +564,7 @@ audioPlaying:					@ what tune?
 audioPointerY:					@ pointer Y values
 	.byte 81,97,113,145
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
-	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,255
+	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,255
 audioVT:
 	.asciz	"SFX GAME VOLUME:"		@ 24
 audioMT:
@@ -607,7 +607,8 @@ audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	" ALL THIS DOOM AND GLOOM! "
 	.asciz	" SUPERHEROES COME TO REST "
 	.asciz	"       BAH! HUMBUG!       "
-	.asciz	"   BEING SO TRIUMPHANT!   "	
+	.asciz	"   BEING SO TRIUMPHANT!   "
+	.asciz	"      THE LAST WALTZ      "	
 
 audioET:
 	.asciz "EXIT AUDIO OPTIONS"				@ 18

@@ -60,11 +60,21 @@ crumbler:
 	
 	stmfd sp!, {r0-r10, lr}
 	
-	ldr r0,=spriteY+256					@ make sure we are on the platform nice and firmly
+	ldr r0,=spriteY+256				@ make sure we are on the platform nice and firmly
 	ldr r0,[r0]
 	and r0,#7
 	cmp r0,#0
 	bne crumblerFail
+
+	@ ok, check timer
+
+
+	ldr r0,=crumbleMap
+	ldrb r1,[r0,r8]
+	subs r1,#1
+	movmi r1,#1
+	strb r1,[r0,r8]
+	bpl crumblerFail
 	
 	ldr r0,=colMapStore
 	ldrb r1,[r0,r8]					@ r1= tile at location

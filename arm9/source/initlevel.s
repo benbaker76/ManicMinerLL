@@ -56,9 +56,10 @@ initLevel:
 	
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
-	bl clearSpriteData
 
 	skippy:
+
+	bl clearSpriteData
 	
 	mov r0,#0
 	str r0,[r1]
@@ -321,6 +322,7 @@ generateColMap:
 	ldr r0,=colMapLevels
 	add r0,r5
 	ldr r1,=colMapStore
+	ldr r4,=crumbleMap
 	ldr r10,=keyCounter
 	mov r9,#0
 	str r9,[r10]
@@ -333,8 +335,16 @@ generateColMap:
 		cmp r2,#31
 		bgt notColMapKey
 		add r9,#1
-		notColMapKey:
+		notColMapKey:		
 		strb r2,[r1],#1
+		
+		
+		cmp r2,#5			@ is it a crumbler
+		moveq r2,#1
+		movne r2,#0
+		strb r2,[r4],#1
+		
+		
 		subs r3,#1
 	bpl colMapLoop
 	str r9,[r10]
@@ -726,9 +736,7 @@ getLevelBackground:
 generateMonsters:
 
 	stmfd sp!, {r0-r10, lr}
-	
-	@ just set up a dummy monster for now!
-	
+
 	@ r9 = loop for the 7 monsters that can be used per level
 	@ using sprites 65-71
 	
@@ -933,7 +941,9 @@ generateMonsters:
 	cmp r0,#34
 	ldreq r2, =End_xm_gz
 	ldreq r3, =End_xm_gz_size	
-
+	cmp r0,#35
+	ldreq r2, =Halt_xm_gz
+	ldreq r3, =Halt_xm_gz_size	
 	bl initMusic
 	
 	@ now we hear music, set the flag in musicHeard (byte)

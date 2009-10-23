@@ -27,8 +27,8 @@ stmfd sp!, {r0-r10, lr}
 	mov r2,#1
 	str r2,[r1]
 
-@	bl fxFadeBlackInit
-bl fxFadeMainInit
+	bl fxFadeBlackInit
+@	bl fxFadeMainInit
 	bl fxFadeMax
 
 

@@ -69,7 +69,7 @@ initCompletionBonus:
 	bl decompressToVRAM
 
 	
-	mov r0,#0
+	mov r0,#35
 	bl levelMusicPlayEasy
 
 	@ draw the text!
@@ -107,7 +107,7 @@ initCompletionBonus:
 	@ draw fact (4*30 chars)
 	
 	bl getRandom
-	and r8,#3
+	and r8,#7
 	
 	mov r3,#120 		@ 4 lines
 	mul r8,r3
@@ -123,6 +123,10 @@ initCompletionBonus:
 	add r2,#2
 	bl drawTextBigNormal
 	
+	@ start leaves as a special fx
+	
+	bl bonusInit
+	
 	bl fxFadeIn	
 
 	@ if gotRecord=1, then a bonus time has been beaten
@@ -135,21 +139,36 @@ updateCompletionBonus:
 
 	stmfd sp!, {r0-r10, lr}
 	
-	@ Check for start or A pressed
+	bonusLoop:
+		bl swiWaitForVBlank	
+		bl updateSpecialFX
+		bl drawSprite
 	
-	ldr r2, =REG_KEYINPUT
-	ldr r10,[r2]
+		@ Check for start or A pressed
 	
-	tst r10,#BUTTON_START
-	beq completionBonusEnd
+		ldr r2, =REG_KEYINPUT
+		ldr r10,[r2]
+	
+		tst r10,#BUTTON_START
+		beq completionBonusEnd
 
-	ldmfd sp!, {r0-r10, pc}
+		ldr r1,=trapStart
+		mov r0,#0
+		str r0,[r1]
+	
+		bonusReturn:
+	
+	b bonusLoop
+@--------------------
 
 	completionBonusEnd:
 	
 	@ return to title screen (or highscore at some point)
 	
 	ldr r1,=trapStart
+	ldr r0,[r1]
+	cmp r0,#0
+	bne bonusReturn
 	mov r0,#1
 	str r0,[r1]
 
@@ -161,15 +180,18 @@ updateCompletionBonus:
 	bl fxFadeMin
 	bl fxFadeOut
 
-	justWait4:
+	justWait:
+	bl swiWaitForVBlank	
+	bl updateSpecialFX
+	bl drawSprite	
+	
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
-	beq jumpCompLL
+	bne justWait
 
-	b justWait4
-
-	jumpCompLL:
+	bl specialFXStop
+	bl clearOAM	
 	
 	bl initTitleScreen
 	
@@ -209,11 +231,39 @@ facts:
 	.ascii "  FOR SOME REASON, THE LEVEL  "
 	.ascii "'EUGENE'S LAIR IN THE CPC GAME"
 	.ascii "  WAS RENAMED TO 'EUGENE WAS  "
-	.ascii " HERE'. THE REASON'S UNKNOWN! "	
+	.ascii " HERE'. THE REASON IS UNKNOWN "	
 	
 	.ascii "MANIC MINER HAS BEEN RELEASED "
 	.ascii "ON NUMEROUS SYSTEMS. EVEN THE "
 	.ascii "  ZX81 HAD A VERY IMPRESSIVE  "
 	.ascii "VERSION WITH HIGH RES GRAPHICS"		
 	
-	
+	.ascii " 'HORACE IN THE MYSTIC WOODS' "
+	.ascii " (FEATURED ON THE FIRST BONUS "
+	.ascii "LEVEL) WAS CODED FROM START TO"
+	.ascii "   FINISH IN JUST TWO WEEKS   "	
+
+	.ascii " 'EUGENE'S LAIR' IN THE COUPE "
+	.ascii "VERSION OF THE GAME WAS CALLED"
+	.ascii " 'THE SUGAR FACTORY' WHY THIS "
+	.ascii "   WAS CHANGED IS NOT KNOWN   "	
+
+	.ascii "  'EUGENE'S LAIR' WAS A JOKE  "
+	.ascii "TOWARDS THE PROGRAMMER 'EUGENE"
+	.ascii "   EVANS' WHO LEFT BUG BYTE   "
+	.ascii " TO WORK FOR IMAGINE SOFTWARE "	
+
+	.ascii " THE ORIGINAL CHEAT CODE USED "
+	.ascii "IN THE BUG BYTE VERSION OF THE"
+	.ascii "GAME WAS BASED ON DIGITS TAKEN"
+	.ascii "FROM MATTHEWS DRIVING LICENCE."	
+
+	.ascii "MATTHEW SMITH WAS BORN IN 1966"
+	.ascii " IN THE CITY OF LONDON, LATER "
+	.ascii "  SETTLING IN WALLASEY AFTER  "
+	.ascii "        SEVERAL MOVES.        "	
+
+	.ascii " THE FIRST GAME MATTHEW SMITH "
+	.ascii " DEVELOPED WAS ON THE TRS-80, "
+	.ascii "   AND WAS A GALAXIAN CLONE   "
+	.ascii "   CALLED 'DELTA TOWER ONE'   "	

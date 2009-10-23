@@ -35,11 +35,9 @@ initGameOverScreen:
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
-	beq jumpCompLL
+	bne justWaitForIt
 
-	b justWaitForIt
-
-	jumpCompLL:	
+	bl resetScrollRegisters
 
 	lcdMainOnBottom
 	
@@ -482,25 +480,8 @@ updateGameOver:
 	subs r10,#1
 	cmp r10,#-70
 	bpl updateGameOverLoop
-	
-	@ fade out for next screen
-
-	bl fxFadeBlackInit
-	bl fxFadeOut
-
-	justWait:
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
-	beq fadeGameOver
-	
-	b fadeGameOver
-
-	b justWait
-	
+		
 	@------------------------- ok, jump to gameover screens
-	
-	fadeGameOver:
 
 	ldr r1,=trapStart
 	mov r0,#1
@@ -510,8 +491,6 @@ updateGameOver:
 	ldr r1,=spriteScreen
 	str r0,[r1]
 
-	bl resetScrollRegisters
-	bl fxFadeOff	
 	bl initGameOverScreen
 
 	ldmfd sp!, {r0-r10, pc}
@@ -529,15 +508,12 @@ updateGameOver:
 	bl fxFadeBlackInit
 	bl fxFadeOut
 
-	justWait4:
+	justWait:
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
-	beq jumpGameOver1
+	bne justWait
 
-	b justWait4
-
-	jumpGameOver1:	
 	bl findHighscore
 	
 	ldmfd sp!, {r0-r10, pc}

@@ -186,12 +186,9 @@ titleMainScreen:
 	titleMainScreenJump:
 
 	bl fxFadeMax
-@	bl specialFXStop	
-
 	bl fxFadeIn
 	
 	bl initVideoTitle
-		
 
 	@ draw our title to sub
 	
@@ -267,7 +264,6 @@ titleCredit1Screen:
 	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)	@ destination
 	ldr r2, =CreditPageTopMapLen
 	bl dmaCopy
-
 
 	ldr r0, =CreditPagePal
 	ldr r1, =BG_PALETTE_SUB
@@ -1181,24 +1177,40 @@ startAudio:
 	str r1,[r2]
 	ldr r2, =gameReturn
 	str r1,[r2]
-	mov r1, #0
-	ldr r2,=tScrollerOn
-	str r1,[r2]
 	
 	bl fxFadeBlackInit
 	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait4:
+		bl swiWaitForVBlank
+
+		ldr r10,=levelNum; ldr r10,[r10]	
+		cmp r10,#0; beq titleIsBitmap1
+		cmp r10,#128; bpl titleIsBitmap1
+	
+		ldr r1,=cheat2Mode; ldr r1,[r1]
+		cmp r1,#1; beq cheat21
+		ldr r0,=minerDelay
+		ldr r1,[r0]; add r1,#1; cmp r1,#2; moveq r1,#0; str r1,[r0]
+		bne skipTitleFrame1
+			cheat21:
+			bl monsterMove
+		skipTitleFrame1:
+		bl levelAnimate
+		bl updateSpecialFX
+		titleIsBitmap1:
+		bl drawSprite
+		bl drawTitleSprites
+
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
-	beq jumpCompLL
+	bne justWait4
 
-	b justWait4
-
-	jumpCompLL:	
-	
+	mov r1, #0
+	ldr r2,=tScrollerOn
+	str r1,[r2]
 	
 	bl initAudio
 
@@ -1217,14 +1229,29 @@ gameStartNormal:
 	bl fxFadeOut
 
 	justWaitForIt:
+		bl swiWaitForVBlank
+		ldr r10,=levelNum; ldr r10,[r10]	
+		cmp r10,#0; beq titleIsBitmap2
+		cmp r10,#128; bpl titleIsBitmap2
+	
+		ldr r1,=cheat2Mode; ldr r1,[r1]
+		cmp r1,#1; beq cheat22
+		ldr r0,=minerDelay
+		ldr r1,[r0]; add r1,#1; cmp r1,#2; moveq r1,#0; str r1,[r0]
+		bne skipTitleFrame2
+			cheat22:
+			bl monsterMove
+		skipTitleFrame2:
+		bl levelAnimate
+		bl updateSpecialFX
+		titleIsBitmap2:
+		bl drawSprite
+		bl drawTitleSprites
+		
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
-	beq fadeDone
-
-	b justWaitForIt
-
-	fadeDone:	
+	bne justWaitForIt
 
 	mov r1, #GAMEMODE_RUNNING
 	ldr r2, =gameMode
@@ -1280,10 +1307,8 @@ gameStartNormal:
 	
 	timeToPlay:						@ 'activate game start'
 	
-	bl stopMusic
-	
+	bl stopMusic	
 	bl clearOAM
-
 	bl initGame
 
 	ldmfd sp!, {r0-r10, pc}
@@ -1494,7 +1519,6 @@ moveAlter:
 			notRightBonus:
 			
 			b moveAlterDone
-	
 
 	moveAlterDone:
 	

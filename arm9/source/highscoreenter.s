@@ -270,6 +270,12 @@ enterHighScore:
 	bl fxFadeOut
 
 	justWait:
+		bl swiWaitForVBlank		
+		bl fxSparkleInit
+		bl drawSprite
+		bl entryCursorAnim
+
+
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0

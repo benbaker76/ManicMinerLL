@@ -54,6 +54,10 @@ fxFadeMainInit:
 	ldr r0, =BLEND_CR
 	ldr r1, =(BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
 	str r1, [r0]
+
+	ldr r0, =SUB_BLEND_CR
+	ldr r1, =(BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
+	str r1, [r0]
 		
 	ldr r0, =fadeValue					@ Get our fadeValue
 	ldr r1, =0							@ Reset value
