@@ -60,14 +60,16 @@ crumbler:
 	
 	stmfd sp!, {r0-r10, lr}
 	
-	ldr r0,=spriteY+256				@ make sure we are on the platform nice and firmly
-	ldr r0,[r0]
-	and r0,#7
-	cmp r0,#0
-	bne crumblerFail
+@	ldr r0,=spriteY+256				@ make sure we are on the platform nice and firmly
+@	ldr r0,[r0]
+@	and r0,#7
+@	cmp r0,#1
+@	bgt crumblerFail
 
-	@ ok, check timer
-
+ldr r0,=minerAction
+ldr r0,[r0]
+cmp r0,#MINER_NORMAL
+bne crumblerFail
 
 	ldr r0,=crumbleMap
 	ldrb r1,[r0,r8]

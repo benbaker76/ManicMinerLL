@@ -161,6 +161,8 @@
 	
 	.global gotRecord
 	.global gameBegin
+	
+	.global trivia
 
 gameBegin:
 	.word 0
@@ -503,6 +505,8 @@ audioMusic:						@ play Music?
 	.word 1	
 audioSFXVol:					@ audio Volume
 	.word 7
+trivia:							@ bonus level trivia page
+	.word -1
 
 deathAnimation:
 	.word -1					@ which animation to use on the game over
