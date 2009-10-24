@@ -317,6 +317,11 @@ displayBonusTimer:
 	cmp r0,#1
 	beq noBonusTimer
 	
+	ldr r0,=gameMode
+	ldr r0,[r0]
+	cmp r0,#GAMEMODE_COMPLETION_BONUS
+	beq noBonusTimer
+	
 	ldr r0,=bMil
 	ldr r10,[r0]
 	mov r7,#0

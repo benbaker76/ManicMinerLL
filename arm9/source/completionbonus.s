@@ -23,6 +23,9 @@ initCompletionBonus:
 	stmfd sp!, {r0-r10, lr}
 
 	lcdMainOnBottom
+
+	bl stopTimer3
+
 	
 	bl clearBG0
 	bl clearBG1
@@ -70,7 +73,6 @@ initCompletionBonus:
 	ldr r2,=BigFont2TilesLen
 	bl decompressToVRAM
 
-	
 	mov r0,#35
 	bl levelMusicPlayEasy
 

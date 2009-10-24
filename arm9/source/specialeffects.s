@@ -499,8 +499,6 @@ bonusInit:
 	ldr r0,=FXBonusTiles		@ ADD TO THIS FOR A RANDOM OBJECT (4)
 	bl getRandom
 	and r8,#03
-MOV R8,#0
-
 	ldr r7,=5*256
 	mul r7,r8
 	add r0,r7
