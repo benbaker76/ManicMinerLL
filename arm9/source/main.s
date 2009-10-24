@@ -84,7 +84,7 @@ main:
 
 @	bl initCompletion
 @	bl initCompletionWillyWood
-	bl initCompletionBonus
+@	bl initCompletionBonus
 
 @	bl findHighscore
 
@@ -92,7 +92,7 @@ main:
 
 @	bl initTitleScreen
 	
-@	bl showIntro1
+	bl showIntro1
 	
 @	bl initLevelClear
 

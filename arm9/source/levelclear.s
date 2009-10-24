@@ -244,9 +244,9 @@ bge notARecord
 	mov r10,r1
 	mov r7,#0
 	mov r11,#14
-	mov r8,#2
+@	mov r8,#2
 	mov r9,#2
-	bl drawDigitsB
+@	bl drawDigitsB
 	mov r8,#1
 	bl drawDigitsB
 	
@@ -257,9 +257,9 @@ bge notARecord
 	mov r10,r1
 	mov r7,#0
 	mov r11,#17
-	mov r8,#2
+@	mov r8,#2
 	mov r9,#2
-	bl drawDigitsB
+@	bl drawDigitsB
 	mov r8,#1
 	bl drawDigitsB
 	
@@ -270,9 +270,9 @@ bge notARecord
 	mov r10,r1
 	mov r7,#0
 	mov r11,#20
-	mov r8,#2
+@	mov r8,#2
 	mov r9,#3
-	bl drawDigitsB
+@	bl drawDigitsB
 	mov r8,#1
 	bl drawDigitsB
 	

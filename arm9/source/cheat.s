@@ -29,7 +29,7 @@
 #include "ipc.h"
 
 	#define	CHEAT_AMOUNT 		4
-	#define	CHEAT2_AMOUNT 		4
+	#define	CHEAT2_AMOUNT 		6
 	
 	.arm
 	.align
@@ -238,7 +238,7 @@ cheat2Section:
 
 	.align
 cheat2Sequence:									@ in the current check - you must use different key for each part!
-	.word BUTTON_LEFT, BUTTON_RIGHT, BUTTON_LEFT, BUTTON_RIGHT
+	.word BUTTON_LEFT, BUTTON_RIGHT, BUTTON_LEFT, BUTTON_RIGHT, BUTTON_UP, BUTTON_B
 
 	.align
 cheat2Key:

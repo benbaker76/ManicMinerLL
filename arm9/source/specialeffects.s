@@ -496,10 +496,17 @@ bonusInit:
 	ldr r1,=FX_LEAVES
 	str r1,[r0]
 
-	ldr r0,=FXBonusTiles
+	ldr r0,=FXBonusTiles		@ ADD TO THIS FOR A RANDOM OBJECT (4)
+	bl getRandom
+	and r8,#03
+MOV R8,#0
+
+	ldr r7,=5*256
+	mul r7,r8
+	add r0,r7
 	ldr r1,=SPRITE_GFX_SUB
 	add r1,#30*256				@ dump at 30th sprite
-	ldr r2,=FXBonusTilesLen
+	ldr r2,=5*256
 	bl dmaCopy
 	
 	ldr r0, =SpritesPal

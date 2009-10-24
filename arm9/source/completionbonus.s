@@ -30,7 +30,7 @@ initCompletionBonus:
 	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
-	bl stopMusic					@ remove when we have completion music
+@	bl stopMusic					@ remove when we have completion music
 
 	ldr r1,=gameMode
 	mov r0,#GAMEMODE_COMPLETION_BONUS
@@ -44,7 +44,7 @@ initCompletionBonus:
 	ldr r2,=VictoryBonusBottomTilesLen
 	bl decompressToVRAM	
 	ldr r0, =VictoryBonusBottomMap
-	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)			@ destination
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)					@ destination
 	ldr r2, =VictoryBonusBottomMapLen
 	bl dmaCopy
 	ldr r0, =VictoryBonusBottomPal
@@ -52,7 +52,7 @@ initCompletionBonus:
 	ldr r2, =VictoryBonusBottomPalLen
 	bl dmaCopy	
 
-	ldr r0,=VictoryBonusTopTiles							@ copy the tiles used for game over
+	ldr r0,=VictoryBonusTopTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
 	ldr r2,=VictoryBonusTopTilesLen
 	bl decompressToVRAM	
@@ -214,7 +214,7 @@ line1:
 line2:
 	.ascii "    BONUS LEVEL COMPLETED!    "
 line3all:	@ ARE THEY ALL UNLOCKED
-	.ascii "YOU HAVE FOUND ALL THE BONUS'S"
+	.ascii "YOU HAVE FOUND ALL THE BONUSES"
 line3more:
 	.ascii "CAN YOU FIND THE REST OF THEM?"
 recordYes:	@ HAVE YOU GOT A RECORD?
@@ -227,138 +227,139 @@ fact2:
 	.ascii "   <======================>   "
 	
 facts:
+	@ 1
 	.ascii "  ROOM DATA FOR THE SPECTRUM  "
-	.ascii "VERSION IS HELD AT THE MEMORY "
-	.ascii "   ADDRESSES 45056 TO 65535   "
+	.ascii "  VERSION IS HELD AT MEMORY   "
+	.ascii "  ADDRESSES 45056 TO 65535.   "
 	@ 2
 	.ascii "  A 12-STAGE UNOFFICIAL PORT  "
 	.ascii "  WITH HIGH-RES GRAPHICS WAS  "
 	.ascii "  MADE FOR THE ZX81 IN 1984.  "
 	@ 3
 	.ascii "  A VERSION OF JET SET WILLY  "
-	.ascii "EXISTS WHICH MAKES ITS MAP OUT"
-	.ascii "    OF MANIC MINER LEVELS.    "
+	.ascii "  EXISTS WHICH MAKES ITS MAP  "
+	.ascii "  OUT OF MANIC MINER LEVELS.  "
 	@ 4
 	.ascii "  AN EXTREMELY HARD 2008 MOD  "
 	.ascii "  AMENDED THE GAME BASED ON   "
 	.ascii "  COMMENTS BY MATTHEW SMITH.  "
 	@ 5
-	.ascii "IN THE 'PERPETUAL MOTION' MOD "
-	.ascii "   VERSION (2005), WILLY IS   "
-	.ascii "    UNABLE TO STAND STILL.    "
+	.ascii "  IN THE 'PERPETUAL MOTION'   "
+	.ascii "  MOD VERSION (2005), WILLY   "
+	.ascii "  IS UNABLE TO STAND STILL.   "
 	@ 6
-	.ascii " THE COMMODORE 16 VERSION HAS "
-	.ascii " NO MUSIC, 'GAME OVER' SCREEN "
-	.ascii "       OR END SEQUENCE.       "
+	.ascii "  THE COMMODORE 16 VERSION    "
+	.ascii "  HAS NO MUSIC, 'GAME OVER'   "
+	.ascii "  SCREEN OR END SEQUENCE.     "
 	@ 7
-	.ascii " EUGENE'S LAIR WAS RENAMED TO "
-	.ascii "  'THE SUGAR FACTORY' IN THE  "
-	.ascii "SAM COUPE VERSION OF THE GAME."
+	.ascii "  ON THE SAM COUPE VERSION,   "
+	.ascii "  EUGENE'S LAIR WAS RENAMED   "
+	.ascii "  AS 'THE SUGAR FACTORY'.     "
 	@ 8
-	.ascii " EUGENE'S LAIR WAS RENAMED TO "
-	.ascii "   'EUGENE WAS HERE' IN THE   "
-	.ascii "     AMSTRAD CPC VERSION.     "
+	.ascii "  ON THE AMSTRAD CPC VERSION  "
+	.ascii "  EUGENE'S LAIR WAS RENAMED   "
+	.ascii "  AS 'EUGENE WAS HERE'.       "
 	@ 9
-	.ascii "THE SOLAR POWER GENERATOR DOES"
-	.ascii "NOT APPEAR IN THE B.B.C. MICRO"
-	.ascii "     VERSION OF THE GAME.     "
+	.ascii "  THE SOLAR POWER GENERATOR   "
+	.ascii "  DOES NOT APPEAR IN THE BBC  "
+	.ascii "  MICRO VERSION OF THE GAME.  "
 	@ 10
-	.ascii "THE ORIC LEVELS WERE UNIQUELY "
-	.ascii "BUILT FROM TILES 6 PIXELS WIDE"
-	.ascii "   RATHER THAN THE USUAL 8.   "
+	.ascii "  ORIC LEVELS WERE UNIQUELY   "
+	.ascii "  BUILT FROM TILES 6 PIXELS   "
+	.ascii "  WIDE, RATHER THAN 8.        "
 	@ 11
-	.ascii "  MANIC MINER WAS THE FIRST - "
+	.ascii "  MANIC MINER WAS THE FIRST-  "
 	.ascii "  EVER SPECTRUM GAME TO HAVE  "
 	.ascii "  CONTINUOUS MUSIC PLAYING.   "
 	@ 12
-	.ascii " MATTHEW SMITH CREATED MANIC  "
+	.ascii "  MATTHEW SMITH WROTE MANIC   "
 	.ascii "  MINER WHEN HE WAS 17, AND   "
-	.ascii "   MADE JUST 4 OTHER GAMES.   "
+	.ascii "  MADE JUST 3 OTHER GAMES.    "
 	@ 13
 	.ascii "  THERE WERE THREE DIFFERENT  "
 	.ascii "  VERSIONS OF SPECTRUM MANIC  "
 	.ascii "  MINER WITH UNIQUE ARTWORK.  "
 	@ 14
-	.ascii "   AN ADVERTISED C64 UPDATE   "
-	.ascii " CALLED 'MATTIE GOES MINING', "
-	.ascii "      WAS NEVER RELEASED      "
+	.ascii "  AN ADVERTISED C64 UPDATE,   "
+	.ascii "  CALLED MATTIE GOES MINING,  "
+	.ascii "  WAS NEVER RELEASED.         "
 	@ 15
-	.ascii "THE AMSTRAD CPC VERSION IS THE"
-	.ascii "ONLY ONE WITH GRAPHICS IN SOME"
-	.ascii "      OF THE ROOM NAMES.      "
+	.ascii "  THE AMSTRAD CPC VERSION IS  "
+	.ascii "  THE ONLY ONE WITH GRAPHICS  "
+	.ascii "  IN SOME OF THE ROOM NAMES.  "
 	@ 16
 	.ascii "  BOTH COMMODORE CONVERSIONS  "
-	.ascii "LACK THE SCENERY GRAPHICS FOR "
-	.ascii "     'THE FINAL BARRIER'.     "
+	.ascii "  LACK THE SCENERY GRAPHICS   "
+	.ascii "  FOR 'THE FINAL BARRIER'.    "
 	@ 17
-	.ascii "THE DRAGON, C64, C16 AND ORIC "
-	.ascii "VERSIONS ALL DISPLAY THE LEVEL"
-	.ascii "     NAMES IN UPPER CASE.     "
+	.ascii "  THE DRAGON, C64, C16 AND    "
+	.ascii "  ORIC VERSIONS ALL DISPLAY   "
+	.ascii "  LEVEL NAMES IN UPPER CASE.  "
 	@ 18
 	.ascii "  IT'S NOT NECESSARY TO KILL  "
 	.ascii "  KONG IN EITHER OF THE KONG  "
-	.ascii "BEAST LEVELS TO COMPLETE THEM."
+	.ascii "  BEAST LEVELS TO BEAT THEM.  "
 	@ 19
 	.ascii "  IN THE AMIGA PORT, WILLY'S  "
-	.ascii " GARDEN HAS A CLOTHES LINE IN "
-	.ascii "    IT, INSTEAD OF FLOWERS    "
+	.ascii "  GARDEN HAS A CLOTHES LINE   "
+	.ascii "  IN IT, INSTEAD OF FLOWERS.  "
 	@ 20
-	.ascii "THE ENHANCED AMIGA VERSION IS "
-	.ascii "THE ONLY OFFICIAL GAME CALLED "
-	.ascii "       'MANIC MINER 2'.       "
+	.ascii "  THE ENHANCED AMIGA VERSION  "
+	.ascii "  IS THE ONLY OFFICIAL GAME   "
+	.ascii "  CALLED 'MANIC MINER 2'.     "
 	@ 21
 	.ascii "  THE ENHANCED AMIGA VERSION  "
 	.ascii "  COMPRISES JUST 18 LEVELS -  "
 	.ascii "  MISSING OUT THE FINAL TWO.  "
 	@ 22
-	.ascii " THE TOTAL NUMBER OF PORTS OF "
-	.ascii "MANIC MINER, BOTH OFFICIAL AND"
-	.ascii "    UNOFFICIAL IS OVER 20.    "
+	.ascii "  THE TOTAL NUMBER OF MANIC   "
+	.ascii "  MINER PORTS BOTH OFFICIAL   "
+	.ascii "  AND UNOFFICIAL IS OVER 20.  "
 	@ 23
-	.ascii "THE FIRST DESIGN SKETCHES FOR "
-	.ascii "MANIC MINER WERE DONE ON A SKI"
-	.ascii "      HOLIDAY IN ITALY.       "
+	.ascii "  THE FIRST DESIGN SKETCHES   "
+	.ascii "  FOR MANIC MINER WERE DONE   "
+	.ascii "  ON A SKI HOLIDAY IN ITALY.  "
 	@ 24
-	.ascii " PORTS OF THE GAME USE ONE OF "
-	.ascii "   TWO QUITE SIGNIFICANTLY    "
+	.ascii "  PORTS OF THE GAME USE ONE   "
+	.ascii "  OF TWO QUITE SIGNIFICANTLY  "
 	.ascii "  DIFFERENT JUMP PROTOCOLS.   "
 	@ 25
-	.ascii "THE GOLD BARS IN EUGENE'S LAIR"
-	.ascii "  WERE SUPPOSED TO LOOK LIKE  "
+	.ascii "  THE GOLD BARS IN EUGENE'S   "
+	.ascii "  LAIR ARE SUPPOSED TO LOOK   "
 	.ascii "  LIKE STACKED CREDIT CARDS.  "
 	@ 26
-	.ascii "THE ENDORIAN FOREST LEVEL IS A"
-	.ascii "TRIBUTE TO THE EWOKS, FROM THE"
-	.ascii "  FILM 'RETURN OF THE JEDI'.  "
+	.ascii "  THE ENDORIAN FOREST LEVEL   "
+	.ascii "  IS A TRIBUTE TO THE EWOKS   "
+	.ascii "  FROM 'RETURN OF THE JEDI'.  "
 	@ 27
 	.ascii "  THE MUTANT TELEPHONES WERE  "
 	.ascii "  INFLUENCED BY THIN-SKINNED  "
-	.ascii "   HIPPY CODER JEFF MINTER.   "
+	.ascii "  HIPPY CODER JEFF MINTER.    "
 	@ 28
 	.ascii "  SOFTWARE PROJECTS' REDRAWN  "
 	.ascii "  'REVENGE' AMOEBATRONS WERE  "
-	.ascii "   THE BUG-BYTE LOGO/MASCOT   "
+	.ascii "  THE BUG-BYTE LOGO MASCOT.   "
 	@ 29
-	.ascii "  THE SOFTWARE PROJECTS RE -  "
+	.ascii "  THE SOFTWARE PROJECTS RE-   "
 	.ascii "  RELEASE FEATURED A PAC-MAN  "
-	.ascii "GHOST IN THE PROCESSING PLANT."
+	.ascii "  GHOST IN PROCESSING PLANT.  "
 	@ 30
-	.ascii "NO REASON IS OFFERED AS TO WHY"
-	.ascii " THE AMOEBATRONS CHANGE THEIR "
+	.ascii "  NO REASON IS OFFERED AS TO  "
+	.ascii "  WHY THE AMOEBATRONS CHANGE  "
 	.ascii "  APPEARANCE BETWEEN LEVELS.  "
 	@ 31
-	.ascii "MATTHEW SMITH WAS BORN IN 1966"
-	.ascii " IN THE CITY OF LONDON, LATER "
-	.ascii "MOVING TO WALLASEY, MERSEYSIDE"
+	.ascii "  MATTHEW SMITH WAS BORN IN   "
+	.ascii "  LONDON IN 1966, BUT MOVED   "
+	.ascii "  TO WALLASEY ON MERSEYSIDE.  "
 	@ 32
-	.ascii "'EUGENE'S LAIR' WAS A JIBE AT "
-	.ascii "PROGRAMMER 'EUGENE EVANS' WHO "
-	.ascii "WHO LEFT BUG BYTE FOR IMAGINE "
+	.ascii "   THE '6031769' CHEAT CODE   "
+	.ascii "   CAME FROM DIGITS IN MATT   "
+	.ascii "   SMITH'S DRIVING LICENCE.   "
 	@ 33
-	.ascii " THE ORIGINAL CHEAT CODE USED "
-	.ascii "IN MANIC MINER WAS FROM DIGITS"
-	.ascii " IN MATTHEWS DRIVING LICENCE. "	
+	.ascii "  THE MAIN ENEMY IN EUGENE'S  "
+	.ascii "  LAIR IS BASED ON CELEBRITY  "
+	.ascii "  IMAGINE CODER EUGENE EVANS. "
 	@ 34
-	.ascii " THE FIRST GAME MATTHEW SMITH "
-	.ascii " DEVELOPED WAS ON THE TRS-80, "
-	.ascii "   CALLED 'DELTA TOWER ONE'   "
+	.ascii "  THE FIRST GAME MATTHEW      "
+	.ascii "  DEVELOPED WAS ON THE TRS80  "
+	.ascii "  CALLED 'DELTA TOWER ONE'.   "
