@@ -265,6 +265,8 @@ enterHighScore:
 	@ ok, now we need to jump to the bit that allow us to alter the entry
 	
 	bl enterName
+
+	bl saveGame
 	
 	bl fxFadeBlackInit
 	bl fxFadeOut

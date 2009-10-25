@@ -95,6 +95,8 @@ bonusLevelUnlocked:
 	ldr r2,=8*256
 	bl dmaCopy
 
+	bl saveGame
+
 	@ play a special sound effect for the opening of a bonus level
 
 	ldmfd sp!, {r0-r10, pc}

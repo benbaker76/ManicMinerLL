@@ -92,6 +92,8 @@ initLevelClear:										@ set up the level clear dat
 	
 	notABonusLevel:
 	
+	bl saveGame
+	
 	ldmfd sp!, {r0-r10, pc}	
 @-----------------------------------------------
 

@@ -260,6 +260,8 @@ initLevel:
 	
 	bl bonusTimerInit
 
+bl saveGame
+
 	bl fxFadeIn
 	
 	@UNCOMMENT TO OPEN EXIT

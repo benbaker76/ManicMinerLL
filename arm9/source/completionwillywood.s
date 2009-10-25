@@ -102,6 +102,8 @@ initCompletionWillyWood:
 
 @	bl generateBGSprites
 	
+	bl saveGame
+	
 	bl fxFadeIn
 	
 	ldmfd sp!, {r0-r10, pc}

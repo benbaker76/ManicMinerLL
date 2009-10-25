@@ -32,6 +32,9 @@
 	.align
 	.data
 
+	.global startOfSaveData
+	.global endOfSaveData
+
 	.global levelNum
 
 	.global gameMode

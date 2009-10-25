@@ -432,6 +432,8 @@ initGameOver:
 
 	ldr r5, =REG_BG3VOFS			@ Load our horizontal scroll register for BG3 on the sub screen
 	strh r1, [r5]
+
+	bl saveGame
 	
 	ldmfd sp!, {r0-r10, pc}
 @--------------------------						@ do the death animation

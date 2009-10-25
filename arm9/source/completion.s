@@ -126,6 +126,8 @@ initCompletion:
 	mov r2,#1
 	str r2,[r1]						@ unlock WillyWood
 	
+	bl saveGame
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @---------------------------			LOST LEVEL COMPLETION
