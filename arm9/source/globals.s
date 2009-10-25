@@ -70,6 +70,7 @@
 	.global spritePriority
 	.global spritePrioritySub
 	.global spriteSize
+	.global id
 	
 	.global titleVidInit
 	
@@ -450,6 +451,9 @@ startOfSaveData:
 
 	
 	.align
+id:
+	.ascii "FLASH09"
+
 highScoreScore:
 	.byte 0,0,5,1,2,0
 	.byte 0,0,4,0,9,6
@@ -535,7 +539,7 @@ levelRecords:
 	.word 0,45,0	@ 46	-	mummy daddy
 	.word 1,30,0	@ 47	-	christmas charlie brown
 	.word 1,00,0	@ 48	-	endorian forest
-	.word 9,30,0	@ 49	-	jump for joy
+	.word 1,20,0	@ 49	-	jump for joy
 	.word 1,10,0	@ 50	-	the final barrier
 
 endOfSaveData:	
