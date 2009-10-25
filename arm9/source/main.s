@@ -117,6 +117,8 @@ main:
 @	bl initLevelClear
 
 @	bl initGameOver
+
+	bl loadGame
 	
 	@ ------------------------------------
 	

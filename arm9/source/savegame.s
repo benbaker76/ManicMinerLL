@@ -17,6 +17,8 @@ saveGame:
 	
 	bl DC_FlushAll
 	
+bl drawPauseWindow
+	
 	ldmfd sp!, {r0-r8, pc}
 	
 loadGame:
@@ -46,7 +48,11 @@ loadGame:
 	sub r2,r3,r1
 	bl dmaCopy
 
+	ldmfd sp!, {r0-r8, pc}
+
 loadGameFail:
+
+bl drawPauseWindow
 
 	ldmfd sp!, {r0-r8, pc}
 	

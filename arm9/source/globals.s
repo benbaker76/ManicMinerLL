@@ -500,7 +500,7 @@ levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 
 	.align
 levelLLReached:					@ Lost max (highest visited)
-	.word 20
+	.word 1
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max

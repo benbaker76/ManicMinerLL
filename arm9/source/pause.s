@@ -15,6 +15,7 @@
 
 	.global pauseCheck
 	.global gamePaused
+	.global drawPauseWindow
 
 @---------------------------
 
