@@ -1,5 +1,8 @@
-.global saveGame
-.global loadGame
+	.arm
+	.align
+	.text
+	.global saveGame
+	.global loadGame
 
 saveGame:
 
@@ -16,8 +19,6 @@ saveGame:
 	bl writeFileBuffer
 	
 	bl DC_FlushAll
-	
-bl drawPauseWindow
 	
 	ldmfd sp!, {r0-r8, pc}
 	
@@ -52,22 +53,16 @@ loadGame:
 
 loadGameFail:
 
-bl drawPauseWindow
-
 	ldmfd sp!, {r0-r8, pc}
 	
 	@------------------------------------
 
 	.data
-	.align
-	
-	.align
-	
-saveBuffer:
-	.incbin "../../efsroot/MMLL/Data/Save.dat"
-
+	.pool
 	.align
 
 saveDatText:
 	.asciz "/MMLL/Data/Save.dat"
-
+	
+saveBuffer:
+	.incbin "../../efsroot/MMLL/Data/Save.dat"
