@@ -20,7 +20,7 @@ saveGame:
 	ldr r1, =saveBuffer
 	bl writeFileBuffer
 
-bl drawPauseWindow
+@bl drawPauseWindow
 	
 	bl DC_FlushAll
 	

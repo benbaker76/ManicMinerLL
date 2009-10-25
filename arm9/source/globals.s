@@ -514,7 +514,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 20
+	.word 255
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 
@@ -531,26 +531,26 @@ deathAnimation:
 levelRecords:	
 	@ bonus level records
 	@ stored as min,sec,mil
-	.word 0,35,0	@ 21	-	horace
-	.word 0,55,0	@ 22	-	blagger
-	.word 0,55,0	@ 33	- 	cheese plant
-	.word 0,45,0	@ 34	-	dodgy mine shaft
-	.word 1,20,0	@ 35	-	the big drop
-	.word 1,10,0	@ 36	-	bouncy bouncy
-	.word 0,55,0	@ 37	-	rocky outcrop
-	.word 0,55,0	@ 38	-	bottom of the mine shaft
-	.word 9,30,0	@ 39	-	cosmic causeway
-	.word 1,05,0	@ 40	-	that logo
-	.word 1,00,0	@ 41	-	central cavern
-	.word 0,55,0	@ 42	-	final conflict
-	.word 0,50,0	@ 43	-	the vat
-	.word 0,55,0	@ 44	-	mutant telephones
-	.word 0,45,0	@ 45	-	the warehouse
-	.word 0,45,0	@ 46	-	mummy daddy
-	.word 1,30,0	@ 47	-	christmas charlie brown
-	.word 1,00,0	@ 48	-	endorian forest
-	.word 1,20,0	@ 49	-	jump for joy
-	.word 1,10,0	@ 50	-	the final barrier
+	.word 0,35,0	@ 21	-	horace							ho
+	.word 0,55,0	@ 22	-	blagger							bl
+	.word 0,54,0	@ 33	- 	cheese plant					ch
+	.word 0,41,0	@ 34	-	dodgy mine shaft				my
+	.word 1,15,0	@ 35	-	the big drop					bi
+	.word 1,05,0	@ 36	-	bouncy bouncy					bo
+	.word 0,52,0	@ 37	-	rocky outcrop					ro
+	.word 0,50,0	@ 38	-	bottom of the mine shaft		my
+	.word 0,57,0	@ 39	-	cosmic causeway					cm
+	.word 0,59,0	@ 40	-	that logo						th
+	.word 0,58,0	@ 41	-	central cavern					re	al central
+	.word 0,56,0	@ 42	-	final conflict					co				
+	.word 0,51,0	@ 43	-	the vat							th
+	.word 0,54,0	@ 44	-	mutant telephones				bu
+	.word 1,01,0	@ 45	-	the warehouse					wa
+	.word 0,41,0	@ 46	-	mummy daddy						wo??
+	.word 1,21,0	@ 47	-	christmas charlie brown			ah
+	.word 0,59,0	@ 48	-	endorian forest					ew
+	.word 1,22,0	@ 49	-	jump for joy					ju
+	.word 1,03,0	@ 50	-	the final barrier				fi
 
 endOfSaveData:	
 
