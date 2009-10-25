@@ -43,6 +43,8 @@
 	.global playExplode
 	.global playSplat
 	.global playFallThing
+	.global playFanFare
+	.global playKeyClick
 
 stopSound:
 
@@ -455,45 +457,45 @@ playExplode:
 
 	stmfd sp!, {r0-r2, lr}
 	
-	ldr r0, =IPC_SOUND_DATA(0)
+	ldr r0, =IPC_SOUND_DATA(4)
 	ldr r1, =0x10
 	bl DC_FlushRange
 	
-	ldr r0, =IPC_SOUND_RATE(0)							@ Frequency
+	ldr r0, =IPC_SOUND_RATE(4)							@ Frequency
 	ldr r1, =22050
 	str r1, [r0]
 	
-	ldr r0, =IPC_SOUND_VOL(0)							@ Volume
+	ldr r0, =IPC_SOUND_VOL(4)							@ Volume
 	ldr r2,=audioSFXVol
 	ldr r1,[r2]
 	ldr r2,=sfxValues
 	ldrb r1,[r2,r1]
 	strb r1, [r0]
 	
-	ldr r0, =IPC_SOUND_PAN(0)							@ Pan
+	ldr r0, =IPC_SOUND_PAN(4)							@ Pan
 	ldrb r1, =64
 	strb r1, [r0]
 	
-	ldr r0, =IPC_SOUND_CHAN(0)							@ Channel
+	ldr r0, =IPC_SOUND_CHAN(4)							@ Channel
 	ldrb r1, =3
 	strb r1, [r0]
 	
-	ldr r0, =IPC_SOUND_FORMAT(0)						@ Format
+	ldr r0, =IPC_SOUND_FORMAT(4)						@ Format
 	ldrb r1, =0
 	strb r1, [r0]
 
-	ldr r0, =IPC_SOUND_LEN(0)							@ Get the IPC sound length address
+	ldr r0, =IPC_SOUND_LEN(4)							@ Get the IPC sound length address
 	ldr r1, =explode_raw_end							@ Get the sample end
 	ldr r2, =explode_raw								@ Get the same start
 	sub r1, r2											@ Sample end - start = size
 	str r1, [r0]										@ Write the sample size
 	
-	ldr r0, =IPC_SOUND_DATA(0)							@ Get the IPC sound data address
+	ldr r0, =IPC_SOUND_DATA(4)							@ Get the IPC sound data address
 	ldr r1, =explode_raw								@ Get the sample address
 	str r1, [r0]										@ Write the value
 	
 	ldr r0, =REG_IPC_SYNC
-	ldr r1, =IPC_SEND_SYNC(0)
+	ldr r1, =IPC_SEND_SYNC(4)
 	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
@@ -601,6 +603,110 @@ playSplat:
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	
 	@ ---------------------------------------------
+	@ ---------------------------------------------
 
+
+playFanFare:
+
+	@ 'CHANNEL - 3'
+
+
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0, =IPC_SOUND_DATA(4)
+	ldr r1, =0x10
+	bl DC_FlushRange
+	
+	ldr r0, =IPC_SOUND_RATE(4)							@ Frequency
+	ldr r1, =22050
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(4)							@ Volume
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(4)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(4)							@ Channel
+	ldrb r1, =3
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(4)						@ Format
+	ldrb r1, =0
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(4)							@ Get the IPC sound length address
+	ldr r1, =fanfare_raw_end							@ Get the sample end
+	ldr r2, =fanfare_raw								@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(4)							@ Get the IPC sound data address
+	ldr r1, =fanfare_raw								@ Get the sample address
+	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(4)
+	strh r1, [r0]
+	
+	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
+
+	@ ---------------------------------------------
+
+
+playKeyClick:
+
+	@ 'CHANNEL - 3'
+
+
+	stmfd sp!, {r0-r2, lr}
+	
+	ldr r0, =IPC_SOUND_DATA(4)
+	ldr r1, =0x10
+	bl DC_FlushRange
+	
+	ldr r0, =IPC_SOUND_RATE(4)							@ Frequency
+	ldr r1, =22050
+	str r1, [r0]
+	
+	ldr r0, =IPC_SOUND_VOL(4)							@ Volume
+	ldr r2,=audioSFXVol
+	ldr r1,[r2]
+	ldr r2,=sfxValues
+	ldrb r1,[r2,r1]
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_PAN(4)							@ Pan
+	ldrb r1, =64
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_CHAN(4)							@ Channel
+	ldrb r1, =3
+	strb r1, [r0]
+	
+	ldr r0, =IPC_SOUND_FORMAT(4)						@ Format
+	ldrb r1, =0
+	strb r1, [r0]
+
+	ldr r0, =IPC_SOUND_LEN(4)							@ Get the IPC sound length address
+	ldr r1, =keyclick_raw_end							@ Get the sample end
+	ldr r2, =keyclick_raw								@ Get the same start
+	sub r1, r2											@ Sample end - start = size
+	str r1, [r0]										@ Write the sample size
+	
+	ldr r0, =IPC_SOUND_DATA(4)							@ Get the IPC sound data address
+	ldr r1, =keyclick_raw								@ Get the sample address
+	str r1, [r0]										@ Write the value
+	
+	ldr r0, =REG_IPC_SYNC
+	ldr r1, =IPC_SEND_SYNC(4)
+	strh r1, [r0]
+	
+	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 	.pool
 	.end

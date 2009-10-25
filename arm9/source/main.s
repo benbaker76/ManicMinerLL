@@ -106,13 +106,13 @@ main:
 @	bl initCompletionWillyWood
 @	bl initCompletionBonus
 
-@	bl findHighscore
+	bl findHighscore
 
 @	bl initGame
 
 @	bl initTitleScreen
 	
-	bl showIntro1
+@	bl showIntro1
 	
 @	bl initLevelClear
 

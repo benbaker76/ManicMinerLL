@@ -8,6 +8,8 @@ saveGame:
 
 	stmfd sp!, {r0-r8, lr}
 
+	bl DC_FlushAll
+
 	ldr r0,=startOfSaveData
 	ldr r1,=saveBuffer
 	ldr r3,=endOfSaveData
@@ -17,6 +19,8 @@ saveGame:
 	ldr r0, =saveDatText
 	ldr r1, =saveBuffer
 	bl writeFileBuffer
+
+bl drawPauseWindow
 	
 	bl DC_FlushAll
 	

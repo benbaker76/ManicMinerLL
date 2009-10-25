@@ -71,7 +71,7 @@ levelData:
 	.byte 232,168,3,8,72,25,2,22
 
 	.byte 8,168,17,17,1,16,8,216
-	.byte 8,128,17,1,1,20,8,144
+	.byte 8,128,17,17,1,16,8,144
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,0,0
@@ -599,32 +599,32 @@ levelData:
 levelNames:
 
 @	/ Original levels
-
-	.ascii "        HOME AT LAST??        "
-	.ascii "         THE  AIRLOCK         "
+	.ascii "        HOME AT LAST?         "
+	.ascii "         THE AIRLOCK          "
 	.ascii "     THE END OF THE WORLD     "
-	.ascii "  HALL OF THE MOUNTAIN KONG!  "
+	.ascii "  HALL OF THE MOUNTAIN KONG   "
 	.ascii "         BACK TO WORK         "
 	.ascii "    THE DRAGON USERS BONUS    "
-	.ascii "      NOT CENTRAL CAVERN      "
+	.ascii "      NOT CENTRAL CAVERN      "	
 	.ascii "         DOWN THE PIT         "
 	.ascii "       METROPOLIS BINGO       "
 	.ascii "  AT THE CENTRE OF THE EARTH  "
 	.ascii "        EDDIE'S FOREST        "
-	.ascii "     IN A DEEP DARK HOLE!     "
+	.ascii "     IN A DEEP DARK HOLE      "
 	.ascii "      THE CHANNEL TUNNEL      "
 	.ascii "         TOKYO UH OH!         "
-	.ascii "      THE SPACE SHUTTLE!      "
+	.ascii "      THE SPACE SHUTTLE       "
 	.ascii "WHERE'S THE HYPERSPACE BUTTON?"
 	.ascii "       THE METEOR STORM       "
 	.ascii "           THE END?           "
 	.ascii "      THE FINAL? BARRIER      "
-	.ascii "   THIS IS THE LAST CAVERN!   "
+	.ascii "   THIS IS THE LAST CAVERN    "
+
 	
 @	/ 2 mad levels based on horace?
 	
-	.ascii "       THE MYSTIC WOODS       "
-	.ascii "  BLAGGER COULD SMELL A RATT  "
+	.ascii "  HORACE IN THE MYSTIC WOODS  "
+	.ascii " BLAGGER COULD SMELL A 'RATT' "
 
 
 @	/ The movie levels
@@ -635,35 +635,34 @@ levelNames:
 	.ascii " SAID RICK  "					@ CASABLANCA
 
 	.ascii "  BRIGHT LIGHT, BRIGHT LIGHT  "	@ GREMLINS
-	.ascii " HELLO GUYS, I'M MR. PERKINS! " @ GOONIES
+	.ascii " HELLO GUYS, I'M MR. PERKINS  " @ GOONIES
 	.ascii "     WE DON'T NEED ROADS!     " @ BACK TO THE FUTURE
 	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU." @ HELLRAISER
 	.ascii "        HE SLIMED ME!!        " @ GHOSTBUSTERS
 	.ascii "BLONDES ARE SCARCE ROUND HERE!" @ KING KONG
 	.ascii "         I'LL BE BACK         " @ TERMINATOR
 	.ascii "        I HAD A HUNCH!        "	@ YOUNG FRANKENSTEIN
-	.ascii " DO YOU KNOW HOW TO MADISON?? "	@ ROCKY HORROR
+	.ascii " DO YOU KNOW HOW TO MADISON?  "	@ ROCKY HORROR
 	
-@ bonus levels (from 33)
+@ Bonus levels (from 33)
 	.ascii "         CHEESE-PLANT         "
-	.ascii "    THE DODGY MINE SHAFT!     "
+	.ascii "    THE DODGY MINE SHAFT      "
 	.ascii "         THE BIG DROP         "
 	.ascii "        BOUNCY-BOUNCY!        "
-	.ascii "      THE ROCKY OUTCROP.      "
+	.ascii "      THE ROCKY OUTCROP       "
 	.ascii "   BOTTOM OF THE MINE SHAFT   "
-	.ascii "       COSMIC  CAUSEWAY       "
+	.ascii "       COSMIC CAUSEWAY        "
 	.ascii "     THE LOGO OF THE YEAR     "
 	.ascii "      THE CENTRAL CAVERN      "
-
 	.ascii "      THE FINAL CONFLICT      "
-	.ascii "           THE VAT!           "
+	.ascii "           THE VAT            "	
 	.ascii "   ATTACK OF THE MUTANT...?   "
-	.ascii "        THE WAREHOUSE.        "
-	.ascii "       MUMMY!!, DADDY!!       "
+	.ascii "        THE WAREHOUSE         "
+	.ascii "         MUMMY DADDY          "
 	.ascii "IT'S CHRISTMAS, CHARLIE BROWN!"
 	.ascii "       ENDORIAN  FOREST       "
 	.ascii "         JUMP FOR JOY         "
-	.ascii "      THE FINAL BARRIER.      "
+	.ascii "      THE FINAL BARRIER       "
 
 @------------------------------- The story
 
@@ -1082,12 +1081,12 @@ levelNames:
 	.ascii "MINER UP AND UP AND UP FOR"
 	.ascii "WHAT FELT LIKE AN ETERNITY"
 	.ascii "BEFORE FINALLY ARRIVING AT"
-	.ascii "ITS DESTINATION.          "
+	.ascii "ITS ULTIMATE DESTINATION. "
 	.ascii "                          "
 	.ascii "THE DOORS OPENED AND WILLY"
 	.ascii "STEPPED OUT INTO A STRANGE"
-	.ascii "AUDITORIUM ON THE FACTORY "
-	.ascii "ROOF, HIGH IN THE CLOUDS. "
+	.ascii "AUDITORIUM, COMPLETE WITH "
+	.ascii "A LARGE PROP DIVING POOL. "
 	.ascii "WOULD HE EVER FIND HIS WAY"
 	.ascii "HOME? WILLY DIDN'T KNOW.  "
 	
@@ -1206,10 +1205,10 @@ levelNames:
 	.ascii "SEVERAL OTHER VIDEOGAMES, "
 	.ascii "INCLUDING SERVING AS -    "
 	.ascii "                          "
-	.ascii "   -- SPOILER ALERT! --   "
+	.ascii "----- SPOILER ALERT! -----"
 	.ascii "THE SECRET SURPRISE REVEAL"
 	.ascii "ENDING OF JET SET WILLY 2."
-	.ascii "   -- SPOILER ALERT! --   "	
+	.ascii "----- SPOILER ALERT! -----"
 	@ 42	/ FINAL CONFLICT
 	.ascii "NUMEROUS LEVELS OF BLAGGER"
 	.ascii "WERE BLATANTLY INSPIRED BY"
@@ -1331,47 +1330,45 @@ levelNames:
 @------------------------------- Level info	
 
 levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
-	.ascii "   ORIC (1985) - LEVEL 17   "	@1
-	.ascii "   ORIC (1985) - LEVEL 24   "	@2
-	.ascii "   ORIC (1985) - LEVEL XX   "	@3
-	.ascii "   ORIC (1985) - LEVEL 20   "	@4
-	.ascii "   ORIC (1985) - LEVEL 18   "	@5
-	.ascii "  DRAGON (1984) - LEVEL 21  "	@6
-	.ascii "   ORIC (1985) - LEVEL 28   "	@7
-	.ascii "   ORIC (1985) - LEVEL 19   "	@8
-	.ascii "    GBA (2002) - LEVEL 06   "	@9
-	.ascii "   ORIC (1985) - LEVEL 21   "	@10
-	.ascii "  ARCHIMEDES (1991) - L22   "	@11
-	.ascii "   ORIC (1985) - LEVEL 26   "	@12
-	.ascii "   ORIC (1985) - LEVEL 27   "	@13
-	.ascii "    GBA (2002) - LEVEL 08   "	@14
-	.ascii "   ORIC (1985) - LEVEL 23   "	@15
-	.ascii "   ORIC (1985) - LEVEL 25   "	@16
-	.ascii " BBC MICRO (1984) - LVL 19  "	@17
-	.ascii " DRAGON 32 (1984) - LVL 22  "	@18
-	.ascii " BBC MICRO (1984) - LVL 20  "	@19
-	.ascii " AMSTRAD (1984) - LEVEL 20  "	@20
+	.ascii "   ORIC (1985) LEVEL 17     " @1
+	.ascii "   ORIC (1985) LEVEL 24     " @2
+	.ascii "   ORIC (1985) LEVEL 22     " @3
+	.ascii "   ORIC (1985) LEVEL 20     " @4
+	.ascii "   ORIC (1985) LEVEL 18     " @5
+	.ascii " DRAGON 32 (1984) LEVEL 21  " @6
+	.ascii "   ORIC (1985) LEVEL 28     " @7
+	.ascii "   ORIC (1985) LEVEL 19     " @8
+	.ascii "    GBA (2002) LEVEL 06     " @9
+	.ascii "   ORIC (1985) LEVEL 21     " @10
+	.ascii "  ARCHIMEDES (1991) LVL22   " @11
+	.ascii "   ORIC (1985) LEVEL 26     " @12
+	.ascii "   ORIC (1985) LEVEL 27     " @13
+	.ascii "    GBA (2002) LEVEL 08     " @14
+	.ascii "   ORIC (1985) LEVEL 23     " @15
+	.ascii "   ORIC (1985) LEVEL 25     " @16
+	.ascii " BBC MICRO (1984) LEVEL 19  " @17
+	.ascii " DRAGON 32 (1984) LEVEL 22  " @18
+	.ascii " BBC MICRO (1984) LEVEL 20  " @19
+	.ascii " AMSTRAD (1984) - LEVEL 20  " @20
 
 	
 	@ Bonus 2 LEVELS (HORACE AND BLAGGER)
-	.ascii "    HORACE - PSION3 1995    "
-	.ascii "     BLAGGER - C64 1983     "
+	.ascii "   PSION SERIES 3 (1995)    "
+	.ascii "    COMMODORE 64 (1983)     "
 	
 	@ Movies
-	.ascii "    ORIGINAL - LOBO 2009    "
-	.ascii "    ORIGINAL - LOBO 2009    "
-	.ascii "    ORIGINAL - LOBO 2009    "
-	.ascii "     SPACE FRACTAL 2009     "
-	.ascii "   ORIGINAL - FLASH  2009   "
-	.ascii "    ORIGINAL - LOBO 2009    "
-	.ascii "   ORIGINAL - FLASH  2009   "
-	.ascii "     SPACE FRACTAL 2009     "
-	.ascii "   A SVERX ORIGINAL  2009   "
-	.ascii "   ORIGINAL - FLASH  2009   "
+	.ascii "       BY LOBO (2009)       "
+	.ascii "       BY LOBO (2009)       "
+	.ascii "       BY LOBO (2009)       "
+	.ascii "   BY SPACE FRACTAL (2009)  "
+	.ascii "       BY FLASH (2009)      "
+	.ascii "       BY LOBO (2009)       "
+	.ascii "       BY FLASH (2009)      "
+	.ascii "   BY SPACE FRACTAL (2009)  "
+	.ascii "       BY SVERX (2009)      "
+	.ascii "       BY FLASH (2009)      "
 	
 	@ 33	/ bonus levels from 3rd onward to 20th
-	.ascii "      SAM COUPE (1990)      "
-	@ 34
 	.ascii "      SAM COUPE (1990)      "
 	@ 35
 	.ascii "      SAM COUPE (1990)      "
@@ -1382,28 +1379,30 @@ levelInfo: @XXXXXXXXXXXXXXXXXXXXXXXXXX
 	@ 38
 	.ascii "      SAM COUPE (1990)      "
 	@ 39
-	.ascii "   ORIGINAL - FLASH  2009   "
+	.ascii "      SAM COUPE (1990)      "
+	@ 39
+	.ascii "       BY FLASH (2009)      "
 	@ 40
-	.ascii "    BLAGGER (1983) - C64    "
+	.ascii "    COMMODORE 64 (1983)     "
 	@ 41
-	.ascii "  LEVEL 01 - SPECTRUM 1983  "
+	.ascii "   MANIC MINER - LEVEL 1    "
 	@ 42
-	.ascii "    BLAGGER (1983) - C64    "
+	.ascii "    COMMODORE 64 (1983)     "
 	@ 43
-	.ascii "  SPECTRUM (1983) - LVL 07  "
+	.ascii "   MANIC MINER - LEVEL 7    "
 	@ 44
-	.ascii "  SPECTRUM (1983) - LVL 11  "
+	.ascii "   MANIC MINER - LEVEL 11   "
 	@ 45
-	.ascii "  SPECTRUM (1983) - LVL 17  "
+	.ascii "   MANIC MINER - LEVEL 17   "
 	@ 46
-	.ascii "    GBA (2002) - LEVEL 03   "
+	.ascii "  GAME BOY ADVANCE (2002)   "
 	@ 47
-	.ascii "   ORIGINAL - FLASH  2009   "
+	.ascii "       BY FLASH (2009)      "
 	@ 48
-	.ascii "   ORIC (1985) - LEVEL XX   "
+	.ascii "   ORIC (1985) - LEVEL 10   "
 	@ 49
-	.ascii "   ORIGINAL - FLASH  2009   "
+	.ascii "       BY FLASH (2009)      "
 	@ 50
-	.ascii "  SPECTRUM (1983) - LVL 20  "
+	.ascii "   MANIC MINER - LEVEL 20   "
 
 	.end

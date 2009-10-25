@@ -387,7 +387,7 @@ sfxValues:						@ values for sfx volume from 0-7 (0=off)
 
 	.align
 score:
-	.byte 0,0,0,0,0,0,0,0
+	.byte 0,8,0,0,0,0,0,0
 adder:
 	.byte 0,0,0,0,0,0,0,0
 
@@ -470,7 +470,7 @@ highScoreScore:
 	.byte 0,0,3,2,0,4
 	.byte 0,0,2,7,1,0
 	.byte 0,0,1,0,2,4
-	.byte 0,0,0,9,0,9
+	.byte 0,0,0,9,0,9	@ 36+7
 highScoreName:
 	.ascii "FLASHMAN"
 	.ascii " -LOBO- "
@@ -479,15 +479,15 @@ highScoreName:
 	.ascii " SPACEF "
 	.ascii " SVERX! "
 musicHeard:
-@	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
-@	.byte 0,0,0,0,0,0,0,0,0,0
-@	.byte 0,0,0,0,0,0,1,1,0,0
-@	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
+	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
+	.byte 0,0,0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0,1,1,0,0
+	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
 
-	.byte 1,1,1,1,1,1,1,1,1,1	@ 0-9			( set to one if the music is heard ingame)
-	.byte 1,1,1,1,1,1,1,1,1,1
-	.byte 1,1,1,1,1,1,1,1,1,1
-	.byte 1,1,1,1,1,1,1,1,1,1	@ 30-39	(40 tunes)
+@	.byte 1,1,1,1,1,1,1,1,1,1	@ 0-9			( set to one if the music is heard ingame)
+@	.byte 1,1,1,1,1,1,1,1,1,1
+@	.byte 1,1,1,1,1,1,1,1,1,1
+@	.byte 1,1,1,1,1,1,1,1,1,1	@ 30-39	(40 tunes)
 	
 	.align
 levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
@@ -504,11 +504,11 @@ levelLLReached:					@ Lost max (highest visited)
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 10
+	.word 1
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 1
+	.word 0
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
 	.word 0
 screenOrder:					@ preference of the screen order	

@@ -228,6 +228,7 @@ initLevel:
 		cmp r2,r0
 		ble highestLevelDone
 		str r2,[r1]
+		bl saveGame
 		b highestLevelDone
 	
 	highestLevelHollyWood:
@@ -240,6 +241,7 @@ initLevel:
 		cmp r2,r0
 		ble highestLevelDone
 		str r2,[r1]
+		bl saveGame
 		b highestLevelDone	
 	
 	highestLevelDone:
@@ -259,8 +261,6 @@ initLevel:
 	@ start timer if bonus level
 	
 	bl bonusTimerInit
-
-bl saveGame
 
 	bl fxFadeIn
 	

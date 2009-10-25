@@ -75,6 +75,8 @@ bonusLevelUnlocked:
 	@ ok, init starburst thing at location of collection
 	@ ok, r0 = offset, r1=colmap
 	@ use fxBonusBurst for effect, but we need new sprites first (bonus.png)	
+
+	bl saveGame
 	
 	bl fxBonusburstInit
 	ldr r0,=bonusDelay
@@ -98,5 +100,7 @@ bonusLevelUnlocked:
 	bl saveGame
 
 	@ play a special sound effect for the opening of a bonus level
+	
+	bl playFanFare
 
 	ldmfd sp!, {r0-r10, pc}

@@ -246,9 +246,7 @@ bge notARecord
 	mov r10,r1
 	mov r7,#0
 	mov r11,#14
-@	mov r8,#2
 	mov r9,#2
-@	bl drawDigitsB
 	mov r8,#1
 	bl drawDigitsB
 	
@@ -259,9 +257,7 @@ bge notARecord
 	mov r10,r1
 	mov r7,#0
 	mov r11,#17
-@	mov r8,#2
 	mov r9,#2
-@	bl drawDigitsB
 	mov r8,#1
 	bl drawDigitsB
 	
@@ -272,9 +268,7 @@ bge notARecord
 	mov r10,r1
 	mov r7,#0
 	mov r11,#20
-@	mov r8,#2
 	mov r9,#3
-@	bl drawDigitsB
 	mov r8,#1
 	bl drawDigitsB
 	
@@ -319,6 +313,8 @@ bge notARecord
 	ldr r1,=gotRecord
 	mov r0,#1
 	str r0,[r1]
+
+	bl saveGame
 
 notARecord:
 

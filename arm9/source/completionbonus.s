@@ -140,6 +140,8 @@ initCompletionBonus:
 
 	@ if gotRecord=1, then a bonus time has been beaten
 	
+	bl saveGame
+	
 	ldmfd sp!, {r0-r10, pc}
 	
 @--------------------------- 			BONUS COMPLETION

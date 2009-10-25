@@ -71,6 +71,8 @@ findHighscore:
 	@ Clear up and return to title...
 
 	highscoreReturn:
+	
+	bl saveGame
 
 	bl resetScrollRegisters
 
@@ -93,11 +95,6 @@ enterHighScore:
 
 	add r10,r0,#1			@	R10 = position in table from 0-5
 
-@	ldr r2,=levelNum
-@	mov r1,#0
-@	str r1,[r2]
-
-@	bl initVideoTitle
 	bl initVideoHigh
 	bl clearSpriteData
 	bl clearBG0
@@ -266,8 +263,6 @@ enterHighScore:
 	
 	bl enterName
 
-	bl saveGame
-	
 	bl fxFadeBlackInit
 	bl fxFadeOut
 
@@ -487,6 +482,7 @@ moveHPos:
 		subs r9,#1;	movmi r9,#0	
 		mov r1,#1
 		str r1,[r0]
+		bl playKeyClick
 		b moveHighCursorReturn
 	
 	moveHPosRight:
@@ -495,6 +491,7 @@ moveHPos:
 		cmp r9,#HIGH_NAME_LEN;	movge r9,#HIGH_NAME_LEN-1
 		mov r1,#1
 		str r1,[r0]
+		bl playKeyClick
 		b moveHighCursorReturn
 	
 		moveHPosDone:
@@ -524,6 +521,8 @@ moveVPos:
 		cmp r2,#32;		moveq r2,#65+25
 		cmp r2,#64;		moveq r2,#32
 		strb r2,[r1]
+		
+		bl playKeyClick
 
 		ldr r1,=cursorAction
 		mov r2,#2
@@ -548,6 +547,8 @@ moveVPos:
 		cmp r2,#65+26;	moveq r2,#33
 		cmp r2,#58;		moveq r2,#32
 		strb r2,[r1]
+
+		bl playKeyClick
 
 		ldr r1,=cursorAction
 		mov r2,#1
