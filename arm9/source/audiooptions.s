@@ -277,7 +277,7 @@ playSelectedAudio:
 	ldr r2,=audioTuneList
 	ldrb r0,[r2,r1]
 	
-	bl levelMusicPlayEasy
+@	bl levelMusicPlayEasy
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -512,7 +512,7 @@ displayAudio:
 
 
 	stmfd sp!, {r0-r10, lr}
-	
+	ldmfd sp!, {r0-r10, pc}	
 bl DC_FlushAll
 	ldr r0, =Module		@ This is the pointer to XM7_ModuleManager_Type where the data is loaded via XM7_LoadXM
 	ldr r1,=46
