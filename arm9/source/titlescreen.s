@@ -66,6 +66,15 @@ initTitleScreen:
 	bl initVideoTitle
 	bl initCheat
 	bl initCheat2
+	
+	@ Clear font tiles (used for "please wait... loading)
+	
+	ldr r0, =0
+	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
+	ldr r2, =FontTilesLen
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
+	bl dmaFillHalfWords
 
 	bl clearOAM
 

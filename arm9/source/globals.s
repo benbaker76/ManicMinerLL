@@ -86,6 +86,8 @@
 	.global fallCount
 	.global hiscoreText
 	.global scoreText
+	.global loadingText
+	.global pleaseWaitText
 	.global spriteDataStart
 	.global spriteDataEnd
 	.global willyJumpData
@@ -290,6 +292,14 @@ hiscoreText:
 	.align
 scoreText:
 	.asciz "Score"
+	
+	.align
+loadingText:
+	.asciz "LOADING..."
+	
+	.align
+pleaseWaitText:
+	.asciz "PLEASE WAIT"
 	
 	@ Sprite values
 	

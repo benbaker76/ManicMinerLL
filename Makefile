@@ -13,6 +13,7 @@ include $(DEVKITARM)/ds_rules
 NAME		:=	Manic Miner LL
 AUTHOR		:=	By Flash & HeadKaze
 VERSION		:=	www.retrobytesportal.com
+NITRODIR	:=	-d efsroot
 LOGO		:=	
 ICON		:=	-b logo.bmp
 
@@ -30,6 +31,8 @@ all: $(TARGET).nds
 #---------------------------------------------------------------------------------
 $(TARGET).nds	:	$(TARGET).arm7 $(TARGET).arm9
 	ndstool -c $(TARGET).nds -7 $(TARGET).arm7 -9 $(TARGET).arm9 $(LOGO) $(ICON) "$(NAME);$(AUTHOR);$(VERSION)"
+#	ndstool -c $(TARGET).nds -7 $(TARGET).arm7 -9 $(TARGET).arm9 $(LOGO) $(ICON) "$(NAME);$(AUTHOR);$(VERSION)"
+	efs $(TARGET).nds
 
 #---------------------------------------------------------------------------------
 $(TARGET).arm7	: arm7/$(TARGET).elf
