@@ -276,9 +276,9 @@ playSelectedAudio:
 	ldr r1,[r1]
 	ldr r2,=audioTuneList
 	ldrb r0,[r2,r1]
-	
-@	bl levelMusicPlayEasy
-	
+bl swiWaitForVBlank	
+	bl levelMusicPlayEasy
+bl swiWaitForVBlank	
 	ldmfd sp!, {r0-r10, pc}
 
 @-------------------------------------------------

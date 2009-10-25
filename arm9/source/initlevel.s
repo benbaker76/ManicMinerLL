@@ -954,7 +954,6 @@ generateMonsters:
 	mov r2,#1
 	strb r2,[r1,r0]					@ set byte to say heard
 	
-	
 	levelMusicFail:
 	
 	ldmfd sp!, {r0-r10, pc}
