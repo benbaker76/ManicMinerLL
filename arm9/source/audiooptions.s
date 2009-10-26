@@ -271,6 +271,15 @@ updateAudioPointer:
 playSelectedAudio:
 
 	stmfd sp!, {r0-r10, lr}
+
+bl swiWaitForVBlank
+
+ldr r1,=REG_VCOUNT
+delayLoop:
+ldrh r0,[r1]
+cmp r0,#192
+bne delayLoop
+
 	
 	ldr r1,=audioPlaying
 	ldr r1,[r1]
@@ -278,7 +287,7 @@ playSelectedAudio:
 	ldrb r0,[r2,r1]
 @bl swiWaitForVBlank	
 	bl levelMusicPlayEasy
-bl swiWaitForVBlank	
+@bl swiWaitForVBlank	
 	ldmfd sp!, {r0-r10, pc}
 
 @-------------------------------------------------
