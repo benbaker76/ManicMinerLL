@@ -50,7 +50,7 @@ initMusicForced:
 	
 initMusic:
 
-	stmfd sp!, {r0-r2, lr}
+	stmfd sp!, {r0-r8, lr}
 	
 	@ set r1 to module to play and call
 
@@ -87,7 +87,10 @@ initMusicContinue:
 	ldrh r6,[r5]
 @	lsr r6,#1
 @	lsl r6,#1
-	orr r6,#IRQ_VBLANK
+mov r7,r6
+ldr r8,=0xFFFE
+and r6,r8
+@	orr r6,#IRQ_VBLANK
 	strh r6,[r5]
 
 	ldr r0, =ZLibBuffer							@ Uncompress module
@@ -98,8 +101,9 @@ initMusicContinue:
 @	bl swiWaitForVBlank
 
 	ldr r5,=REG_IE
-	ldrh r6,[r5]
-	and r6,#IRQ_VBLANK
+@	ldrh r6,[r5]
+	mov r6,r7
+@	and r6,#IRQ_VBLANK
 	strh r6,[r5]	
 	
 	cmp r0, #0									@ Returning non-zero in r0 means failed to load
@@ -125,11 +129,11 @@ initMusicContinue:
 	ldr r1, =XM7_MOD_LOADED
 	str r1, [r0]
 
-	
+	bl swiWaitForVBlank	
 
 initMusicFailed:
 
-	ldmfd sp!, {r0-r2, pc}
+	ldmfd sp!, {r0-r8, pc}
 	
 	@ ---------------------------------------
 	
