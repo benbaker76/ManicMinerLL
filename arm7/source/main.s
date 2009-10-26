@@ -40,26 +40,6 @@ interruptHandlerIPC:
 
 	stmfd sp!, {r0-r9, lr}
 	
-	ldr r1, =XM7_MODULE_IPC
-	ldr r0, [r1]
-	mov r2, #0
-	cmp r0, #0
-	strgt r2, [r1]
-	blgt XM7_PlayModule
-	
-	@ldr r0, =XM7_MODULE_IPC
-	@ldr r8, [r0]
-	@cmp r8, #0
-	@ldr r0, =debugString
-	@blgt drawDebugString
-	
-	ldr r1, =XM7_MODULE_IPC
-	ldr r0, [r1]
-	mov r2, #0
-	cmp r0, #XM7_STOP
-	streq r2, [r1]
-	bleq XM7_StopModule
-	
 	mov r9, #15									@ Out channel 1-16
 	
 interruptHandlerIPCLoop:
@@ -103,6 +83,26 @@ interruptHandlerIPCLoop:
 interruptHandlerVBlank:
 
 	stmfd sp!, {r0-r9, lr}
+	
+	ldr r1, =XM7_MODULE_IPC
+	ldr r0, [r1]
+	mov r2, #0
+	cmp r0, #0
+	strgt r2, [r1]
+	blgt XM7_PlayModule
+	
+	@ldr r0, =XM7_MODULE_IPC
+	@ldr r8, [r0]
+	@cmp r8, #0
+	@ldr r0, =debugString
+	@blgt drawDebugString
+	
+	ldr r1, =XM7_MODULE_IPC
+	ldr r0, [r1]
+	mov r2, #0
+	cmp r0, #XM7_STOP
+	streq r2, [r1]
+	bleq XM7_StopModule
 	
 	ldmfd sp!, {r0-r9, pc} 					@ restore registers and return
 

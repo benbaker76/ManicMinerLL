@@ -103,19 +103,15 @@ initMusicContinue:
 	ldr r1, =Module								@ Send module data location
 	str r1, [r0]
 	
-	ldr r0, =REG_IPC_SYNC
-	ldr r1, =IPC_SEND_SYNC(0)
-	strh r1, [r0]
+	@ldr r0, =REG_IPC_SYNC
+	@ldr r1, =IPC_SEND_SYNC(0)
+	@strh r1, [r0]
 	
 	ldr r0, =modLoaded
 	ldr r1, =XM7_MOD_LOADED
 	str r1, [r0]
 
-@	bl swiWaitForVBlank	
-
 initMusicFailed:
-
-
 
 	ldmfd sp!, {r0-r12, pc}
 	
@@ -129,9 +125,9 @@ stopMusic:
 	ldr r1, =XM7_STOP							@ Send stop command
 	str r1, [r0]
 	
-	ldr r0, =REG_IPC_SYNC
-	ldr r1, =IPC_SEND_SYNC(0)
-	strh r1, [r0]
+	@ldr r0, =REG_IPC_SYNC
+	@ldr r1, =IPC_SEND_SYNC(0)
+	@strh r1, [r0]
 
 	ldmfd sp!, {r0-r1, pc}
 	
