@@ -83,14 +83,11 @@ initMusicContinue:
 
 	pop {r2-r3}
 
-	ldr r5,=REG_IE
+	ldr r5,=REG_IE	@ vblank off
 	ldrh r6,[r5]
-@	lsr r6,#1
-@	lsl r6,#1
-mov r7,r6
-ldr r8,=0xFFFE
-and r6,r8
-@	orr r6,#IRQ_VBLANK
+	mov r7,r6
+	lsr r6,#1
+	lsl r6,#1
 	strh r6,[r5]
 
 	ldr r0, =ZLibBuffer							@ Uncompress module
@@ -100,11 +97,9 @@ and r6,r8
 	bl uncompress
 @	bl swiWaitForVBlank
 
-	ldr r5,=REG_IE
-@	ldrh r6,[r5]
-	mov r6,r7
-@	and r6,#IRQ_VBLANK
-	strh r6,[r5]	
+@	ldr r5,=REG_IE
+@	mov r6,r7
+@	strh r6,[r5]	
 	
 	cmp r0, #0									@ Returning non-zero in r0 means failed to load
 	bne initMusicFailed
@@ -129,9 +124,22 @@ and r6,r8
 	ldr r1, =XM7_MOD_LOADED
 	str r1, [r0]
 
+	ldr r5,=REG_IE		@ vblank on
+	mov r6,r7
+	strh r6,[r5]	
+
+ldr r0, =REG_VCOUNT	
+llll:
+ldrh r1,[r0]
+cmp r1,#192
+bne llll	
+
+
 	bl swiWaitForVBlank	
 
 initMusicFailed:
+
+
 
 	ldmfd sp!, {r0-r8, pc}
 	
