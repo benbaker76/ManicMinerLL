@@ -97,8 +97,6 @@ bonusLevelUnlocked:
 	ldr r2,=8*256
 	bl dmaCopy
 
-	bl saveGame
-
 	@ play a special sound effect for the opening of a bonus level
 	
 	bl playFanFare
