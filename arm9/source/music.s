@@ -83,13 +83,24 @@ initMusicContinue:
 
 	pop {r2-r3}
 
+	ldr r5,=REG_IE
+	ldrh r6,[r5]
+@	lsr r6,#1
+@	lsl r6,#1
+	orr r6,#IRQ_VBLANK
+	strh r6,[r5]
+
 	ldr r0, =ZLibBuffer							@ Uncompress module
 	ldr r1, =ZLibBufferLen
 	ldr r4, =ZLIB_UNCOMPRESS_BUFFER_SIZE		@ Need to give it this each time because it
 	str r4, [r1]								@ writes back the actual size of the uncompressed data
 	bl uncompress
-	bl swiWaitForVBlank
+@	bl swiWaitForVBlank
 
+	ldr r5,=REG_IE
+	ldrh r6,[r5]
+	and r6,#IRQ_VBLANK
+	strh r6,[r5]	
 	
 	cmp r0, #0									@ Returning non-zero in r0 means failed to load
 	bne initMusicFailed
@@ -113,6 +124,8 @@ initMusicContinue:
 	ldr r0, =modLoaded
 	ldr r1, =XM7_MOD_LOADED
 	str r1, [r0]
+
+	
 
 initMusicFailed:
 

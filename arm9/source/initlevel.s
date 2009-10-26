@@ -838,6 +838,13 @@ generateMonsters:
 	
 	levelMusicJumpIn:
 	
+	ldr r5,=REG_IE
+	ldrh r6,[r5]
+@	lsr r6,#1
+@	lsl r6,#1
+	orr r6,#IRQ_VBLANK
+@	strh r6,[r5]
+	
 	cmp r0,#0
 	ldreq r2, =Miner_xm_gz
 	ldreq r3, =Miner_xm_gz_size
@@ -955,6 +962,11 @@ generateMonsters:
 	strb r2,[r1,r0]					@ set byte to say heard
 	
 	levelMusicFail:
+	
+	ldr r5,=REG_IE
+	ldrh r6,[r5]
+	and r6,#IRQ_VBLANK
+@	strh r6,[r5]	
 	
 	ldmfd sp!, {r0-r10, pc}
 	
