@@ -262,6 +262,7 @@ enterHighScore:
 	bl enterName
 
 	bl fxFadeBlackInit
+	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait:
