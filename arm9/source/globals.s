@@ -531,7 +531,7 @@ deathAnimation:
 levelRecords:	
 	@ bonus level records
 	@ stored as min,sec,mil
-	.word 0,35,0	@ 21	-	horace							ho
+	.word 0,27,0	@ 21	-	horace							ho
 	.word 0,55,0	@ 22	-	blagger							bl
 	.word 0,54,0	@ 33	- 	cheese plant					ch
 	.word 0,41,0	@ 34	-	dodgy mine shaft				my
