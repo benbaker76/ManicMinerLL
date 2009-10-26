@@ -28,7 +28,7 @@
 #include "sprite.h"
 #include "ipc.h"
 
-	#define	CHEAT_AMOUNT 		4
+	#define	CHEAT_AMOUNT 		7
 	#define	CHEAT2_AMOUNT 		6
 	
 	.arm
@@ -227,7 +227,7 @@ cheatSection:
 
 	.align
 cheatSequence:									@ in the current check - you must use different key for each part!
-	.word BUTTON_UP, BUTTON_DOWN, BUTTON_UP, BUTTON_DOWN
+	.word BUTTON_DOWN, BUTTON_UP, BUTTON_DOWN, BUTTON_LEFT, BUTTON_RIGHT, BUTTON_B, BUTTON_DOWN
 
 	.align
 cheatKey:
