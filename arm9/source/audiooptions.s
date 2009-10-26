@@ -165,11 +165,7 @@ audioStartPressed:
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
-	beq jumpout
-
-	b justWait5
-
-	jumpout:
+	bne justWait5
 
 	bl initTitleScreen
 
@@ -274,10 +270,10 @@ playSelectedAudio:
 
 @bl swiWaitForVBlank
 
-ldr r1,=REG_VCOUNT
-delayLoop:
-ldrh r0,[r1]
-cmp r0,#192+64
+@ldr r1,=REG_VCOUNT
+@delayLoop:
+@ldrh r0,[r1]
+@cmp r0,#192+64
 @bne delayLoop
 
 	
@@ -285,7 +281,7 @@ cmp r0,#192+64
 	ldr r1,[r1]
 	ldr r2,=audioTuneList
 	ldrb r0,[r2,r1]
-bl swiWaitForVBlank	
+@bl swiWaitForVBlank	
 	bl levelMusicPlayEasy
 @bl swiWaitForVBlank	
 	ldmfd sp!, {r0-r10, pc}

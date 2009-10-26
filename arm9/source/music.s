@@ -68,7 +68,6 @@ initMusic:
 
 	push {r2-r3}
 
-	
 	ldr r0, =modLoaded
 	ldr r1, [r0]
 	cmp r1, #XM7_MOD_LOADED
@@ -89,11 +88,13 @@ initMusicContinue:
 	ldr r4, =ZLIB_UNCOMPRESS_BUFFER_SIZE		@ Need to give it this each time because it
 	str r4, [r1]								@ writes back the actual size of the uncompressed data
 	bl uncompress
+	bl swiWaitForVBlank
+
 	
 	cmp r0, #0									@ Returning non-zero in r0 means failed to load
 	bne initMusicFailed
 	
-	bl DC_FlushAll
+@	bl DC_FlushAll
 	
 	ldr r0, =Module								@ Pointer to module data
 	ldr r1, =ZLibBuffer
