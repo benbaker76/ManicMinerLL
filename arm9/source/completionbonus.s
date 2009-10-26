@@ -192,17 +192,17 @@ updateCompletionBonus:
 	bl fxFadeOut
 
 	justWait:
-	bl swiWaitForVBlank	
-	bl updateSpecialFX
-	bl drawSprite	
+		bl swiWaitForVBlank	
+		bl updateSpecialFX
+		bl drawSprite	
 	
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
 	bne justWait
 
-	bl specialFXStop
-	bl clearOAM	
+@	bl specialFXStop
+@	bl clearOAM	
 	
 	bl initTitleScreen
 	

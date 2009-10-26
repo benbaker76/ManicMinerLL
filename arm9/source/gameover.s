@@ -126,17 +126,17 @@ updateGameOverScreen:
 	str r0,[r1]
 
 	bl fxFadeBlackInit
+	bl fxFadeMin
 	bl fxFadeOut
 
-	justWait3:
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
-	beq jumpGameOver
-
-	b justWait3
-
-	jumpGameOver:
+	justWait0:
+		bl swiWaitForVBlank		
+		bl animateGameOverSkull	
+	
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
+	bne justWait0
 
 	bl findHighscore
 	
@@ -435,7 +435,7 @@ initGameOver:
 	ldr r5, =REG_BG3VOFS			@ Load our horizontal scroll register for BG3 on the sub screen
 	strh r1, [r5]
 
-	bl saveGame
+@	bl saveGame
 	
 	ldmfd sp!, {r0-r10, pc}
 @--------------------------						@ do the death animation
@@ -504,19 +504,24 @@ updateGameOver:
 	gOverUpdateEnd:
 	
 	@ return to title screen (or highscore at some point)
-	
-	mov r0,#0
-	ldr r1,=spriteScreen
-	str r0,[r1]
 
 	bl fxFadeBlackInit
+	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait:
+		bl swiWaitForVBlank	
+		bl drawSprite
+		bl fxMoveBloodburst
+	
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0
 	bne justWait
+
+	mov r0,#0
+	ldr r1,=spriteScreen
+	str r0,[r1]
 
 	bl findHighscore
 	

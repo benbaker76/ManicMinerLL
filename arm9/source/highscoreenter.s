@@ -72,8 +72,6 @@ findHighscore:
 
 	highscoreReturn:
 	
-	bl saveGame
-
 	bl resetScrollRegisters
 
 	ldr r1,=trapStart

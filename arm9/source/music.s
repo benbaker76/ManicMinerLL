@@ -43,14 +43,14 @@
 	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(100*1024)
 
 initMusicForced:
-	stmfd sp!, {r0-r2, lr}
+	stmfd sp!, {r0-r12, lr}
 	
 	b initMusicForcedPlay
 	
 	
 initMusic:
 
-	stmfd sp!, {r0-r8, lr}
+	stmfd sp!, {r0-r12, lr}
 	
 	@ set r1 to module to play and call
 
@@ -96,8 +96,8 @@ initMusicContinue:
 	ldr r0, =Module								@ Pointer to module data
 	ldr r1, =ZLibBuffer
 	bl XM7_LoadXM								@ Load module
-	
-@	bl DC_FlushAll								@ Flush
+
+	bl DC_FlushAll								@ Flush
 	
 	ldr r0, =XM7_MODULE_IPC						@ Location in IPC for XM7 control
 	ldr r1, =Module								@ Send module data location
@@ -117,7 +117,7 @@ initMusicFailed:
 
 
 
-	ldmfd sp!, {r0-r8, pc}
+	ldmfd sp!, {r0-r12, pc}
 	
 	@ ---------------------------------------
 	

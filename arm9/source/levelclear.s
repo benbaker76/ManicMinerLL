@@ -159,9 +159,37 @@ levelClear:											@ do the level clear stuff
 	bpl levelClearLoop
 
 	bl fxFadeBlackLevelInit
+	bl fxFadeMin
 	bl fxFadeOut
 
 	justWait:
+
+		bl swiWaitForVBlank	
+		ldr r0,=cheat2Mode
+		ldr r0,[r0]
+		cmp r0,#1
+		beq cheatClear1
+		ldr r0,=levelNum
+		ldr r0,[r0]
+		cmp r0,#21
+		beq cheatClear1
+		ldr r0,=minerDelay
+		ldr r1,[r0]
+		add r1,#1
+		cmp r1,#2
+		moveq r1,#0
+		str r1,[r0]
+		bne skipFrameClear1
+			cheatClear1:
+			bl monsterMove
+			bl scoreAir
+		skipFrameClear1:	
+	
+		bl drawSprite
+		bl levelAnimate	
+@		bl drawScore
+		bl updateSpecialFX	
+
 	ldr r1,=fxFadeBusy
 	ldr r1,[r1]
 	cmp r1,#0

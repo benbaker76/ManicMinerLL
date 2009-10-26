@@ -55,6 +55,8 @@ initTitleScreen:
 	bl fxOff
 	bl fxFadeBlackInit
 
+	bl saveGame
+
 	ldr r0,=freshTitle
 	mov r1,#0
 	str r1,[r0]
@@ -67,7 +69,7 @@ initTitleScreen:
 	bl initCheat
 	bl initCheat2
 	
-	@ Clear font tiles (used for "please wait... loading)
+	@ Clear font tiles (used for "please wait... loading")
 	
 	ldr r0, =0
 	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
