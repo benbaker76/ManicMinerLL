@@ -272,20 +272,20 @@ playSelectedAudio:
 
 	stmfd sp!, {r0-r10, lr}
 
-bl swiWaitForVBlank
+@bl swiWaitForVBlank
 
 ldr r1,=REG_VCOUNT
 delayLoop:
 ldrh r0,[r1]
-cmp r0,#192
-bne delayLoop
+cmp r0,#192+64
+@bne delayLoop
 
 	
 	ldr r1,=audioPlaying
 	ldr r1,[r1]
 	ldr r2,=audioTuneList
 	ldrb r0,[r2,r1]
-@bl swiWaitForVBlank	
+bl swiWaitForVBlank	
 	bl levelMusicPlayEasy
 @bl swiWaitForVBlank	
 	ldmfd sp!, {r0-r10, pc}

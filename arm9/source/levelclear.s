@@ -157,6 +157,16 @@ levelClear:											@ do the level clear stuff
 		
 	subs r10,#1
 	bpl levelClearLoop
+
+	bl fxFadeBlackLevelInit
+	bl fxFadeOut
+
+	justWait:
+	ldr r1,=fxFadeBusy
+	ldr r1,[r1]
+	cmp r1,#0
+	bne justWait
+
 	
 	bl levelNext
 	
