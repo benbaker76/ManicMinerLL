@@ -101,10 +101,8 @@ levelClear:											@ do the level clear stuff
 
 	stmfd sp!, {r0-r10, lr}	
 	
-	
 	ldr r0,=levelEndTimer
 	ldr r10,[r0]
-	
 	
 	levelClearLoop:
 	
@@ -158,7 +156,18 @@ levelClear:											@ do the level clear stuff
 	subs r10,#1
 	bpl levelClearLoop
 
-	bl fxFadeBlackLevelInit
+	@ if we are on the last level and going to completion, we need a full fade
+
+	ldr r10,=levelTypes
+	ldr r1,=levelNum
+	ldr r1,[r1]
+	sub r1,#1
+	ldr r1,[r10,r1,lsl#2]
+	cmp r1,#0
+	bleq fxFadeBlackLevelInit
+	blne fxFadeBlackInit
+
+@	bl fxFadeBlackInit
 	bl fxFadeMin
 	bl fxFadeOut
 

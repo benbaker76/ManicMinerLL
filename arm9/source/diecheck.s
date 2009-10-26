@@ -183,7 +183,6 @@ testingit:
 		
 		dieNotSpecialSprite:
 
-
 		@ set a few setting for the death
 
 		ldr r2,=120
@@ -197,11 +196,7 @@ testingit:
 		mov r2,#0							@ set initial frame
 		ldr r1,=dieFrame
 		str r2,[r1]
-		
-		@bl fxFadeBlackLevelInit
-		@bl fxFadeMax
-		@bl fxFadeOut
-		@bl fxSpotlightOut
+
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------------
