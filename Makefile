@@ -11,7 +11,7 @@ include $(DEVKITARM)/ds_rules
 # Header variables
 #---------------------------------------------------------------------------------
 NAME		:=	Manic Miner LL
-AUTHOR		:=	By Flash & HeadKaze
+AUTHOR		:=	By Flash
 VERSION		:=	www.retrobytesportal.com
 NITRODIR	:=	-d efsroot
 LOGO		:=	
