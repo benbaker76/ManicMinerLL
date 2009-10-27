@@ -2250,6 +2250,8 @@ meteorUpdate:
 			str r0,[r1,r10,lsl#2]
 			add r10,#1
 			str r0,[r1,r10,lsl#2]	
+			
+			bl playCrackle
 	
 	meteorUpdateDone:
 	
@@ -2421,6 +2423,8 @@ forceFieldUpdate:
 			add r10,#1
 			str r0,[r1,r10,lsl#2]
 			add r10,#1
+			
+			bl playCrackle
 	
 	forceFUpdateDone:
 
