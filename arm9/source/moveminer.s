@@ -289,8 +289,8 @@ moveMiner:
 			b l18Done
 		
 		notL18:
-		cmp r1,#64
-		movlt r1,#64
+		cmp r1,#61
+		movlt r1,#61
 		str r1,[r2]
 		
 		l18Done:		
@@ -323,8 +323,8 @@ moveMiner:
 			b r18Done
 		
 		notR18:
-		cmp r1,#240+64
-		movgt r1,#240+64
+		cmp r1,#240+64+4
+		movgt r1,#240+64+4
 		str r1,[r2]
 		
 		r18Done:

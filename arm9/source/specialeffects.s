@@ -2017,9 +2017,6 @@ kongDust:
 meteorInit:
 	stmfd sp!, {r0-r10, lr}
 	
-	@ Load the eyes sprites (FXEyes)
-
-	
 		ldr r0,=FXMeteorTiles
 		ldr r1,=SPRITE_GFX_SUB
 		add r1,#24*256				@ dump at 24th sprite
@@ -2179,6 +2176,7 @@ meteorInit:
 	subs r0,#1
 	bpl starDInitLoop
 
+	bl playCrackle
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -2357,6 +2355,7 @@ forceFieldInit:
 		mov r0,#FORCEFIELD_ANIM
 		str r0,[r1,r10,lsl#2]
 
+		bl playCrackle
 
 	ldmfd sp!, {r0-r10, pc}	
 	
