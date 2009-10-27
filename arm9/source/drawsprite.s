@@ -334,6 +334,8 @@ mov r11,#0									@ r11=-offset for sprite
 				ldr r1,=spriteAnimDelay
 				mov r0,#DRIPSPLASH_ANIM
 				str r0,[r1,r10,lsl #2]
+				
+			@	bl playDrip			@ a bit too irritating!!!
 		drawNotDripFall:	
 		cmp r0,#FX_DRIPSPLASH_ACTIVE
 		bne drawNotDripSplash
@@ -555,7 +557,7 @@ mov r11,#0									@ r11=-offset for sprite
 				mov r2,#METEOREXP_ANIM
 				str r2,[r1,r10,lsl#2]
 				
-			@	bl playExplode
+				bl playMeteor
 		drawNotMeteor:
 		cmp r0,#FX_METEORCRASH_ACTIVE
 		bne drawNotMCrash
