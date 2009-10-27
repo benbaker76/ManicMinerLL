@@ -166,6 +166,8 @@ audioStartPressed:
 	ldr r1,[r1]
 	cmp r1,#0
 	bne justWait5
+		
+	bl stopMusic
 
 	bl initTitleScreen
 
