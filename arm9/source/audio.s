@@ -719,6 +719,11 @@ playCrackle:
 
 	stmfd sp!, {r0-r2, lr}
 	
+	ldr r0,=gameMode
+	ldr r0,[r0]
+	cmp r0,#GAMEMODE_TITLE_SCREEN
+	beq crackleFail
+	
 	ldr r0, =IPC_SOUND_DATA(5)
 	ldr r1, =0x10
 	bl DC_FlushRange
@@ -759,6 +764,8 @@ playCrackle:
 	ldr r0, =REG_IPC_SYNC
 	ldr r1, =IPC_SEND_SYNC(5)
 	strh r1, [r0]
+	
+	crackleFail:
 	
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 
