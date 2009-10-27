@@ -192,11 +192,12 @@ animateGameOverSkull:
 initGameOver:
 
 	stmfd sp!, {r0-r10, lr}
+
+	bl fxFadeBlackInit
+	bl fxFadeMax
 	
 	lcdMainOnBottom
 
-
-	
 	bl clearOAM
 	bl clearSpriteData
 	bl initVideoGameOver	
@@ -208,10 +209,6 @@ initGameOver:
 	ldr r1,=gameMode
 	mov r0,#GAMEMODE_GAMEOVER					@ this is our Animation
 	str r0,[r1]
-
-	bl fxFadeBlackLevelInit
-	bl fxFadeMax
-	bl fxFadeIn	
 	
 	@ use these 2 screens for now
 	
@@ -434,6 +431,8 @@ initGameOver:
 
 	ldr r5, =REG_BG3VOFS			@ Load our horizontal scroll register for BG3 on the sub screen
 	strh r1, [r5]
+
+	bl fxFadeIn	
 
 @	bl saveGame
 	

@@ -514,7 +514,7 @@ generateBGSprites:
 	.ascii "EXPLORED HIS NEW MANSION...   "
 
 @
-	.ascii "  MANIC MINER IN WILLYWORLD.  "
+	.ascii "  MANIC MINER IN WILLYWORLD   "
 	.ascii "                              "
 	.ascii "         CODE - FLASH         "
 	.ascii "      SUPPORT - HEADKAZE      "

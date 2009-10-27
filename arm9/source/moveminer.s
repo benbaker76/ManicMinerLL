@@ -153,7 +153,9 @@ minerControl:
 
 	tst r10,#BUTTON_A
 	bleq moveJump	
-
+	tst r10,#BUTTON_B
+	bleq moveJump	
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------- RIGHT MOVEMENT

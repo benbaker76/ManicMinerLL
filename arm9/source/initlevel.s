@@ -178,9 +178,6 @@ initLevel:
 	lsr r0,#1
 	ldr r2,=specialEffect
 	str r0,[r2]
-
-	cmp r12,#GAMEMODE_TITLE_SCREEN
-	blne fxSpotlightIn
 	
 	ldrb r0,[r1],#1			@ Background number
 	bl getLevelBackground
@@ -261,6 +258,9 @@ initLevel:
 	@ start timer if bonus level
 	
 	bl bonusTimerInit
+
+	cmp r12,#GAMEMODE_TITLE_SCREEN
+	blne fxSpotlightIn
 
 	bl fxFadeIn
 	
