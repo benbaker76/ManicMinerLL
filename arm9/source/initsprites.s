@@ -48,7 +48,7 @@ initTitleSprites:
 	ldr r2, =1024					@ 3 x 16bit attributes + 16 bit filler = 8 bytes x 128 entries in OAM
 	bl dmaFillWords
 	
-	ldr r0, =BotMenuPal
+	ldr r0, =TitleSpritesPal
 	ldr r1, =SPRITE_PALETTE
 	ldr r2, =512
 	bl dmaCopy
@@ -80,6 +80,37 @@ initTitleSprites:
 	mov r2,#1
 	lsl r2,#3
 	strh r2,[r0]
+	
+	@ seal 1
+	
+	ldr r0,=OBJ_ATTRIBUTE0(3)
+	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+	orr r2,#76					@ y
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE1(3)
+	ldr r2, =(ATTR1_SIZE_16)
+	orr r2,#168-26				@ x
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE2(3)
+	mov r2,#11
+	lsl r2,#3
+	strh r2,[r0]
+	
+	@ seal 2
+
+	ldr r0,=OBJ_ATTRIBUTE0(5)
+	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
+	orr r2,#92					@ y
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE1(5)
+	ldr r2, =(ATTR1_SIZE_16)
+	orr r2,#100+26					@ x
+	strh r2,[r0]
+	ldr r0,=OBJ_ATTRIBUTE2(5)
+	mov r2,#11
+	lsl r2,#3
+	strh r2,[r0]	
+	
 
 	ldmfd sp!, {r0-r10, pc}
 	

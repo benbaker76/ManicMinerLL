@@ -1061,6 +1061,22 @@ optionDraw:
 	mov r1,#20
 	bl drawTextBigDigits
 	
+	@ r0 = level number?
+	@ r6 = is it LL or HW
+	
+	cmp r6,#1
+	addeq r0,#22						@ add 22 to become the actual level number
+	sub r0,#1
+	ldr r1,=levelSpecialFound
+	ldr r1,[r1,r0,lsl#2]				@ r1=1 if this has a bonus
+	
+	cmp r1,#1
+	moveq r2,#10
+	movne r2,#11
+	ldr r0,=OBJ_ATTRIBUTE2(3)
+	lsl r2,#3
+	strh r2,[r0]	
+		
 	@ display selected bonus level (27 chars for each string)
 	
 	ldr r3,=unlockedBonusesSelected
@@ -1077,6 +1093,23 @@ optionDraw:
 	mov r2,#11
 	bl drawTextBigMain
 
+	@ now find out if the bonus level displayed has a bonus in it also
+	
+	ldr r2,=unlockedBonusesSelected
+	ldr r2,[r2]
+	ldr r0,=bonusLevelsAre	
+	ldr r2,[r0,r2,lsl#2]				@ r1=level number
+	sub r2,#1
+	ldr r0,=levelSpecialFound
+	ldr r2,[r0,r2,lsl#2]
+
+	cmp r2,#1
+	moveq r2,#10
+	movne r2,#11
+	ldr r0,=OBJ_ATTRIBUTE2(5)
+	lsl r2,#3
+	strh r2,[r0]
+	
 
 	@ draw 'jukebox' text
 
@@ -1176,6 +1209,7 @@ optionDraw:
 	andmi r2,#7
 	strmi r2,[r1]
 	
+		
 	titleStartSkip:
 
 	ldmfd sp!, {r0-r10, pc}
@@ -1335,6 +1369,18 @@ titleRemoveOptions:
 	ldr r1,=titleMenu
 	mov r0,#0
 	str r0,[r1]
+
+	ldr r0,=OBJ_ATTRIBUTE2(3)
+	mov r2,#11
+	lsl r2,#3
+	strh r2,[r0]	
+	
+	ldr r0,=OBJ_ATTRIBUTE2(5)
+	mov r2,#11
+	lsl r2,#3
+	strh r2,[r0]	
+
+
 	
 	@ now clear the bg0 and bg1 on main
 
