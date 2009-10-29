@@ -206,6 +206,17 @@ initGameOver:
 	bl clearBG2
 	bl clearBG3
 
+	mov r8,#192
+	ldr r6,=killPixelH
+	str r8,[r6]
+	ldr r6,=killPixelH2
+	str r8,[r6]
+
+	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
+	strh r8, [r5]					@ Write our offset value to REG_BG2HOFS_SUB
+	ldr r5, =REG_BG1VOFS			@ Load our horizontal scroll register for BG2 on the sub screen
+	strh r8, [r5]					@ Write our offset value to REG_BG2HOFS_SUB
+
 	ldr r1,=gameMode
 	mov r0,#GAMEMODE_GAMEOVER					@ this is our Animation
 	str r0,[r1]
@@ -316,17 +327,6 @@ initGameOver:
 	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)
 	bl dmaCopy	
 
-
-	mov r8,#192
-	ldr r6,=killPixelH
-	str r8,[r6]
-	ldr r6,=killPixelH2
-	str r8,[r6]
-
-	ldr r5, =REG_BG1VOFS_SUB		@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r8, [r5]					@ Write our offset value to REG_BG2HOFS_SUB
-	ldr r5, =REG_BG1VOFS			@ Load our horizontal scroll register for BG2 on the sub screen
-	strh r8, [r5]					@ Write our offset value to REG_BG2HOFS_SUB
 	
 	mov r0,#0
 	ldr r1,=killMotion
