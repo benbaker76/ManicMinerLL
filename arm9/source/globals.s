@@ -500,15 +500,15 @@ levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 
 	.align
 levelLLReached:					@ Lost max (highest visited)
-	.word 1
+	.word 20
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 1
+	.word 10
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 0
+	.word 1
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
 	.word 0
 screenOrder:					@ preference of the screen order	

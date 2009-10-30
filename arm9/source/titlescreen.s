@@ -1063,9 +1063,13 @@ optionDraw:
 	
 	@ r0 = level number?
 	@ r6 = is it LL or HW
-	
-	cmp r6,#1
-	addeq r0,#22						@ add 22 to become the actual level number
+	ldr r6,=unlockedSelected
+	ldr r6,[r6]	
+	cmp r6,#0
+	ldreq r0,=levelLLSelected
+	ldrne r0,=levelHWSelected
+	ldr r0,[r0]
+	addne r0,#22						@ add 22 to become the actual level number
 	sub r0,#1
 	ldr r1,=levelSpecialFound
 	ldr r1,[r1,r0,lsl#2]				@ r1=1 if this has a bonus
