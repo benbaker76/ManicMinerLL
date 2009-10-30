@@ -508,7 +508,7 @@ levelHWReached:					@ hollywood max
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 1
+	.word 0
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
 	.word 0
 screenOrder:					@ preference of the screen order	
