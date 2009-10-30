@@ -500,11 +500,11 @@ levelSpecialFound:				@ 0=not on level, 1=on level, 2=found
 
 	.align
 levelLLReached:					@ Lost max (highest visited)
-	.word 20
+	.word 1
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 10
+	.word 1
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
@@ -514,7 +514,7 @@ unlockedSelected:				@ what is selected (0=lost, 1=holly)
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
-	.word 20
+	.word 255
 unlockedBonusesSelected:		@ current selected bonus level
 	.word 1	
 
