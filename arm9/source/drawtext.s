@@ -336,7 +336,7 @@ drawTextBigMain:
 	@ r1 = x pos
 	@ r2 = y pos
 
-	stmfd sp!, {r4-r8, lr} 
+	stmfd sp!, {r0-r8, lr} 
 	
 	ldr r4, =BG_MAP_RAM(BG0_MAP_BASE) @ Pointer to sub
 	add r4, r1, lsl #1				@ Add x position
@@ -365,7 +365,7 @@ drawTextBigMainLoop:
 
 drawTextBigMainDone:
 	
-	ldmfd sp!, {r4-r8, pc}
+	ldmfd sp!, {r0-r8, pc}
 	
 	@ ----------------------------------------
 	
