@@ -411,8 +411,8 @@ feetOnConveyor:
 	ldr r0,=spriteY+256						@ make sure we are on the platform nice and firmly
 	ldr r0,[r0]
 	and r0,#7
-	cmp r0,#0
-	bne checkFeetFinish
+	cmp r0,#1
+	bgt checkFeetFinish
 
 	ldr r0,=minerAction
 	mov r1,#MINER_CONVEYOR

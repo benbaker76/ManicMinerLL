@@ -262,6 +262,7 @@ updateDeathAnim:
 					ldr r0,=conveyorDirection
 					ldr r0,[r0]
 					ldr r1,=minerDirection
+				
 					str r0,[r1]
 					bl moveMiner
 			notDieFallFall:

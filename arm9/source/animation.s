@@ -64,12 +64,24 @@ crumbler:
 	ldr r0,[r0]
 	and r0,#7
 	cmp r0,#2
-	bgt crumblerFail
+@	bgt crumblerFail
+
+ldr r0,=gameMode
+ldr r0,[r0]
+cmp r0,#GAMEMODE_DIES_UPDATE
+@beq crumbOk
 
 ldr r0,=minerAction
 ldr r0,[r0]
+cmp r0,#MINER_JUMP
+@beq crumbOk
+cmp r0,#MINER_CONVEYOR
+@beq crumbOk
+
 cmp r0,#MINER_NORMAL
 @bne crumblerFail
+
+	crumbOk:
 
 	ldr r0,=crumbleMap
 	ldrb r1,[r0,r8]
