@@ -356,6 +356,7 @@ generateColMap:
 getDoorSprite:
 
 	stmfd sp!, {r0-r10, lr}
+	mov r9,r0	
 	mov r2,#0
 	cmp r0,#0
 	ldreq r0, =Exit01Tiles
@@ -510,9 +511,9 @@ getDoorSprite:
 	ldr r1,=spriteAnimDelay
 	str r3,[r1,r0,lsl#2]
 
-ldr r1,=spritePriority
-mov r3,#3
-str r3,[r1,r0,lsl#2]
+	ldr r1,=spritePriority
+	mov r3,#3
+	str r3,[r1,r0,lsl#2]
 	
 	ldr r8,=levelNum
 	ldr r9,[r8]
