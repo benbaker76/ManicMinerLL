@@ -126,7 +126,6 @@ minerFrame:
 	
 	ldmfd sp!, {r0-r10, pc}
 	
-	
 @----------------------- ANIMATE OBJECTS ON LEVEL BACKGROUND ONLY
 
 levelAnimate:
@@ -151,7 +150,6 @@ levelAnimate:
 	cmp r1,#4
 	moveq r1,#0
 	str r1,[r0]
-	
 	
 	mov r0,#0						@ our counter
 	ldr r1,=colMapStore				@ our data to check
@@ -326,7 +324,6 @@ collectKey:
 	
 	bl fxSplashburstInit
 	
-	
 @--------------	
 	
 	stillKeysLeft:
@@ -436,7 +433,6 @@ monsterAnimate:
 		subeq r7,r10
 		moveq r10,r7
 
-	
 		ldr r2,=spriteObjBase
 		ldr r2,[r2,r1,lsl #2]
 		lsl r2,#3					@ the sprites are in areas of 8
@@ -540,14 +536,13 @@ flipSwitch:
 	cmp r0,#34
 	ldreq r6,=switch3
 	cmp r0,#35
-	ldreq r6,=switch4
+	ldreq r6,=switch4	
 	
-	
-ldr r8,[r6]
-cmp r8,#1
-beq flipSwitchFail
-mov r8,#1
-str r8,[r6]
+	ldr r8,[r6]
+	cmp r8,#1
+	beq flipSwitchFail
+	mov r8,#1
+	str r8,[r6]
 
 	cmp r2,#0
 
@@ -621,7 +616,6 @@ str r8,[r6]
 	
 	b switchStandardReturn
 
-	
 @-----------------------------------------------
 
 	flipSwitchWallDestroy:
@@ -656,16 +650,13 @@ str r8,[r6]
 
 			@ we now need to call an effect to put an animation at offset r0...?
 
-
 			bl r0Effect
 		
 		wallDestroySkip:
 	
-	
 		add r0,#1
 		cmp r0,#768
 	bne wallDestroyLoop
-	
 	
 	@ if r8<>0, make an explosion sound!!!!
 	
@@ -848,13 +839,9 @@ b switchStandardReturn
 	subs r3,#1
 	bpl creditFrameLoop
 
-	
-
 	ldmfd sp!, {r0-r11, pc}
 
 @------------------------------
-
-
 
 	.align
 levelAnimDelay:
