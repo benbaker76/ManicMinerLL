@@ -60,35 +60,20 @@ crumbler:
 	
 	stmfd sp!, {r0-r10, lr}
 	
-	ldr r0,=spriteY+256				@ make sure we are on the platform nice and firmly
-	ldr r0,[r0]
+	ldr r1,=spriteY+256				@ make sure we are on the platform nice and firmly
+	ldr r0,[r1]
 	and r0,#7
-	cmp r0,#2
-@	bgt crumblerFail
-
-ldr r0,=gameMode
-ldr r0,[r0]
-cmp r0,#GAMEMODE_DIES_UPDATE
-@beq crumbOk
-
-ldr r0,=minerAction
-ldr r0,[r0]
-cmp r0,#MINER_JUMP
-@beq crumbOk
-cmp r0,#MINER_CONVEYOR
-@beq crumbOk
-
-cmp r0,#MINER_NORMAL
-@bne crumblerFail
-
+	cmp r0,#0
+@	bne crumblerFail
 	crumbOk:
 
 	ldr r0,=crumbleMap
 	ldrb r1,[r0,r8]
-	subs r1,#1
-	movmi r1,#1
+	sub r1,#1
+	cmp r1,#0
+	moveq r1,#2
 	strb r1,[r0,r8]
-	bpl crumblerFail
+	bne crumblerFail
 	
 	ldr r0,=colMapStore
 	ldrb r1,[r0,r8]					@ r1= tile at location

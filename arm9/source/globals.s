@@ -363,10 +363,10 @@ spriteDataEnd:
 
 willyJumpData:	@ dragon32/Oric mod
 	.byte -2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,-1,0,0,0,0,0,0
-	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2
+	.byte 0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2
 willyJumpData2:	@ original Spectrum
 	.byte -2,-2,-2,-2,-2,-2,-2,-1,-1,-1,-1,-1,-1,0,0,0,0
-	.byte 0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2
+	.byte 0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2
 	
 	.byte 99
 	.byte 3,3,3,3,3
@@ -504,13 +504,13 @@ levelLLReached:					@ Lost max (highest visited)
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 1
+	.word 10
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 0
+	.word 1
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
-	.word 0
+	.word 1
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					

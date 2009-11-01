@@ -66,6 +66,9 @@ initLevelClear:										@ set up the level clear dat
 	mov r3,#DOOR_FRAME
 	ldr r1,=spriteObj
 	str r3,[r1,r0,lsl#2]
+	ldr r1,=spritePriority
+	mov r3,#1
+	str r3,[r1,r0,lsl#2]
 	
 	bl fxStarburstInit
 	

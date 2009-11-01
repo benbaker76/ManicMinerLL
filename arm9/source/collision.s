@@ -230,6 +230,12 @@ checkFeet:
 	mov r9,#0					@ left Var
 	mov r10,#0					@ right var
 
+	ldr r0,=spriteY+256
+	ldr r0,[r0]
+	and r0,#7
+	cmp r0,#2
+	bgt checkFeetFail
+
 	ldr r0,=minerAction
 	ldr r1,[r0]
 	cmp r1,#MINER_CONVEYOR
@@ -311,27 +317,19 @@ checkFeet:
 	push {r3,r8}
 	
 	@ I think we are going to need another way to put a delay on EACH crumble tile..??
-	
-@	ldr r1,=crumbleWait			@ this is our little delay for crumble platforms
-@	ldr r2,[r1]
-@	add r2,#1
-@	cmp r2,#2					@ we are using 4 as a delay, but, I think we should have
-@	moveq r2,#0					@ less frames of anim for the crumbles and have them crumble
-@	str r2,[r1]					@ slower? The last frame is too fine imho, what do you think?
-@	bne notCrumblerR
-	
+
 	cmp r9,#5
 	blt notCrumblerL
 	cmp r9,#12
 	bgt notCrumblerL
-		@ r8 already contains the offset
+		@ r8 already contains the offset 	(r9 offset)
 		bl crumbler
 	notCrumblerL:
 	cmp r10,#5
 	blt notCrumblerR
 	cmp r10,#12
 	bgt notCrumblerR
-		@ r3 contains the offset
+		@ r3 contains the offset			(r10 offset)
 		mov r8,r3
 		bl crumbler
 	notCrumblerR:
@@ -340,7 +338,6 @@ checkFeet:
 	
 	@ Now we need to check for conveyer and act on it
 	@ if on one, set minerAction and also the conveyorDirection
-
 
 	cmp r9,#2
 	moveq r9,#13
@@ -379,15 +376,14 @@ checkFeet:
 	
 	checkFeetFinish:
 
-@ if either r9 or r10=4, set platFours to 1
-mov r11,#0
-cmp r9,#4
-moveq r11,#1
-cmp r10,#4
-moveq r11,#1
-
-ldr r2,=platFours
-str r11,[r2]
+	@ if either r9 or r10=4, set platFours to 1 (used for ice)
+	mov r11,#0
+	cmp r9,#4
+	moveq r11,#1
+	cmp r10,#4
+	moveq r11,#1
+	ldr r2,=platFours
+	str r11,[r2]
 
 	push {r9,r10}
 	mov r10,r11
@@ -403,6 +399,8 @@ str r11,[r2]
 	mov r7, #0							@ 0 = Main, 1 = Sub
 @	bl drawDigits	
 	pop {r9,r10}	
+
+	checkFeetFail:
 
 	ldmfd sp!, {r0-r8, pc}
 	
@@ -458,7 +456,6 @@ checkHead:
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
-	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkHeadLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
@@ -490,7 +487,6 @@ add r1,#1
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
-	sub r0,#FEET_NIP			@ use this for head detection also
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkHeadRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
@@ -531,8 +527,7 @@ checkHeadDie:
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
-	add r0,#FEET_NIP			@ this is a little tweak to stop getting stuck in walls
-add r0,#1
+	add r0,#1
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkHeadDieLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
@@ -568,8 +563,7 @@ add r0,#1
 	ldr r0,=spriteX+256
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
-	sub r0,#FEET_NIP			@ use this for head detection also
-sub r0,#1
+	sub r0,#1
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkHeadDieRNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
@@ -843,8 +837,8 @@ checkFall:
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#3			@ was 5...
-		bge checkFall3
+		cmp r6,#2			@ was 5...
+		bgt checkFall3
 
 	mov r8,#1
 
@@ -859,18 +853,14 @@ checkFall:
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#3			@ was 5...
-		bge checkFall3
+		cmp r6,#2			@ was 5...
+		bgt checkFall3
 
 	mov r8,#1
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}	
 	
 	checkFall3:
-	
-
-	
-	
 
 	ldmfd sp!, {r0-r7,r9,r10, pc}
 

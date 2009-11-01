@@ -442,7 +442,7 @@ lsleq r4,#1
 
 cmp r5,#4
 
-	cmpeq r2,#MINER_JUMPLEN-2			@ check if we are at the end of a jump
+	cmpeq r2,#MINER_JUMPLEN-2		@ check if we are at the end of a jump
 	cmpne r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
 	blt minerJumpContinues
 
@@ -464,11 +464,11 @@ cmp r5,#4
 	minerJumpContinues:
 
 	str r2,[r3]						@ store new jump position
-cmp r5,#4
+	cmp r5,#4
 
 	cmpeq r2,#MINER_MID_JUMP-1			@ if we are past the jump midpoint, check feet
 	cmpne r2,#MINER_MID_JUMP			@ if we are past the jump midpoint, check feet
-	ble minerJumpUp					@ if not, jump to the head detection
+	ble minerJumpUp						@ if not, jump to the head detection
 	
 	@-------------- JUMP GOIUNG DOWN
 	
@@ -487,11 +487,6 @@ cmp r5,#4
 		cmp r8,#1
 		beq minerLanded
 		
-		@cmp r9,#0					@ we are only worrying about any collision for now
-		@bne minerLanded
-		@cmp r10,#0
-		@bne minerLanded 			@ check both sides
-		
 		b minerJumpFail
 		
 		minerLanded:
@@ -501,8 +496,8 @@ cmp r5,#4
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#3			@ was 5...
-		bge minerJumpFail
+		cmp r6,#2			@ was 5...
+		bgt minerJumpFail
 
 		mov r7,#MINER_NORMAL		@ set us back to normal movement
 		ldr r6,=minerAction
@@ -513,6 +508,8 @@ cmp r5,#4
 		lsr r6,#3
 		lsl r6,#3
 		str r6,[r7]
+	
+		bl checkFeet
 	
 		b minerJumpFail
 
@@ -705,7 +702,7 @@ minerFall:
 		
 		fallNotDeadly:
 		
-		cmp r2, #16					@ if we have fallen a little bit, create dust
+		cmp r2, #18					@ if we have fallen a little bit, create dust
 		ble fallShardNot
 
 			bl shardDust
