@@ -637,7 +637,7 @@ levelNames:
 	.ascii "  BRIGHT LIGHT, BRIGHT LIGHT  "	@ GREMLINS
 	.ascii " HELLO GUYS, I'M MR. PERKINS  " @ GOONIES
 	.ascii "     WE DON'T NEED ROADS!     " @ BACK TO THE FUTURE
-	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU." @ HELLRAISER
+	.ascii "WE'VE SUCH SIGHTS TO SHOW YOU!" @ HELLRAISER
 	.ascii "        HE SLIMED ME!!        " @ GHOSTBUSTERS
 	.ascii "BLONDES ARE SCARCE ROUND HERE!" @ KING KONG
 	.ascii "         I'LL BE BACK         " @ TERMINATOR
