@@ -59,13 +59,6 @@ crumbler:
 	@
 	
 	stmfd sp!, {r0-r10, lr}
-	
-	ldr r1,=spriteY+256				@ make sure we are on the platform nice and firmly
-	ldr r0,[r1]
-	and r0,#7
-	cmp r0,#0
-@	bne crumblerFail
-	crumbOk:
 
 	ldr r0,=crumbleMap
 	ldrb r1,[r0,r8]

@@ -356,7 +356,6 @@ generateColMap:
 getDoorSprite:
 
 	stmfd sp!, {r0-r10, lr}
-	mov r9,r0	
 	mov r2,#0
 	cmp r0,#0
 	ldreq r0, =Exit01Tiles
@@ -430,7 +429,6 @@ getDoorSprite:
 	cmp r0,#26
 	ldreq r0, =Exit27Tiles
 	ldreq r2, =Exit27TilesLen
-	
 	cmp r0,#28
 	ldreq r0, =Exit29Tiles
 	ldreq r2, =Exit29TilesLen
@@ -452,7 +450,6 @@ getDoorSprite:
 	cmp r0,#34
 	ldreq r0, =Exit35Tiles
 	ldreq r2, =Exit35TilesLen	
-
 	cmp r0,#40
 	ldreq r0, =Exit41Tiles
 	ldreq r2, =Exit41TilesLen
@@ -468,11 +465,9 @@ getDoorSprite:
 	cmp r0,#44
 	ldreq r0, =Exit45Tiles
 	ldreq r2, =Exit45TilesLen
-
 	cmp r0,#46
 	ldreq r0, =Exit46Tiles
 	ldreq r2, =Exit46TilesLen
-	
 	cmp r0,#47
 	ldreq r0, =Exit48Tiles
 	ldreq r2, =Exit48TilesLen
@@ -510,22 +505,18 @@ getDoorSprite:
 	mov r3,#4
 	ldr r1,=spriteAnimDelay
 	str r3,[r1,r0,lsl#2]
-
 	ldr r1,=spritePriority
-	mov r3,#3
-	str r3,[r1,r0,lsl#2]
+	mov r3,#0
 	
 	ldr r8,=levelNum
 	ldr r9,[r8]
+
 	cmp r9,#26
-	ldreq r1,=spritePriority
 	moveq r3,#3
-	streq r3,[r1,r0,lsl#2]
-	cmp r9,#2
-	ldreq r1,=spritePriority
-	moveq r3,#1
-	streq r3,[r1,r0,lsl#2]
-	
+	cmp r9,#23
+	moveq r3,#3
+
+	str r3,[r1,r0,lsl#2]
 	
 	ldmfd sp!, {r0-r10, pc}
 	
