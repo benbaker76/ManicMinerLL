@@ -504,13 +504,13 @@ levelLLReached:					@ Lost max (highest visited)
 levelLLSelected:				@ Lost level
 	.word 1
 levelHWReached:					@ hollywood max
-	.word 10
+	.word 1
 levelHWSelected:				@ hollywood level
 	.word 1
 unlockedHW:						@ is hollywood unlocked yet?
-	.word 1
+	.word 0
 unlockedSelected:				@ what is selected (0=lost, 1=holly)
-	.word 1
+	.word 0
 screenOrder:					@ preference of the screen order	
 	.word 0
 unlockedBonuses:				@ 255=no, 1=first,2=second (number is max selectable)					
