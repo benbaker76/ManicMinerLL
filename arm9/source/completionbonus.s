@@ -236,7 +236,7 @@ facts:
 	.ascii "  VERSION IS HELD AT MEMORY   "
 	.ascii "  ADDRESSES 45056 TO 65535.   "
 	@ 2
-	.ascii "  A 12-STAGE UNOFFICIAL PORT  "
+	.ascii "  AN 11-STAGE HOMEBREW PORT   "
 	.ascii "  WITH HIGH-RES GRAPHICS WAS  "
 	.ascii "  MADE FOR THE ZX81 IN 1984.  "
 	@ 3
