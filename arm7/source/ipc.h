@@ -45,6 +45,7 @@
 
 #define IPC_SOUND_LOOP		BIT(0)
 #define IPC_SOUND_16BIT		BIT(1)
+#define IPC_SOUND_ADPCM		BIT(2)
 
 #define IPC_SYNC_IRQ_ENABLE			BIT(14)
 #define IPC_SYNC_IRQ_REQUEST		BIT(13)

@@ -205,6 +205,8 @@ playSoundContinue:
 	orreq r9, #SOUND_ONE_SHOT
 	tst r6, #IPC_SOUND_16BIT					@ 16-bit?
 	orrne r9, #SOUND_16BIT
+	tst r6, #IPC_SOUND_ADPCM					@ ADPCM-bit?
+	orrne r9, #SOUND_FORMAT_ADPCM
 	str r9, [r8, r0]
 	
 playSoundDone:				
