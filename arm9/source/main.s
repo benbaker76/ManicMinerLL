@@ -30,6 +30,8 @@
 #include "audio.h"
 #include "EFS.h"
 
+	#define EFS			1
+
 	.arm
 	.align
 	.text
