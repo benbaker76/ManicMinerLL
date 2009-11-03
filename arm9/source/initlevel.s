@@ -256,8 +256,9 @@ initLevel:
 	str r1,[r0]
 	
 	@ start timer if bonus level
-	
-	bl bonusTimerInit
+
+	cmp r12,#GAMEMODE_TITLE_SCREEN	
+	blne bonusTimerInit
 
 	cmp r12,#GAMEMODE_TITLE_SCREEN
 	blne fxSpotlightIn
