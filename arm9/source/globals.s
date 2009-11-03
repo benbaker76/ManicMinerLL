@@ -84,10 +84,48 @@
 	.global minerAction
 	.global jumpCount
 	.global fallCount
+	
 	.global hiscoreText
 	.global scoreText
 	.global loadingText
 	.global pleaseWaitText
+	.global minerText
+	.global darkText
+	.global spaceText
+	.global egyptianText
+	.global pianoText
+	.global spectrumText
+	.global casablancaText
+	.global catText
+	.global jungleText
+	.global cavernText
+	.global atmosphereText
+	.global reggaeText
+	.global terminatorText
+	.global snugText
+	.global ghostbustersText
+	.global gooniesText
+	.global horrorText
+	.global frankensteinText
+	.global gremlinsText
+	.global kingKongText
+	.global toccataText
+	.global shuttleText
+	.global undergroundText
+	.global coldText
+	.global radioText
+	.global oldiesText
+	.global titleText
+	.global gameOverText
+	.global highScoreText
+	.global deepText
+	.global oopsText
+	.global doomText
+	.global heroText
+	.global xmasText
+	.global endText
+	.global haltText
+	
 	.global spriteDataStart
 	.global spriteDataEnd
 	.global willyJumpData
@@ -300,6 +338,115 @@ loadingText:
 	.align
 pleaseWaitText:
 	.asciz "PLEASE WAIT"
+
+	.align
+minerText:
+	.asciz "/MMLL/Music/Miner.xm.gz"
+	.align
+darkText:
+	.asciz "/MMLL/Music/Dark.xm.gz"
+	.align
+spaceText:
+	.asciz "/MMLL/Music/Space.xm.gz"
+	.align
+egyptianText:
+	.asciz "/MMLL/Music/Egyptian.xm.gz"
+	.align
+pianoText:
+	.asciz "/MMLL/Music/Piano.xm.gz"
+	.align
+spectrumText:
+	.asciz "/MMLL/Music/Spectrum.xm.gz"
+	.align
+casablancaText:
+	.asciz "/MMLL/Music/Casablanca.xm.gz"
+	.align
+catText:
+	.asciz "/MMLL/Music/Cat.xm.gz"
+	.align
+jungleText:
+	.asciz "/MMLL/Music/Jungle.xm.gz"
+	.align
+cavernText:
+	.asciz "/MMLL/Music/Cavern.xm.gz"
+	.align
+atmosphereText:
+	.asciz "/MMLL/Music/Atmosphere.xm.gz"
+	.align
+reggaeText:
+	.asciz "/MMLL/Music/Reggae.xm.gz"
+	.align
+terminatorText:
+	.asciz "/MMLL/Music/Terminator.xm.gz"
+	.align
+snugText:
+	.asciz "/MMLL/Music/Snug.xm.gz"
+	.align
+ghostbustersText:
+	.asciz "/MMLL/Music/Ghostbusters.xm.gz"
+	.align
+gooniesText:
+	.asciz "/MMLL/Music/Goonies.xm.gz"
+	.align
+horrorText:
+	.asciz "/MMLL/Music/Horror.xm.gz"
+	.align
+frankensteinText:
+	.asciz "/MMLL/Music/Frankenstein.xm.gz"
+	.align
+gremlinsText:
+	.asciz "/MMLL/Music/Gremlins.xm.gz"
+	.align
+kingKongText:
+	.asciz "/MMLL/Music/KingKong.xm.gz"
+	.align
+toccataText:
+	.asciz "/MMLL/Music/Toccata.xm.gz"
+	.align
+shuttleText:
+	.asciz "/MMLL/Music/Shuttle.xm.gz"
+	.align
+undergroundText:
+	.asciz "/MMLL/Music/Underground.xm.gz"
+	.align
+coldText:
+	.asciz "/MMLL/Music/Cold.xm.gz"
+	.align
+radioText:
+	.asciz "/MMLL/Music/Radio.xm.gz"
+	.align
+oldiesText:
+	.asciz "/MMLL/Music/Oldies.xm.gz"
+	.align
+titleText:
+	.asciz "/MMLL/Music/Title.xm.gz"
+	.align
+gameOverText:
+	.asciz "/MMLL/Music/GameOver.xm.gz"
+	.align
+highScoreText:
+	.asciz "/MMLL/Music/HighScore.xm.gz"
+	.align
+deepText:
+	.asciz "/MMLL/Music/Deep.xm.gz"
+	.align
+oopsText:
+	.asciz "/MMLL/Music/Oops.xm.gz"
+	.align
+doomText:
+	.asciz "/MMLL/Music/Doom.xm.gz"
+	.align
+heroText:
+	.asciz "/MMLL/Music/Hero.xm.gz"
+	.align
+xmasText:
+	.asciz "/MMLL/Music/Xmas.xm.gz"
+	.align
+endText:
+	.asciz "/MMLL/Music/End.xm.gz"
+	.align
+haltText:
+	.asciz "/MMLL/Music/Halt.xm.gz"
 	
 	@ Sprite values
 	

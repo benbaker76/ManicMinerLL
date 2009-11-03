@@ -74,7 +74,6 @@ initMusic:
 	bne initMusicContinue
 
 	bl stopMusic
-@	bl swiWaitForVBlank
 	
 	ldr r0, =Module
 	bl XM7_UnloadXM
@@ -83,15 +82,22 @@ initMusicContinue:
 
 	pop {r2-r3}
 
-	ldr r0, =ZLibBuffer							@ Uncompress module
-	ldr r1, =ZLibBufferLen
-	ldr r4, =ZLIB_UNCOMPRESS_BUFFER_SIZE		@ Need to give it this each time because it
-	str r4, [r1]								@ writes back the actual size of the uncompressed data
-	bl uncompress
-@	bl swiWaitForVBlank
+	@ldr r0, =ZLibBuffer						@ Uncompress module
+	@ldr r1, =ZLibBufferLen
+	@ldr r4, =ZLIB_UNCOMPRESS_BUFFER_SIZE		@ Need to give it this each time because it
+	@str r4, [r1]								@ writes back the actual size of the uncompressed data
+	@bl uncompress
 	
-	cmp r0, #0									@ Returning non-zero in r0 means failed to load
-	bne initMusicFailed
+	@cmp r0, #0									@ Returning non-zero in r0 means failed to load
+	@bne initMusicFailed
+	
+	mov r0, r2
+	ldr r1, =ZLibBuffer							@ Uncompress module
+	ldr r2, =ZLIB_UNCOMPRESS_BUFFER_SIZE		@ Need to give it this each time because it
+	bl decompressFileBuffer
+	
+	cmp r0, #0									@ Returning zero in r0 means failed to load
+	beq initMusicFailed
 	
 	ldr r0, =Module								@ Pointer to module data
 	ldr r1, =ZLibBuffer

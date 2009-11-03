@@ -16,6 +16,7 @@ VERSION		:=	www.retrobytesportal.com
 NITRODIR	:=	-d efsroot
 LOGO		:=	
 ICON		:=	-b logo.bmp
+EFS			:=	1
 
 export TARGET		:=	$(shell basename $(CURDIR))
 export TOPDIR		:=	$(CURDIR)
@@ -30,9 +31,12 @@ all: $(TARGET).nds
 
 #---------------------------------------------------------------------------------
 $(TARGET).nds	:	$(TARGET).arm7 $(TARGET).arm9
+ifeq ($(EFS), 1)
 	ndstool -c $(TARGET).nds -7 $(TARGET).arm7 -9 $(TARGET).arm9 $(NITRODIR) $(LOGO) $(ICON) "$(NAME);$(AUTHOR);$(VERSION)"
-#	ndstool -c $(TARGET).nds -7 $(TARGET).arm7 -9 $(TARGET).arm9 $(LOGO) $(ICON) "$(NAME);$(AUTHOR);$(VERSION)"
 	efs $(TARGET).nds
+else
+	ndstool -c $(TARGET).nds -7 $(TARGET).arm7 -9 $(TARGET).arm9 $(LOGO) $(ICON) "$(NAME);$(AUTHOR);$(VERSION)"
+endif
 
 #---------------------------------------------------------------------------------
 $(TARGET).arm7	: arm7/$(TARGET).elf

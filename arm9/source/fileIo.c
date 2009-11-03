@@ -4,6 +4,7 @@
 #include <fat.h>
 #include <unistd.h>
 
+#include "zlib.h"
 #include "efs_lib.h"    // include EFS lib
 
 char *pFileBuffer = NULL;
@@ -104,6 +105,49 @@ int writeFileBuffer(char *fileName, char *pBuffer)
 		return 0;
 	}
 
+	fclose(pFile);
+	
+	return result;
+}
+
+int decompressFileBuffer(char *fileName, char *pBuffer, int bufferLen)
+{
+	FILE *pFile;
+	struct stat fileStat;
+	size_t result;
+
+	pFile = fopen(fileName, "rb");
+	
+	if(pFile == NULL)
+		return 0;
+
+	if(stat(fileName, &fileStat) != 0)
+	{
+		fclose(pFile);
+		return 0;
+	}
+	
+	void *pZLibBuffer = malloc(fileStat.st_size);
+	
+	if(pZLibBuffer == NULL)
+	{
+		fclose(pFile);
+		return 0;
+	}
+
+	result = fread(pZLibBuffer, 1, fileStat.st_size, pFile);
+	
+	if(result != fileStat.st_size)
+	{
+		free(pZLibBuffer);
+		fclose(pFile);
+		return 0;
+	}
+	
+	uLongf unCompSize = bufferLen;
+	uncompress((Bytef*)pBuffer, &unCompSize, (const Bytef*) pZLibBuffer, fileStat.st_size);
+
+	free(pZLibBuffer);
 	fclose(pFile);
 	
 	return result;

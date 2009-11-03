@@ -86,19 +86,13 @@ main:
 	
 	bl drawLoadingText
 	
-	@ Use EFS or FAT (NOT Both)
-	
-	@ ----------------------- EFS START ------------------------
-	
+#if (EFS == 1)
 	mov r0, #(EFS_AND_FAT | EFS_DEFAULT_DEVICE)	@ Init EFS
 	mov r1, #0
 	bl EFS_Init
-	
-	@ ----------------------- EFS END ------------------------
-	
-	@ ----------------------- FAT START ------------------------
-	
-	@bl fatInitDefault							@ Init FAT
+#else
+	bl fatInitDefault							@ Init FAT
+#endif
 	
 	@ ----------------------- FAT END ------------------------
 
