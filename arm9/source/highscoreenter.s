@@ -99,6 +99,8 @@ enterHighScore:
 	bl clearBG1
 @	bl clearBG2
 	bl resetScrollRegisters
+	bl drawSprite
+	bl drawSpriteSub
 
 	bl fxFadeBlackInit
 	bl fxFadeMax
