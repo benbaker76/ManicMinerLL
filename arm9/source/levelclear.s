@@ -239,6 +239,8 @@ scoreAir:											@ reduce Air and score it
 checkBonusTimer:
 
 	stmfd sp!, {r0-r10, lr}	
+	
+	bl displayBonusTimer
 
 	ldr r1,=gotRecord
 	mov r0,#0
