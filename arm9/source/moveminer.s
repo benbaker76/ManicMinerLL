@@ -440,22 +440,32 @@ lsleq r4,#1
 
 	add r2,#1						@ add to the jump phase
 
-cmp r5,#4
+ldr r5,=gameType
+ldr r5,[r5]
 
-	cmpeq r2,#MINER_JUMPLEN-2		@ check if we are at the end of a jump
-	cmpne r2,#MINER_JUMPLEN			@ check if we are at the end of a jump
+	cmp r5,#4
+
+	moveq r7,#MINER_JUMPLEN_SPECTRUM
+	movne r7,#MINER_JUMPLEN
+	cmp r2,r7
 	blt minerJumpContinues
-
 
 		mov r7,#MINER_FALL			@ if jump is over, return control (this will check a fall first though)
 		ldr r6,=minerAction
 		str r7,[r6]
+
+		ldr r1,=gameType
+		ldr r1,[r1]
+		cmp r1,#2					@ if frozen level, dont stop movement.
+		mov r1,#0
+		ldr r0,=minerDirection
+		strne r1,[r0]
 		
-		ldr r0,=spriteY+256
-		ldr r1,[r0]
-		lsr r1,#3
-		lsl r1,#3
-		str r1,[r0]
+	@	ldr r0,=spriteY+256
+	@	ldr r1,[r0]
+	@	lsr r1,#3
+	@	lsl r1,#3
+	@	str r1,[r0]
 		
 		bl checkFeet
 
@@ -465,9 +475,9 @@ cmp r5,#4
 
 	str r2,[r3]						@ store new jump position
 	cmp r5,#4
-
-	cmpeq r2,#MINER_MID_JUMP-1			@ if we are past the jump midpoint, check feet
-	cmpne r2,#MINER_MID_JUMP			@ if we are past the jump midpoint, check feet
+	moveq r7,#MINER_MID_JUMP-2
+	movne r7,#MINER_MID_JUMP
+	cmp r2,r7
 	ble minerJumpUp						@ if not, jump to the head detection
 	
 	@-------------- JUMP GOIUNG DOWN
@@ -695,7 +705,7 @@ minerFall:
 		
 		ldr r1,=fallCount
 		ldr r2,[r1]
-		cmp r2,#34
+		cmp r2,#36
 		ble fallNotDeadly
 		
 			bl initDeath

@@ -431,7 +431,8 @@
 #define MINER_SPRITE				99
 
 #define MINER_MID_JUMP				23			@ 22
-#define MINER_JUMPLEN				36			@ 34
+#define MINER_JUMPLEN				37			@ 34
+#define MINER_JUMPLEN_SPECTRUM		35
 
 #define LEFT_OFFSET					3			@ 3
 #define RIGHT_OFFSET				11			@ 11
