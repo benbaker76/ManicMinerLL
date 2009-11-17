@@ -95,6 +95,34 @@ initLevelClear:										@ set up the level clear dat
 	
 	notABonusLevel:
 	
+	@ ok, check if this is a completion level and add 1000pts per life left!
+	
+	cmp r1,#1
+	beq gameComplete
+	cmp r1,#3
+	bne gameNotComplete
+		
+		gameComplete:
+	
+		ldr r1,=levelStartFrom
+		ldr r1,[r1]
+		cmp r1,#1
+		beq completeBonus
+		cmp r1,#23
+		bne gameNotComplete
+		
+		completeBonus:
+			
+			ldr r1,=minerLives
+			ldr r1,[r1]
+			ldr r2,=adder+2
+			strb r1,[r2]
+			bl addScore
+			bl playFanFare
+			bl drawScore
+	
+	gameNotComplete:
+	
 	bl saveGame
 	
 	ldmfd sp!, {r0-r10, pc}	

@@ -100,8 +100,6 @@ initCompletionWillyWood:
 	mov r2,#11*4
 	bl dmaCopy
 
-@	bl generateBGSprites
-	
 	bl saveGame
 	
 	bl fxFadeIn

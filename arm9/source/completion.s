@@ -101,7 +101,6 @@ initCompletion:
 	ldr r1, =SPRITE_GFX_SUB
 	bl dmaCopy
 
-	
 	bl fxFadeIn	
 	
 	@ init the text
@@ -121,11 +120,10 @@ initCompletion:
 	mov r2,#11*4
 	bl dmaCopy
 	
-	
 	ldr r1,=unlockedHW
 	mov r2,#1
 	str r2,[r1]						@ unlock WillyWood
-	
+		
 	bl saveGame
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -375,7 +373,6 @@ sprinkles:
 	and r8,#1
 	cmp r8,#1
 	bge noSprinkle	
-	
 	
 	bl spareSpriteSub
 	

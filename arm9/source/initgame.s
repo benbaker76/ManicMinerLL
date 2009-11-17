@@ -22,6 +22,9 @@ stmfd sp!, {r0-r10, lr}
 	@
 
 @mov r12,#50
+	
+	ldr r1,=levelStartFrom
+	str r12,[r1]
 
 	ldr r1,=gameBegin
 	mov r2,#1

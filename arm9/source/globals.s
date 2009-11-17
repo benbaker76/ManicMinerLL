@@ -208,6 +208,11 @@
 	
 	.global trivia
 
+	.global levelStartFrom
+
+levelStartFrom:
+	.word 0
+	
 gameBegin:
 	.word 0
 
@@ -531,9 +536,9 @@ sfxValues:						@ values for sfx volume from 0-7 (0=off)
 
 	.align
 score:
-	.byte 0,8,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0, 0,0
 adder:
-	.byte 0,0,0,0,0,0,0,0
+	.byte 0,0,0,0,0,0, 0,0
 
 	.align
 minerLives:
@@ -675,30 +680,30 @@ deathAnimation:
 levelRecords:	
 	@ bonus level records
 	@ stored as min,sec,mil
-	.word 0,27,0	@ 21	-	horace							ho
-	.word 0,55,0	@ 22	-	blagger							bl
-	.word 0,54,0	@ 33	- 	cheese plant					ch
-	.word 0,41,0	@ 34	-	dodgy mine shaft				my
-	.word 1,15,0	@ 35	-	the big drop					bi
-	.word 1,05,0	@ 36	-	bouncy bouncy					bo
-	.word 0,52,0	@ 37	-	rocky outcrop					ro
-	.word 0,50,0	@ 38	-	bottom of the mine shaft		my
-	.word 0,57,0	@ 39	-	cosmic causeway					cm
-	.word 0,59,0	@ 40	-	that logo						th
-	.word 0,58,0	@ 41	-	central cavern					re	al central
-	.word 0,56,0	@ 42	-	final conflict					co				
-	.word 0,51,0	@ 43	-	the vat							th
-	.word 0,54,0	@ 44	-	mutant telephones				bu
-	.word 1,01,0	@ 45	-	the warehouse					wa
-	.word 0,41,0	@ 46	-	mummy daddy						wo??
-	.word 1,21,0	@ 47	-	christmas charlie brown			ah
-	.word 0,59,0	@ 48	-	endorian forest					ew
-	.word 1,22,0	@ 49	-	jump for joy					ju
-	.word 1,03,0	@ 50	-	the final barrier				fi
+	.word 0,20,0	@ 21	-	horace							ho
+	.word 0,43,0	@ 22	-	blagger							bl
+	.word 0,46,0	@ 33	- 	cheese plant					ch
+	.word 0,33,0	@ 34	-	dodgy mine shaft				my
+	.word 0,53,0	@ 35	-	the big drop					bi
+	.word 0,52,0	@ 36	-	bouncy bouncy					bo
+	.word 0,44,0	@ 37	-	rocky outcrop					ro
+	.word 0,41,0	@ 38	-	bottom of the mine shaft		my
+	.word 0,45,0	@ 39	-	cosmic causeway					cm
+	.word 0,40,0	@ 40	-	that logo						th
+	.word 0,48,0	@ 41	-	central cavern					re	al central ""
+	.word 0,51,0	@ 42	-	final conflict					co				
+	.word 0,33,0	@ 43	-	the vat							th
+	.word 0,49,0	@ 44	-	mutant telephones				bu
+	.word 0,34,0	@ 45	-	the warehouse					wa
+	.word 0,34,0	@ 46	-	mummy daddy						wo??
+	.word 0,51,0	@ 47	-	christmas charlie brown			ah
+	.word 0,40,0	@ 48	-	endorian forest					ew
+	.word 0,52,0	@ 49	-	jump for joy					ju
+	.word 0,48,0	@ 50	-	the final barrier				fi ""
 
 endOfSaveData:	
 
 @-------------------------------------------
-				
+
 	.pool
 	.end
