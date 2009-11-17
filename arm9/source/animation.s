@@ -330,7 +330,14 @@ collectKey:
 	
 	@ add to score
 	
-	mov r1,#1				@ 10 points for a key!
+	ldr r4,=levelBank
+	ldr r1,=levelNum
+	ldr r1,[r1]
+	sub r1,#1
+	ldr r4,[r4,r1,lsl#2]
+	cmp r4,#2
+	movne r1,#1			
+	moveq r1,#2
 	ldr r2,=adder+3
 	strb r1,[r2]
 	bl addScore

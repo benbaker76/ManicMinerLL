@@ -253,7 +253,14 @@ scoreAir:											@ reduce Air and score it
 	str r2,[r1]
 	bmi scoreAirDone
 	
-		mov r4,#3
+		ldr r4,=levelBank
+		ldr r5,=levelNum
+		ldr r5,[r5]
+		sub r5,#1
+		ldr r4,[r4,r5,lsl#2]
+		cmp r4,#2
+		movne r4,#3			
+		moveq r4,#6
 		ldr r5,=adder+5
 		strb r4,[r5]
 		bl addScore
