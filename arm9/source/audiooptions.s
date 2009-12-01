@@ -95,8 +95,6 @@ initAudio:
 	mov r0,#0
 	ldr r1,=audioPointer
 	str r0,[r1]
-@	ldr r1,=audioPlaying
-@	str r0,[r1]	
 	ldr r1,=audioPointerDelay
 	str r0,[r1]	
 	ldr r1,=audioPointerFrame
@@ -208,7 +206,7 @@ drawAudioText:
 	mov r1,#22
 	bl drawTextBigDigits
 
-	@ diplay name of tune, use audioPlaying for offset
+	@ display name of tune, use audioPlaying for offset
 
 	add r2,#2	
 	ldr r4,=audioPlaying
@@ -270,22 +268,12 @@ playSelectedAudio:
 
 	stmfd sp!, {r0-r10, lr}
 
-@bl swiWaitForVBlank
-
-@ldr r1,=REG_VCOUNT
-@delayLoop:
-@ldrh r0,[r1]
-@cmp r0,#192+64
-@bne delayLoop
-
-	
 	ldr r1,=audioPlaying
 	ldr r1,[r1]
 	ldr r2,=audioTuneList
-	ldrb r0,[r2,r1]
-@bl swiWaitForVBlank	
+	ldrb r0,[r2,r1]	
 	bl levelMusicPlayEasy
-@bl swiWaitForVBlank	
+
 	ldmfd sp!, {r0-r10, pc}
 
 @-------------------------------------------------
@@ -520,7 +508,7 @@ displayAudio:
 
 	stmfd sp!, {r0-r10, lr}
 	ldmfd sp!, {r0-r10, pc}	
-bl DC_FlushAll
+	bl DC_FlushAll
 	ldr r0, =Module		@ This is the pointer to XM7_ModuleManager_Type where the data is loaded via XM7_LoadXM
 	ldr r1,=46
 	add r0, r1			@ Add the byte offset to channels
@@ -571,7 +559,7 @@ audioPlaying:					@ what tune?
 audioPointerY:					@ pointer Y values
 	.byte 81,97,113,145
 audioTuneList:					@ values of the tunes for r0, 0-? (end with 255)
-	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,255
+	.byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,255
 audioVT:
 	.asciz	"SFX GAME VOLUME:"		@ 24
 audioMT:
@@ -615,7 +603,8 @@ audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
 	.asciz	" SUPERHEROES COME TO REST "
 	.asciz	"       BAH! HUMBUG!       "
 	.asciz	"   BEING SO TRIUMPHANT!   "
-	.asciz	"      THE LAST WALTZ      "	
+	.asciz	"      THE LAST WALTZ      "
+	.asciz	"UNUSED WILLY'S MINING SONG"	
 
 audioET:
 	.asciz "EXIT AUDIO OPTIONS"				@ 18

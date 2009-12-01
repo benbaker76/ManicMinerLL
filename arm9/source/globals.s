@@ -125,6 +125,7 @@
 	.global xmasText
 	.global endText
 	.global haltText
+	.global oldText
 	
 	.global spriteDataStart
 	.global spriteDataEnd
@@ -452,6 +453,9 @@ endText:
 	.align
 haltText:
 	.asciz "/MMLL/Music/Halt"
+	.align
+oldText:
+	.asciz "/MMLL/Music/OldMiner"
 	
 	@ Sprite values
 	
@@ -631,7 +635,7 @@ musicHeard:
 	.byte 0,1,0,0,0,0,0,0,0,0	@ 0-9			( set to one if the music is heard ingame)
 	.byte 0,0,0,0,0,0,0,0,0,0
 	.byte 0,0,0,0,0,0,1,1,0,0
-	.byte 0,0,0,0,0,0,0,0,0,0	@ 30-39	(40 tunes)
+	.byte 0,0,0,0,0,0,1,0,0,0	@ 30-39	(40 tunes)
 
 @	.byte 1,1,1,1,1,1,1,1,1,1	@ 0-9			( set to one if the music is heard ingame)
 @	.byte 1,1,1,1,1,1,1,1,1,1

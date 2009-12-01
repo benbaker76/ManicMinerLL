@@ -836,116 +836,6 @@ generateMonsters:
 	
 	levelMusicJumpIn:
 	
-@	cmp r0,#0
-@	ldreq r2, =Miner_xm_gz
-@	ldreq r3, =Miner_xm_gz_size
-@	cmp r0,#1
-@	ldreq r2, =Dark_xm_gz
-@	ldreq r3, =Dark_xm_gz_size
-@	cmp r0,#2
-@	ldreq r2, =Space_xm_gz
-@	ldreq r3, =Space_xm_gz_size
-@	cmp r0,#3
-@	ldreq r2, =Egyptian_xm_gz
-@	ldreq r3, =Egyptian_xm_gz_size
-@	cmp r0,#4
-@	ldreq r2, =Piano_xm_gz
-@	ldreq r3, =Piano_xm_gz_size
-@	cmp r0,#5
-@	ldreq r2, =Spectrum_xm_gz
-@	ldreq r3, =Spectrum_xm_gz_size
-@	cmp r0,#6
-@	ldreq r2, =Casablanca_xm_gz
-@	ldreq r3, =Casablanca_xm_gz_size
-@	cmp r0,#7
-@	ldreq r2, =Cat_xm_gz
-@	ldreq r3, =Cat_xm_gz_size
-@	cmp r0,#8
-@	ldreq r2, =Jungle_xm_gz
-@	ldreq r3, =Jungle_xm_gz_size
-@	cmp r0,#9
-@	ldreq r2, =Cavern_xm_gz
-@	ldreq r3, =Cavern_xm_gz_size
-@	cmp r0,#10
-@	ldreq r2, =Atmosphere_xm_gz
-@	ldreq r3, =Atmosphere_xm_gz_size
-@	cmp r0,#11
-@	ldreq r2, =Reggae_xm_gz
-@	ldreq r3, =Reggae_xm_gz_size
-@	cmp r0,#12
-@	ldreq r2, =Terminator_xm_gz
-@	ldreq r3, =Terminator_xm_gz_size
-@	cmp r0,#13
-@	ldreq r2, =Snug_xm_gz
-@	ldreq r3, =Snug_xm_gz_size
-@	cmp r0,#14
-@	ldreq r2, =Ghostbusters_xm_gz
-@	ldreq r3, =Ghostbusters_xm_gz_size
-@	cmp r0,#15
-@	ldreq r2, =Goonies_xm_gz
-@	ldreq r3, =Goonies_xm_gz_size
-@	cmp r0,#16
-@	ldreq r2, =Horror_xm_gz
-@	ldreq r3, =Horror_xm_gz_size
-@	cmp r0,#17
-@	ldreq r2, =Frankenstein_xm_gz
-@	ldreq r3, =Frankenstein_xm_gz_size
-@	cmp r0,#18
-@	ldreq r2, =Gremlins_xm_gz
-@	ldreq r3, =Gremlins_xm_gz_size
-@	cmp r0,#19
-@	ldreq r2, =KingKong_xm_gz
-@	ldreq r3, =KingKong_xm_gz_size
-@	cmp r0,#20
-@	ldreq r2, =Toccata_xm_gz
-@	ldreq r3, =Toccata_xm_gz_size	
-@	cmp r0,#21
-@	ldreq r2, =Shuttle_xm_gz
-@	ldreq r3, =Shuttle_xm_gz_size	
-@	cmp r0,#22
-@	ldreq r2, =Underground_xm_gz
-@	ldreq r3, =Underground_xm_gz_size
-@	cmp r0,#23
-@	ldreq r2, =Cold_xm_gz
-@	ldreq r3, =Cold_xm_gz_size
-@	cmp r0,#24
-@	ldreq r2, =Radio_xm_gz
-@	ldreq r3, =Radio_xm_gz_size
-@	cmp r0,#25
-@	ldreq r2, =Oldies_xm_gz
-@	ldreq r3, =Oldies_xm_gz_size
-@	cmp r0,#26
-@	ldreq r2, =Title_xm_gz
-@	ldreq r3, =Title_xm_gz_size	
-@	cmp r0,#27
-@	ldreq r2, =GameOver_xm_gz
-@	ldreq r3, =GameOver_xm_gz_size
-@	cmp r0,#28
-@	ldreq r2, =HighScore_xm_gz
-@	ldreq r3, =HighScore_xm_gz_size
-@	cmp r0,#29
-@	ldreq r2, =Deep_xm_gz
-@	ldreq r3, =Deep_xm_gz_size
-@	cmp r0,#30
-@	ldreq r2, =Oops_xm_gz
-@	ldreq r3, =Oops_xm_gz_size	
-@	cmp r0,#31
-@	ldreq r2, =Doom_xm_gz
-@	ldreq r3, =Doom_xm_gz_size	
-@	cmp r0,#32
-@	ldreq r2, =Hero_xm_gz
-@	ldreq r3, =Hero_xm_gz_size	
-@	cmp r0,#33
-@	ldreq r2, =Xmas_xm_gz
-@	ldreq r3, =Xmas_xm_gz_size		
-@	cmp r0,#34
-@	ldreq r2, =End_xm_gz
-@	ldreq r3, =End_xm_gz_size	
-@	cmp r0,#35
-@	ldreq r2, =Halt_xm_gz
-@	ldreq r3, =Halt_xm_gz_size
-	
-	
 	cmp r0,#0
 	ldreq r2, =minerText
 	cmp r0,#1
@@ -1018,6 +908,8 @@ generateMonsters:
 	ldreq r2, =endText
 	cmp r0,#35
 	ldreq r2, =haltText
+	cmp r0,#36
+	ldreq r2, =oldText
 	
 	bl initMusic
 	

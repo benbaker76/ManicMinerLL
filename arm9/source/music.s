@@ -40,7 +40,7 @@
 	#define XM7_STOP							-1
 	#define XM7_MOD_NOT_LOADED					0
 	#define XM7_MOD_LOADED						1
-	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(100*1024)
+	#define ZLIB_UNCOMPRESS_BUFFER_SIZE			(200*1024)
 
 initMusicForced:
 	stmfd sp!, {r0-r12, lr}
