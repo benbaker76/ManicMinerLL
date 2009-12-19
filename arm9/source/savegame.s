@@ -66,7 +66,7 @@ loadGameFail:
 	.align
 
 saveDatText:
-	.asciz "/MMLL/Data/Save.dat"
+	.asciz "/Data/MMLL/Data/Save.dat"
 	
 saveBuffer:
-	.incbin "../../efsroot/MMLL/Data/Save.dat"
+	.incbin "../../efsroot/Data/MMLL/Data/Save.dat"

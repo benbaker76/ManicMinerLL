@@ -347,115 +347,115 @@ pleaseWaitText:
 
 	.align
 minerText:
-	.asciz "/MMLL/Music/Miner"
+	.asciz "/Data/MMLL/Music/Miner"
 	.align
 darkText:
-	.asciz "/MMLL/Music/Dark"
+	.asciz "/Data/MMLL/Music/Dark"
 	.align
 spaceText:
-	.asciz "/MMLL/Music/Space"
+	.asciz "/Data/MMLL/Music/Space"
 	.align
 egyptianText:
-	.asciz "/MMLL/Music/Egyptian"
+	.asciz "/Data/MMLL/Music/Egyptian"
 	.align
 pianoText:
-	.asciz "/MMLL/Music/Piano"
+	.asciz "/Data/MMLL/Music/Piano"
 	.align
 spectrumText:
-	.asciz "/MMLL/Music/Spectrum"
+	.asciz "/Data/MMLL/Music/Spectrum"
 	.align
 casablancaText:
-	.asciz "/MMLL/Music/Casablanca"
+	.asciz "/Data/MMLL/Music/Casablanca"
 	.align
 catText:
-	.asciz "/MMLL/Music/Cat"
+	.asciz "/Data/MMLL/Music/Cat"
 	.align
 jungleText:
-	.asciz "/MMLL/Music/Jungle"
+	.asciz "/Data/MMLL/Music/Jungle"
 	.align
 cavernText:
-	.asciz "/MMLL/Music/Cavern"
+	.asciz "/Data/MMLL/Music/Cavern"
 	.align
 atmosphereText:
-	.asciz "/MMLL/Music/Atmosphere"
+	.asciz "/Data/MMLL/Music/Atmosphere"
 	.align
 reggaeText:
-	.asciz "/MMLL/Music/Reggae"
+	.asciz "/Data/MMLL/Music/Reggae"
 	.align
 terminatorText:
-	.asciz "/MMLL/Music/Terminator"
+	.asciz "/Data/MMLL/Music/Terminator"
 	.align
 snugText:
-	.asciz "/MMLL/Music/Snug"
+	.asciz "/Data/MMLL/Music/Snug"
 	.align
 ghostbustersText:
-	.asciz "/MMLL/Music/Ghostbusters"
+	.asciz "/Data/MMLL/Music/Ghostbusters"
 	.align
 gooniesText:
-	.asciz "/MMLL/Music/Goonies"
+	.asciz "/Data/MMLL/Music/Goonies"
 	.align
 horrorText:
-	.asciz "/MMLL/Music/Horror"
+	.asciz "/Data/MMLL/Music/Horror"
 	.align
 frankensteinText:
-	.asciz "/MMLL/Music/Frankenstein"
+	.asciz "/Data/MMLL/Music/Frankenstein"
 	.align
 gremlinsText:
-	.asciz "/MMLL/Music/Gremlins"
+	.asciz "/Data/MMLL/Music/Gremlins"
 	.align
 kingKongText:
-	.asciz "/MMLL/Music/KingKong"
+	.asciz "/Data/MMLL/Music/KingKong"
 	.align
 toccataText:
-	.asciz "/MMLL/Music/Toccata"
+	.asciz "/Data/MMLL/Music/Toccata"
 	.align
 shuttleText:
-	.asciz "/MMLL/Music/Shuttle"
+	.asciz "/Data/MMLL/Music/Shuttle"
 	.align
 undergroundText:
-	.asciz "/MMLL/Music/Underground"
+	.asciz "/Data/MMLL/Music/Underground"
 	.align
 coldText:
-	.asciz "/MMLL/Music/Cold"
+	.asciz "/Data/MMLL/Music/Cold"
 	.align
 radioText:
-	.asciz "/MMLL/Music/Radio"
+	.asciz "/Data/MMLL/Music/Radio"
 	.align
 oldiesText:
-	.asciz "/MMLL/Music/Oldies"
+	.asciz "/Data/MMLL/Music/Oldies"
 	.align
 titleText:
-	.asciz "/MMLL/Music/Title"
+	.asciz "/Data/MMLL/Music/Title"
 	.align
 gameOverText:
-	.asciz "/MMLL/Music/GameOver"
+	.asciz "/Data/MMLL/Music/GameOver"
 	.align
 highScoreText:
-	.asciz "/MMLL/Music/HighScore"
+	.asciz "/Data/MMLL/Music/HighScore"
 	.align
 deepText:
-	.asciz "/MMLL/Music/Deep"
+	.asciz "/Data/MMLL/Music/Deep"
 	.align
 oopsText:
-	.asciz "/MMLL/Music/Oops"
+	.asciz "/Data/MMLL/Music/Oops"
 	.align
 doomText:
-	.asciz "/MMLL/Music/Doom"
+	.asciz "/Data/MMLL/Music/Doom"
 	.align
 heroText:
-	.asciz "/MMLL/Music/Hero"
+	.asciz "/Data/MMLL/Music/Hero"
 	.align
 xmasText:
-	.asciz "/MMLL/Music/Xmas"
+	.asciz "/Data/MMLL/Music/Xmas"
 	.align
 endText:
-	.asciz "/MMLL/Music/End"
+	.asciz "/Data/MMLL/Music/End"
 	.align
 haltText:
-	.asciz "/MMLL/Music/Halt"
+	.asciz "/Data/MMLL/Music/Halt"
 	.align
 oldText:
-	.asciz "/MMLL/Music/OldMiner"
+	.asciz "/Data/MMLL/Music/OldMiner"
 	
 	@ Sprite values
 	
