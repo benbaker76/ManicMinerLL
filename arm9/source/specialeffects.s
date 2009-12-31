@@ -288,7 +288,7 @@ rainUpdate:
 	ldr r1,=gameMode
 	ldr r1,[r1]
 	cmp r1,#GAMEMODE_TITLE_SCREEN
-	beq rainNoLightning
+	beq rainNoLightningFlash
 
 	ldr r1,=lightningFlash
 	ldr r0,[r1]
@@ -311,12 +311,6 @@ rainUpdate:
 	cmp r0,#0
 	subne r0,#1
 	str r0,[r1]
-
-	ldr r2,=gameMode
-	ldr r2,[r2]
-	cmp r2,#GAMEMODE_TITLE_SCREEN
-	beq rainNoLightningFlash
-
 
 	ldr r2,=SUB_BLEND_Y
 	str r0,[r2]

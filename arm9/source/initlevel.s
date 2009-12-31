@@ -44,7 +44,7 @@ initLevel:
 
 	ldr r12,=gameMode
 	ldr r12,[r12]
-	cmp r12,#GAMEMODE_TITLE_SCREEN
+@	cmp r12,#GAMEMODE_TITLE_SCREEN
 @	blne stopMusic	
 	
 	ldr r1,=gameBegin				@ if this is the first time, dont fade
@@ -177,6 +177,7 @@ initLevel:
 	str r3,[r2]
 	lsr r0,#1
 	ldr r2,=specialEffect
+@MOV R0,#0
 	str r0,[r2]
 	
 	ldrb r0,[r1],#1			@ Background number
@@ -192,7 +193,7 @@ initLevel:
 	
 	cmp r12,#GAMEMODE_TITLE_SCREEN
 	blne levelStory			@ Display the games story in the bottom screen
-	
+	cmp r12,#GAMEMODE_TITLE_SCREEN
 	blne levelMusic			@ start the music
 	
 	bl specialEffectStart

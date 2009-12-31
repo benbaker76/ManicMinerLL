@@ -82,6 +82,7 @@ main:
 	mov r1,#0
 	str r1,[r0]
 	bl initSystem
+	bl tileClear
 	bl initVideo
 	bl initVideoLoading
 	bl initInterruptHandler						@ initialize the interrupt handler

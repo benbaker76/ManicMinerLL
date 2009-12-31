@@ -44,6 +44,7 @@
 	.global clearBG1SubPartGame
 	.global clearBGTitle
 	.global clearBG2GameOver
+	.global tileClear
 	
 	
 clearBG0:
@@ -231,6 +232,53 @@ clearBG3:
 	ldmfd sp!, {r0-r2, pc}
 	
 	@---------------------------------
+	
+tileClear:
+
+	stmfd sp!, {r0-r2, lr}
+
+	mov r0, #0
+	ldr r2, =32*32*2
+	ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)	
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM(BG2_MAP_BASE)	
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM_SUB(BG0_MAP_BASE_SUB)
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)	
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)	
+	bl dmaFillHalfWords
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	
+	bl dmaFillHalfWords
+
+	mov r0, #0
+	ldr r2, =8*8*2	
+	ldr r1, =BG_TILE_RAM(BG0_TILE_BASE)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM(BG1_TILE_BASE)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM(BG2_TILE_BASE)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM(BG3_TILE_BASE)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM_SUB(BG1_TILE_BASE_SUB)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM_SUB(BG2_TILE_BASE_SUB)
+	bl dmaFillHalfWords
+	ldr r1, =BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
+	bl dmaFillHalfWords
+	
+	ldmfd sp!, {r0-r2, pc}
+
+@---------------------------------
+
 
 	.pool
 	.end
