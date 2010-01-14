@@ -610,10 +610,12 @@ frameRight:
 
 @---------------------------------------------------------------
 
+
+.align
 startOfSaveData:
 
 	
-	.align
+
 id:
 	.ascii "FLASH09"
 
