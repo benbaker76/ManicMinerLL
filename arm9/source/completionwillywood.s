@@ -1,3 +1,22 @@
+@ Copyright (c) 2009 Proteus Developments / Headsoft
+@ 
+@ Permission is hereby granted, free of charge, to any person obtaining
+@ a copy of this software and associated documentation files (the
+@ "Software"),  the rights to use, copy, modify, merge, subject to
+@ the following conditions:
+@ 
+@ The above copyright notice and this permission notice shall be included
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
+@ 
+@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "mmll.h"
 #include "system.h"
 #include "video.h"
@@ -30,7 +49,7 @@ initCompletionWillyWood:
 	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
-	bl stopMusic					@ remove when we have completion music
+	bl stopMusic								@ remove when we have completion music
 
 	ldr r1,=gameMode
 	mov r0,#GAMEMODE_COMPLETION_WILLYW
@@ -39,7 +58,7 @@ initCompletionWillyWood:
 	bl fxFadeBlackInit
 	bl fxFadeMax
 	
-	ldr r0,=VictoryWWBottomTiles						@ copy the tiles used for game over
+	ldr r0,=VictoryWWBottomTiles				@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
 	ldr r2,=VictoryWWBottomTilesLen
 	bl decompressToVRAM	
@@ -52,7 +71,7 @@ initCompletionWillyWood:
 	ldr r2, =VictoryWWBottomPalLen
 	bl dmaCopy	
 
-	ldr r0,=VictoryWWTopTiles							@ copy the tiles used for game over
+	ldr r0,=VictoryWWTopTiles					@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
 	ldr r2,=VictoryWWTopTilesLen
 	bl decompressToVRAM	
@@ -65,7 +84,7 @@ initCompletionWillyWood:
 	ldr r2, =VictoryWWTopPalLen
 	bl dmaCopy	
 
-	ldr r0,=BigFont2Tiles							@ copy the tiles used for large font
+	ldr r0,=BigFont2Tiles						@ copy the tiles used for large font
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 	ldr r2,=BigFont2TilesLen
 	bl decompressToVRAM
@@ -113,13 +132,9 @@ updateCompletionWillyWood:
 	willyWoodLoop:				@ main loop
 	
 		bl swiWaitForVBlank	
-		
-		bl updatePages
-	
+		bl updatePages	
 		bl drawSpriteSub	
-		
-	@	bl updateBGSprites
-	
+
 		@ Check for start or A pressed
 	
 		ldr r2, =REG_KEYINPUT
@@ -354,7 +369,7 @@ sprinkles:
 	bl getRandom
 	and r8,#7
 	add r1,r8
-lsl r1,#12
+	lsl r1,#12
 	ldr r3,=spriteXSub
 	str r1,[r3,r10,lsl#2]
 	
@@ -364,7 +379,7 @@ lsl r1,#12
 	bl getRandom
 	and r8,#7
 	add r2,r8
-lsl r2,#12
+	lsl r2,#12
 	ldr r3,=spriteYSub
 	str r2,[r3,r10,lsl#2]	
 	
@@ -391,68 +406,8 @@ lsl r2,#12
 	noSprinkle:
 
 	ldmfd sp!, {r0-r10, pc}	
+
 @-----------------
-generateBGSprites:
-	stmfd sp!, {r0-r12, lr}		
-
-	ldr r1,=spriteXSub
-	ldr r2,=spriteYSub
-	ldr r3,=spriteActiveSub
-	ldr r4,=spriteObjSub
-	ldr r5,=spriteMinSub		@ use for speed
-	ldr r6,=spritePrioritySub
-	mov r7,#3
-
-	mov r0,#127
-	
-	generateLoop:
-	
-		mov r8,#0
-		str r8,[r4,r0,lsl#2]	@ obj
-		mov r8,#2
-		str r8,[r3,r0,lsl#2]	@ spriteActive
-		mov r8,#3
-		str r8,[r6,r0,lsl#2]	@ priority
-		
-	@	bl getRandom
-	@	and r8,#0x31			@ xcoord
-		mov r8,#1
-	@	sub r8,#256
-	@add r8,#256
-	@add r8,#64
-		lsl r8,#12
-		str r8,[r1,r0,lsl#2]
-		
-		bl getRandom
-		and r8,#0xFF
-		lsr r8,#2
-		mul r8,r7
-		cmp r8,#192-32
-		subpl r8,#12	
-		add r8,#384
-		lsl r8,#12
-		str r8,[r2,r0,lsl#2]
-		
-		bl getRandom
-		ldr r10,=0xfff
-		and r8,r10
-		add r8,#1024
-		str r8,[r5,r0,lsl#2]
-		
-		bl getRandom
-		ldr r12,=0x3ff
-	and r8,r12
-	subs r8,#512
-	ldr r11,=spriteMaxSub
-	str r8,[r11,r0,lsl#2]
-		
-		subs r0,#1
-	bpl generateLoop
-
-	ldmfd sp!, {r0-r12, pc}	
-	
-	
-@-----------------		
 
 	.pool
 	.data

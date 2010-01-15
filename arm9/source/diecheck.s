@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -24,10 +22,7 @@
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
-#include "audio.h"
 
 	.arm
 	.align
@@ -43,7 +38,7 @@ dieChecker:
 
 	stmfd sp!, {r0-r10, lr}
 	
-	ldr r1,=minerDied		@ this will be moved, just for testing
+	ldr r1,=minerDied
 	ldr r1,[r1]
 	cmp r1,#1
 	bne dieCheckFailed
@@ -55,23 +50,7 @@ dieChecker:
 		ldr r1,=gameMode
 		ldr r2,[r1]
 		cmp r2,#GAMEMODE_DIES_UPDATE
-		beq dieCheckFailed
-		cmp r2,#GAMEMODE_DIES_INIT
-		beq dieCheckFailed
-		
-		ldr r0,=minerLives
-		ldr r0,[r0]
-	@	cmp r0,#0
-	@	bleq initTitleScreen
-	@	blne initLevel
-
-		@ now we need to set the gamemode to dying and use update die
-		
-		ldr r1,=gameMode
-		mov r2,#GAMEMODE_DIES_INIT	
-		str r2,[r1]
-
-b testingit
+		bne initDeathAnim
 
 	dieCheckFailed:
 	ldmfd sp!, {r0-r10, pc}
@@ -82,120 +61,117 @@ initDeathAnim:
 
 	@ init all we need for dying animation and sound!
 
-	stmfd sp!, {r0-r10, lr}
+	ldr r1,=gameMode
+	mov r2,#GAMEMODE_DIES_UPDATE
+	str r2,[r1]	
 
-testingit:	
-		ldr r1,=gameMode
-		mov r2,#GAMEMODE_DIES_UPDATE
-		str r2,[r1]	
+	bl playDead
+		
+	@ overlay the sprites needed to the sprite oam..
+		
+	ldr r3,=willySpriteType				@ if spectrum original sprite, keep same frame
+	ldr r3,[r3]
+	cmp r3,#1; beq dieNotSpecialSprite
+	cmp r3,#5; beq dieNotSpecialSprite
+	cmp r3,#6; beq dieNotSpecialSprite
+	
+	ldr r3,=levelNum
+	ldr r3,[r3]
+	sub r3,#1
+	mov r2,#2048						@ 8 * 16x16 sprites
+	
+	@ set the DEATH anim frames based on level (-1)
+	
+	ldr r0,=DieFallTiles				@ default death
+	cmp r3,#0
+	ldreq r0,=DieSkeletonTiles
+	cmp r3,#1
+	ldreq r0,=DieExplodeTiles
+	cmp r3,#2
+	ldreq r0,=DieCrumbleTiles
+	cmp r3,#4
+	ldreq r0,=DieCasketTiles
+	cmp r3,#5
+	ldreq r0,=DieCrumbleTiles
+	cmp r3,#7
+	ldreq r0,=DieTravoltaTiles
+	cmp r3,#8
+	ldreq r0,=DieRIPTiles
+	
+	ldreq r4,=spriteHFlip+256
+	moveq r5,#0
+	streq r5,[r4]
+	cmp r3,#9
+	ldreq r0,=DieCrumbleTiles
+	cmp r3,#11
+	ldreq r0,=DieVanishTiles
+	cmp r3,#12
+	ldreq r0,=DieRIPTiles
+	ldreq r4,=spriteHFlip+256
+	moveq r5,#0
+	streq r5,[r4]
+	cmp r3,#13
+	ldreq r0,=DieExplodeTiles
+	cmp r3,#14
+	ldreq r0,=DieEyeTiles
+	cmp r3,#16
+	ldreq r0,=DieSkeletonTiles
+	cmp r3,#17
+	ldreq r0,=DieCrumbleTiles
+	cmp r3,#18
+	ldreq r0,=DieEatSelfTiles
+	cmp r3,#19
+	ldreq r0,=DieRavenTiles
+	cmp r3,#26
+	ldreq r0,=DieRIPTiles
+	ldreq r4,=spriteHFlip+256
+	moveq r5,#0
+	streq r5,[r4]
+	cmp r3,#30
+	ldreq r0,=DieRIPTiles
+	ldreq r4,=spriteHFlip+256
+	moveq r5,#0
+	streq r5,[r4]
+		
+	cmp r3,#46
+	ldreq r0,=DieSnoopyTiles		
+		
+	ldr r1, =SPRITE_GFX_SUB				@ copy tiles
 
-		bl playDead
-		
-		@ overlay the sprites needed to the sprite oam..
-		
-		ldr r3,=willySpriteType				@ if spectrum original sprite, keep same frame
-		ldr r3,[r3]
-		cmp r3,#1; beq dieNotSpecialSprite
-		cmp r3,#5; beq dieNotSpecialSprite
-		cmp r3,#6; beq dieNotSpecialSprite
-		
-		ldr r3,=levelNum
-		ldr r3,[r3]
-		sub r3,#1
-		mov r2,#2048						@ 8 * 16x16 sprites
-		
-		@ set the DEATH anim frames based on level (-1)
-		
-		ldr r0,=DieFallTiles				@ default death
-		cmp r3,#0
-		ldreq r0,=DieSkeletonTiles
-		cmp r3,#1
-		ldreq r0,=DieExplodeTiles
-		cmp r3,#2
-		ldreq r0,=DieCrumbleTiles
+	bl dmaCopy
+
+	mov r2,#0							@ start at death frame 0
+	ldr r1,=spriteObj+256
+	str r2,[r1]
+
+	ldr r3,=willySpriteType				@ if WILLY is a special Sprite, we meed to use correct DEATH
+	ldr r3,[r3]
+	cmp r3,#2
+	blt dieNotSpecialSprite
+		ldreq r0,=DieSpacemanTiles
+		cmp r3,#3
+		ldreq r0,=DieHoraceTiles
 		cmp r3,#4
-		ldreq r0,=DieCasketTiles
-		cmp r3,#5
-		ldreq r0,=DieCrumbleTiles
-		cmp r3,#7
-		ldreq r0,=DieTravoltaTiles
-		cmp r3,#8
-		ldreq r0,=DieRIPTiles
-		ldreq r4,=spriteHFlip+256
-		moveq r5,#0
-		streq r5,[r4]
-		cmp r3,#9
-		ldreq r0,=DieCrumbleTiles
-		cmp r3,#11
-		ldreq r0,=DieVanishTiles
-		cmp r3,#12
-		ldreq r0,=DieRIPTiles
-		ldreq r4,=spriteHFlip+256
-		moveq r5,#0
-		streq r5,[r4]
-		cmp r3,#13
-		ldreq r0,=DieExplodeTiles
-		cmp r3,#14
-		ldreq r0,=DieEyeTiles
-		cmp r3,#16
-		ldreq r0,=DieSkeletonTiles
-		cmp r3,#17
-		ldreq r0,=DieCrumbleTiles
-		cmp r3,#18
-		ldreq r0,=DieEatSelfTiles
-		cmp r3,#19
-		ldreq r0,=DieRavenTiles
-		cmp r3,#26
-		ldreq r0,=DieRIPTiles
-		ldreq r4,=spriteHFlip+256
-		moveq r5,#0
-		streq r5,[r4]
-		cmp r3,#30
-		ldreq r0,=DieRIPTiles
-		ldreq r4,=spriteHFlip+256
-		moveq r5,#0
-		streq r5,[r4]
-		
-		cmp r3,#46
-		ldreq r0,=DieSnoopyTiles		
-		
-		ldr r1, =SPRITE_GFX_SUB				@ copy tiles
-
+		ldreq r0,=DieRickTiles
+	
+		ldr r1, =SPRITE_GFX_SUB				@ copy tiles	
+		mov r2,#2048	
 		bl dmaCopy
-
-		mov r2,#0							@ start at death frame 0
-		ldr r1,=spriteObj+256
-		str r2,[r1]
-
-		ldr r3,=willySpriteType				@ if WILLY is a special Sprite, we meed to use correct DEATH
-		ldr r3,[r3]
-		cmp r3,#2
-		blt dieNotSpecialSprite
-			ldreq r0,=DieSpacemanTiles
-			cmp r3,#3
-			ldreq r0,=DieHoraceTiles
-			cmp r3,#4
-			ldreq r0,=DieRickTiles
 		
-			ldr r1, =SPRITE_GFX_SUB				@ copy tiles	
-			mov r2,#2048	
-			bl dmaCopy
-		
-		dieNotSpecialSprite:
+	dieNotSpecialSprite:
 
-		@ set a few setting for the death
-
-		ldr r2,=120
-		ldr r1,=diePause
-		str r2,[r1]							@ set length of death
-		
-		mov r2,#DIE_ANIM_DELAY				@ set animation delay
-		ldr r1,=dieAnim
-		str r2,[r1]
-		
-		mov r2,#0							@ set initial frame
-		ldr r1,=dieFrame
-		str r2,[r1]
+	@ set a few setting for the death
+	ldr r2,=120
+	ldr r1,=diePause
+	str r2,[r1]							@ set length of death
+	
+	mov r2,#DIE_ANIM_DELAY				@ set animation delay
+	ldr r1,=dieAnim
+	str r2,[r1]
+	
+	mov r2,#0							@ set initial frame
+	ldr r1,=dieFrame
+	str r2,[r1]
 
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -375,7 +351,7 @@ dieAnimationUpdate:
 	
 	ldmfd sp!, {r0-r10, pc}	
 
-dieAnimationUpdateSpectrum:
+	dieAnimationUpdateSpectrum:
 
 	cmp r12,#50
 	bpl dieAnimFinished

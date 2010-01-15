@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -25,9 +23,7 @@
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
-#include "sprite.h"
 #include "ipc.h"
-#include "audio.h"
 #include "EFS.h"
 
 	#define EFS			1
@@ -89,31 +85,17 @@ main:
 	
 	bl drawLoadingText
 	
-#if (EFS == 1)
-	mov r0, #(EFS_AND_FAT | EFS_DEFAULT_DEVICE)	@ Init EFS
-	mov r1, #0
-	bl EFS_Init
-#else
-	bl fatInitDefault							@ Init FAT
-#endif
+	#if (EFS == 1)
+		mov r0, #(EFS_AND_FAT | EFS_DEFAULT_DEVICE)	@ Init EFS
+		mov r1, #0
+		bl EFS_Init
+	#else
+		bl fatInitDefault							@ Init FAT
+	#endif
 	
 	@ ----------------------- FAT END ------------------------
-
-@	bl initCompletion
-@	bl initCompletionWillyWood
-@	bl initCompletionBonus
-
-@	bl findHighscore
-
-@	bl initGame
-
-@	bl initTitleScreen
 	
 	bl showIntro1
-	
-@	bl initLevelClear
-
-@	bl initGameOver
 
 	bl loadGame
 	
@@ -139,8 +121,6 @@ mainLoop:
 	bleq updateTitleScreen
 	cmp r1, #GAMEMODE_INTRO
 	bleq updateIntro
-	cmp r1, #GAMEMODE_DIES_INIT
-	bleq initDeathAnim
 	cmp r1, #GAMEMODE_DIES_UPDATE
 	bleq updateDeathAnim
 	cmp r1, #GAMEMODE_SPOTLIGHT
@@ -197,7 +177,6 @@ gameLoop:
 	cmpeq r1,#1
 	beq moveFaster2
 	
-	
 	bl collisionMonster
 
 	bl checkHeadDie
@@ -228,17 +207,11 @@ gameLoop:
 	
 	bl pauseCheck
 
-@	bl debugText
-
-@	bl coords
-
 	bl displayBonusTimer
 
-	
-mainLoopDone:
+	mainLoopDone:
 
-
-	b mainLoop									@ our main loop
+b mainLoop									@ our main loop
 
 @---------------
 
@@ -271,24 +244,6 @@ spotlightLoop:
 	b mainLoop									@ our main loop
 	
 @----------------------------
-	
-coords:
-
-	stmfd sp!, {r0-r10, lr}
-	
-	
-	ldr r1,=spriteX+256
-	ldr r10,[r1]
-	sub r10,#64
-	mov r7,#0
-	mov r8,#23
-	mov r9,#3
-	mov r11,#3
-	bl drawDigits
-	
-	ldmfd sp!, {r0-r10, pc}
-	
-	@----------------------------
 	
 drawLoadingText:
 
@@ -327,8 +282,3 @@ drawLoadingText:
 	bl drawText
 
 	ldmfd sp!, {r0-r3, pc}
-	
-	@ ---------------------------------------------
-
-	.pool
-	.end

@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -39,7 +37,7 @@
 	
 @------------------------------
 @
-@ This contains all the movement code for Willy using default movement scheme (manic movement comes later)
+@ This contains all the movement code for Willy using default movement scheme
 @
 @------------------------------
 	
@@ -56,17 +54,14 @@ minerControl:
 	
 	ldr r2, =REG_KEYINPUT						@ Read key input register
 	ldr r10, [r2]								@ r10= key pressed								
-	
-	@ move l/r return r0 as the new minerDirection
-	
-	
+
 	ldr r1,=gameType
 	ldr r1,[r1]
 	cmp r1,#2
 	movne r0,#0
 	bne notFrozenMove
 	
-		ldr r1,=platFours
+		ldr r1,=platFours						@ This is for Frozen platforms
 		ldr r1,[r1]
 		cmp r1,#1
 		movne r0,#0
@@ -75,11 +70,8 @@ minerControl:
 		ldr r2,=minerDirection
 		ldr r0,[r2]
 
-	
 	notFrozenMove:
-
-								@ make the direction 0 first
-	
+												@ make the direction 0 first
 	tst r10,#BUTTON_RIGHT
 	bleq moveRight								@ right is pressed
 	tst r10,#BUTTON_LEFT
@@ -164,40 +156,32 @@ moveRight:
 
 	stmfd sp!, {r1-r10, lr}
 	
-ldr r2, =gameType
-ldr r2,[r2]
-cmp r2,#2
-bne moveRightNoIce
-
-	ldr r2,=platFours
+	ldr r2, =gameType
 	ldr r2,[r2]
-	cmp r2,#1
+	cmp r2,#2
 	bne moveRightNoIce
 
-		ldr r2,=minerDirection
+		ldr r2,=platFours
 		ldr r2,[r2]
-		cmp r2,#MINER_STILL
-		beq moveRightNoIce
+		cmp r2,#1
+		bne moveRightNoIce
+
+			ldr r2,=minerDirection
+			ldr r2,[r2]
+			cmp r2,#MINER_STILL
+			beq moveRightNoIce
 
 		mov r0,r2
-@	ldr r1,=spriteHFlip+256
-@	sub r2,#1						@ flip sprite
-@	str r2,[r1]
 
-	b moveRightFail
+		b moveRightFail
 
-moveRightNoIce:
+	moveRightNoIce:
 	
 	ldr r2,=spriteHFlip+256
 	ldr r3,[r2]
 	cmp r3,#0
 	moveq r0,#0						@ set dir to 0 if you were facing Left and flip sprite
-	
-	beq moveRightDone
-	
-	mov r0,#MINER_RIGHT				@ return 'moving right'
-	
-	moveRightDone:
+	movne r0,#MINER_RIGHT
 
 	ldr r2,=spriteHFlip+256
 	mov r1,#1						@ flip sprite
@@ -213,39 +197,32 @@ moveLeft:
 
 	stmfd sp!, {r1-r10, lr}
 
-ldr r2, =gameType
-ldr r2,[r2]
-cmp r2,#2
-bne moveLeftNoIce
-
-	ldr r2,=platFours
+	ldr r2, =gameType
 	ldr r2,[r2]
-	cmp r2,#1
+	cmp r2,#2
 	bne moveLeftNoIce
 
-		ldr r2,=minerDirection
+		ldr r2,=platFours
 		ldr r2,[r2]
-		cmp r2,#MINER_STILL
-		beq moveLeftNoIce
+		cmp r2,#1
+		bne moveLeftNoIce
+
+			ldr r2,=minerDirection
+			ldr r2,[r2]
+			cmp r2,#MINER_STILL
+			beq moveLeftNoIce
 
 		mov r0,r2
-@	ldr r1,=spriteHFlip+256
-@	sub r2,#1						@ flip sprite
-@	str r2,[r1]
 
-	b moveLeftFail
+		b moveLeftFail
 
-moveLeftNoIce:
+	moveLeftNoIce:
 	
 	ldr r2,=spriteHFlip+256
 	ldr r3,[r2]
 	cmp r3,#1
 	moveq r0,#0						@ set dir to 0 if you were facing right and flip sprite
-	beq moveLeftDone
-
-	mov r0,#MINER_LEFT				@ return 'moving right'
-	
-	moveLeftDone:
+	movne r0,#MINER_LEFT
 
 	ldr r2,=spriteHFlip+256
 	mov r1,#0						@ flip sprite
@@ -273,7 +250,7 @@ moveMiner:
 	beq moveMinerFail
 
 	ldr r4,=levelWraps
-	ldr r4,[r4]
+	ldr r4,[r4]					@ Use R4 to check if we can walk round levels off L and appear on R
 	
 	cmp r0,#MINER_LEFT
 	bne moveMinerRight
@@ -355,46 +332,46 @@ moveJump:
 
 	stmfd sp!, {r0-r10,lr}
 	
-@ here we need to initialise a jump (if one is not already active)
+	@ here we need to initialise a jump (if one is not already active)
 	@ all we need to do is set miners mode to jump and initialise the counter
 	@ if cannot be active as the init is skipped if willy is not in mormal phase
 	
 	@ we need to check above head first to see if a jump is possible
 	
-ldr r1,=jumpTrap
-ldr r1,[r1]
-cmp r1,#0
+	ldr r1,=jumpTrap
+	ldr r1,[r1]
+	cmp r1,#0
 	bne moveJumpFail
 	
-	ldr r1,=spriteY+256
-	ldr r2,[r1]
-	sub r2,#8				@ go one char above head
-	str r2,[r1]
+		ldr r1,=spriteY+256
+		ldr r2,[r1]
+		sub r2,#8				@ go one char above head
+		str r2,[r1]
 	
-	bl checkHead
+		bl checkHead
 	
-	add r2,#8				@ restore coord
-	str r2,[r1]
-	cmp r9,#1
-	beq moveJumpFail
-	cmp r10,#1
-	beq moveJumpFail
+		add r2,#8				@ restore coord
+		str r2,[r1]
+		cmp r9,#1
+		beq moveJumpFail
+		cmp r10,#1
+		beq moveJumpFail
 
-	ldr r0,=minerAction
-	ldr r1,[r0]
-	cmp r1,#MINER_JUMP
-	beq moveJumpFail
-	cmp r1,#MINER_FALL
-	beq moveJumpFail
-	
-	ldr r0,=minerAction
-	mov r1,#MINER_JUMP
-	str r1,[r0]					@ make willy in the jump zone
-	ldr r0,=jumpCount
-	mov r1,#0
-	str r1,[r0]					@ set jump count to 0 (start of phase)
-	ldr r0,=fallCount			@ zero fall count
-	str r1,[r0]
+		ldr r0,=minerAction
+		ldr r1,[r0]
+		cmp r1,#MINER_JUMP
+		beq moveJumpFail
+		cmp r1,#MINER_FALL
+		beq moveJumpFail
+
+		mov r1,#MINER_JUMP
+		str r1,[r0]					@ make willy in the jump zone
+
+		mov r1,#0
+		ldr r0,=jumpCount
+		str r1,[r0]					@ set jump count to 0 (start of phase)
+		ldr r0,=fallCount			@ zero fall count
+		str r1,[r0]
 	
 	moveJumpFail:
 	
@@ -402,10 +379,10 @@ cmp r1,#0
 	
 @------------------------------- Animate and move Willy through a jump
 
-@ we are using a lookup table for now, but this should really be calculated
-@ the original Y value is stored in 'r8' so, keep it clear
+	@ we are using a lookup table for now, but this should really be calculated
+	@ the original Y value is stored in 'r8' so, keep it clear
 	
-minerJump:
+	minerJump:
 
 	stmfd sp!, {r0-r10, lr}
 	
@@ -421,16 +398,16 @@ minerJump:
 	ldr r3,=jumpCount
 	ldr r2,[r3]						@ r2 = the phase of the jump ("keep" r2 and r3 for later)
 
-ldr r5,=gameType
-ldr r5,[r5]
-cmp r5,#4
+	ldr r5,=gameType				@ r5 = Which jump table we will use
+	ldr r5,[r5]
+	cmp r5,#4
 
 	ldreq r1,=willyJumpData2
 	ldrne r1,=willyJumpData
 	ldrsb r4,[r1,r2]				@ r4 = y modification value for jump
 
-cmp r5,#3
-lsleq r4,#1
+	cmp r5,#3
+	lsleq r4,#1
 
 	ldr r7,=spriteY+256				@ get y coord
 	ldr r6,[r7]
@@ -440,11 +417,7 @@ lsleq r4,#1
 
 	add r2,#1						@ add to the jump phase
 
-ldr r5,=gameType
-ldr r5,[r5]
-
 	cmp r5,#4
-
 	moveq r7,#MINER_JUMPLEN_SPECTRUM
 	movne r7,#MINER_JUMPLEN
 	cmp r2,r7
@@ -461,12 +434,6 @@ ldr r5,[r5]
 		ldr r0,=minerDirection
 		strne r1,[r0]
 		
-	@	ldr r0,=spriteY+256
-	@	ldr r1,[r0]
-	@	lsr r1,#3
-	@	lsl r1,#3
-	@	str r1,[r0]
-		
 		bl checkFeet
 
 		b minerJumpFail
@@ -478,42 +445,35 @@ ldr r5,[r5]
 	moveq r7,#MINER_MID_JUMP-2
 	movne r7,#MINER_MID_JUMP
 	cmp r2,r7
-	ble minerJumpUp						@ if not, jump to the head detection
+	ble minerJumpUp					@ if not, jump to the head detection
 	
 	@-------------- JUMP GOIUNG DOWN
-	
-		ldr r5,=gameType
-		ldr r5,[r5]
+
 		cmp r5,#3					@ if it is a turbo jump level, dont add to fall count
-		ldr r3,=fallCount				@ if we are coming down, this is counted as a fall!
+		ldr r3,=fallCount			@ if we are coming down, this is counted as a fall!
 		ldr r5,[r3]
 		addne r5,r4
 		str r5,[r3]
-	
 
 		bl checkFeet			
 		bl checkFall
 		
 		cmp r8,#1
-		beq minerLanded
-		
-		b minerJumpFail
-		
-		minerLanded:
-		
+		bne minerJumpFail
+				
 		@ check if the floor detected is not part through us already?
 		
-		ldr r7,=spriteY+256				@ this is perhaps not the best way???
+		ldr r7,=spriteY+256			@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#2			@ was 5...
+		cmp r6,#2			
 		bgt minerJumpFail
 
 		mov r7,#MINER_NORMAL		@ set us back to normal movement
 		ldr r6,=minerAction
 		str r7,[r6]
 		
-		ldr r7,=spriteY+256				@ make us land correctly on the floor
+		ldr r7,=spriteY+256			@ make us land correctly on the floor
 		ldr r6,[r7]
 		lsr r6,#3
 		lsl r6,#3
@@ -542,9 +502,6 @@ ldmfd sp!, {r0-r10, pc}
 		
 		minerHeadHit:
 
-		@ we will need to add a check in here for feet also so that if you jump in a 16 pixel
-		@ gap, you wont jump but carry on walking!
-
 		mov r7,#MINER_FALL
 		ldr r6,=minerAction
 		str r7,[r6]					@ we have hit our head, so, stop jumping, and fall
@@ -569,8 +526,7 @@ minerFall:
 	cmp r1,#MINER_FALL
 	beq minerIsFalling
 	
-		bl checkFeet
-		
+		bl checkFeet	
 		bl checkFall			@ returns r8
 		
 		cmp r8,#0
@@ -644,7 +600,6 @@ minerFall:
 @-------------
 
 		bl checkFeet				@ lets have a look below us
-		
 		bl checkFall				@ returns r8
 		
 		cmp r8,#0
@@ -666,8 +621,6 @@ minerFall:
 	@ stop the falling now please
 	
 	minerFallOver:
-	
-		@ later, check minerFall and see if it was too far, and kill us!
 
 		Ldr r0,=minerAction
 		ldr r1,[r0]
@@ -722,6 +675,3 @@ minerFall:
 	b minerFallFail
 	
 @-------------------------------
-
-	.pool
-	.end

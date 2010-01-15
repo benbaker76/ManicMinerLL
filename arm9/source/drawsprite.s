@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -24,9 +22,7 @@
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 #define BUF_ATTRIBUTE0		(0x07000000)	@ WE CAN move these back to REAL registers!!
 #define BUF_ATTRIBUTE1		(0x07000002)
@@ -34,7 +30,6 @@
 #define BUF_ATTRIBUTE0_SUB	(0x07000400)
 #define BUF_ATTRIBUTE1_SUB	(0x07000402)
 #define BUF_ATTRIBUTE2_SUB	(0x07000404)
-
 
 	.arm
 	.align
@@ -72,9 +67,9 @@ drawSprite:
 
 		ldr r0,=spriteActive				@ r2 is pointer to the sprite active setting
 		ldr r1,[r0,r10, lsl #2]				@ add sprite number * 4
-cmp r1,#MINER_SPRITE
-beq offsetMiner								@ set offset it miner!
-mov r11,#0									@ r11=-offset for sprite
+		cmp r1,#MINER_SPRITE
+		beq offsetMiner						@ set offset it miner!
+		mov r11,#0							@ r11=-offset for sprite
 		cmp r1,#0							@ Is sprite active? (anything other than 0)
 		bne sprites_Draw					@ if so, draw it!
 
@@ -139,7 +134,7 @@ mov r11,#0									@ r11=-offset for sprite
 	sprites_Done:
 	
 		@----
-		@ now we need to animate any shards
+		@ now we need to animate any shards/effects/bits
 		@----
 		ldr r8,=spriteActive
 		ldr r0,[r8, r10, lsl #2]
@@ -183,7 +178,7 @@ mov r11,#0									@ r11=-offset for sprite
 					mov r2,#0
 					str r2,[r1,r10,lsl #2]	
 		drawnNotKey:
-		cmp r0,#EXIT_OPEN
+		cmp r0,#EXIT_OPEN						@ our door anim
 		bne drawNotExitOpen
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
@@ -199,7 +194,7 @@ mov r11,#0									@ r11=-offset for sprite
 				moveq r2,#DOOR_FRAME
 				str r2,[r1,r10,lsl #2]
 		drawNotExitOpen:
-		cmp r0,#FX_RAIN_SPLASH
+		cmp r0,#FX_RAIN_SPLASH					@ little rain splashes
 		bne drawNotRainSplash
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
@@ -237,7 +232,7 @@ mov r11,#0									@ r11=-offset for sprite
 					ldr r1,=spriteObj
 					str r8,[r1,r10,lsl#2]	
 		drawNotRainSplash:
-		cmp r0,#FX_GLINT_ACTIVE
+		cmp r0,#FX_GLINT_ACTIVE					@ sparkly glints
 		bne drawNotGlint
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
@@ -256,7 +251,7 @@ mov r11,#0									@ r11=-offset for sprite
 					mov r2,#0
 					str r2,[r1,r10,lsl #2]		
 		drawNotGlint:
-		cmp r0,#FX_DRIP_ACTIVE
+		cmp r0,#FX_DRIP_ACTIVE					@ little drips
 		bne drawNotDrip
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
@@ -334,10 +329,9 @@ mov r11,#0									@ r11=-offset for sprite
 				ldr r1,=spriteAnimDelay
 				mov r0,#DRIPSPLASH_ANIM
 				str r0,[r1,r10,lsl #2]
-				
-			@	bl playDrip			@ a bit too irritating!!!
+
 		drawNotDripFall:	
-		cmp r0,#FX_DRIPSPLASH_ACTIVE
+		cmp r0,#FX_DRIPSPLASH_ACTIVE				@ little drip splashes
 		bne drawNotDripSplash
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
@@ -357,7 +351,7 @@ mov r11,#0									@ r11=-offset for sprite
 					str r2,[r1,r10,lsl #2]	
 		drawNotDripSplash:			
 					
-		cmp r0,#FX_EYES_ACTIVE
+		cmp r0,#FX_EYES_ACTIVE						@ blinking eyes
 		bne drawNotEye
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
@@ -372,7 +366,6 @@ mov r11,#0									@ r11=-offset for sprite
 				cmp r2,#EYE_FRAME_END+1
 				moveq r2,#EYE_FRAME
 				str r2,[r1,r10,lsl #2]
-
 		drawNotEye:
 		cmp r0,#FX_FLIES_ACTIVE
 		bne drawNotFly
@@ -652,13 +645,13 @@ mov r11,#0									@ r11=-offset for sprite
 					str r2,[r1,r10,lsl #2]		
 		drawNotGGlint:
 		cmp r0,#FX_CAUSEWAY_ACTIVE
-		bne drawNotCause
+		bne endDrawSprite
 			ldr r1,=spriteAnimDelay
 			ldr r2,[r1,r10,lsl #2]
 			subs r2,#1
 			movmi r2,#CAUSE_ANIM
 			str r2,[r1,r10,lsl #2]
-			bpl drawCause
+			bpl endDrawSprite
 				ldr r1,=spriteObj
 				ldr r2,[r1,r10,lsl #2]
 				add r2,#1
@@ -673,13 +666,11 @@ mov r11,#0									@ r11=-offset for sprite
 			sub r2,r0
 			str r2,[r1,r10,lsl#2]
 			cmp r2,#47
-			bpl drawNotCause
+			bpl endDrawSprite
 			mov r2,#0
 			ldr r1,=spriteActive
 			str r2,[r1,r10,lsl#2]
-			
-			
-		drawNotCause:
+
 		endDrawSprite:
 	subs r10,#1
 	bpl SLoop
@@ -699,7 +690,6 @@ mov r11,#0									@ r11=-offset for sprite
 		bl dmaCopy
 
 	noBonusRefresh:
-	
 
 	ldmfd sp!, {r0-r12,pc}
 	
@@ -751,7 +741,6 @@ spareSpriteSub:
 	ldmfd sp!, {r0-r9, pc}
 	
 @--------------------------------------------
-
 
 spareSpriteFX:
 	stmfd sp!, {r0-r9, lr}
@@ -927,7 +916,7 @@ drawSpriteSub:
 					b doneThing
 		notSprinkle:
 		cmp r1,#2
-		bne notPig
+		bne doneThing
 			ldr r1,=spriteXSub
 			ldr r2,[r1,r10,lsl#2]
 			ldr r3,=spriteMinSub
@@ -948,10 +937,6 @@ drawSpriteSub:
 			ldr r4,[r3,r10,lsl#2]
 			adds r2,r4
 			str r2,[r1,r10,lsl#2]
-		
-		
-		
-		notPig:
 
 		doneThing:
 	
@@ -959,5 +944,3 @@ drawSpriteSub:
 	bpl SLoopSub
 	
 	ldmfd sp!, {r0-r12, pc}	
-	.pool
-	.end

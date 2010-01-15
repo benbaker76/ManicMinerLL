@@ -1,11 +1,23 @@
+@ Copyright (c) 2009 Proteus Developments / Headsoft
+@ 
+@ Permission is hereby granted, free of charge, to any person obtaining
+@ a copy of this software and associated documentation files (the
+@ "Software"),  the rights to use, copy, modify, merge, subject to
+@ the following conditions:
+@ 
+@ The above copyright notice and this permission notice shall be included
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
+@ 
+@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "mmll.h"
-#include "system.h"
-#include "video.h"
-#include "background.h"
-#include "dma.h"
-#include "interrupts.h"
-#include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -42,10 +54,8 @@ monsterMove:
 				ldr r7,=mPhase
 				ldr r7,[r7]
 				cmp r7,#0
-			@	movne r7,#1
 				addeq r8,#1
 				mov r7,#1
-			@	beq moveMonsterFail
 			notPartial:
 			ldr r5,=monsterDelay
 			ldr r6,[r5,r1,lsl #2]
@@ -76,20 +86,18 @@ monsterMove:
 		cmp r3,#3
 		bleq monsterMoveTLBR		
 		
-		
 		moveMonsterFail:
-	add r1,#1
-	cmp r1,#72
+	
+		add r1,#1
+		cmp r1,#72
 	bne monsterMoveLoop
 
-
-ldr r1,=mPhase
-ldr r2,[r1]
-add r2,#1
-cmp r2,#2
-moveq r2,#0
-str r2,[r1]
-
+	ldr r1,=mPhase
+	ldr r2,[r1]
+	add r2,#1
+	cmp r2,#2
+	moveq r2,#0
+	str r2,[r1]
 	
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -99,7 +107,6 @@ str r2,[r1]
 @ r4 = speed to move
 @ r7 = flip direction (if a sprite should not flip, this must be 0)
 
-	
 monsterMoveLR:
 	stmfd sp!, {r0-r10, lr}
 	
@@ -199,7 +206,6 @@ monsterMoveUD:
 
 	bl monsterAnimate
 
-	
 	ldmfd sp!, {r0-r10, pc}
 	
 @-------------------------------------	
@@ -263,9 +269,7 @@ monsterMoveTRBL:
 
 	bl monsterAnimate
 
-	
 	ldmfd sp!, {r0-r10, pc}
-	
 	
 @-------------------------------------	
 	
@@ -328,9 +332,4 @@ monsterMoveTLBR:
 
 	bl monsterAnimate
 
-
 	ldmfd sp!, {r0-r10, pc}
-	
-	
-.pool
-.data

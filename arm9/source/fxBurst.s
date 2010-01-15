@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -25,7 +23,6 @@
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
-#include "windows.h"
 
 	#define burstFrameStart		40
 	#define burstFrameEnd		47
@@ -54,13 +51,13 @@ fxStarburstInit:
 	ldr r0,=220
 	str r0,[r1]
 
-	ldr r4, =spriteX+0
-	ldr r5, =spriteY+0
-	ldr r6, =spriteSpeed+0
-	ldr r11, =spriteDir+0
-	ldr r9,=spriteActive+0
-	ldr r10,=spriteObj+0
-	ldr r12,=spritePriority+0
+	ldr r4, =spriteX
+	ldr r5, =spriteY
+	ldr r6, =spriteSpeed
+	ldr r11, =spriteDir
+	ldr r9,=spriteActive
+	ldr r10,=spriteObj
+	ldr r12,=spritePriority
 	ldr r7,=0x1ff
 	ldr r1,=0x8ff
 
@@ -82,7 +79,7 @@ fxStarburstInit:
 		str r8, [r5, r3, lsl #2] 						@ Store Y
 
 		bl getRandom									@ generate direction (we need from a range that only goes up)
-		and r8, #127										@ 0-511
+		and r8, #127									
 		add r8,#320
 		str r8, [r11, r3, lsl #2]
 
@@ -103,13 +100,13 @@ fxStarburstInit:
 		mov r8,#2										@ priority
 		str r8, [r12,r3, lsl #2]
 		
-		ldr r1,=spriteMax+0							@ time to live!
+		ldr r1,=spriteMax+0								@ time to live!
 		bl getRandom
 		lsr r8,#12
 		add r8,#0x20000
 		str r8,[r1, r3, lsl #2]
 
-		ldr r1,=spriteMin+0							@ time to live!
+		ldr r1,=spriteMin+0								@ time to live!
 		bl getRandom
 		and r8,#127
 		str r8,[r1, r3, lsl #2]
@@ -130,10 +127,9 @@ fxStarburstInit:
 fxMoveStarburst:
 	stmfd sp!, {r0-r12, lr}
 
-
-	ldr r4, =spriteSpeed+0
-	ldr r2, =spriteX+0
-	ldr r3, =spriteY+0
+	ldr r4, =spriteSpeed
+	ldr r2, =spriteX
+	ldr r3, =spriteY
 	
 	mov r10,#127
 	
@@ -170,7 +166,7 @@ moveStarburstLoop:
 	
 	@ now add gravity to y
 	
-	ldr r7,=spriteMin+0							@ add to gravity
+	ldr r7,=spriteMin+0								@ add to gravity
 	ldr r5,[r7, r10, lsl #2]
 	add r5,#32
 
@@ -272,13 +268,13 @@ fxSplashburstInit:
 
 	stmfd sp!, {r0-r11, lr}
 
-	ldr r4, =spriteX+0
-	ldr r5, =spriteY+0
-	ldr r6, =spriteSpeed+0
-	ldr r11,=spriteDir+0
-	ldr r9, =spriteActive+0
-	ldr r10,=spriteObj+0
-	ldr r12,=spritePriority+0
+	ldr r4, =spriteX
+	ldr r5, =spriteY
+	ldr r6, =spriteSpeed
+	ldr r11,=spriteDir
+	ldr r9, =spriteActive
+	ldr r10,=spriteObj
+	ldr r12,=spritePriority
 	ldr r7,=0x1ff
 	ldr r1,=0x8ff
 
@@ -353,10 +349,9 @@ fxSplashburstInit:
 fxMoveSplashburst:
 	stmfd sp!, {r0-r12, lr}
 
-
-	ldr r4, =spriteSpeed+0
-	ldr r2, =spriteX+0
-	ldr r3, =spriteY+0
+	ldr r4, =spriteSpeed
+	ldr r2, =spriteX
+	ldr r3, =spriteY
 	
 	mov r10,#127
 	
@@ -455,17 +450,17 @@ fxBloodburstInit:
 	ldr r0,=220
 	str r0,[r1]
 
-	ldr r4, =spriteX+0
-	ldr r5, =spriteY+0
-	ldr r6, =spriteSpeed+0
-	ldr r11, =spriteDir+0
-	ldr r9,=spriteActive+0
-	ldr r10,=spriteObj+0
-	ldr r12,=spritePriority+0
+	ldr r4, =spriteX
+	ldr r5, =spriteY
+	ldr r6, =spriteSpeed
+	ldr r11, =spriteDir
+	ldr r9,=spriteActive
+	ldr r10,=spriteObj
+	ldr r12,=spritePriority
 	ldr r7,=0x1ff
 	ldr r1,=0x8ff
 
-	mov r3,#127							@ amount of stars
+	mov r3,#127							@ amount of splats
 	bloodburstloopMulti:
 	
 		ldr r8,[r9, r3, lsl#2]
@@ -544,10 +539,9 @@ fxBloodburstInit:
 fxMoveBloodburst:
 	stmfd sp!, {r0-r12, lr}
 
-
-	ldr r4, =spriteSpeed+0
-	ldr r2, =spriteX+0
-	ldr r3, =spriteY+0
+	ldr r4, =spriteSpeed
+	ldr r2, =spriteX
+	ldr r3, =spriteY
 	
 	mov r10,#127
 	
@@ -691,15 +685,15 @@ fxBonusburstInit:
 	lsl r1,#12
 	lsl r2,#12
 
-	ldr r4, =spriteX+0
-	ldr r5, =spriteY+0
-	ldr r6, =spriteSpeed+0
-	ldr r9,=spriteActive+0
-	ldr r10,=spriteObj+0
-	ldr r11, =spriteDir+0
-	ldr r12,=spritePriority+0
+	ldr r4, =spriteX
+	ldr r5, =spriteY
+	ldr r6, =spriteSpeed
+	ldr r9,=spriteActive
+	ldr r10,=spriteObj
+	ldr r11, =spriteDir
+	ldr r12,=spritePriority
 
-	mov r3,#127							@ amount of sprays
+	mov r3,#127											@ amount of sprays
 	bonusburstloopMulti:
 	
 		ldr r8,[r9, r3, lsl#2]
@@ -996,7 +990,6 @@ fxSparkle:
 		cmp r6,#SPARKLE_FRAME_END+1
 		moveq r6,#SPARKLE_FRAME
 		str r6,[r7,r10,lsl#2]
-	@	beq  sparkleRegenerate
 	
 	sparkleSkip:
 	
@@ -1004,15 +997,13 @@ fxSparkle:
 
 sparkleRegenerate:
 
-ldr r8,=spriteActive
-mov r7,#0
-str r7,[r8,r10,lsl#2]
+	ldr r8,=spriteActive
+	mov r7,#0
+	str r7,[r8,r10,lsl#2]
 
-ldmfd sp!, {r0-r12, pc}
-
+	ldmfd sp!, {r0-r12, pc}
 
 	.data
-	.pool
 	.align
 
 	burstLength:

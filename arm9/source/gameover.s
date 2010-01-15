@@ -1,20 +1,38 @@
+@ Copyright (c) 2009 Proteus Developments / Headsoft
+@ 
+@ Permission is hereby granted, free of charge, to any person obtaining
+@ a copy of this software and associated documentation files (the
+@ "Software"),  the rights to use, copy, modify, merge, subject to
+@ the following conditions:
+@ 
+@ The above copyright notice and this permission notice shall be included
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
+@ 
+@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "mmll.h"
 #include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
-#include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
 	.text
 
-#define KILLDROP			#206
-#define KILLSOUND			#230
-#define WILLY_WALKS			284
-#define TOTALANIMS			13
+	#define KILLDROP			#206
+	#define KILLSOUND			#230
+	#define WILLY_WALKS			284
+	#define TOTALANIMS			13
+
 	.global initGameOver
 	.global updateGameOverScreen
 	.global updateGameOver
@@ -97,7 +115,6 @@ initGameOverScreen:
 updateGameOverScreen:
 
 	stmfd sp!, {r0-r10, lr}
-	
 	
 	bl animateGameOverSkull
 	
@@ -325,8 +342,7 @@ initGameOver:
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
 	bl dmaCopy		
 	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)
-	bl dmaCopy	
-
+	bl dmaCopy
 	
 	mov r0,#0
 	ldr r1,=killMotion
@@ -434,8 +450,6 @@ initGameOver:
 
 	bl fxFadeIn	
 
-@	bl saveGame
-	
 	ldmfd sp!, {r0-r10, pc}
 @--------------------------						@ do the death animation
 
@@ -480,8 +494,9 @@ updateGameOver:
 		
 		updateGO:
 
-	subs r10,#1
-	cmp r10,#-70
+		subs r10,#1
+		cmp r10,#-70
+		
 	bpl updateGameOverLoop
 		
 	@------------------------- ok, jump to gameover screens
@@ -502,7 +517,7 @@ updateGameOver:
 
 	gOverUpdateEnd:
 	
-	@ return to title screen (or highscore at some point)
+	@ return to title screen (via highscore)
 
 	bl fxFadeBlackInit
 	bl fxFadeMin
@@ -513,9 +528,9 @@ updateGameOver:
 		bl drawSprite
 		bl fxMoveBloodburst
 	
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
 	bne justWait
 
 	mov r0,#0
@@ -585,7 +600,6 @@ moveKiller:
 			subs r0,#1
 			bpl clearSplats
 			
-			
 			bl fxBloodburstInit
 			
 			@ play a splat sound
@@ -652,8 +666,8 @@ moveKillerMiner:
 			movpl r1,#12
 			str r1,[r0]
 			
-			
 			b moveMinerDone
+			
 		notKnockingKnees:
 		ldr r2,=spriteX
 		str r1,[r2]
@@ -684,7 +698,7 @@ moveKillerMiner:
 	
 	ldmfd sp!, {r0-r10, pc}	
 
-@--------------------------						@ move and animate willy onto the screen
+@--------------------------	
 
 dropWobbler:
 
@@ -694,7 +708,6 @@ dropWobbler:
 	ldr r0,[r1]
 	cmp r0,#0
 	beq dropWobblerDone
-
 
 		add r0,#1
 		cmp r0,#512
@@ -713,8 +726,7 @@ dropWobbler:
 	dropWobblerDone:
 	
 	ldmfd sp!, {r0-r10, pc}	
-	
-.pool
+
 .data
 
 skullFrameOver:

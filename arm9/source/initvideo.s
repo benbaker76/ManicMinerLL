@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -24,9 +22,7 @@
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -39,7 +35,6 @@
 	.global initVideoTitle
 	.global screenSwapper
 	.global setScreens
-	.global initVideoBG2_256
 	.global initVideoGameOver
 	.global initVideoHigh
 	
@@ -90,21 +85,6 @@ initVideo:
 	ldrne r1, =BG_TILE_RAM(BG0_TILE_BASE)
 	ldrne r2, =FontTilesLen
 	blne dmaCopy
-	
-	ldmfd sp!, {r0-r1, pc}
-	
-	@ ------------------------------------
-	
-initVideoBG2_256:
-
-	stmfd sp!, {r0-r1, lr}
-	
-	ldr r0, =REG_BG2CNT				@ Set main screen BG0 format to be 32x32 tiles at base address
-	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG2_MAP_BASE) | BG_TILE_BASE(BG2_TILE_BASE) | BG_PRIORITY(BG2_PRIORITY))
-	strh r1, [r0]
-	ldr r0, =REG_BG2CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
-	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG2_MAP_BASE_SUB) | BG_TILE_BASE(BG2_TILE_BASE_SUB) | BG_PRIORITY(BG2_PRIORITY))
-	strh r1, [r0]
 	
 	ldmfd sp!, {r0-r1, pc}
 	
@@ -294,24 +274,8 @@ initVideoTitle:
 	ldr r0, =REG_DISPCNT_SUB		@ Sub screen to Mode 0 with BG0-3 active
 	ldr r1, =(MODE_0_2D | DISPLAY_SPR_ACTIVE | DISPLAY_SPR_1D_LAYOUT | DISPLAY_BG0_ACTIVE | DISPLAY_BG1_ACTIVE | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE)
 	str r1, [r0]
-	
-@ 	ldr r0, =REG_BG0CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
-@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE_SUB) | BG_TILE_BASE(BG0_TILE_BASE_SUB) | BG_PRIORITY(BG0_PRIORITY))
-@	strh r1, [r0]
-@	ldr r0, =REG_BG1CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
-@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG1_MAP_BASE_SUB) | BG_TILE_BASE(BG1_TILE_BASE_SUB) | BG_PRIORITY(BG1_PRIORITY))
-@	strh r1, [r0]
-@	ldr r0, =REG_BG2CNT_SUB			@ Set sub screen BG0 format to be 32x32 tiles at base address
-@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG2_MAP_BASE_SUB) | BG_TILE_BASE(BG2_TILE_BASE_SUB) | BG_PRIORITY(BG2_PRIORITY))
-@	strh r1, [r0]
-@	ldr r0, =REG_BG3CNT_SUB			@ Set sub screen BG3 format to be 32x32 tiles at base address
-@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG3_MAP_BASE_SUB) | BG_TILE_BASE(BG3_TILE_BASE_SUB) | BG_PRIORITY(BG3_PRIORITY))
-@	strh r1, [r0]
 
-@	ldr r0, =REG_BG1CNT			@ Set sub screen BG0 format to be 32x32 tiles at base address
-@	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG1_MAP_BASE) | BG_TILE_BASE(BG1_TILE_BASE) | BG_PRIORITY(BG1_PRIORITY))
-@	strh r1, [r0]
-	ldr r0, =REG_BG0CNT			@ Set sub screen BG0 format to be 32x32 tiles at base address
+	ldr r0, =REG_BG0CNT				@ Set sub screen BG0 format to be 32x32 tiles at base address
 	ldr r1, =(BG_COLOR_256 | BG_32x32 | BG_MAP_BASE(BG0_MAP_BASE) | BG_TILE_BASE(BG0_TILE_BASE) | BG_PRIORITY(BG0_PRIORITY))
 	strh r1, [r0]
 
@@ -522,11 +486,7 @@ initVideoGameOver:
 	
 	ldmfd sp!, {r0-r1, pc}
 
-
-
-.pool
-
+	.data
+	
 swapperLock:
 	.word 0
-	
-	.end

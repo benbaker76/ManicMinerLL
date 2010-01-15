@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,23 +18,19 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
-#include "audio.h"
 
 	.arm
 	.align
 	.text
 	.global initLevelClear
 	.global levelClear
-	
-	
-initLevelClear:										@ set up the level clear dat
+		
+initLevelClear:										@ set up the level clear data
 
 	stmfd sp!, {r0-r10, lr}	
 
@@ -198,7 +192,6 @@ levelClear:											@ do the level clear stuff
 	bleq fxFadeBlackLevelInit
 	blne fxFadeBlackInit
 
-@	bl fxFadeBlackInit
 	bl fxFadeMin
 	bl fxFadeOut
 
@@ -227,14 +220,12 @@ levelClear:											@ do the level clear stuff
 	
 		bl drawSprite
 		bl levelAnimate	
-@		bl drawScore
 		bl updateSpecialFX	
 
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
 	bne justWait
-
 	
 	bl levelNext
 	
@@ -292,118 +283,116 @@ checkBonusTimer:
 	add r8,r0				@ r8 points to mins
 	mov r9,r8
 
-mov r5,#0
-ldr r1,=bMin
-ldr r1,[r1]
-ldr r3,=1000000
-mul r1,r3
-add r5,r1
-ldr r1,=bSec
-ldr r1,[r1]
-ldr r3,=10000
-mul r1,r3
-add r5,r1
-ldr r1,=bMil
-ldr r1,[r1]
-add r5,r1	@ r5=our time
-
-mov r6,#0
-ldr r1,[r8]
-ldr r3,=1000000
-mul r1,r3
-add r6,r1
-add r8,#4
-ldr r1,[r8]
-ldr r3,=10000
-mul r1,r3
-add r6,r1
-add r8,#4
-ldr r1,[r8]
-add r6,r1	@ r6=record
-
-cmp r5,r6
-bge notARecord
-
-	@ ok, this is a record, copy to new record and display
-	
-	mov r3,r9
+	mov r5,#0
 	ldr r1,=bMin
 	ldr r1,[r1]
-	str r1,[r3]
-	mov r10,r1
-	mov r7,#0
-	mov r11,#14
-	mov r9,#2
-	mov r8,#1
-	bl drawDigitsB
-	
-	add r3,#4
+	ldr r3,=1000000
+	mul r1,r3
+	add r5,r1
 	ldr r1,=bSec
 	ldr r1,[r1]
-	str r1,[r3]	
-	mov r10,r1
-	mov r7,#0
-	mov r11,#17
-	mov r9,#2
-	mov r8,#1
-	bl drawDigitsB
-	
-	add r3,#4
+	ldr r3,=10000
+	mul r1,r3
+	add r5,r1
 	ldr r1,=bMil
 	ldr r1,[r1]
-	str r1,[r3]
-	mov r10,r1
-	mov r7,#0
-	mov r11,#20
-	mov r9,#3
-	mov r8,#1
-	bl drawDigitsB
-	
-	bl displayBonusTimer
+	add r5,r1	@ r5=our time
 
-	@ ok, now we need to do something to make a noise and signal success!!
+	mov r6,#0
+	ldr r1,[r8]
+	ldr r3,=1000000
+	mul r1,r3
+	add r6,r1
+	add r8,#4
+	ldr r1,[r8]
+	ldr r3,=10000
+	mul r1,r3
+	add r6,r1
+	add r8,#4
+	ldr r1,[r8]
+	add r6,r1	@ r6=record
 
-	@ cLEAR TEXT
+	cmp r5,r6
+	bge notARecord
 
-	ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
-	add r1,#(32*2)*5
-	mov r0,#0
-	ldr r2,=(32*2)*12
-	bl dmaFillWords
+		@ ok, this is a record, copy to new record and display
 	
-	@ DRAW RECORD TEXT (well done - a speed-run record)
+		mov r3,r9
+		ldr r1,=bMin
+		ldr r1,[r1]
+		str r1,[r3]
+		mov r10,r1
+		mov r7,#0
+		mov r11,#14
+		mov r9,#2
+		mov r8,#1
+		bl drawDigitsB
 	
-	ldr r0,=BG_MAP_RAM(BG3_MAP_BASE)
-	add r0,#(64*28)						@ r0=src
-	ldr r1,=BG_MAP_RAM(BG3_MAP_BASE)
-	add r1,#(64*7)
-	add r1,#(6*2)						@ r1=dest
-	mov r2,#20*2						@ len
-	mov r3,#8
-	recordTextLoop:
-	bl dmaCopy
-	add r1,#64
-	add r0,#64
-	subs r3,#1
-	bpl recordTextLoop
+		add r3,#4
+		ldr r1,=bSec
+		ldr r1,[r1]
+		str r1,[r3]	
+		mov r10,r1
+		mov r7,#0
+		mov r11,#17
+		mov r9,#2
+		mov r8,#1
+		bl drawDigitsB
 	
-	mov r8,#17
-	ldr r1,=lightningFlash
-	str r8,[r1]
+		add r3,#4
+		ldr r1,=bMil
+		ldr r1,[r1]
+		str r1,[r3]
+		mov r10,r1
+		mov r7,#0
+		mov r11,#20
+		mov r9,#3
+		mov r8,#1
+		bl drawDigitsB
 	
-	mov r0,#1
-	ldr r1,=isItARecord
-	str r0,[r1]
-	
-	@ make noise!!
-	
-	ldr r1,=gotRecord
-	mov r0,#1
-	str r0,[r1]
+		bl displayBonusTimer
 
-	bl saveGame
+		@ ok, now we need to do something to make a noise and signal success!!
 
-notARecord:
+		@ cLEAR TEXT
+
+		ldr r1, =BG_MAP_RAM(BG0_MAP_BASE)
+		add r1,#(32*2)*5
+		mov r0,#0
+		ldr r2,=(32*2)*12
+		bl dmaFillWords
+	
+		@ DRAW RECORD TEXT (well done - a speed-run record)
+	
+		ldr r0,=BG_MAP_RAM(BG3_MAP_BASE)
+		add r0,#(64*28)						@ r0=src
+		ldr r1,=BG_MAP_RAM(BG3_MAP_BASE)
+		add r1,#(64*7)
+		add r1,#(6*2)						@ r1=dest
+		mov r2,#20*2						@ len
+		mov r3,#8
+		recordTextLoop:
+			bl dmaCopy
+			add r1,#64
+			add r0,#64
+			subs r3,#1
+		bpl recordTextLoop
+	
+		mov r8,#17
+		ldr r1,=lightningFlash
+		str r8,[r1]
+	
+		mov r0,#1
+		ldr r1,=isItARecord
+		str r0,[r1]
+
+		ldr r1,=gotRecord
+		mov r0,#1
+		str r0,[r1]
+
+		bl saveGame
+
+	notARecord:
 
 	ldmfd sp!, {r0-r10, pc}
 

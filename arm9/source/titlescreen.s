@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -26,11 +24,9 @@
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
-#include "audio.h"
 
-	#define	BitmapPause			400
-	#define	LevelPause			125
+	#define	BitmapPause			400		@ Duration of a text screen
+	#define	LevelPause			125		@ Duration of a game screen
 
 	.arm
 	.align
@@ -822,7 +818,6 @@ tRobot:
 
 	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		@ src
 	add r0, #(32*34*2) 						@ start of offscreen
-@	add r0,#17*2							@ initial frame location
 	mov r5,#5								@ width of frame
 	ldr r7,=tRobotF							@ frame 0-11
 	ldr r6,[r7]
@@ -851,7 +846,6 @@ tRobotLoop:
 	bpl tRobotLoop
 	
 b robotReturn
-
 
 @---------------------------------------------------
 
@@ -964,7 +958,6 @@ drawTitleThings:
 		bl drawCreditFrame
 		b titleThingsDone
 		
-	
 	titleThings4:						@ highscore
 	cmp r3,#2048
 	bne titleThings5
@@ -975,7 +968,6 @@ drawTitleThings:
 		
 	titleThings5:
 
-
 	titleThingsDone:
 	
 	@ r9 should = the timer value for the screen
@@ -984,7 +976,6 @@ drawTitleThings:
 	str r9,[r1]
 
 	ldmfd sp!, {r0-r10, pc}
-
 
 @------------------------------------------------------
 
@@ -999,7 +990,7 @@ drawTitleThings:
 	ldr r2,=GameStartTilesLen
 	bl decompressToVRAM	
 	ldr r0, =GameStartMap
-	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)	@ destination
+	ldr r1, =BG_MAP_RAM(BG1_MAP_BASE)				@ destination
 	add r1,#(32*3)*2
 	add r1,#(1*2)
 	ldr r2, =(30*2)
@@ -1012,7 +1003,6 @@ drawTitleThings:
 		add r1,#(32*2)				@ down 1 line
 		add r0,#(30*2)				@ down 1 line in the map
 		
-	
 	subs r10,#1
 	bpl titleMenuDrawLoop
 
@@ -1113,7 +1103,6 @@ optionDraw:
 	ldr r0,=OBJ_ATTRIBUTE2(5)
 	lsl r2,#3
 	strh r2,[r0]
-	
 
 	@ draw 'jukebox' text
 
@@ -1213,7 +1202,6 @@ optionDraw:
 	andmi r2,#7
 	strmi r2,[r1]
 	
-		
 	titleStartSkip:
 
 	ldmfd sp!, {r0-r10, pc}
@@ -1384,13 +1372,9 @@ titleRemoveOptions:
 	lsl r2,#3
 	strh r2,[r0]	
 
-
-	
-	@ now clear the bg0 and bg1 on main
-
 	bl clearBGTitle
 	
-	@ now remover the sprite
+	@ now remove the sprite
 	
 	mov r1, #ATTR0_DISABLED			@ this should destroy the sprite
 	ldr r0,=OBJ_ATTRIBUTE0(2)

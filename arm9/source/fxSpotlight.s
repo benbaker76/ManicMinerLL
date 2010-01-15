@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,9 +18,7 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
-#include "background.h"
 #include "dma.h"
 #include "interrupts.h"
 #include "windows.h"
@@ -40,26 +36,12 @@
 fxSpotlightInit:
 
 	stmfd sp!, {r0-r3, lr}
-	
-@	ldr r0, =REG_DISPCNT
-@	ldr r1, [r0]
-@	orr r1, #DISPLAY_WIN0_ON
-@	str r1, [r0]
-	
+
 	ldr r0, =REG_DISPCNT_SUB
 	ldr r1, [r0]
 	orr r1, #DISPLAY_WIN0_ON
 	str r1, [r0]
-	
-@	ldr r2, =WIN_IN							@ Make bg's appear inside the window
-@	ldr r3, [r2]
-@	orr r3, #(WIN0_BG2 | WIN0_BG3 | WIN0_SPRITES | WIN0_BLENDS)
-@	strh r3, [r2]
-	
-@	ldr r2, =WIN_OUT
-@	mov r3, #0
-@	strh r3, [r2]
-	
+
 	ldr r2, =SUB_WIN_IN						@ Make bg's appear inside the window
 	ldr r3, [r2]
 	orr r3, #(WIN0_BG0 | WIN0_BG1 | WIN0_BG2 | WIN0_BG3 | WIN0_SPRITES | WIN0_BLENDS)
@@ -68,15 +50,7 @@ fxSpotlightInit:
 	ldr r2, =SUB_WIN_OUT
 	mov r3, #(WIN0_BG0 | WIN0_BG1 | WIN0_BLENDS)
 	strh r3, [r2]
-	
-@	ldr r2, =WIN0_Y0					@ Top pos
-@	ldr r3, =0
-@	strb r3, [r2]
 
-@	ldr r2, =WIN0_Y1					@ Bottom pos
-@	ldr r3, =192
-@	strb r3, [r2]
-	
 	ldr r2, =SUB_WIN0_Y0				@ Top pos
 	ldr r3, =0
 	strb r3, [r2]
@@ -115,14 +89,6 @@ fxSpotlightOff:
 	ldr r1, [r0]
 	bic r1, #DISPLAY_WIN0_ON
 	str r1, [r0]
-	
-	@mov r0, #0
-	@mov r1, #0
-	@mov r2, #0
-	@mov r3, #0
-	@mov r4, #0
-	
-	@bl dmaTransfer
 	
 	mov r0, #1
 	mov r1, #0
@@ -534,6 +500,3 @@ fxSpotlightCallbackAddress:
 	.align
 winh:
 	.space ((192+1) * 2)					@ Window values to store into REG_WIN0H
-
-	.pool
-	.end

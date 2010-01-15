@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -25,8 +23,6 @@
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
-#include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -302,8 +298,7 @@ rainUpdate:
 		bne rainNoLightning
 		mov r0,#14
 		str r0,[r1]
-		
-		@-----          LIGHTNING NOISE
+
 	rainNoLightning:
 	
 	@ UPDATE LIGHTNING
@@ -344,7 +339,7 @@ rainUpdate:
 		
 	b rainBack
 
-@------------------------------------ Stop rain
+@------------------------------------ Stop FX
 specialFXStop:
 	stmfd sp!, {r0-r10, lr}
 
@@ -453,7 +448,7 @@ starsUpdate:
 	
 	ldmfd sp!, {r0-r10, pc}
 	
-starsNew:
+	starsNew:
 		mov r8,#256
 		add r8,#64
 		lsl r8,#12
@@ -478,10 +473,8 @@ starsNew:
 		str r8,[r1,r0,lsl#2]	
 	b starsReturn
 	ldmfd sp!, {r0-r10, pc}
-@------------------------------------
 
-.pool
-@------------------------------------ init snow
+@------------------------------------ init bonus level clear effect (using leaf code)
 bonusInit:
 	stmfd sp!, {r0-r10, lr}
 	bl leafInit
@@ -507,7 +500,7 @@ bonusInit:
 	bl dmaCopy	
 	
 	ldmfd sp!, {r0-r10, pc}	
-@------------------------------------ init snow
+@------------------------------------ init snow (using leaf code)
 snowInit:
 	stmfd sp!, {r0-r10, lr}
 	bl leafInit
@@ -717,53 +710,47 @@ leafNew:
 	moveq r9,#-16
 	movne r9,#32
 
-
-
-
-		bl getRandom				@ r8 returned
-		ldr r7,=0x1FF				@ and with 256
-		and r8,r7
-		add r8,#64
-		lsl r8,#12
-		ldr r1,=spriteX
-		str r8,[r1,r0,lsl#2]		@ store X	0-255
-		mov r8,#384
-		add r8,r9
-		lsl r8,#12
-		ldr r1,=spriteY
-		str r8,[r1,r0,lsl#2]		@ store y	0-191
-		bl getRandom
-		lsr r8,#21
-		add r8,#256
-		ldr r1,=spriteSpeed
-		str r8,[r1,r0,lsl#2]
-		ldr r1,=spritePriority
-		mov r8,#3
-		str r8,[r1,r0,lsl#2]
-		
-		ldr r1,=spriteMonsterMove
-		mov r8,#0
-		str r8,[r1,r0,lsl#2]		
-		
-		ldr r1,=spriteAnimDelay
-		mov r8,#16
-		str r8,[r1,r0,lsl#2]
-		
-		bl getRandom
-		and r8,#0x1					@ random float direction
-		ldr r1,=spriteDir
-		str r8,[r1,r0,lsl#2]
+	bl getRandom				@ r8 returned
+	ldr r7,=0x1FF				@ and with 256
+	and r8,r7
+	add r8,#64
+	lsl r8,#12
+	ldr r1,=spriteX
+	str r8,[r1,r0,lsl#2]		@ store X	0-255
+	mov r8,#384
+	add r8,r9
+	lsl r8,#12
+	ldr r1,=spriteY
+	str r8,[r1,r0,lsl#2]		@ store y	0-191
+	bl getRandom
+	lsr r8,#21
+	add r8,#256
+	ldr r1,=spriteSpeed
+	str r8,[r1,r0,lsl#2]
+	ldr r1,=spritePriority
+	mov r8,#3
+	str r8,[r1,r0,lsl#2]
 	
+	ldr r1,=spriteMonsterMove
+	mov r8,#0
+	str r8,[r1,r0,lsl#2]		
+	
+	ldr r1,=spriteAnimDelay
+	mov r8,#16
+	str r8,[r1,r0,lsl#2]
+	
+	bl getRandom
+	and r8,#0x1					@ random float direction
+	ldr r1,=spriteDir
+	str r8,[r1,r0,lsl#2]
+
 	b leafReturn
-	ldmfd sp!, {r0-r10, pc}	
-	
+	ldmfd sp!, {r0-r10, pc}		
 	
 @------------------------------------ Init Glint
 glintInit:
 	stmfd sp!, {r0-r10, lr}
-	
-	@ I am not sure we need to init anything????
-		
+
 	mov r2,#0
 	mov r0,#62
 	glintInitLoop:
@@ -771,7 +758,6 @@ glintInit:
 		str r2,[r1,r0,lsl#2]
 	subs r0,#1
 	bpl glintInitLoop
-	
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -797,7 +783,6 @@ glintUpdate:
 	mov r4,r1,lsr #3				@ y=0-23
 	lsl r4,#5
 	add r3,r4
-@	add r5,r3,r4,lsl #5
 	ldr r2,=colMapStore
 	ldrb r2,[r2,r3]
 	cmp r2,#1
@@ -833,28 +818,23 @@ glintUpdate:
 		mov r0,#GLINT_ANIM
 		ldr r2,=spriteAnimDelay
 		str r0,[r2,r10,lsl#2]
-	
-	
+
 	glintUpdateFail:
 	
-	
 	ldmfd sp!, {r0-r10, pc}
-	
-	
-.pool	
+
 @------------------------------------ Init Drip
 dripInit:
 	stmfd sp!, {r0-r10, lr}
 	
 	@ Load the fxdrip sprites (FXDrip)
 
+	ldr r0,=FXDripTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXDripTilesLen
 	
-		ldr r0,=FXDripTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXDripTilesLen
-		
-		bl dmaCopy
+	bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -931,43 +911,39 @@ dripUpdate:
 		mov r0,#DRIP_ANIM
 		ldr r2,=spriteAnimDelay
 		str r0,[r2,r10,lsl#2]
-	
-	
-	dripUpdateFail:
-	
+
+	dripUpdateFail:	
 	
 	ldmfd sp!, {r0-r10, pc}
 
-	
 @------------------------------------ Init Eyes
 eyesInit:
 	stmfd sp!, {r0-r10, lr}
 	
 	@ Load the eyes sprites (FXEyes)
-
 	
-		ldr r0,=FXEyesTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXDripTilesLen
+	ldr r0,=FXEyesTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXDripTilesLen
+	
+	bl dmaCopy
 		
-		bl dmaCopy
-		
-		ldr r1,=spriteActive
-		mov r0,#FX_EYES_ACTIVE
-		str r0,[r1]
-		ldr r1,=spriteX
-		mov r0,#(11*8)+64
-		str r0,[r1]
-		ldr r1,=spriteY
-		mov r0,#(6*8)+384
-		str r0,[r1]
-		ldr r1,=spriteObj
-		mov r0,#EYE_FRAME
-		str r0,[r1]
-		ldr r1,=spriteAnimDelay
-		mov r0,#EYE_ANIM
-		str r0,[r1]
+	ldr r1,=spriteActive
+	mov r0,#FX_EYES_ACTIVE
+	str r0,[r1]
+	ldr r1,=spriteX
+	mov r0,#(11*8)+64
+	str r0,[r1]
+	ldr r1,=spriteY
+	mov r0,#(6*8)+384
+	str r0,[r1]
+	ldr r1,=spriteObj
+	mov r0,#EYE_FRAME
+	str r0,[r1]
+	ldr r1,=spriteAnimDelay
+	mov r0,#EYE_ANIM
+	str r0,[r1]
 
 	ldmfd sp!, {r0-r10, pc}
 
@@ -977,13 +953,12 @@ fliesInit:
 	
 	@ Load the fly sprites (FXFlies)
 
+	ldr r0,=FXFliesTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXFliesTilesLen
 	
-		ldr r0,=FXFliesTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXFliesTilesLen
-		
-		bl dmaCopy
+	bl dmaCopy
 
 	mov r0,#30
 	flieInitLoop:
@@ -1018,7 +993,7 @@ fliesInit:
 	bpl flieInitLoop
 
 	ldmfd sp!, {r0-r10, pc}
-@------------------------------------ Init Eyes
+@------------------------------------ Update Flies
 fliesUpdate:
 	stmfd sp!, {r0-r10, lr}
 	
@@ -1069,7 +1044,6 @@ fliesUpdate:
 	subs r0,#1
 	bpl fliesUpdateLoop
 
-
 	ldmfd sp!, {r0-r10, pc}
 	
 
@@ -1079,52 +1053,50 @@ mallowInit:
 	
 	@ Load the mallow sprites (FXMallow)
 
+	ldr r0,=FXMallowTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXMallowTilesLen		
+	bl dmaCopy
+
+	@ Ok, we need 2 eyes pointing left (24 and 28)
+
+	ldr r1,=spriteActive
+	mov r2,#FX_MALLOW_ACTIVE
+	str r2,[r1]
+	ldr r1,=spriteObj
+	mov r2,#24		
+	str r2,[r1]
+	mov r8,#190
+	add r8,#64
+	ldr r1,=spriteX
+	str r8,[r1]		@ store X	0-255
+	mov r8,#69
+	add r8,#384
+	ldr r1,=spriteY
+	str r8,[r1]		@ store y	0-191
+	ldr r1,=spritePriority
+	mov r8,#3
+	str r8,[r1]
+
+	ldr r1,=spriteActive+4
+	mov r2,#FX_MALLOW_ACTIVE
+	str r2,[r1]
+	ldr r1,=spriteObj+4
+	mov r2,#28		
+	str r2,[r1]
+	mov r8,#190+16
+	add r8,#64	
+	ldr r1,=spriteX+4
+	str r8,[r1]		@ store X	0-255
+	mov r8,#67
+	add r8,#384
+	ldr r1,=spriteY+4
+	str r8,[r1]		@ store y	0-191
+	ldr r1,=spritePriority+4
+	mov r8,#3
+	str r8,[r1]
 	
-		ldr r0,=FXMallowTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXMallowTilesLen		
-		bl dmaCopy
-
-		@ Ok, we need 2 eyes pointing left (24 and 28)
-
-		ldr r1,=spriteActive
-		mov r2,#FX_MALLOW_ACTIVE
-		str r2,[r1]
-		ldr r1,=spriteObj
-		mov r2,#24		
-		str r2,[r1]
-		mov r8,#190
-		add r8,#64
-		ldr r1,=spriteX
-		str r8,[r1]		@ store X	0-255
-		mov r8,#69
-		add r8,#384
-		ldr r1,=spriteY
-		str r8,[r1]		@ store y	0-191
-		ldr r1,=spritePriority
-		mov r8,#3
-		str r8,[r1]
-
-		ldr r1,=spriteActive+4
-		mov r2,#FX_MALLOW_ACTIVE
-		str r2,[r1]
-		ldr r1,=spriteObj+4
-		mov r2,#28		
-		str r2,[r1]
-		mov r8,#190+16
-		add r8,#64
-		ldr r1,=spriteX+4
-		str r8,[r1]		@ store X	0-255
-		mov r8,#67
-		add r8,#384
-		ldr r1,=spriteY+4
-		str r8,[r1]		@ store y	0-191
-		ldr r1,=spritePriority+4
-		mov r8,#3
-		str r8,[r1]
-
-
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Update mallow mans eyes
@@ -1153,7 +1125,6 @@ mallowUpdate:
 	
 		b mallowUpdateDone
 	mallowNoCross:
-	
 	
 	ldr r3,=197+64
 	ldr r4,=224+64
@@ -1223,7 +1194,7 @@ cStarsInit:
 
 	ldmfd sp!, {r0-r10, pc}
 	
-@------------------------------------ Generate Twinkle stars over #39 tiles
+@------------------------------------ Generate Twinkle stars over #39 tiles in ColMap
 	
 twinkleInit:
 	stmfd sp!, {r0-r10, lr}
@@ -1296,28 +1267,23 @@ twinkleInit:
 		ldr r2,=spriteSpeed			@ use this as a anim speed backup
 		str r0,[r2,r10,lsl#2]
 	
-	
 	twinkleInitFail:
 	
 	subs r10,#1
 	bpl twinkleInitLoop
 
-
-	ldmfd sp!, {r0-r10, pc}	
+	ldmfd sp!, {r0-r10, pc}		
 	
-	
-@------------------------------------ Init Eyes
+@------------------------------------ Init Blood (Using Drip FX)
 bloodInit:
 	stmfd sp!, {r0-r10, lr}
 
+	ldr r0,=FXBloodTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXBloodTilesLen
 	
-		ldr r0,=FXBloodTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXBloodTilesLen
-		
-		bl dmaCopy
-
+	bl dmaCopy
 
 	ldr r0,=specialEffect
 	mov r1,#FX_DRIP
@@ -1330,54 +1296,53 @@ bloodInit:
 bulbInit:
 	stmfd sp!, {r0-r10, lr}
 
+	ldr r0,=FXBulbTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXBulbTilesLen
+	
+	bl dmaCopy
 
-		ldr r0,=FXBulbTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXBulbTilesLen
-		
-		bl dmaCopy
+	ldr r0,=lightningDelay		@ use this for length of time that light is on
+	mov r1,#0					@ if 0, turn off
+	str r1,[r0]
+	
+	@ need to display the sprites (turned off)
+	@ 12 sprites from 0-11(+24)
+	@ first at 80,XX
+	mov r0,#72+64
+	mov r1,#48+384
+	
+	mov r2,#0			@ sprite to use (also our counter)
 
-		ldr r0,=lightningDelay		@ use this for length of time that light is on
-		mov r1,#0					@ if 0, turn off
-		str r1,[r0]
+	bulbInitLoop:
 		
-		@ need to display the sprites (turned off)
-		@ 12 sprites from 0-11(+24)
-		@ first at 80,XX
-		mov r0,#72+64
-		mov r1,#48+384
+		ldr r4,=spriteActive
+		mov r5,#0
+		str r5,[r4,r2,lsl#2]		@ sprite off
+		ldr r4,=spriteX
+		str r0,[r4,r2,lsl#2]
+		ldr r4,=spriteY
+		str r1,[r4,r2,lsl#2]
+		ldr r4,=spriteObj
+		add r5,r2,#24
+		str r5,[r4,r2,lsl#2]
+		ldr r4,=spritePriority
+		mov r5,#3
+		str r5,[r4,r2,lsl#2]
+		ldr r4,=spriteHFlip
+		mov r5,#0
+		str r5,[r4,r2,lsl#2]			
+			
+		add r0,#16
+		cmp r0,#(64+72)+64
+		moveq r0,#64+72
+		addeq r1,#16
 		
-		mov r2,#0			@ sprite to use (also our counter)
-
-		bulbInitLoop:
-		
-			ldr r4,=spriteActive
-			mov r5,#0
-			str r5,[r4,r2,lsl#2]		@ sprite off
-			ldr r4,=spriteX
-			str r0,[r4,r2,lsl#2]
-			ldr r4,=spriteY
-			str r1,[r4,r2,lsl#2]
-			ldr r4,=spriteObj
-			add r5,r2,#24
-			str r5,[r4,r2,lsl#2]
-			ldr r4,=spritePriority
-			mov r5,#3
-			str r5,[r4,r2,lsl#2]
-			ldr r4,=spriteHFlip
-			mov r5,#0
-			str r5,[r4,r2,lsl#2]			
+		add r2,#1
+		cmp r2,#12
 			
-			add r0,#16
-			cmp r0,#(64+72)+64
-			moveq r0,#64+72
-			addeq r1,#16
-			
-			add r2,#1
-			cmp r2,#12
-			
-		bne bulbInitLoop
+	bne bulbInitLoop
 
 	ldmfd sp!, {r0-r10, pc}	
 
@@ -1432,20 +1397,18 @@ bulbUpdate:
 
 	ldmfd sp!, {r0-r10, pc}	
 
-	
 @------------------------------------ Init blinky eyes
 blinksInit:
 	stmfd sp!, {r0-r10, lr}
 
+	ldr r0,=FXBlinksTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXBlinksTilesLen
 	
-		ldr r0,=FXBlinksTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXBlinksTilesLen
-		
-		bl dmaCopy
-		
-		bl blinksUpdate
+	bl dmaCopy
+	
+	bl blinksUpdate
 
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -1457,77 +1420,74 @@ blinksUpdate:
 	
 	blinksInitLoop:
 		
-			ldr r2,=spriteActive
-			ldr r2,[r2,r10,lsl#2]
-			cmp r2,#FX_BLINKS_ACTIVE
-			beq blinksInitFail
+		ldr r2,=spriteActive
+		ldr r2,[r2,r10,lsl#2]
+		cmp r2,#FX_BLINKS_ACTIVE
+		beq blinksInitFail
 	
-			bl getRandom
-			and r8,#0xff
-			cmp r8,#1
-			bne blinksInitFail
-	
-	
-			bl getRandom
-			and r8,#0xFF
-			mov r0,r8						@ r0=x=0-255
-			cmp r0,#16
-			movlt r0,#16
-			cmp r0,#232
-			movgt r0,#232
-			bl getRandom
-			and r8,#0xFF
-			lsr r8,#2
-			mov r3,#3
-			mul r8,r3
-			mov r1,r8						@ r1=y=0-191
-			
-			cmp r1,#56
-			movlt r1,#56
-			cmp r1,#176
-			movgt r1,#176
-	
-			ldr r2,=spriteActive
-			mov r3,#FX_BLINKS_ACTIVE
-			str r3,[r2,r10,lsl#2]
-	
-			add r0,#64
-			lsr r0,#3
-			lsl r0,#3
-			bl getRandom
-			and r8,#7
-			subs r8,#3
-			adds r0,r8
-			ldr r2,=spriteX
-			str r0,[r2,r10,lsl#2]
-			add r1,#384
-			lsr r1,#3
-			lsl r1,#3
-			sub r1,#6
-			bl getRandom
-			and r8,#7
-			subs r8,#3
-			adds r1,r8
-			ldr r2,=spriteY
-			str r1,[r2,r10,lsl#2]
+		bl getRandom
+		and r8,#0xff
+		cmp r8,#1
+		bne blinksInitFail
 		
-			mov r8,#BLINKS_FRAME
-			ldr r2,=spriteObj
-			str r8,[r2,r10,lsl#2]
+		bl getRandom
+		and r8,#0xFF
+		mov r0,r8						@ r0=x=0-255
+		cmp r0,#16
+		movlt r0,#16
+		cmp r0,#232
+		movgt r0,#232
+		bl getRandom
+		and r8,#0xFF
+		lsr r8,#2
+		mov r3,#3
+		mul r8,r3
+		mov r1,r8						@ r1=y=0-191
 		
-			ldr r2,=spritePriority
-			mov r0,#3
-			str r0,[r2,r10,lsl#2]
+		cmp r1,#56
+		movlt r1,#56
+		cmp r1,#176
+		movgt r1,#176
+	
+		ldr r2,=spriteActive
+		mov r3,#FX_BLINKS_ACTIVE
+		str r3,[r2,r10,lsl#2]
+	
+		add r0,#64
+		lsr r0,#3
+		lsl r0,#3
+		bl getRandom
+		and r8,#7
+		subs r8,#3
+		adds r0,r8
+		ldr r2,=spriteX
+		str r0,[r2,r10,lsl#2]
+		add r1,#384
+		lsr r1,#3
+		lsl r1,#3
+		sub r1,#6
+		bl getRandom
+		and r8,#7
+		subs r8,#3
+		adds r1,r8
+		ldr r2,=spriteY
+		str r1,[r2,r10,lsl#2]
 		
-			mov r0,#BLINKS_ANIM
-			ldr r2,=spriteAnimDelay
-			bl getRandom
-			and r8,#0x15
-			add r0,r8
-			str r0,[r2,r10,lsl#2]
+		mov r8,#BLINKS_FRAME
+		ldr r2,=spriteObj
+		str r8,[r2,r10,lsl#2]
+		
+		ldr r2,=spritePriority
+		mov r0,#3
+		str r0,[r2,r10,lsl#2]
+		
+		mov r0,#BLINKS_ANIM
+		ldr r2,=spriteAnimDelay
+		bl getRandom
+		and r8,#0x15
+		add r0,r8
+		str r0,[r2,r10,lsl#2]
 
-	@	ldmfd sp!, {r0-r10, pc}
-	
 	blinksInitFail:
 	
 	subs r10,#1
@@ -1606,12 +1566,12 @@ sparkInit:
 	
 	@ Load the fxSpark sprites
 
-		ldr r0,=FXSparkTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXSparkTilesLen
-		
-		bl dmaCopy
+	ldr r0,=FXSparkTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXSparkTilesLen
+	
+	bl dmaCopy
 
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -1700,7 +1660,6 @@ sparkUpdate:
 	
 	sparkUpdateFail:
 	
-	
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ Init kong sprites
@@ -1751,6 +1710,7 @@ kongInit:
 		add r10,#1
 		add r9,#1
 		cmp r9,#6
+		
 	bne kongLeftInitLoop
 
 	mov r9,#0						@ coord pointer
@@ -1780,6 +1740,7 @@ kongInit:
 		add r10,#1
 		add r9,#1
 		cmp r9,#8
+		
 	bne kongRightInitLoop		
 	
 	bl kongDraw
@@ -1817,44 +1778,43 @@ kongInit:
 	
 	ldmfd sp!, {r0-r10, pc}
 
-@------------------------------------ Draw know based on frame
+@------------------------------------ Draw based on frame
 kongDraw:
 
 	@ left arm first
 	stmfd sp!, {r0-r10, lr}
 	
-		ldr r0,=kongLFrame
-		ldr r1,[r0]
-		ldr r0,=FXKongLTiles
-		mov r2,#6
-		mul r1,r2
-		add r0,r1,lsl#8 			@ r0=source
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite (6 sprites)
-		ldr r2,=6*256	
-		bl dmaCopy
+	ldr r0,=kongLFrame
+	ldr r1,[r0]
+	ldr r0,=FXKongLTiles
+	mov r2,#6
+	mul r1,r2
+	add r0,r1,lsl#8 			@ r0=source
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite (6 sprites)
+	ldr r2,=6*256	
+	bl dmaCopy
 
-		ldr r0,=kongRFrame
-		ldr r1,[r0]
-		ldr r0,=FXKongRTiles
-		lsl r1,#3
-		add r0,r1,lsl#8 			@ r0=source
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#30*256				@ dump at 30th sprite (8 sprites)
-		ldr r2,=8*256	
-		bl dmaCopy	
+	ldr r0,=kongRFrame
+	ldr r1,[r0]
+	ldr r0,=FXKongRTiles
+	lsl r1,#3
+	add r0,r1,lsl#8 			@ r0=source
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#30*256				@ dump at 30th sprite (8 sprites)
+	ldr r2,=8*256	
+	bl dmaCopy	
 		
-		@ do head
+	@ do head
 		
-		ldr r0,=kongHeadFrame
-		ldr r1,[r0]
-		ldr r0,=FXKHeadTiles
-		add r0,r1,lsl#8 			@ r0=source
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#39*256				@ dump at 39th sprite (1 sprites)
-		mov r2,#256	
-		bl dmaCopy		
-	@ need to draw head also... (say, 7 frames looking left right?)
+	ldr r0,=kongHeadFrame
+	ldr r1,[r0]
+	ldr r0,=FXKHeadTiles
+	add r0,r1,lsl#8 			@ r0=source
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#39*256				@ dump at 39th sprite (1 sprites)
+	mov r2,#256	
+	bl dmaCopy		
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -1950,189 +1910,187 @@ kongUpdate:
 		
 		bl	kongDust
 
-	
 	skipKongMarks:
 
 	ldmfd sp!, {r0-r10, pc}
 
-@---------------------------------
+@---------------------------------	Init Dust and Scratches
 
 kongDust:
 	stmfd sp!, {r0-r10, lr}
 	
-		@ Generate dust (frame is 24-27)
-		
-		bl getRandom
-		and r8,#7
-		add r9,r8,#48
+	@ Generate dust (frame is 24-27)
+	
+	bl getRandom
+	and r8,#7
+	add r9,r8,#48
 
-		ldr r1,=spriteActive
-		mov r2,#FX_SCRATCH_ACTIVE
-		str r2,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		str r9,[r1,r10,lsl#2]
+	ldr r1,=spriteActive
+	mov r2,#FX_SCRATCH_ACTIVE
+	str r2,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	str r9,[r1,r10,lsl#2]
+	
+	bl getRandom				@ r8 returned
+	ldr r7,=0x1FF
+	and r8,r7
+	add r8,#64
+	ldr r1,=spriteX
+	str r8,[r1,r10,lsl#2]		@ store X	0-255
+	
+	bl getRandom				@ r8 returned
+	and r8,#0xFF
+	lsr r8,#2
+	mov r3,#3
+	mul r8,r3
+	cmp r8,#48
+	addlt r8,#120
+	add r8,#384
+	ldr r1,=spriteY
+	str r8,[r1,r10,lsl#2]		@ store y	0-191
+	ldr r1,=spritePriority
+	mov r8,#1
+	str r8,[r1,r10,lsl#2]		
+	
+	bl getRandom
+	and r8,#1
+	ldr r1,=spriteHFlip
+	str r8,[r1,r10,lsl#2]
+	
+	bl getRandom
+	and r8,#7
+	add r8,#6
+	ldr r1,=spriteAnimDelay
+	str r8,[r1,r10,lsl#2]
 		
-		bl getRandom				@ r8 returned
-		ldr r7,=0x1FF
-		and r8,r7
-		add r8,#64
-		ldr r1,=spriteX
-		str r8,[r1,r10,lsl#2]		@ store X	0-255
-		
-		bl getRandom				@ r8 returned
-		and r8,#0xFF
-		lsr r8,#2
-		mov r3,#3
-		mul r8,r3
-		cmp r8,#48
-		addlt r8,#120
-		add r8,#384
-		ldr r1,=spriteY
-		str r8,[r1,r10,lsl#2]		@ store y	0-191
-		ldr r1,=spritePriority
-		mov r8,#1
-		str r8,[r1,r10,lsl#2]		
-	
-		bl getRandom
-		and r8,#1
-		ldr r1,=spriteHFlip
-		str r8,[r1,r10,lsl#2]
-	
-		bl getRandom
-		and r8,#7
-		add r8,#6
-		ldr r1,=spriteAnimDelay
-		str r8,[r1,r10,lsl#2]
-	
-	
 	ldmfd sp!, {r0-r10, pc}	
 
 @------------------------------------ Meteor Init
 meteorInit:
 	stmfd sp!, {r0-r10, lr}
 	
-		ldr r0,=FXMeteorTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXMeteorTilesLen
-		bl dmaCopy
+	ldr r0,=FXMeteorTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXMeteorTilesLen
+	bl dmaCopy
 		
-		ldr r1,=meteorPhase
-		mov r0,#0
-		str r0,[r1]
-		ldr r1,=forcefState
-		mov r0,#1
-		str r0,[r1]
-		ldr r1,=forcefDelay
-		ldr r0,=FORCEF_DELAY
-		str r0,[r1]
-		
-		mov r10,#84					@ 84th sprite is our meteor
-		
-		ldr r1,=spriteActive
-		mov r0,#FX_METEOR_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		
-		ldr r1,=meteorDrops
-		ldr r0,[r1]
-		lsl r0,#3
-		add r0,#60
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		
-		ldr r1,=spriteY
-		mov r0,#28+384
-		str r0,[r1,r10,lsl#2]
-		
-		ldr r1,=spriteObj
-		mov r0,#METEOR_FRAME
-		str r0,[r1,r10,lsl#2]
-		
-		ldr r1,=spriteAnimDelay
-		mov r0,#METEOR_ANIM
-		str r0,[r1,r10,lsl#2]
-
-		ldr r1,=spritePriority
-		mov r0,#2
-		str r0,[r1,r10,lsl#2]
-		
-		@ now init 4 force fields
-
-		mov r10,#80					@ 80th sprite is our force field
-		
-		ldr r1,=spriteActive
-		mov r0,#MONSTER_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		mov r0,#128+26
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteY
-		mov r0,#96+384
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		mov r0,#FORCEF_FRAME
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteAnimDelay
-		mov r0,#FORCEF_ANIM
-		str r0,[r1,r10,lsl#2]
-		add r10,#1
+	ldr r1,=meteorPhase
+	mov r0,#0
+	str r0,[r1]
+	ldr r1,=forcefState
+	mov r0,#1
+	str r0,[r1]
+	ldr r1,=forcefDelay
+	ldr r0,=FORCEF_DELAY
+	str r0,[r1]
 	
-		ldr r1,=spriteActive
-		mov r0,#MONSTER_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		mov r0,#128+86
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteY
-		mov r0,#96+384
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		mov r0,#FORCEF_FRAME
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteAnimDelay
-		mov r0,#FORCEF_ANIM
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteHFlip
-		mov r0,#1
-		str r0,[r1,r10,lsl#2]
-		add r10,#1
-		ldr r1,=spriteActive
-		mov r0,#MONSTER_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		mov r0,#128+26
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteY
-		mov r0,#128+384
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		mov r0,#FORCEF_FRAME
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteAnimDelay
-		mov r0,#FORCEF_ANIM
-		str r0,[r1,r10,lsl#2]
-		add r10,#1
-		ldr r1,=spriteActive
-		mov r0,#MONSTER_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		mov r0,#128+86
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteY
-		mov r0,#128+384
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		mov r0,#FORCEF_FRAME
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteAnimDelay
-		mov r0,#FORCEF_ANIM
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteHFlip
-		mov r0,#1
-		str r0,[r1,r10,lsl#2]
-		
-		@ ok, now we need some star dust
-		
+	mov r10,#84					@ 84th sprite is our meteor
+	
+	ldr r1,=spriteActive
+	mov r0,#FX_METEOR_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	
+	ldr r1,=meteorDrops
+	ldr r0,[r1]
+	lsl r0,#3
+	add r0,#60
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	
+	ldr r1,=spriteY
+	mov r0,#28+384
+	str r0,[r1,r10,lsl#2]
+
+	ldr r1,=spriteObj
+	mov r0,#METEOR_FRAME
+	str r0,[r1,r10,lsl#2]
+	
+	ldr r1,=spriteAnimDelay
+	mov r0,#METEOR_ANIM
+	str r0,[r1,r10,lsl#2]
+
+	ldr r1,=spritePriority
+	mov r0,#2
+	str r0,[r1,r10,lsl#2]
+	
+	@ now init 4 force fields
+
+	mov r10,#80					@ 80th sprite is our force field
+	
+	ldr r1,=spriteActive
+	mov r0,#MONSTER_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	mov r0,#128+26
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteY
+	mov r0,#96+384
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	mov r0,#FORCEF_FRAME
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteAnimDelay
+	mov r0,#FORCEF_ANIM
+	str r0,[r1,r10,lsl#2]
+	add r10,#1
+	
+	ldr r1,=spriteActive
+	mov r0,#MONSTER_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	mov r0,#128+86
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteY
+	mov r0,#96+384
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	mov r0,#FORCEF_FRAME
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteAnimDelay
+	mov r0,#FORCEF_ANIM
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteHFlip
+	mov r0,#1
+	str r0,[r1,r10,lsl#2]
+	add r10,#1
+	ldr r1,=spriteActive
+	mov r0,#MONSTER_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	mov r0,#128+26
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteY
+	mov r0,#128+384
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	mov r0,#FORCEF_FRAME
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteAnimDelay
+	mov r0,#FORCEF_ANIM
+	str r0,[r1,r10,lsl#2]
+	add r10,#1
+	ldr r1,=spriteActive
+	mov r0,#MONSTER_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	mov r0,#128+86
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteY
+	mov r0,#128+384
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	mov r0,#FORCEF_FRAME
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteAnimDelay
+	mov r0,#FORCEF_ANIM
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteHFlip
+	mov r0,#1
+	str r0,[r1,r10,lsl#2]
+
+	@ ok, now we need some star dust
+	
 	mov r0,#62
 	starDInitLoop:
 		ldr r1,=spriteActive
@@ -2268,7 +2226,6 @@ meteorUpdate:
 		bge starDNew
 		str r3,[r1,r0,lsl#2]
 
-
 		starDReturn:
 	subs r0,#1
 	bpl starDUpdateLoop
@@ -2295,65 +2252,64 @@ starDNew:
 		mov r8,#3
 		str r8,[r1,r0,lsl#2]	
 	b starDReturn
+	
 	ldmfd sp!, {r0-r10, pc}
 
 @------------------------------------ Force Field Init
 forceFieldInit:
 	stmfd sp!, {r0-r10, lr}
 
-		ldr r0,=FXForceFieldTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256				@ dump at 24th sprite
-		ldr r2,=FXForceFieldTilesLen
-		bl dmaCopy
+	ldr r0,=FXForceFieldTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256				@ dump at 24th sprite
+	ldr r2,=FXForceFieldTilesLen
+	bl dmaCopy
 
-		ldr r1,=forcefState
-		mov r0,#1
-		str r0,[r1]
-		ldr r1,=forcefDelay
-		ldr r0,=FORCEF_DELAY
-		str r0,[r1]
+	ldr r1,=forcefState
+	mov r0,#1
+	str r0,[r1]
+	ldr r1,=forcefDelay
+	ldr r0,=FORCEF_DELAY
+	str r0,[r1]
 
-		mov r10,#80					@ 80th sprite is our force field
-		
-		ldr r1,=spriteActive
-		mov r0,#MONSTER_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		mov r0,#128+64
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteY
-		mov r0,#144+384
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		mov r0,#FORCEFIELD_FRAME
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteAnimDelay
-		mov r0,#FORCEFIELD_ANIM
-		str r0,[r1,r10,lsl#2]
-		add r10,#1
-		ldr r1,=spriteActive
-		mov r0,#MONSTER_ACTIVE
-		str r0,[r1,r10,lsl#2]
-		mov r0,#128+96+32
-		add r0,#2
-		ldr r1,=spriteX
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteY
-		mov r0,#72+384
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteObj
-		mov r0,#FORCEFIELD_FRAME
-		str r0,[r1,r10,lsl#2]
-		ldr r1,=spriteAnimDelay
-		mov r0,#FORCEFIELD_ANIM
-		str r0,[r1,r10,lsl#2]
+	mov r10,#80					@ 80th sprite is our force field
 
-		bl playCrackle
+	ldr r1,=spriteActive
+	mov r0,#MONSTER_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	mov r0,#128+64
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteY
+	mov r0,#144+384
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	mov r0,#FORCEFIELD_FRAME
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteAnimDelay
+	mov r0,#FORCEFIELD_ANIM
+	str r0,[r1,r10,lsl#2]
+	add r10,#1
+	ldr r1,=spriteActive
+	mov r0,#MONSTER_ACTIVE
+	str r0,[r1,r10,lsl#2]
+	mov r0,#128+96+32
+	add r0,#2
+	ldr r1,=spriteX
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteY
+	mov r0,#72+384
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteObj
+	mov r0,#FORCEFIELD_FRAME
+	str r0,[r1,r10,lsl#2]
+	ldr r1,=spriteAnimDelay
+	mov r0,#FORCEFIELD_ANIM
+	str r0,[r1,r10,lsl#2]
+
+	bl playCrackle
 
 	ldmfd sp!, {r0-r10, pc}	
-	
-
 
 @------------------------------------ Force Field Update
 forceFieldUpdate:	
@@ -2427,90 +2383,88 @@ forceFieldUpdate:
 antonInit:
 	stmfd sp!, {r0-r10, lr}
 
-		mov r1,#0
-		ldr r0,=antonFrame
-		str r1,[r0]
+	mov r1,#0
+	ldr r0,=antonFrame
+	str r1,[r0]
 
-				
-		@ display L eye
-		
-		ldr r1,=spriteActive
-		mov r2,#FX_MALLOW_ACTIVE
-		str r2,[r1]
-		ldr r1,=spriteObj
-		mov r2,#24		
-		str r2,[r1]
-		mov r8,#188+7
-		add r8,#64
-		ldr r1,=spriteX
-		str r8,[r1]		@ store X	0-255
-		mov r8,#96+32
-		add r8,#384
-		ldr r1,=spriteY
-		str r8,[r1]		@ store y	0-191
-		ldr r1,=spritePriority
-		mov r8,#3
-		str r8,[r1]
+	@ display L eye
+	
+	ldr r1,=spriteActive
+	mov r2,#FX_MALLOW_ACTIVE
+	str r2,[r1]
+	ldr r1,=spriteObj
+	mov r2,#24		
+	str r2,[r1]
+	mov r8,#188+7
+	add r8,#64
+	ldr r1,=spriteX
+	str r8,[r1]		@ store X	0-255
+	mov r8,#96+32
+	add r8,#384
+	ldr r1,=spriteY
+	str r8,[r1]		@ store y	0-191
+	ldr r1,=spritePriority
+	mov r8,#3
+	str r8,[r1]
 
-		@ display R eye
-		
-		ldr r1,=spriteActive+4
-		mov r2,#FX_MALLOW_ACTIVE
-		str r2,[r1]
-		ldr r1,=spriteObj+4
-		mov r2,#25		
-		str r2,[r1]
-		mov r8,#198+16+4
-		add r8,#64
-		ldr r1,=spriteX+4
-		str r8,[r1]		@ store X	0-255
-		mov r8,#96+33
-		add r8,#384
-		ldr r1,=spriteY+4
-		str r8,[r1]		@ store y	0-191
-		ldr r1,=spritePriority+4
-		mov r8,#3
-		str r8,[r1]		
-		
-		@ display mouth
-		
-		ldr r1,=spriteActive+8
-		mov r2,#FX_MALLOW_ACTIVE
-		str r2,[r1]
-		ldr r1,=spriteObj+8
-		mov r2,#26		
-		str r2,[r1]
-		mov r8,#196+5
-		add r8,#64
-		ldr r1,=spriteX+8
-		str r8,[r1]		@ store X	0-255
-		mov r8,#96+48+10
-		add r8,#384
-		ldr r1,=spriteY+8
-		str r8,[r1]		@ store y	0-191
-		ldr r1,=spritePriority+8
-		mov r8,#3
-		str r8,[r1]	
-		
-		@ copy new effect for level complete
-		
-		ldr r0,=FXAntonTiles
-		add r0,#24*256
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#40*256				@ dump at 40th sprite onwards
-		ldr r2,=8*256
-		bl dmaCopy
+	@ display R eye
+	
+	ldr r1,=spriteActive+4
+	mov r2,#FX_MALLOW_ACTIVE
+	str r2,[r1]
+	ldr r1,=spriteObj+4
+	mov r2,#25		
+	str r2,[r1]
+	mov r8,#198+16+4
+	add r8,#64
+	ldr r1,=spriteX+4
+	str r8,[r1]		@ store X	0-255
+	mov r8,#96+33
+	add r8,#384
+	ldr r1,=spriteY+4
+	str r8,[r1]		@ store y	0-191
+	ldr r1,=spritePriority+4
+	mov r8,#3
+	str r8,[r1]		
+	
+	@ display mouth
+	
+	ldr r1,=spriteActive+8
+	mov r2,#FX_MALLOW_ACTIVE
+	str r2,[r1]
+	ldr r1,=spriteObj+8
+	mov r2,#26		
+	str r2,[r1]
+	mov r8,#196+5
+	add r8,#64
+	ldr r1,=spriteX+8
+	str r8,[r1]		@ store X	0-255
+	mov r8,#96+48+10
+	add r8,#384
+	ldr r1,=spriteY+8
+	str r8,[r1]		@ store y	0-191
+	ldr r1,=spritePriority+8
+	mov r8,#3
+	str r8,[r1]	
+	
+	@ copy new effect for level complete
+	
+	ldr r0,=FXAntonTiles
+	add r0,#24*256
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#40*256				@ dump at 40th sprite onwards
+	ldr r2,=8*256
+	bl dmaCopy
 
-		@ copy blood ripples
+	@ copy blood ripples
 
-		ldr r0,=FXAntonTiles
-		add r0,#31*256				@ 31st tile
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#27*256				@ dump at 27th sprite onwards
-		ldr r2,=8*256
-		bl dmaCopy
-		
-		
+	ldr r0,=FXAntonTiles
+	add r0,#31*256				@ 31st tile
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#27*256				@ dump at 27th sprite onwards
+	ldr r2,=8*256
+	bl dmaCopy
+
 	ldmfd sp!, {r0-r10, pc}
 	
 @------------------------------------ update Anton
@@ -2554,7 +2508,6 @@ antonUpdate:
 	
 	@ ok, now blood
 	
-	
 	@ get a random x/y coord and check against level for 1 in colmap
 	@ all we want to splat above platforms
 	
@@ -2571,10 +2524,7 @@ antonUpdate:
 	mov r3,#3
 	mul r8,r3
 	mov r1,r8						@ r1=y=0-191
-	
-@	cmp r1,#191-8
-@	bge bloodUpdateFail
-	
+
 	mov r3,r0,lsr #3				@ x=0-31 r3
 	mov r4,r1,lsr #3				@ y=0-23 r4
 	lsl r4,#5
@@ -2635,7 +2585,6 @@ antonUpdate:
 	bpl bloodTry
 	
 	bloodPassed:
-	
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -2708,56 +2657,56 @@ b antonUpdateDone
 liftInit:
 	stmfd sp!, {r0-r10, lr}
 
-		ldr r0,=FXLiftTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256
-		ldr r2,=FXLiftTilesLen
-		bl dmaCopy
+	ldr r0,=FXLiftTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256
+	ldr r2,=FXLiftTilesLen
+	bl dmaCopy
 
+	mov r10,#0				@ sprite number
+	mov r9,#0				@ Y coord
+	mov r8,#0				@ X coord
 
-		mov r10,#0				@ sprite number
-		mov r9,#0				@ Y coord
-		mov r8,#0				@ X coord
+	liftInitLoop:
 
-		liftInitLoop:
-
-			ldr r1,=spriteActive
-			mov r0,#FX_LIFT_ACTIVE
-			str r0,[r1,r10,lsl#2]
+		ldr r1,=spriteActive
+		mov r0,#FX_LIFT_ACTIVE
+		str r0,[r1,r10,lsl#2]
 		
-			ldr r1,=spriteX
-			mov r3,r8,lsl#4
-			add r3,#64+96+40
-			str r3,[r1,r10,lsl#2]
+		ldr r1,=spriteX
+		mov r3,r8,lsl#4
+		add r3,#64+96+40
+		str r3,[r1,r10,lsl#2]
 		
-			ldr r1,=spriteY
-			mov r3,r9,lsl#4
-			add r3,#384+96+40
-			str r3,[r1,r10,lsl#2]
-			ldr r1,=spriteObj
-			add r11,r10,#24
+		ldr r1,=spriteY
+		mov r3,r9,lsl#4
+		add r3,#384+96+40
+		str r3,[r1,r10,lsl#2]
+		ldr r1,=spriteObj
+		add r11,r10,#24
 
-			str r11,[r1,r10,lsl#2]
-			ldr r1,=spritePriority
-			mov r0,#2
-			str r0,[r1,r10,lsl#2]
+		str r11,[r1,r10,lsl#2]
+		ldr r1,=spritePriority
+		mov r0,#2
+		str r0,[r1,r10,lsl#2]
 
-			add r8,#1
-			cmp r8,#3
-			moveq r8,#0
-			addeq r9,#1
+		add r8,#1
+		cmp r8,#3
+		moveq r8,#0
+		addeq r9,#1
 		
-			add r10,#1
-			cmp r10,#9
-		bne liftInitLoop
-		
-		ldr r1,=liftMotion
-		mov r0,#0
-		str r0,[r1]
+		add r10,#1
+		cmp r10,#9
 
+	bne liftInitLoop
+		
+	ldr r1,=liftMotion
+	mov r0,#0
+	str r0,[r1]
 
 	ldmfd sp!, {r0-r10, pc}
-@---------------
+
+@------------------------------------ lift Update
 
 liftUpdate:
 
@@ -2771,7 +2720,6 @@ liftUpdate:
 		@ we need to move the lift upwards to destination here,
 		@ remembering to remove the rope LOL
 	
-	
 		ldr r1,=spriteY
 		ldr r0,[r1]
 		cmp r0,#(6*8)+384+24
@@ -2780,14 +2728,12 @@ liftUpdate:
 		streq r0,[r1]
 		beq liftMoveFail
 		
-		
 			@ move lift (sprites 0-8)
 			ldr r2,=liftDelay
 			ldr r3,[r2]
 			subs r3,#1
 			movmi r3,#2
 			str r3,[r2]
-		@	bpl liftMoveNot
 			
 			mov r10,#0
 			
@@ -2797,8 +2743,8 @@ liftUpdate:
 				sub r0,#1
 				str r0,[r1,r10,lsl#2]
 				
-			add r10,#1
-			cmp r10,#9
+				add r10,#1
+				cmp r10,#9
 			bne liftUpdateLoop
 
 			@ now we need to remove the rope!!
@@ -2827,7 +2773,6 @@ liftUpdate:
 			add r1,#2
 			add r3,r1,lsl #1 
 			
-			
 			strh r5,[r3]
 			add r3,#2
 			strh r5,[r3]	
@@ -2854,8 +2799,7 @@ liftUpdate:
 			add r0,#1
 			cmp r0,#768
 		bne liftSolidLoop
-
-	
+		
 	liftMoveNot:
 	
 	ldmfd sp!, {r0-r10, pc}
@@ -2864,11 +2808,11 @@ liftUpdate:
 rockyInit:
 	stmfd sp!, {r0-r10, lr}
 
-		ldr r0,=FXRockyTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#40*256
-		ldr r2,=8*256
-		bl dmaCopy
+	ldr r0,=FXRockyTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#40*256
+	ldr r2,=8*256
+	bl dmaCopy
 	
 	ldr r1,=killerDelay
 	mov r0,#8
@@ -2890,11 +2834,11 @@ rockyUpdate:
 fFlagInit:
 	stmfd sp!, {r0-r10, lr}
 
-		ldr r0,=FXBackFlagTiles
-		ldr r1,=SPRITE_GFX_SUB
-		add r1,#24*256
-		ldr r2,=8*256
-		bl dmaCopy
+	ldr r0,=FXBackFlagTiles
+	ldr r1,=SPRITE_GFX_SUB
+	add r1,#24*256
+	ldr r2,=8*256
+	bl dmaCopy
 	
 	ldr r1,=killerDelay
 	mov r0,#8
@@ -2936,7 +2880,7 @@ fFlagUpdate:
 
 	ldmfd sp!, {r0-r10, pc}
 	
-@------------------------------------ gold Glints (only on colmap 1)
+@------------------------------------ gold Glints (only on colmap #1 - Solid Wall)
 goldGlintInit:
 	stmfd sp!, {r0-r10, lr}
 	@ get a random x/y coord and check against level for 1 in colmap
@@ -3022,9 +2966,10 @@ causeInit:
 	bl starsInit
 
 	ldmfd sp!, {r0-r10, pc}
+
+@------------------------------------
 	
 .pool
-.align
 
 @------------------------------------ Causeway Update
 causeUpdate:
@@ -3086,6 +3031,7 @@ causeUpdate:
 	.pool
 	.data
 	.align
+	
 	liftDelay:
 	.word 0
 	

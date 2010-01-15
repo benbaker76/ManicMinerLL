@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,14 +18,11 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
-
 
 	.global drawLevel
 
@@ -35,10 +30,6 @@ drawLevel:
 	@ levelNum holds the number of the level needed
 
 	stmfd sp!, {r0-r10, lr}
-
-	@ for now we will just use level 1 without using levelNum
-	
-	@ Write the palette (our accepted pallet is in bg05)
 
 	ldr r0, =Background01Pal
 	ldr r1, =BG_PALETTE_SUB
@@ -314,8 +305,6 @@ drawLevel:
 	bl dmaCopy
 
 	@ draw the top status on bg1 sub (so that sprites can be behind for effects and stuff)
-	@ the first 2 character rows are the air gauge
-	@ then each 4 rows are each screens title
 	
 	ldr r0,=StatusMap							@ draw the air (full)
 	ldr r1, =BG_MAP_RAM_SUB(BG1_MAP_BASE_SUB)
@@ -332,6 +321,3 @@ drawLevel:
 	bl drawLives
 
 	ldmfd sp!, {r0-r10, pc}
-	
-	.pool
-	.data

@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,7 +18,6 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
@@ -29,11 +26,8 @@
 	.arm
 	.align
 	.text
+	
 	.global fxFadeBlackInit
-	.global fxFadeWhiteInit
-	.global fxFadeBG0Init
-	.global fxFadeBG0SubInit
-	.global fxFadeBG0SubBG1SubInit
 	.global fxFadeBG1BG2Init
 	.global fxFadeMin
 	.global fxFadeMax
@@ -45,36 +39,7 @@
 	.global fxFadeCallbackAddress
 	.global fxFadeBlackLevelInit
 	.global fxFadeBusy
-	.global fxFadeMainInit
 
-fxFadeMainInit:
-
-	stmfd sp!, {r0-r1, lr}
-	
-	ldr r0, =BLEND_CR
-	ldr r1, =(BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
-	str r1, [r0]
-
-	ldr r0, =SUB_BLEND_CR
-	ldr r1, =(BLEND_FADE_BLACK | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
-	str r1, [r0]
-		
-	ldr r0, =fadeValue					@ Get our fadeValue
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeCallbackAddress
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeBusy
-	ldr r1, =0
-	str r1, [r0]
-
-	ldmfd sp!, {r0-r1, pc}
-
-	@ ---------------------------------------
-	
 fxFadeBlackInit:
 
 	stmfd sp!, {r0-r1, lr}
@@ -107,7 +72,6 @@ fxFadeBlackLevelInit:
 
 	stmfd sp!, {r0-r1, lr}
 	
-	
 	ldr r0, =SUB_BLEND_CR
 	ldr r1, =(BLEND_FADE_BLACK | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
 	str r1, [r0]
@@ -126,117 +90,8 @@ fxFadeBlackLevelInit:
 	
 	ldmfd sp!, {r0-r1, pc}
 	
-	
 	@ ---------------------------------------
-	
-fxFadeWhiteInit:
 
-	stmfd sp!, {r0-r1, lr}
-	
-	ldr r0, =BLEND_CR
-	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
-	str r1, [r0]
-	
-	ldr r0, =SUB_BLEND_CR
-	ldr r1, =(BLEND_FADE_WHITE | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_SRC_BG2 | BLEND_SRC_BG3 | BLEND_SRC_SPRITE)
-	str r1, [r0]
-	
-	ldr r0, =fadeValue					@ Get our fadeValue
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeCallbackAddress
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeBusy
-	ldr r1, =0
-	str r1, [r0]
-	
-	ldmfd sp!, {r0-r1, pc}
-	
-	@ ---------------------------------------
-	
-fxFadeBG0Init:
-
-	stmfd sp!, {r0-r1, lr}
-	
-	ldr r0, =BLEND_CR
-	ldr r1, =(BLEND_ALPHA | BLEND_SRC_BG0 | BLEND_DST_BG0 | BLEND_DST_BG1 | BLEND_DST_BG2 | BLEND_DST_BG3)
-	str r1, [r0]
-	
-	ldr r0, =SUB_BLEND_CR
-	ldr r1, =(BLEND_ALPHA | BLEND_SRC_BG0 | BLEND_DST_BG0 | BLEND_DST_BG1 | BLEND_DST_BG2 | BLEND_DST_BG3)
-	str r1, [r0]
-	
-	ldr r0, =fadeValue					@ Get our fadeValue
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeCallbackAddress
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeBusy
-	ldr r1, =0
-	str r1, [r0]
-	
-	ldmfd sp!, {r0-r1, pc}
-	
-	@ ---------------------------------------
-	
-fxFadeBG0SubInit:
-
-	stmfd sp!, {r0-r1, lr}
-	
-	ldr r0, =BLEND_CR
-	mov r1, #0
-	str r1, [r0]
-	
-	ldr r0, =SUB_BLEND_CR
-	ldr r1, =(BLEND_ALPHA | BLEND_SRC_BG0 | BLEND_DST_BG0 | BLEND_DST_BG1 | BLEND_DST_BG2 | BLEND_DST_BG3)
-	str r1, [r0]
-	
-	ldr r0, =fadeValue					@ Get our fadeValue
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeCallbackAddress
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeBusy
-	ldr r1, =0
-	str r1, [r0]
-	
-	ldmfd sp!, {r0-r1, pc}
-	
-	@ ---------------------------------------
-	
-fxFadeBG0SubBG1SubInit:
-
-	stmfd sp!, {r0-r1, lr}
-	
-	ldr r0, =SUB_BLEND_CR
-	ldr r1, =(BLEND_ALPHA | BLEND_SRC_BG0 | BLEND_SRC_BG1 | BLEND_DST_BG0 | BLEND_DST_BG1 | BLEND_DST_BG2 | BLEND_DST_BG3)
-	str r1, [r0]
-	
-	ldr r0, =fadeValue					@ Get our fadeValue
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeCallbackAddress
-	ldr r1, =0							@ Reset value
-	str r1, [r0]
-	
-	ldr r0, =fxFadeBusy
-	ldr r1, =0
-	str r1, [r0]
-	
-	ldmfd sp!, {r0-r1, pc}
-	
-	@ ---------------------------------------
-	
 fxFadeBG1BG2Init:
 
 	stmfd sp!, {r0-r1, lr}
@@ -483,6 +338,3 @@ fxFadeBusy:
 
 fxFadeCallbackAddress:
 	.word 0
-	
-	.pool
-	.end

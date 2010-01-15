@@ -1,11 +1,27 @@
+@ Copyright (c) 2009 Proteus Developments / Headsoft
+@ 
+@ Permission is hereby granted, free of charge, to any person obtaining
+@ a copy of this software and associated documentation files (the
+@ "Software"),  the rights to use, copy, modify, merge, subject to
+@ the following conditions:
+@ 
+@ The above copyright notice and this permission notice shall be included
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
+@ 
+@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -81,7 +97,7 @@ initTitleSprites:
 	lsl r2,#3
 	strh r2,[r0]
 	
-	@ seal 1
+	@ seal pt1
 	
 	ldr r0,=OBJ_ATTRIBUTE0(3)
 	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
@@ -96,7 +112,7 @@ initTitleSprites:
 	lsl r2,#3
 	strh r2,[r0]
 	
-	@ seal 2
+	@ seal pt2
 
 	ldr r0,=OBJ_ATTRIBUTE0(5)
 	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
@@ -104,21 +120,18 @@ initTitleSprites:
 	strh r2,[r0]
 	ldr r0,=OBJ_ATTRIBUTE1(5)
 	ldr r2, =(ATTR1_SIZE_16)
-	orr r2,#100+26					@ x
+	orr r2,#100+26				@ x
 	strh r2,[r0]
 	ldr r0,=OBJ_ATTRIBUTE2(5)
 	mov r2,#11
 	lsl r2,#3
 	strh r2,[r0]	
 	
-
 	ldmfd sp!, {r0-r10, pc}
 	
 	@ --------------------------------------
 	
 initTitlePointer:
-
-	@ use pointerFrame to frame to display
 
 	stmfd sp!, {r0-r10, lr}
 	
@@ -147,7 +160,6 @@ initTitlePointer:
 	strh r2,[r0]
 	
 	noPointerUpdate:
-
 
 	ldmfd sp!, {r0-r10, pc}
 	
@@ -217,12 +229,6 @@ initBonusSprites:
 
 	stmfd sp!, {r0-r10, lr}
 	
-
-@	ldr r0, =ATTR0_DISABLED			@ Set OBJ_ATTRIBUTE0 to ATTR0_DISABLED
-@	ldr r1, =OAM
-@	ldr r2, =1024					@ 3 x 16bit attributes + 16 bit filler = 8 bytes x 128 entries in OAM
-@	bl dmaFillWords
-	
 	ldr r0, =SpritesPal
 	ldr r1, =SPRITE_PALETTE
 	ldr r2, =512
@@ -244,7 +250,6 @@ initBonusSprites:
 	mov r2,#0
 	strh r2,[r0]
 	
-	
 	ldr r0,=OBJ_ATTRIBUTE0(1)
 	ldr r2, =(ATTR0_COLOR_256 | ATTR0_SQUARE)
 	orr r2,#8+16					@ y
@@ -259,7 +264,3 @@ initBonusSprites:
 	strh r2,[r0]
 
 	ldmfd sp!, {r0-r10, pc}
-
-
-	.pool
-	.end

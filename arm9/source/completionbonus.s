@@ -1,3 +1,22 @@
+@ Copyright (c) 2009 Proteus Developments / Headsoft
+@ 
+@ Permission is hereby granted, free of charge, to any person obtaining
+@ a copy of this software and associated documentation files (the
+@ "Software"),  the rights to use, copy, modify, merge, subject to
+@ the following conditions:
+@ 
+@ The above copyright notice and this permission notice shall be included
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
+@ 
+@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "mmll.h"
 #include "system.h"
 #include "video.h"
@@ -5,7 +24,6 @@
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -25,7 +43,6 @@ initCompletionBonus:
 	lcdMainOnBottom
 
 	bl stopTimer3
-
 	
 	bl clearBG0
 	bl clearBG1
@@ -33,7 +50,6 @@ initCompletionBonus:
 	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
-@	bl stopMusic					@ remove when we have completion music
 
 	ldr r1,=gameMode
 	mov r0,#GAMEMODE_COMPLETION_BONUS
@@ -60,7 +76,7 @@ initCompletionBonus:
 	ldr r2,=VictoryBonusTopTilesLen
 	bl decompressToVRAM	
 	ldr r0, =VictoryBonusTopMap
-	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)			@ destination
 	ldr r2, =VictoryBonusTopMapLen
 	bl dmaCopy
 	ldr r0, =VictoryBonusTopPal
@@ -68,7 +84,7 @@ initCompletionBonus:
 	ldr r2, =VictoryBonusTopPalLen
 	bl dmaCopy	
 
-	ldr r0,=BigFont2Tiles							@ copy the tiles used for large font
+	ldr r0,=BigFont2Tiles								@ copy the tiles used for large font
 	ldr r1,=BG_TILE_RAM_SUB(BG0_TILE_BASE_SUB)
 	ldr r2,=BigFont2TilesLen
 	bl decompressToVRAM
@@ -78,7 +94,7 @@ initCompletionBonus:
 
 	@ draw the text!
 	
-	ldr r0,=line1								@ CONGRATS
+	ldr r0,=line1										@ CONGRATS
 	mov r1,#1
 	mov r2,#0
 	bl drawTextBigNormal
@@ -87,7 +103,7 @@ initCompletionBonus:
 	bl drawTextBigNormal
 	
 	ldr r6,=unlockedBonuses
-	ldr r6,[r6]									@ are there still any to find?
+	ldr r6,[r6]											@ are there still any to find?
 	cmp r6,#20
 	ldreq r0,=line3all
 	ldrne r0,=line3more
@@ -174,7 +190,7 @@ updateCompletionBonus:
 
 	completionBonusEnd:
 	
-	@ return to title screen (or highscore at some point)
+	@ return to title screen (via highscore)
 	
 	ldr r1,=trapStart
 	ldr r0,[r1]
@@ -201,9 +217,6 @@ updateCompletionBonus:
 		cmp r1,#0
 	bne justWait
 
-@	bl specialFXStop
-@	bl clearOAM	
-	
 	bl initTitleScreen
 	
 	ldmfd sp!, {r0-r10, pc}	

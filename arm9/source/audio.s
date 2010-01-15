@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,8 +18,6 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "video.h"
-#include "background.h"
 #include "dma.h"
 #include "ipc.h"
 
@@ -47,7 +43,6 @@
 	.global playKeyClick
 	.global playCrackle
 	.global playMeteor
-	.global playDrip
 
 stopSound:
 
@@ -830,65 +825,3 @@ playMeteor:
 	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
 
 	@ ---------------------------------------------
-
-
-playDrip:
-
-	@ 'CHANNEL - 6'
-
-	stmfd sp!, {r0-r2, lr}
-	
-	ldr r0,=gameMode
-	ldr r0,[r0]
-	cmp r0,#GAMEMODE_TITLE_SCREEN
-	beq dripFail
-	
-	ldr r0, =IPC_SOUND_DATA(6)
-	ldr r1, =0x10
-	bl DC_FlushRange
-	
-	ldr r0, =IPC_SOUND_RATE(6)							@ Frequency
-	ldr r1, =22050
-	str r1, [r0]
-	
-	ldr r0, =IPC_SOUND_VOL(6)							@ Volume
-	ldr r2,=audioSFXVol
-	ldr r1,[r2]
-	ldr r2,=sfxValues
-	ldrb r1,[r2,r1]
-	strb r1, [r0]
-	
-	ldr r0, =IPC_SOUND_PAN(6)							@ Pan
-	ldrb r1, =64
-	strb r1, [r0]
-	
-	ldr r0, =IPC_SOUND_CHAN(6)							@ Channel
-	ldrb r1, =6
-	strb r1, [r0]
-	
-	ldr r0, =IPC_SOUND_FORMAT(6)						@ Format
-	ldrb r1, =0
-	strb r1, [r0]
-
-	ldr r0, =IPC_SOUND_LEN(6)							@ Get the IPC sound length address
-	ldr r1, =drip_raw_end							@ Get the sample end
-	ldr r2, =drip_raw								@ Get the same start
-	sub r1, r2											@ Sample end - start = size
-	str r1, [r0]										@ Write the sample size
-	
-	ldr r0, =IPC_SOUND_DATA(6)							@ Get the IPC sound data address
-	ldr r1, =drip_raw								@ Get the sample address
-	str r1, [r0]										@ Write the value
-	
-	ldr r0, =REG_IPC_SYNC
-	ldr r1, =IPC_SEND_SYNC(6)
-	strh r1, [r0]
-	
-	dripFail:
-	
-	ldmfd sp!, {r0-r2, pc} 							@ restore registers and return
-
-
-	.pool
-	
-	.end

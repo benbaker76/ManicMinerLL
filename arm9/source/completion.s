@@ -1,3 +1,22 @@
+@ Copyright (c) 2009 Proteus Developments / Headsoft
+@ 
+@ Permission is hereby granted, free of charge, to any person obtaining
+@ a copy of this software and associated documentation files (the
+@ "Software"),  the rights to use, copy, modify, merge, subject to
+@ the following conditions:
+@ 
+@ The above copyright notice and this permission notice shall be included
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
+@ 
+@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+@ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #include "mmll.h"
 #include "system.h"
 #include "video.h"
@@ -5,7 +24,6 @@
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -30,7 +48,7 @@ initCompletion:
 	bl clearBG3
 	bl clearOAM
 	bl clearSpriteData
-	bl stopMusic					@ remove when we have completion music
+	bl stopMusic								@ remove when we have completion music
 
 	ldr r1,=gameMode
 	mov r0,#GAMEMODE_COMPLETION
@@ -39,7 +57,7 @@ initCompletion:
 	bl fxFadeBlackInit
 	bl fxFadeMax
 	
-	ldr r0,=VictoryBottomTiles						@ copy the tiles used for game over
+	ldr r0,=VictoryBottomTiles					@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
 	ldr r2,=VictoryBottomTilesLen
 	bl decompressToVRAM	
@@ -52,7 +70,7 @@ initCompletion:
 	ldr r2, =VictoryBottomPalLen
 	bl dmaCopy	
 
-	ldr r0,=VictoryTopTiles							@ copy the tiles used for game over
+	ldr r0,=VictoryTopTiles						@ copy the tiles used for game over
 	ldr r1,=BG_TILE_RAM_SUB(BG3_TILE_BASE_SUB)
 	ldr r2,=VictoryTopTilesLen
 	bl decompressToVRAM	
@@ -122,7 +140,7 @@ initCompletion:
 	
 	ldr r1,=unlockedHW
 	mov r2,#1
-	str r2,[r1]						@ unlock WillyWood
+	str r2,[r1]						@ unlock WillyWood (HW is because it WAS HollyWood)
 		
 	bl saveGame
 	
@@ -152,7 +170,6 @@ updateCompletion:
 	
 		tst r10,#BUTTON_START
 		beq completionEnd
-
 
 		tst r10,#BUTTON_L
 		beq skipBack
@@ -274,14 +291,14 @@ updatePages:
 		ldr r6,=pageOffs
 		ldr r7,[r6,r5,lsl#2]	@ r7=char across screen to draw and char in pages to grab
 		cmp r7,#2
-		blt pageNotYet		@ if char pos is <2, do not draw
+		blt pageNotYet			@ if char pos is <2, do not draw
 			sub r7,#2
-			ldrb r0,[r4,r7]	@ r0=char
+			ldrb r0,[r4,r7]		@ r0=char
 			add r7,#1
-			mov r1,r7		@ r1=x
-			mov r2,r5,lsl#1	@ r2=y
+			mov r1,r7			@ r1=x
+			mov r2,r5,lsl#1		@ r2=y
 			cmp r0,#32
-			blne sprinkles	@ ok, using r1,r2 as x,y.. Draw sprinkles
+			blne sprinkles		@ ok, using r1,r2 as x,y.. Draw sprinkles
 			bl drawTextComp
 		pageNotYet:
 		add r4,#30				@ chars per line
@@ -385,7 +402,7 @@ sprinkles:
 	bl getRandom
 	and r8,#7
 	add r1,r8
-lsl r1,#12
+	lsl r1,#12
 	ldr r3,=spriteXSub
 	str r1,[r3,r10,lsl#2]
 	
@@ -395,7 +412,7 @@ lsl r1,#12
 	bl getRandom
 	and r8,#7
 	add r2,r8
-lsl r2,#12
+	lsl r2,#12
 	ldr r3,=spriteYSub
 	str r2,[r3,r10,lsl#2]	
 	
@@ -422,7 +439,6 @@ lsl r2,#12
 	noSprinkle:
 	ldmfd sp!, {r0-r10, pc}	
 
-	
 	.pool
 	.data
 	.align

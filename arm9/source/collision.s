@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,13 +18,10 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -113,22 +108,6 @@ checkLeft:
 	
 	checkLeftBNot:
 	
-	push {r9,r10}
-	mov r2,r9
-	mov r11,#26							@ X Pos
-	mov r8,#5							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-@	bl drawDigits
-	mov r10,r2
-	mov r11,#26							@ X Pos
-	mov r8,#3							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-@	bl drawDigits	
-	pop {r9,r10}
-	
-	
 	ldmfd sp!, {r0-r8, pc}
 
 @--------------------- Check moving right
@@ -149,7 +128,6 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightTNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-@	and r0,#31
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	@ This will now relate to top 8 pixel portion (head)
@@ -176,7 +154,6 @@ checkRight:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkRightBNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
-@	and r0,#31
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
@@ -195,26 +172,9 @@ checkRight:
 	mov r0,r5
 	mov r1,r3
 	bl checkCollectDie
-	@
 
 	checkRightBNot:
 
-	push {r9,r10}
-	mov r2,r9
-	mov r11,#29							@ X Pos
-	mov r8,#5							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits
-	mov r10,r2
-	mov r11,#29							@ X Pos
-	mov r8,#3							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits	
-	pop {r9,r10}
-
-	
 	ldmfd sp!, {r0-r8, pc}
 	
 @----------------------------- CHECK FEET
@@ -315,8 +275,6 @@ checkFeet:
 	@ then check r10, set r8 to x offset and call crumbler
 	
 	push {r3,r8}
-	
-	@ I think we are going to need another way to put a delay on EACH crumble tile..??
 
 	cmp r9,#5
 	blt notCrumblerL
@@ -385,21 +343,6 @@ checkFeet:
 	ldr r2,=platFours
 	str r11,[r2]
 
-	push {r9,r10}
-	mov r10,r11
-	mov r11,#29							@ X Pos
-	mov r8,#23							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-@	bl drawDigits
-	mov r10,r2
-	mov r11,#25							@ X Pos
-	mov r8,#23							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #0							@ 0 = Main, 1 = Sub
-@	bl drawDigits	
-	pop {r9,r10}	
-
 	checkFeetFail:
 
 	ldmfd sp!, {r0-r8, pc}
@@ -418,7 +361,7 @@ feetOnConveyor:
 
 	cmp r4,#15
 	movle r3,#MINER_LEFT
-	movgt r3,#MINER_RIGHT				@ set conveyor direction
+	movgt r3,#MINER_RIGHT					@ set conveyor direction
 	cmp r4,#19
 	moveq r3,#MINER_LEFT
 	cmp r4,#20
@@ -428,7 +371,7 @@ feetOnConveyor:
 	str r3,[r1]
 	
 	ldr r1,=gameType
-	ldr r1,[r1]							@ if this is 1, we need to move instantly with conveyor
+	ldr r1,[r1]								@ if this is 1, we need to move instantly with conveyor
 	cmp r1,#1
 	bne checkFeetFinish
 	ldr r1,=minerDirection
@@ -463,7 +406,7 @@ checkHead:
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
-add r1,#1
+	add r1,#1
 	bmi checkHeadLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
@@ -494,7 +437,7 @@ add r1,#1
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
 	subs r1,#384				@ our offset
-add r1,#1
+	add r1,#1
 	bmi checkHeadRNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
@@ -528,23 +471,23 @@ checkHeadDie:
 	ldr r0,[r0]
 	add r0,#LEFT_OFFSET
 	add r0,#1
-	subs r0,#64					@ our offset (8 chars to left)
+	subs r0,#64						@ our offset (8 chars to left)
 	bmi checkHeadDieLNot			@ if offscreen - dont check (will help later I hope)
-	lsr r0, #3					@ divide by 8	
+	lsr r0, #3						@ divide by 8	
 	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
-	subs r1,#384				@ our offset
+	subs r1,#384					@ our offset
 	bmi checkHeadDieLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
 	@ ok, r0,r1= actual screen pixels now.	
 	
-	lsl r3,r1, #5				@ multiply y by 32 and store in r3
-	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
+	lsl r3,r1, #5					@ multiply y by 32 and store in r3
+	add r3,r3,r0					@ r3 should now be offset from colMapStore (bytes)
 	
 	ldr r4,=colMapStore
-	ldrb r5,[r4,r3]				@ r5=value
+	ldrb r5,[r4,r3]					@ r5=value
 
 	mov r9,r5	
 
@@ -564,23 +507,23 @@ checkHeadDie:
 	ldr r0,[r0]
 	add r0,#RIGHT_OFFSET
 	sub r0,#1
-	subs r0,#64					@ our offset (8 chars to left)
+	subs r0,#64						@ our offset (8 chars to left)
 	bmi checkHeadDieRNot			@ if offscreen - dont check (will help later I hope)
-	lsr r0, #3					@ divide by 8	
+	lsr r0, #3						@ divide by 8	
 	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
-	subs r1,#384				@ our offset
+	subs r1,#384					@ our offset
 	bmi checkHeadDieRNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	
 	@ ok, r0,r1= actual screen pixels now.	
 	
-	lsl r3,r1, #5				@ multiply y by 32 and store in r3
-	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)
+	lsl r3,r1, #5					@ multiply y by 32 and store in r3
+	add r3,r3,r0					@ r3 should now be offset from colMapStore (bytes)
 	
 	ldr r4,=colMapStore
-	ldrb r5,[r4,r3]				@ r5=value
+	ldrb r5,[r4,r3]					@ r5=value
 
 	mov r10,r5
 
@@ -590,21 +533,6 @@ checkHeadDie:
 	bl checkCollectDie
 
 	checkHeadDieRNot:
-	
-	push {r9,r10}
-	mov r2,r9
-	mov r11,#29							@ X Pos
-	mov r8,#9							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits
-	mov r10,r2
-	mov r11,#25							@ X Pos
-	mov r8,#9							@ Y Pos
-	mov r9,#2							@ Digits
-	mov r7, #1							@ 0 = Main, 1 = Sub
-@	bl drawDigits	
-	pop {r9,r10}
 	
 	ldmfd sp!, {r0-r10, pc}
 
@@ -646,8 +574,7 @@ checkCollectDie:
 	blt notKeyThing
 	cmp r0,#31
 	bgt notKeyThing
-	 
-		
+
 		@ We have a key, so collect it!
 		
 		bl collectKey 
@@ -682,6 +609,11 @@ checkCollectDie:
 	bne notBonusThing
 		@ This is a bonus activator
 		
+		ldr r3,=gameMode
+		ldr r3,[r3]
+		cmp r3,#GAMEMODE_DIES_UPDATE
+		beq checkCollectDieDone
+		
 		ldr r3,=levelSpecialFound
 		ldr r4,=levelNum
 		ldr r4,[r4]
@@ -692,9 +624,6 @@ checkCollectDie:
 		
 		mov r5,#2					@ set bonus as found
 		str r5,[r3,r4,lsl#2]
-		
-		@ Activate bonus unlock display of some kind???
-		
 		ldr r5,=unlockedBonuses
 		ldr r6,[r5]
 		cmp r6,#255
@@ -713,7 +642,6 @@ checkCollectDie:
 		b checkCollectDieDone
 		
 	notBonusThing:
-	
 
 	checkCollectDieDone:
 	ldmfd sp!, {r0-r10, pc}
@@ -771,7 +699,6 @@ checkCollectDieFeet:
 
 	ldmfd sp!, {r0-r10, pc}
 
-
 @--------------------------------------------
 
 initDeath:
@@ -824,7 +751,7 @@ checkFall:
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#2			@ was 5...
+		cmp r6,#2			
 		bgt checkFall3
 
 	mov r8,#1
@@ -840,7 +767,7 @@ checkFall:
 		ldr r7,=spriteY+256				@ this is perhaps not the best way???
 		ldr r6,[r7]
 		and r6,#7
-		cmp r6,#2			@ was 5...
+		cmp r6,#2				
 		bgt checkFall3
 
 	mov r8,#1
@@ -855,11 +782,6 @@ checkFall:
 
 checkExit:
 	stmfd sp!, {r0-r10, lr}	
-	
-	ldr r0,=keyCounter
-	ldr r0,[r0]
-	cmp r0,#0
-@	bne checkExitFail
 
 	ldr r1,=spriteActive
 	mov r0,#63				@ use the 63rd sprite
@@ -867,41 +789,41 @@ checkExit:
 	cmp r2,#EXIT_OPEN
 	bne checkExitFail
 
-			ldr r0,=spriteX+256
-			ldr r0,[r0]
-			ldr r1,=spriteY+256
-			ldr r1,[r1]
-			ldr r2,=exitX
-			ldr r2,[r2]
-			ldr r3,=exitY
-			ldr r3,[r3]
-			ldr r4,=minerAction
-			ldr r4,[r4]
-			cmp r4,#MINER_NORMAL
-			moveq r5,#3
-			movne r5,#13
+		ldr r0,=spriteX+256
+		ldr r0,[r0]
+		ldr r1,=spriteY+256
+		ldr r1,[r1]
+		ldr r2,=exitX
+		ldr r2,[r2]
+		ldr r3,=exitY
+		ldr r3,[r3]
+		ldr r4,=minerAction
+		ldr r4,[r4]
+		cmp r4,#MINER_NORMAL
+		moveq r5,#3
+		movne r5,#13
 	
-			mov r5,#6
-			add r0,r5
-			cmp r0,r2
-			sub r0,r5
-			blt checkExitFail
-			add r2,r5
-			cmp r0,r2
-			sub r2,r5
-			bgt checkExitFail
-			add r1,r5
-			cmp r1,r3
-			sub r1,r5
-			blt checkExitFail
-			add r3,r5
-			cmp r1,r3
-			sub r3,r5
-			bgt checkExitFail			
+		mov r5,#6
+		add r0,r5
+		cmp r0,r2
+		sub r0,r5
+		blt checkExitFail
+		add r2,r5
+		cmp r0,r2
+		sub r2,r5
+		bgt checkExitFail
+		add r1,r5
+		cmp r1,r3
+		sub r1,r5
+		blt checkExitFail
+		add r3,r5
+		cmp r1,r3
+		sub r3,r5
+		bgt checkExitFail			
 
-				ldr r0,=gameMode
-				mov r1,#GAMEMODE_LEVEL_CLEAR_INIT
-				str r1,[r0]
+		ldr r0,=gameMode
+		mov r1,#GAMEMODE_LEVEL_CLEAR_INIT
+		str r1,[r0]
 
 	checkExitFail:
 
@@ -986,6 +908,3 @@ switchClear:
 	
 	crumbleWait:
 		.word 0
-
-	.pool
-	.end

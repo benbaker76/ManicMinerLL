@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -339,7 +337,6 @@
 #define GAMEMODE_INTRO				5
 #define GAMEMODE_LEVEL_CLEAR_INIT	6
 #define GAMEMODE_LEVEL_CLEAR		7
-#define GAMEMODE_DIES_INIT			8
 #define GAMEMODE_DIES_UPDATE		9
 #define GAMEMODE_SPOTLIGHT			10
 #define GAMEMODE_GAMEOVER			11
@@ -394,10 +391,6 @@
 #define COLOR_MAGENTA				0x7C1F
 #define COLOR_BROWN					0x14B4
 
-@ Levels
-
-#define LEVEL_COUNT					32
-
 @ Fade values
 
 #define FADE_NOT_BUSY				0
@@ -430,12 +423,12 @@
 
 #define MINER_SPRITE				99
 
-#define MINER_MID_JUMP				23			@ 22
-#define MINER_JUMPLEN				37			@ 34
+#define MINER_MID_JUMP				23	
+#define MINER_JUMPLEN				37			
 #define MINER_JUMPLEN_SPECTRUM		35
 
-#define LEFT_OFFSET					3			@ 3
-#define RIGHT_OFFSET				11			@ 11
+#define LEFT_OFFSET					3		
+#define RIGHT_OFFSET				11		
 
 
 @ Effect defines
@@ -608,4 +601,3 @@
 #define HIGH_SCORE_LEN				6
 #define SECRET_MAX					20			@ use this to make sure that we don't unlock more than we have
 #define POINTER_DELAY				10
-

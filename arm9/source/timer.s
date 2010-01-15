@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,7 +19,6 @@
 
 #include "mmll.h"
 #include "system.h"
-#include "audio.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
@@ -193,9 +190,7 @@ timerTimer3:
 			add r1,#1
 			str r1,[r0]	
 	
-	
 	bTimerDone:
-
 
 	ldmfd sp!, {r0-r2, pc}	
 
@@ -215,7 +210,7 @@ bonusTimerInit:
 	ldr r0,[r0]
 	cmp r0,#1
 	beq bonusTimerInitFail
-	@-----------
+
 	ldr r0, =BG_MAP_RAM(BG3_MAP_BASE)		
 	add r0, #1536					@ first tile of offscreen tiles
 	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	
@@ -293,9 +288,8 @@ bonusTimerInit:
 	bl drawDigitsB
 	
 	bl bonusTimer				@ start timer
-	@-----------
-	bonusTimerInitFail:
 
+	bonusTimerInitFail:
 
 	ldmfd sp!, {r0-r2, pc}	
 
@@ -369,6 +363,3 @@ bBestText:
 	.asciz "BEST"
 bSeperator:
 	.asciz ":"
-	
-	.pool
-	.end

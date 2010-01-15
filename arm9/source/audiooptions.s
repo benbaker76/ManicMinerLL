@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -26,8 +24,6 @@
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
-#include "audio.h"
 
 	.global initAudio
 	.global updateAudio
@@ -70,7 +66,7 @@ initAudio:
 	ldr r2,=AudioTopTilesLen
 	bl decompressToVRAM	
 	ldr r0, =AudioTopMap
-	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)	@ destination
+	ldr r1, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)		@ destination
 	ldr r2, =AudioTopMapLen
 	bl dmaCopy
 	ldr r0, =AudioTopPal
@@ -78,12 +74,12 @@ initAudio:
 	ldr r2, =AudioTopPalLen
 	bl dmaCopy
 
-	ldr r0,=AudioBottomTiles							@ copy the tiles used for title
+	ldr r0,=AudioBottomTiles						@ copy the tiles used for title
 	ldr r1,=BG_TILE_RAM(BG3_TILE_BASE)
 	ldr r2,=AudioBottomTilesLen
 	bl decompressToVRAM	
 	ldr r0, =AudioBottomMap
-	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)	@ destination
+	ldr r1, =BG_MAP_RAM(BG3_MAP_BASE)				@ destination
 	ldr r2, =AudioBottomMapLen
 	bl dmaCopy
 	ldr r0, =AudioBottomPal
@@ -125,7 +121,6 @@ updateAudio:
 	bl drawAudioText
 	bl drawSprite
 	bl updateAudioPointer
-	bl displayAudio
 
 	ldr r0,=REG_KEYINPUT						@ Read key input register
 	ldr r10,[r0]								@ Read key value
@@ -355,80 +350,74 @@ moveAlter:
 	cmp r0,#2
 	bne notTune
 	
-		@ alter Music playing @later add a check to see if that tune is unlocked yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	@ alter Music playing and check to see if that tune is unlocked yet
 	
-		tst r10,#BUTTON_RIGHT
-		bne movePointerL
+	tst r10,#BUTTON_RIGHT
+	bne selectLeft
 
-@		
-getAnotherTune:
-@
-		
-			@R
+	@ Select tune Forward
 	selectRight:
-			ldr r0,=audioPlaying
-			ldr r1,[r0]
-			
-			rightHeard:
-			add r1,#1
+		ldr r0,=audioPlaying
+		ldr r1,[r0]
+		
+		rightHeard:
+		add r1,#1
 
-			ldr r2,=audioTuneList
-			rightNew:
-			ldrb r3,[r2,r1]					@ check if we are at end of the list
-			cmp r3,#255
-			moveq r1,#0						@ if so, return to the beginning
-			beq rightNew
-			
-			@ ok, check if tune r3 had been heard
-			
-			ldr r4,=musicHeard
-			ldrb r4,[r4,r3]
-			cmp r4,#0
-			beq rightHeard
+		ldr r2,=audioTuneList
+		rightNew:
+		ldrb r3,[r2,r1]					@ check if we are at end of the list
+		cmp r3,#255
+		moveq r1,#0						@ if so, return to the beginning
+		beq rightNew
+		
+		@ ok, check if tune r3 had been heard
+		
+		ldr r4,=musicHeard
+		ldrb r4,[r4,r3]
+		cmp r4,#0
+		beq rightHeard
 
-			str r1,[r0]
-			mov r0,r3
-			bl playSelectedAudio
-			b moveAPointerDone
-	
-		movePointerL:
-			@L
-		selectLeft:
-			ldr r0,=audioPlaying
-			ldr r1,[r0]
-			leftHeard:
-			
-			subs r1,#1
-			bpl leftOld
-				@ ok, now we need to scan audioTuneList for 255 and be that -1
-				mov r1,#0
-				ldr r2,=audioTuneList
-				musicScan:
-					ldrb r3,[r2,r1]
-					cmp r3,#255
-					beq musicScanDone
-					add r1,#1
-				b musicScan
-				musicScanDone:
-				sub r1,#1
-			leftOld:			
-			
+		str r1,[r0]
+		mov r0,r3
+		bl playSelectedAudio
+		b moveAPointerDone
+
+	@ Select tune back
+	selectLeft:
+		ldr r0,=audioPlaying
+		ldr r1,[r0]
+		leftHeard:
+		
+		subs r1,#1
+		bpl leftOld
+			@ ok, now we need to scan audioTuneList for 255 and be that -1
+			mov r1,#0
 			ldr r2,=audioTuneList
-			ldrb r3,[r2,r1]
-			str r1,[r0]
+			musicScan:
+				ldrb r3,[r2,r1]
+				cmp r3,#255
+				beq musicScanDone
+				add r1,#1
+			b musicScan
+			musicScanDone:
+			sub r1,#1
+		leftOld:			
+		
+		ldr r2,=audioTuneList
+		ldrb r3,[r2,r1]
+		str r1,[r0]
+		
+		@ ok, check if tune r3 had been heard
+		
+		ldr r4,=musicHeard
+		ldrb r4,[r4,r3]
+		cmp r4,#0
+		beq leftHeard			
 			
-			@ ok, check if tune r3 had been heard
-			
-			ldr r4,=musicHeard
-			ldrb r4,[r4,r3]
-			cmp r4,#0
-			beq leftHeard			
-			
-			
-			
-			mov r0,r3			
-			bl playSelectedAudio
-			b moveAPointerDone	
+		mov r0,r3			
+		bl playSelectedAudio
+		b moveAPointerDone	
+
 	notTune:
 	cmp r0,#0
 	bne notVol
@@ -446,7 +435,7 @@ getAnotherTune:
 			bl drawAudioBars
 			b moveAPointerDone			
 		movePointerAL:
-		@VolDown
+		@Vol Down
 			ldr r1,=audioSFXVol
 			ldr r2,[r1]
 			subs r2,#1
@@ -467,7 +456,6 @@ getAnotherTune:
 		
 		b moveAPointerDone	
 	notMusicOn:
-	
 	
 	b moveAPointerDone
 @-------------------------------------------------
@@ -501,45 +489,6 @@ drawAudioBars:
 
 @-------------------------------------------------
 
-displayAudio:
-
-	@ just a test for now!
-
-
-	stmfd sp!, {r0-r10, lr}
-	ldmfd sp!, {r0-r10, pc}	
-	bl DC_FlushAll
-	ldr r0, =Module		@ This is the pointer to XM7_ModuleManager_Type where the data is loaded via XM7_LoadXM
-	ldr r1,=46
-	add r0, r1			@ Add the byte offset to channels
-	ldrb r10, [r0] 		@ Read the byte value of channels
-	
-	ldr r2,=xmChannels	
-	str r10,[r2]		@ store number of channels
-
-	ldr r0, =Module		@ This is the pointer to XM7_ModuleManager_Type where the data is loaded via XM7_LoadXM
-	ldr r1,=1596
-	add r0, r1			@ Add the byte offset to channels
-	ldrb r10, [r0] 		@ Read the byte value of channels
-
-	@ r10 = number to display
-	@ r7 = 0 = Main, 1 = Sub
-	@ r8 = height to display to
-	@ r9 = number of Digits to display
-	@ r11 = X coord
-
-	mov r7,#0
-	mov r8,#1
-	mov r9,#8
-	mov r11,#1
-
-	@bl drawDigits
-	
-	
-	ldmfd sp!, {r0-r10, pc}
-
-@-------------------------------------------------
-
 .pool
 .data
 .align
@@ -568,7 +517,7 @@ audioMT:
 audioPT:
 	.asciz	"- SELECT  TUNE: 00 -"	@ 20
 audioNames:					@ names of all the tunes in order of audioTuneList offset (0-?)
-	.asciz	"MINER WILLY'S MINING SONG!"	@ 26+1
+	.asciz	"MINER WILLY'S MINING SONG!"	@ 26+1 chars
 	.asciz	"  ON A DARK MINING NIGHT  "
 	.asciz	"MINER WILLY, SPACE EXPORER"
 	.asciz	" THE PHARAOH'S LITTLE JIG "

@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -24,9 +22,6 @@
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
-#include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -43,21 +38,19 @@ initLevel:
 	stmfd sp!, {r0-r12, lr}
 
 	ldr r12,=gameMode
-	ldr r12,[r12]
-@	cmp r12,#GAMEMODE_TITLE_SCREEN
-@	blne stopMusic	
+	ldr r12,[r12]					@ we will use Register 12 later...
 	
 	ldr r1,=gameBegin				@ if this is the first time, dont fade
 	ldr r0,[r1]
 	cmp r0,#1
-	beq skippy
+	beq skipFadeInits
 	
 	bl specialFXStop	
 	
 	bl fxFadeBlackLevelInit
 	bl fxFadeMax
 
-	skippy:
+	skipFadeInits:
 
 	bl clearSpriteData
 	
@@ -177,7 +170,6 @@ initLevel:
 	str r3,[r2]
 	lsr r0,#1
 	ldr r2,=specialEffect
-@MOV R0,#0
 	str r0,[r2]
 	
 	ldrb r0,[r1],#1			@ Background number
@@ -268,7 +260,7 @@ initLevel:
 	
 	@UNCOMMENT TO OPEN EXIT
 	ldr r1,=spriteActive
-	mov r0,#63				@ use the 63rd sprite
+	mov r0,#63				@ use the 63rd sprite for the exit
 	mov r2,#EXIT_OPEN
 @	str r2,[r1,r0,lsl#2]
 
@@ -687,13 +679,11 @@ getLevelBackground:
 	ldreq r5,=Background39TilesLen
 	ldreq r6,=Background39Map
 	ldreq r7,=Background39MapLen
-
 	cmp r0,#40
 	ldreq r4,=Background41Tiles
 	ldreq r5,=Background41TilesLen
 	ldreq r6,=Background41Map
 	ldreq r7,=Background41MapLen
-	
 	cmp r0,#45
 	ldreq r4,=Background46Tiles
 	ldreq r5,=Background46TilesLen
@@ -704,19 +694,16 @@ getLevelBackground:
 	ldreq r5,=Background47TilesLen
 	ldreq r6,=Background47Map
 	ldreq r7,=Background47MapLen
-
 	cmp r0,#48
 	ldreq r4,=Background49Tiles
 	ldreq r5,=Background49TilesLen
 	ldreq r6,=Background49Map
 	ldreq r7,=Background49MapLen
-
 	cmp r0,#49
 	ldreq r4,=Background50Tiles
 	ldreq r5,=Background50TilesLen
 	ldreq r6,=Background50Map
 	ldreq r7,=Background50MapLen
-
 
 	@ Draw main game map!
 	mov r0,r4
@@ -804,8 +791,8 @@ generateMonsters:
 		ldr r2,=spriteMax
 		str r0,[r2,r9,lsl#2]
 
-	add r9,#1
-	cmp r9,#72
+		add r9,#1
+		cmp r9,#72
 	bne gmLoop
 	
 	generateMonstersDone:
@@ -987,7 +974,6 @@ getWillySprite:
 		ldreq r0,=MinerSnoopyTiles
 		ldreq r2,=MinerSnoopyTilesLen
 
-	
 		ldr r1, =SPRITE_GFX_SUB
 		bl dmaCopy
 		
@@ -1062,10 +1048,4 @@ specialEffectStart:
 	cmp r0,#FX_SNOW
 		bleq snowInit
 
-	@ etc
 	ldmfd sp!, {r0-r1, pc}	
-
-
-	.pool
-
-	.end

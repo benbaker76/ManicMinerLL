@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -24,9 +22,6 @@
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
-#include "sprite.h"
-#include "ipc.h"
 
 	.arm
 	.align
@@ -86,10 +81,7 @@ drawAir:
 			b airNext
 			
 		airLittle:
-		
-		xxx:
-		cmp r0,#7
-		bgt xxx
+
 			@ draw partial bar
 			ldr r5,=StatusMap
 			add r5,#(32*6)*2
@@ -134,11 +126,9 @@ airDrain:
 	airDrainYes:
 	ldr r1,=cheatMode				@ no air drain in cheatmode
 	ldr r5,[r1]
-	cmp r5,#0
+	cmp r5,#0						@ change to a 1 for infinite air
 	moveq r5,#1
 	movne r5,#0
-
-mov r5,#1				@ comment for infinite air
 
 	ldr r1,=air
 	ldr r2,[r1]
@@ -168,7 +158,6 @@ drawLives:
 	ldr r0,[r0]
 	cmp r0,#3
 	bge drawLivesDone
-
 
 	ldr r1,=StatusMap	
 	add r1,#(6*32)*2
@@ -250,6 +239,3 @@ drawLives:
 	drawLivesDone:
 
 	ldmfd sp!, {r0-r11, pc}
-	
-	.pool
-	.end

@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,13 +18,10 @@
 @ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "mmll.h"
-#include "system.h"
 #include "video.h"
 #include "background.h"
 #include "dma.h"
-#include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 @
 @ This whole area of code will handle all our in-game animation
@@ -95,7 +90,6 @@ crumbler:
 
 minerFrame:
 	@ all this does is calculate the frame based on X coord
-	@ This is still not correct!!! more of a sodding cludge
 	
 	stmfd sp!, {r0-r10, lr}
 	
@@ -262,10 +256,7 @@ levelAnimateRightConveyor:
 @---------------------------------------
 
 collectKey:
-	@ a little bit to animate keys... Well, it works!!
-	@ ok, r0 = offset, r1=colmap, r2=frame
 	stmfd sp!, {r0-r10, lr}
-	
 	
 	ldr r3,=gameMode
 	ldr r3,[r3]
@@ -298,7 +289,7 @@ collectKey:
 	add r4,#64
 	add r3,#384
 	
-	bl keyDust
+	bl keyDust			@ Draw our little collect sprinkle
 	
 	ldr r3,=keyCounter
 	ldr r4,[r3]
@@ -317,12 +308,12 @@ collectKey:
 		
 @------------- level 32 mod
 
-	ldr r1,=levelNum
-	ldr r1,[r1]
-	cmp r1,#32
+	ldr r1,=levelNum				@ Level 32 does not have a door, instead
+	ldr r1,[r1]						@ we make a splash in the swimming pool to
+	cmp r1,#32						@ signal the exit area
 	bne stillKeysLeft
 	
-	bl fxSplashburstInit
+	bl fxSplashburstInit			@ create a splash
 	
 @--------------	
 	
@@ -360,7 +351,7 @@ shardDust:
 	cmp r10,#0
 	beq shardDustFail
 
-	mov r1,#DUST_ACTIVE
+	mov r1,#DUST_ACTIVE			@ set our dust properties and let drawsprite do the rest
 	ldr r2,=spriteActive
 	str r1,[r2,r10,lsl #2]
 	mov r1,#DUST_FRAME
@@ -444,18 +435,18 @@ monsterAnimate:
 		ldr r2,[r2,r1,lsl #2]
 		lsl r2,#3					@ the sprites are in areas of 8
 		lsl r2,#8					@ and 256 bytes per sprite
-						@ r2 is the base of the sprite we need in spritebank (sprite 0)
-						@ now we need to add the frame
-		lsl r10,#8		@ times frame by 256
+									@ r2 is the base of the sprite we need in spritebank (sprite 0)
+									@ now we need to add the frame
+		lsl r10,#8					@ times frame by 256
 		add r2,r10
 		ldr r0,=SpriteBank1Tiles
-		add r0,r2		@ r3= memory address of our sprite image
+		add r0,r2					@ r3= memory address of our sprite image
 		
 		@ r0 = FROM
 	
 		ldr r1,=SPRITE_GFX_SUB
-		add r5,#8		@ add 8 to the monster number for the sprite used
-		lsl r5,#8		@ each sprite is 256 bytes
+		add r5,#8					@ add 8 to the monster number for the sprite used
+		lsl r5,#8					@ each sprite is 256 bytes
 		add r1,r5
 		
 		@ r1 = TO
@@ -476,7 +467,7 @@ minerChange:
 
 		ldr r1,=levelNum
 		ldr r0,[r1]
-		cmp r0,#2
+		cmp r0,#2				// on level 2 we wear a space suit on the right of the screen
 		bne minerChangeFail
 
 		ldr r1,=spriteX+256
@@ -575,7 +566,7 @@ flipSwitch:
 	cmp r8,#49
 	beq flipSwitchJump
 	
-	@ now, flip the conveyors (ulp) (DEFAULT action)
+	@ now, flip the conveyors (DEFAULT action)
 
 	switchStandardReturn:
 	
@@ -676,6 +667,7 @@ flipSwitch:
 	flipSwitchCavern:
 	
 	@ remove a section of tiles in the 'not cavern' level
+	@ bit of a cludge for one level only, but.. it works
 
 	ldr r5, =BG_MAP_RAM_SUB(BG2_MAP_BASE_SUB)
 	add r5, #1536					@ first tile of offscreen tiles
@@ -782,6 +774,7 @@ flipSwitch:
 flipSwitchLiftThing:
 
 	@ only activate lift if liftmotion is 0
+	@ This is our little lift for the Young Frankenstein level
 	
 	ldr r1,=liftMotion
 	ldr r2,[r1]

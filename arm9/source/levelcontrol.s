@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,18 +19,9 @@
 
 #include "mmll.h"
 #include "system.h"
-#include "video.h"
-#include "background.h"
-#include "dma.h"
-#include "interrupts.h"
-#include "sprite.h"
-#include "ipc.h"
-
-
 
 	.global levelNext
 	.global levelCheat
-	
 	
 levelNext:
 
@@ -44,19 +33,19 @@ levelNext:
 	ldr r8,=levelTypes-4
 	ldr r7,[r8,r1,lsl#2]				@ r8=type of level (0=norm, 1=completion, 2=bonus)
 
-cmp r7,#0
-beq levelNextNormal
-cmp r7,#1
-beq levelNextCompletion
-cmp r7,#2
-beq levelNextBonus
-cmp r7,#3
-beq levelNextCompletionWW
+	cmp r7,#0
+	beq levelNextNormal
+	cmp r7,#1
+	beq levelNextCompletion
+	cmp r7,#2
+	beq levelNextBonus
+	cmp r7,#3
+	beq levelNextCompletionWW
 
-@ if none of them - crash
+	@ if none of them - crash
 
-ohcock:
-b ohcock
+	ohcock:
+	b ohcock
 
 @------------------------
 
@@ -130,4 +119,3 @@ levelCheat:
 	levelCheatFail:
 	
 	ldmfd sp!, {r0-r10, pc}	
-	

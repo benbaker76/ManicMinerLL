@@ -2,14 +2,12 @@
 @ 
 @ Permission is hereby granted, free of charge, to any person obtaining
 @ a copy of this software and associated documentation files (the
-@ "Software"), to deal in the Software without restriction, including
-@ without limitation the rights to use, copy, modify, merge, publish,
-@ distribute, sublicense, and/or sell copies of the Software, and to
-@ permit persons to whom the Software is furnished to do so, subject to
+@ "Software"),  the rights to use, copy, modify, merge, subject to
 @ the following conditions:
 @ 
 @ The above copyright notice and this permission notice shall be included
-@ in all copies or substantial portions of the Software.
+@ in all copies or substantial portions of the Software both source and
+@ the compiled code.
 @ 
 @ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 @ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -26,7 +24,6 @@
 #include "dma.h"
 #include "interrupts.h"
 #include "sprite.h"
-#include "ipc.h"
 
 	.global findHighscore
 	.global enterHighscore
@@ -97,7 +94,6 @@ enterHighScore:
 	bl clearSpriteData
 	bl clearBG0
 	bl clearBG1
-@	bl clearBG2
 	bl resetScrollRegisters
 	bl drawSprite
 	bl drawSpriteSub
@@ -211,7 +207,9 @@ enterHighScore:
 	ldr r1, =BG_PALETTE_SUB
 	ldr r2, =HighTopPalLen
 	bl dmaCopy
+	
 	@ we now need to grab the "face expression" from the bottom map based on r10
+	
 	ldr r0, =BG_MAP_RAM_SUB(BG3_MAP_BASE_SUB)
 	add r0, #1536					@ first tile of offscreen tiles
 	mov r1,#5
@@ -273,15 +271,10 @@ enterHighScore:
 		bl drawSprite
 		bl entryCursorAnim
 
-
-	ldr r1,=fxFadeBusy
-	ldr r1,[r1]
-	cmp r1,#0
-	beq jumpGameOver
-
-	b justWait
-
-	jumpGameOver:
+		ldr r1,=fxFadeBusy
+		ldr r1,[r1]
+		cmp r1,#0
+	bne justWait
 
 	b highscoreReturn
 
@@ -432,7 +425,6 @@ moveHighCursor:
 		moveq r1,#0
 		str r1,[r0]
 	
-	
 	moveHighCursorReturn:
 	
 	ldmfd sp!, {r0-r8, pc}	
@@ -560,8 +552,7 @@ moveVPos:
 
 	moveVPosDone:
 	b moveHighCursorReturnAdder
-
-.pool
+	
 .data
 
 .align
