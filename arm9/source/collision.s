@@ -211,6 +211,8 @@ checkFeet:
 	subs r0,#64					@ our offset (8 chars to left)
 	bmi checkFeetLNot			@ if offscreen - dont check (will help later I hope)
 	lsr r0, #3					@ divide by 8	
+
+
 	
 	ldr r1,=spriteY+256
 	ldr r1,[r1]
@@ -218,6 +220,10 @@ checkFeet:
 	bmi checkFeetLNot			@ incase we are jumping off the top of screen (may need work here)
 	lsr r1, #3
 	add r1,#2					@ add 2 charaters (16 pixels)	
+
+cmp r0,#32
+subge r1,#1
+
 	@ ok, r0,r1= actual screen pixels now.	
 	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
@@ -253,6 +259,9 @@ checkFeet:
 	lsr r1, #3
 	add r1,#2
 	@ ok, r0,r1= actual screen pixels now.	
+
+cmp r0,#32
+subge r1,#1
 	
 	lsl r3,r1, #5				@ multiply y by 32 and store in r3
 	add r3,r3,r0				@ r3 should now be offset from colMapStore (bytes)

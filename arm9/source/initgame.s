@@ -93,6 +93,7 @@ stmfd sp!, {r0-r10, lr}
 	bl decompressToVRAM
 
 	bl initSprites
+	bl clearSpriteData
 	bl initLevel
 	bl drawSprite
 	bl monsterMove
